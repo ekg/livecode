@@ -76,8 +76,8 @@ d3 $ off (whenmod 16 4 (fast 2) $ "0.5 0.2 0.1 0") (# crush (slow 5 "5 16 [~ 3] 
   $ whenmod 8 3 (fast 2)
   $ segment 8
   $ note (scale "neapolitanMinor" "0 <1 ~ ~ 5> <~ 2 ~> <3 5> ~")
-  # s "piano" # speed "0.125" # room 0.8 # sz 0.93
-  # hpf 300
+  # s "piano" # speed "0.125" -- # room 0.8 # sz 0.93
+  # hpf 500 # lpf 1000 # release 0.3
 
 d4 $ every 3 (fast 2)
   $ whenmod 4 3 (stut 4 0.5 (1/8))
@@ -89,6 +89,31 @@ d4 $ every 3 (fast 2)
 
 d5 $ n "0 3 2 . 0 . [0, 3, 8]" # s "feel" # legato 1 # gain 1.3
 
+d1 $ s "[<808bd:4 ~ sd bssnare feel:3>, sine:1]*4" --  # legato 3
+
+d2 $ every 3 (stut 8 0.7 (3/16))
+  $ note (slow 4 "'maj7'ii 'min7'i")
+  + note (slow 8 "0 <4 3 4 -1> 7 -2")
+  #  s "gtr" # legato 1 # release 0.3 # room 0.3 # sz 0.9
+
+d3 $ every' 4 3 (hurry 2)
+  $ s "kick(<4 4 3 4>,8)" # lpf 400
+  
+d4
+  $ every 3 (# shape "0.1 0.3 3") $ every 4 (+ note "<'maj7 'min7>")
+  $ struct "t(3,8)"
+  $ s "<vgut <roll tumba>>" # n "<3 4 7 8 5>" # speed "-1"
+
+d5 $ every 3 (palindrome)
+  $ every 5 (# gain 1)
+  $ slice 16 "0 3 . 8 8 7 . 9 . 15 14 13 12"
+  $ s "reggae" # n 109 # gain 0
+
+d6 $ every 3 (speed "1 1.5 2 -1")
+  $ every 8 (hurry 2)
+  $ struct "t(<3!8 5>,8,<0 2>)" $ s "lpmr" # n 106 # gain 1.2
+
+d1 $ s "808oh(<15 14 11 13>,16,<0 2>)" # n "<0 0 0 1 0 4 3 8>"
 
 hush
 
