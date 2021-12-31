@@ -1,0 +1,59 @@
+-- 17:19 30-Dec-21
+
+d1 -- moistpeace remix
+  $ jux (iter "2 <1 4>".rev)
+  $ hurry "<0.5 2> 3 1*3 <1 -2>"
+  $ iter "<4 3>" $ chunk 2 (hurry "4 0.5 -0.9 -4"
+                            . (|*| room "0.8 0.1*10 0.5!3")
+                            . (# sz "<0.9 0.1 0 0.3>"))
+  $ slow 2 $ rev $ striate "<4 3 7 8/2>"
+  $ s "lpmr" # n (fast 9 $ "<382 381 380 388>") # legato 1
+  # pan (rand) # shape 0.5
+  # speed "0.25" # bpf 500
+
+setcps (135/60/4)
+
+d1 -- $ every 4 (slow "<1 2 3>" . striate "4")
+  $ iter (slow 3 "<4 9 7 11>") --
+  $ chunk 8 ((# speed "-0.5")
+             .(|*| room "0.4 0.1 0.2")
+             .(# sz "<0.9 0.1 0 0.3>"))
+  $ off (3/8) (iter "<8 7 <3 17>>" . rev)
+  -- $ every 3 (jux rev)
+  -- $ every 2 (off (3/8) (rev . slice 16 "15 2 8 3 2 9 1"))
+  -- $ every 5 (slice 16 "0 8 9 7 1 8 2 9 1 3" . (# speed "-0.5"))
+  $ n "<300 [301 303 304] <<303 109> <82 81 107>>>"
+  # stack [s "reggae" # n "<3 2 3 8 ~ ~ -3 ~ 7 ~ 8 -10 1 9 -3>"
+          , s "lpmr" # n "<1005 1004 1008 1050>" # lpf 200 # orbit 2 # att 1.0 # decay 0.9
+          ]
+  # legato 1
+  # lpfbus 1 (range "<5000 300 3777>" 1000 (square))
+  # shapebus 2 (range 0.5 0.8 (slow 4 sine))
+  -- # shapebus 1 (range 0.99999 0.1 (slow 4 square))
+  -- # gainbus 3 (range  0.8 0.4 (slow 4 sine))
+  # gain 0.7
+  # pan (rand)
+
+d2 $ every 4 (hurry "0 0 3") $ every 3 (hurry 2)
+  $ stack [struct "t(11,16,14)" $ s "hh"
+          ,struct "t(<2!3 3>,8)" $ stack [s "909"
+                                         ,s "cpu2"
+                                         ,s "bd" # n 3]]
+  # gain 0.85 # shape 0.3 # nudge (fast 8 "0 0.015")
+
+d3 $ every 4 (hurry "0 0 5")
+  $ every 3 (hurry 1.5) $ s "~ sd"
+
+d4 $ every 8 (hurry "0 -1 -0.5")
+  $ every 3 (hurry "0.666")
+  $ palindrome $ striate "<8 7 16 17 12 3>" $ s "lpmr" # n 1087 # legato 1
+  # gain 0.85 # shape 0.3 # nudge (fast 8 "0 <0.03 0.001 -0.005 0.015>")
+
+d3 $ every 4 (hurry "1 2 0")
+  $ every 3 (hurry "0.666")
+  $ struct "t(<3 2 3 7 11 3 14>,<8 7 16 17 12 3>)"
+  $ s "cpu2" # n "<8 7 2 8>"
+
+hush
+
+panic
