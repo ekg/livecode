@@ -60,15 +60,18 @@ d2 silence
 d3 silence
 d4 silence
 
+hush
+
 -- 16:18 31-Dec-21
 
 setcps (125/60/4)
+setcps (95/60/4)
 
 d1 $ every 4 (striate 2)
   $ n "0 <[9 1 <5 7>] 2> 0 <0 [8 3 8]>"
   # stack [s "cpu", s "feel"]
 
--- d2 $ segment 128 s "pebbles" # lpfbus 2 (range 0 1000 sine)
+d2 $ s "pebbles" # lpfbus 2 (range 0 1000 sine)
 
 d3 $ off (whenmod 16 4 (fast 2) $ "0.5 0.2 0.1 0") (# crush (slow 5 "5 16 [~ 3] 8 ~ 9"))
   $ every 4 (hurry 2)
@@ -124,6 +127,12 @@ d3 $ every 4 (# speed "-1")
 d4 $ every 4 (+ n 3) $ note "[0, 7](3,8)" # s "flbass" # legato 1
   # note "2" # n "<0 0 1 8 0 3 0 <5 0>>"
 
+d5 silence
+d6 silence
+
+setcps ((range 100 150 (slow 4 saw))/60/4)
+setcps (120/60/4)
+
 -- 10:59 01-Jan-22
 
 setcps (90/60/4)
@@ -147,7 +156,11 @@ d4 $ every 4 (stut 4 0.5 (3/16))
 
 d5 $ every 8 (fast 2) $ every 4 (jux rev . stut 4 0.5 (7/16)) $ fast 2 $ n "~ [4, 0, 1]" # stack [s "sd", s "realclaps", s "cp"] # gain 0.8
 
-d6 $ rotR (1/8) $ note "0 <3 7 0 -2> 0 0" # s "jvbass" # n 0
+d6 $ rotR (1/8) $ note "0 <3 7 0 -2> 0 0" + note "<1 1 0 1>"
+  # s "jvbass" # n 0
+  -- # s "juno" # n "[0, 1]" 
+
+setcps (70/60/4)
 
 d1 $ n "0 ~ 0 0" # s "jazz"
 
@@ -157,6 +170,9 @@ d3 $ slice 8 "<7 7 ~ ~> 3 3 <~ 4 ~ [5 5 6]> 2 1 0" $ s "reggae" # n 122 # legato
 
 d4 $ every 4 (stut 4 0.5 (1/8))
   $ rotR (1/4) $ fast 4 $ note "'min7'io" + note "<0 3 7 -2>" # s "808mc" # release 2
+
+d5 silence
+d6 silence
 
 setcps (130/60/4)
 
@@ -168,12 +184,23 @@ d3 $ struct "t(7,16,12)" $ struct "~ t ~ t <~ t ~ [t t]> t ~ t ~ t ~ t ~ t ~ <t 
   # nudge (fast 8 "0 0.01")
 
 d4 $ every 8 (fast "1 2" . (+ n "2 -3 -1"))
-  $ struct "t(4,8,<1!3 [2 3 4]>)" $ s "flbass" # legato 1 # n 6 # gain 1.1 # shape (fast 2 "0.4 0.2 0.1")
-  # nudge (fast 8 "0 <0.02 0.03>")
+  $ struct "t(4,8,<1!3 [2 3 4]>)" $ s "jvbass" # legato 1 # n 6 # gain 1.1 # shape (fast 2 "0.4 0.2 0.1")
+  # nudge (fast 8 "0 <0.02 0.03>") # lpf 300 # speed (range 0.666 0.5 (slow 4 square))
+  # gain 0
+
+d4 $ every 8 (fast 2)
+  $ every 16 (# speed "-1")
+  $ every 4 (stut 3 0.5 (fast 4 "0.2 0.3"))
+  $ struct "t(4,8,1)" $ note "<-1 2 1 <~ 7>>" # s "flbass" # n 3 # speed "1"
 
 d5 $ every 4 (stut 6 0.5 (3/16))
   $ rotR (1/8) $ every 8 (fast "1 3" . (+ n "1")) $ slice 16 "~ 3 ~ <4 5 7 8>" $ s "lpviz" # n 211 # speed 0.98
   # nudge (fast 8 "0 0.01")
+  # gain 1
+
+d6 $ struct "t(3,8,<0 0 3 4>)" $ note (slow 7 "<'min 'maj '5 'min7>") + note "<-1 2 1 <~ 7>>" # s "supervibe" # delay 0.5 # delayt (3/8) # room 0.37 # sz 0.9 # lpf 7000 # gain 0.77
+
+hush
 
 setcps (115/60/4)
 
@@ -210,6 +237,8 @@ d4 $ every 4 (fast 2) $ fast 8 $ s "~ 808oh" # release (fast 11 "0.1 0.2")
   # nudge (fast 9 "0 0.02") # lpf (range 3000 4000 (slow 8 sine))
 
 hush
+
+-- 
 
 panic
 
