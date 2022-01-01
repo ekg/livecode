@@ -238,8 +238,36 @@ d4 $ every 4 (fast 2) $ fast 8 $ s "~ 808oh" # release (fast 11 "0.1 0.2")
 
 hush
 
--- 
+-- 16:27 01-Jan-22
+
+setcps (125/60/4)
+
+d1 $ fast 4 $ n "0" # s "cpu2" # gain 1.2
+
+d2 $ every 4 (ghost)
+  $ every 3 (off (1/4) (# vowel "e a e"))
+  $ every 8 (fast "0.5 3 2")
+  $ stut 4 (slow 3 "0.7 0.5 0.6 0.7 0.7") (3/4)
+  $ stut 2 0.9 (3/7) $ weave 16 (pan sine) [s "~ cpu2" # n "<3 2 3 4>", s "~ cpu2" # n "<2 7 4 3>"]
+ -- # vowel "e a e"
+
+d3 $ off 4 (# crush 7)
+  $ slice 16 "11 [3 6] <8 13> 3 8 2 1 0"
+  $ s "lpviz" # n "<308 89 25 777 ~ 89 294 1120>"
+
+d4 $ every 4 (hurry 2)
+  $ every 3 (stut 0.4 (5/16))
+  $ struct "t(3,8,<1 -3 7 7>)" $ note "'5'i" + note "0" # s "ping" # n 4 # shape 0.8 # gain 0.9 # distort 0.3 # release 0.6 # lpf 400
+
+d1 $ stack [n "0 0",
+            fast 2 $ n "~ 4",
+            fast 4 $ n "~ <2 6 2 9 6 5 2>" # nudge 0.04]
+  # s "jazz"
+
+d2 $ slice 16 "[2, 5]" $ note "<0 0 1 2>" # n 552 # s "lpviz" # bpf 500 
 
 panic
+
+hush
 
 scaleList
