@@ -198,7 +198,10 @@ d5 $ every 4 (stut 6 0.5 (3/16))
   # nudge (fast 8 "0 0.01")
   # gain 1
 
+-- hmm
 d6 $ struct "t(3,8,<0 0 3 4>)" $ note (slow 7 "<'min 'maj '5 'min7>") + note "<-1 2 1 <~ 7>>" # s "supervibe" # delay 0.5 # delayt (3/8) # room 0.37 # sz 0.9 # lpf 7000 # gain 0.77
+
+d6 silence
 
 hush
 
@@ -210,12 +213,13 @@ d2 $ slice 8 "0 3 4 . 0 2 1 5" $ s "reggae" # n 106 # legato 1
 
 d3 $ struct "t(2,4,1)" $ s "lpmr" # n 197
 
-d4 $ every 8 (fast "2 3 1" . (# room 0.3).(# sz "0.1 0.3 0.4"))
-  $ fast 2 $ note "~ <0!3 ~> ~ <3 <-2 -2 ~ -5>>" # s "lpmr" # n 298 # legato 1
-  # nudge (fast 8 "0 0.03") -- # squiz 0.3
-
-d5 $ struct "t(3,8,1)" $ s "lpmr" # n 278 # legato 1 # speed "0.5"
-  # nudge (fast 8 "0 0.03")
+do
+  let adj = always (note "<0 0 3 <0 7>>" +)
+  d4 $ adj $ every 8 (fast "2 3 1" . (# room 0.3).(# sz "0.1 0.3 0.4"))
+    $ fast 2 $ note "~ <0!3 ~> ~ <3 <-2 -2 ~ -5>>" # s "lpmr" # n 298 # legato 1
+    # nudge (fast 8 "0 0.03") -- # squiz 0.3
+  d5 $ adj $ struct "t(3,8,1)" $ s "lpmr" # n 278 # legato 1 # speed "0.5"
+    # nudge (fast 8 "0 0.03")
 
 d6 $ s "808oh*16" # release 0.02
   # nudge (fast 8 "0 0.03")
@@ -283,6 +287,133 @@ d4 $ loopAt 2 $ s "lpviz" # n 311
 -- d1 $ s "bd*4"
 
 panic
+
+hush
+
+-- 10:03 02-Jan-22
+
+d1 -- $ every "3 4 7" (slow 2) $ slow "<2 1.5 3>"
+  -- $ slice "<64 16 128 8>" (slow 4 "0 1 2 3 9 16 37 44 63")
+  $ every 4 (# sz 0.5)
+  $ every 5 (struct "t(2,7)")
+  $ every 7 (struct "t(3,5)")
+  $ slow 32 -- 4
+  $ note "<'maj'o ['min'oo/3, 'min7'i/2] 'maj9'i 'min9'oo>"
+  + note "<0 7 0 0 -5 0 3 ~>"
+  + note "ef <ef ~ c c> . bf/2 <bf f> f/4 . c c [c <ef c ~ ~> c]"
+  # stack [s "superpiano" # velocity 0.9,
+           s "gtr" # legato 5 # shape 0.5 # bpf 500,
+           s "uku" # n 3 # gain 1.5]
+  # lpf 2000 # room 0.9 # sz 0.99 # att (fast 7 "0.1 0 0.9 0.5") # release 0.3
+  # leslie 0.99
+
+hush
+
+-- 10:34 02-Jan-22
+
+setcps (116/60/4)
+
+
+  -- "<h2ogmmt!2 h2ogmht!2 h2ogmht*2> h2ogmcp"
+
+d1 $ slice 11 "1 1 1 1" $ fast 4 $ note "<0!7 <0 3 [4 2] 7>>" # s "808bd:6" # gain 1.1
+
+d1 $ s "bd*2"
+
+d3 $ struct "t(9,16)" $ stack [s "feel:9" # bpf 2000
+                              ,s "808oh" # n (fast 7 "0 3 2 1") # release 0.2 # bpf 3000]
+
+d4 $ struct "~ ~ 1 ~" $ stack [s "sd" # n "[3, 4]" # room 0.2 # sz 0.8 # orbit 11
+                              ,s "realclaps/4" # room 0.8 # sz 0.99 # orbit 13]
+
+d2 $ slow 2 $ struct "t(<3!3 7>,<8!4 16>,1)"
+  $ note "<[0 2] -7 <-4 0> -7 0 -5 0 -12>" # s "reggae"
+  # n "[133, 134]" # begin 0 # end 0.6 # release 0.7
+  # lpf 1000 # speed 0.997 -- (range 0.989 0.993 (slow 8 sine))
+
+d5 $ struct (cat ["t(3,8)", "t(7,16,2)", "t(3,8,1)", "t(1,4)"])
+  $ note "<0 4 0 0 4 0 7 4>" + note "-5" # s "flbass" # n 2 # legato 2
+
+d6 $ every 4 (hurry 0.5)
+  $ every 8 (stut "0 0 5" 0.99 (1/8) . (# crush "16 11 4 3"))
+  $ struct "t(11,16,14)"
+  $ arp "<up!3 down>"
+  $ note "<0 4 0 0 4 0 <0 7> 4>"
+  + note "'maj'oo"
+  + note (fast 7 "<-5 -5.01 -4.98 -4.99>") # s "uku" # n "[7, 11, 9]" # gain 1
+  # room 0.8 # sz 0.9
+
+d2 silence
+
+panic
+
+hush
+
+-- 11:30 02-Jan-22
+
+setcps (130/60/4)
+
+d1 $ struct (slow 4 "t t . t ~ t t t . ~ t ~ t . ~ t ~ [t t]")
+  $ s "lpmr" # n "<388 <178 22> 133 407 406>" # legato 2
+  # speed "<1!3 -1>" # lpf 5000 # hpf 400 # leslie 0.8 # delay 0.5
+
+d2 $ s "bd*4"
+
+d3 $ struct "~ t ~ t"  $ s "lpmr" # 197
+
+d4 $ stutWith 8 (3/8) ((|* speed "1.5").(# crush 8).(# gain 0.78).(# delay 0.5))
+  $ struct "t(11,16,14)" $ s "lpmr" # n "[447|450|448|451]*8" # bpf (range 3000 6000 (slow 8 sine))
+
+d5 $ rotR (1/8) $ note "0 0 -1 <2 [-3 -1]>" # s "lpmr" # n 72
+
+d1 $ s "bd <cp hh> bd <cp realclaps:7>"
+
+d2 $ struct "t(<11 13 11 9>,16,14)" $ s "808oh" # n 0 # release (fast 7 "0.1 0.3") # bpf 3000
+
+d3 $ every 8 (fast 2)
+  $ every 5 (# gain 0)
+  $ every 3 (slow 2)
+  $ slow "<2 4 1 3>"
+  $ struct "t(<11 13 11 9>,16,14)"
+  $ slow 4
+  $ note "0 0 -1 <<-3 -7> [-3 -1]>"
+  -- # s "[teclado, piano, superhoover]"
+  # s "[teclado/2, sine/3, reggae/4, i7/5]"
+  # n (fast 3 "[0*3, 1/3, 2/2, 3/5, 4/4]")
+  # release (fast 7 "0.1 0.3 0.8")
+  # bpf (range 200 1000 (slow 19 sine))
+  -- # vowel "[e, i, u]" # delay 2
+
+d1 $ sew "t(3,8)" (slice 16 "0 .. 15" $ loopAt 2 $ s "lpviz" # n "<573 577 572 579>")
+  (every 4 (rev) $ slice 16 "0 .. 15" $ loopAt 2 $ s "lpviz" # n 283)
+
+d2 $ fast 2 $ s "~ <cp!8 [cp cp cp 808cy:4]>"
+
+d3 $ every 4 (stutWith 3 (1/8) (|* speed "1.5"))
+  $ rotR (1/8) $ fast 2 $ s "flbass" # n 1 # note "<2 3 2 0 3 3 3 -4>"
+
+d4 $ s "bd(3,8,6)"
+
+d5 $ s "cpu2:0*4"
+
+d1 $ loopAt 2 $ s "lpviz" # n 449
+
+d2 $ stut 3 0.7 (1/8)
+  $ every 2 (|- n 2) $ struct "t(3,8)" $ note "<2 3 2 0 3 3 3 -4>" # s "cpluck" # n 3 # legato 1
+
+d3 $ s "superpiano" # note "[0, <-5 -7 -7>, <7 5>]" # velocity 0.8
+  # lpf 300 # shape 0.7 # room 0.2 # sz 0.97 # gain 0.9
+
+d4 $ struct "t(5,8,-2)" $ s "uku:3" # note "[0, <-5 -7 -7>, <7 5>]"
+  # lpf 300 # shape 0.1 # room 0.8 # sz 0.97 # gain 0.8
+
+d1 $ struct "t(4,4)" $ s (fast 4 "[cpu, bd:3/3, 808bd:4/2]")
+
+xfadeIn 2 16 $ arp "up" $ s "[~ arpy]*8" # note "[0, -12, -7]"
+
+d3 $ s "flbass(5,16)" # n "<3 3 3 7>" # note "0 0 4 0"
+
+d4 $ s "bd*4"
 
 hush
 
