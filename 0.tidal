@@ -417,4 +417,43 @@ d4 $ s "bd*4"
 
 hush
 
+-- 13:50 04-Jan-22
+
+d1 $ struct "t(<3 3 3 5>,8,2)" $ s "<mars_synths_S612_Rhodes mars_synths_Micro_Funk>"
+  # n "<0 1 2 3 4>" # release 0.8
+
+d1 $ n "[ 0*4, ~ 3/2]" # s "mars_kits_SP909_Lo_N_Dirty" # gain 1.2
+
+d2 $ every 8 (stut 2 0.8 (1/16))
+  $ stack [n "0*4",
+           n "~ [3, 7] ~ [3, <9 [~ 9]>] <~ 13> 3 ~ 3",
+           n "~ 8 ~ 9"]
+  # stack [s "mars_kits_DMX_612_Classic", s "mars_kits_MPC1_Buzzer_Beater"]
+  # nudge (fast 8 "0 0.05")
+
+d4 $ note "<0 0 3 -2 0>"
+  + note "'min7'oo" # n "<14 15 16>" # s "mars_synths_S612_Rhodes" # legato 2 # lpf 500
+  # room 0.8
+
+d1 silence
+
+hush
+
+-- 10:09 06-Jan-22
+
+setcps (120/60/4)
+
+--d1 $ struct "t(3,8)" $ slow 32 $ segment 128 $ fast 16 $ s "chordbot" # n 2 # legato 1
+
+d2 $ s "808bd:4*4"
+
+d1 -- $ struct "t(<3 5 7 2>,8)"
+  $ struct "t(3,8)"
+  $ slow 32 $ segment "<9 11 17 13>" $ fast 16 $ s "chordbot" # n "<1 0>" # legato 2
+  # room 0.8 # sz 0.9 # leslie 0.8 # lpf 3000
+
+d3 $ s "808oh(<12 13 11 9>,16,14)" # n 0 # gain (range 0.7 0.8 (fast "<7 8 <17 19> 3>" sine)) # lpf 2000
+
+panic
+
 scaleList
