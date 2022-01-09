@@ -482,8 +482,33 @@ do
   --d2 silence
   --d3 silence
 
+-- 18:21 09-Jan-22
+
+do
+  setcps (120/60/4)
+  let pat = struct "t(<3 <3 3 0 2> <3 0 5 0> 4>,<8!4 9 11 13 17>,<0!3 1>)"
+  let melody = note "<d4'sus2'8 c4'min9'8>"
+  d1 $ stut "<3!3 5>" 0.9 (3/8)
+    $ pat $ melody # s "mars_synths_360_Filter" # n "[0, 1]" -- (slow 7 "0 .. 6")
+    # legato 1 # lpfbus 1 (segment 64 (range 200 900 (slow 7 $ sine)))
+    # room 0.8 # sz 0.93 # gain 0.8
+  d2 $ stut 2 0.7 (5/8) $ arp "<up down>"
+    $ (slow 4 $ melody) # s "mars_synths_360_Piano" # n (fast 7 "0 .. 3")
+    # legato 1 # speed "<1 -1>" # gain 1.1
+    # room (slow 4 "0.1@5 0.5@4")
+    # sz (slow 4 "0@7 0.9")
+  d3 $ pat $ melody # s "mars_synths_Acid_Multi" # n "<0@3 1 2 3>"
+    # legato 1 # hpf 1000 # gain 1
+  d4 $ struct "t(5,8,2)" $ s "mars_kits_SP1200_909" # n "<3@3 [0 [9 4] 2]>"
+  d5 $ every' 4 3 (fast "2 3 4") $ struct "t(2,4,2)" $ s "808" # n 3
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+
 hush
-    
+
 panic
 
 scaleList
