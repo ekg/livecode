@@ -681,15 +681,47 @@ do
   d6 $ loopAt 2 $ s "lpmr" # n "<735 736 736 734>"
   d7 $ every 5 (# gain 0) $ every 4 (hurry "<2 1.5>") $ ghost $ note "7 7 12 7" # s "uku"
   d8 $ note "<[-12/2 -12] -24 [-24 -12 [-17 -5]] -17> ~ -24 <-12 -17>" # s "supervibe"
-  --d1 silence
+  d1 silence
+  d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+  --d6 silence
+  d7 silence
+  --d8 silence
+
+-- 23:29 14-Mar-22
+do
+  setcps (125/60/4)
+  d1 $ slice 16 "0 3 2 8 1 "
+    $ stack [n "0*4", fast 4 $ n "6", fast 2 $ n "~ 2"]
+    # s "[mars_kits_S612_Roomy, lpmr:388, lpmr:327]" # legato 1 # hpf 500 # gain 0.87
+  d2 $ every 3 (jux rev)
+    $ every 5 (# crush "16 7 4")
+    $ cat [loopAt 1 $ s "reggae" # n 44,
+            loopAt 1 $ s "reggae" # n 93,
+            loopAt 1 $ s "lpviz" # n 93,
+            loopAt 1 $ s "reggae" # n 39,
+            loopAt 2 $ s "reggae" # n 139,
+            loopAt 1 $ s "lpmr" # n 835]
+    -- # lpf 700 # gain 1.2
+  d3 $ stack [n "0(3,8)",
+              n "8(14,<16 17 16 15>,2)",
+              n "3(<2 3 4>,4,2)"]
+    # s "cpu2"
+  d4 $ every 4 (hurry 2) $ fast 2 $ s "~ cp"
+  d5 $ stut 5 0.7 (3/8) $ arp "<up down>" $ note "<'min'o 'min7'oo 'min9'oo>"
+    # s "gtr" # legato 1
+  d6 $ struct "t(4,4)" $ s "bskick" # n (slow 8 "0!4 8 2 1 0")
+  d7 $ struct "t(4,4)" $ s "cpu" # n 0
+  d1 silence
   d2 silence
   d3 silence
   d4 silence
   --d5 silence
-  --d6 silence
+  d6 silence
   --d7 silence
-  d8 silence
-
+  -- # crush "16 7 4"
 
 hush
 
