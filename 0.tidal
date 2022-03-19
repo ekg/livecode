@@ -618,7 +618,7 @@ do
   d4 $ stut 3 0.6 (1/8)
     $ note "<<0 0 [0 0 0] 2> [0 ~ 0] <1 3 2> <0 9 7>>" + note "<'min7 'maj'o 'min9>"
     # s "mars_synths_S612_Rhodes" # speed (0.66) # legato 1.5 # n "[3, 1]"
-    # lpf 700 # decay 0.3 # release 0.5
+    # lpf 700 # decay 0.3 # release 0.5 # speed 0.988
     # room 0.5 # sz 0.93 # gain 0.95 
   d5 $ struct "t(<4 3 3 <3 7>>,8)" $ s "mars_kits_CR78_Kit_2" # n "[6, 8]"
     # gain (range 1.1 1.2 (slow 7 sine))
@@ -633,7 +633,7 @@ do
   d4 silence
   d5 silence
   d6 silence
-  --d7 silence
+  d7 silence
 
 -- 12:08 13-Mar-22
 
@@ -714,14 +714,35 @@ do
     # s "gtr" # legato 1
   d6 $ struct "t(4,4)" $ s "bskick" # n (slow 8 "0!4 8 2 1 0")
   d7 $ struct "t(4,4)" $ s "cpu" # n 0
-  d1 silence
+  --d1 silence
   d2 silence
-  d3 silence
-  d4 silence
-  --d5 silence
-  d6 silence
+  --d3 silence
+  --d4 silence
+  d5 silence
+  --d6 silence
   --d7 silence
   -- # crush "16 7 4"
+
+-- 11:38 19-Mar-22
+do
+  setcps (110/60/4)
+  d1 $ every' 4 1 (# gain "0 1") $ every 5 (ghost) $ every 5 (struct "t(7,16)")
+    $ every 3 (fast 2) $ fast 4 $ s "kick" # n "<0 3 0 [0 1] 2 1>"
+  d2 $ every 4 (struct "t(7,16,1)") $ fast 2 $ s "~ cp"
+  d3 $ every 8 (off 0.125 (# crush "2 3 4 7"))
+    $ every 4 (struct "t(9,16,1)") $ s "lpmr" # n 832 # delay 0.7 # delayt (3/17) # gain 0.8
+    # speed (range 0.997 1.001 (slow 7 $ sine))
+  d4 $ s "hh*16" # gain (range 0.5 0.9 (slow 7 $ sine))
+  d5 $ note "e4(<5 3 5>,7) <b2 b3>" # s "flbass" # n 5
+  d6 $ note "e4(<5 3 5>,7) <b2 b3>" # s "uku" # n 5
+  d7 $ s "reggae/2" #  n 47 # speed 1.03 # bpf 800 # gain 1.7 # crush 12
+  -- write a melody
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d6 silence
+  d7 silence
 
 hush
 
