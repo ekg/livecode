@@ -626,10 +626,10 @@ do -- a
   d7 $ struct "t(<5 7 7 3>,16,14)"
     $ s "mars_kits_SDSV_Assorted_2" -- # room 0.2 # sz 0.97
     # n (slow 4 "<3 2 [3 5 3] [2 8 7 7]>") # speed 0.97
-  --d1 silence
+  --d1 silence -- 1
   d2 silence
   d3 silence -- 2
-  d4 silence
+  d4 silence -- 3
   d5 silence
   d6 silence
   d7 silence
@@ -666,6 +666,8 @@ do -- b
   d5 silence
   d6 silence
   d7 silence
+
+hush
 
 --12:34 13-Mar-22
 do -- d
@@ -723,6 +725,8 @@ do
   --d6 silence
   --d7 silence
   -- # crush "16 7 4"
+
+hush
 
 -- 11:38 19-Mar-22
 do -- c
