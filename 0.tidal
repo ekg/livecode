@@ -626,10 +626,10 @@ do -- a
   d7 $ struct "t(<5 7 7 3>,16,14)"
     $ s "mars_kits_SDSV_Assorted_2" -- # room 0.2 # sz 0.97
     # n (slow 4 "<3 2 [3 5 3] [2 8 7 7]>") # speed 0.97
-  --d1 silence -- 1
+  d1 silence -- 1
   d2 silence
-  d3 silence -- 2
-  d4 silence -- 3
+  --d3 silence -- 2
+  --d4 silence -- 3
   d5 silence
   d6 silence
   d7 silence
@@ -659,18 +659,18 @@ do -- b
     # lpf 500 # sustain 4 # room 0.8 # sz 0.9 # gain (range 0.7 0.79 (slow 8 sine))
     # swing
   d7 $ slow 4 $ s "reggae" # n 54 # legato 1 # end "<0.7 0.3 0.25 0.3>" # speed 0.93
-  --d1 silence
+  d1 silencee
   d2 silence
   d3 silence
   d4 silence
-  d5 silence
-  d6 silence
+  --d5 silence
+  --d6 silence
   d7 silence
 
 hush
 
 --12:34 13-Mar-22
-do -- d
+do -- e
   setcps (84/60/4)
   d1 $ struct "t ~ <t [t t]> ~" $ s "kick" # lpf 300
   d2 $ every 4 (stut 3 0.7 (3/16)) $ struct "t(<3!7 7>,8,1)"
@@ -756,7 +756,7 @@ do -- c
   d2 silence
   d3 silence
   d4 silence
-  d5 silence
+  --d5 silence
   d6 silence
   --d7 silence
   d8 silence
@@ -802,7 +802,7 @@ do
 hush
 
 -- 21:06 19-Mar-22
-do -- c
+do -- d
   setcps (84/60/4)
   d1 $ struct "t ~ <t t t [t t ~ t]> ~" $ s "lpmr"
     # n 615 # gain 1.1
@@ -825,14 +825,16 @@ do -- c
   d7 $ every 4 (# lpf "300 500 1000 2000")
     $ note (slow 3 "0 0 4 5") + note "<'min7'io 'min9'o 'min7'oo>"
     # s "mars_synths_DrSample_80s_Piano" # n 0 # room 0.5 # sz 0.9
-  --d1 silence
+  d1 silence
   --d2 silence
-  --d3 silence
+  d3 silence
   d4 silence
   d5 silence
   d6 silence
-  --d7 silence
+  d7 silence -- enter
 
+-- thanks everyone for the listen!!!!!!!!
+-- much love
 
 hush
 
