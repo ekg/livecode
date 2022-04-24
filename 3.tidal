@@ -1,0 +1,55 @@
+-- 17:45 16-Apr-22
+
+do
+setcps (123/60/4)
+d1 $ every 3 (# crush "16 <[2 3] 6> 4")
+  $ stack [
+    s "bd sd hh <bd ~ bd> <sd cp [hh hh]> hh"
+  , note "<c4'maj g4'maj a4'min7 f4'maj>" # s "mars" # n "4306" # legato 1
+    # orbit 1 # room 0.3 # sz 0.9 # gain 0.9
+  , note "<<~ c4'maj> <~ g4'maj ~> <a4'min7 ~ ~ ~> f4'maj>"
+    # s "mars" # n "4332" # legato 1
+    # orbit 2 # room 0.3 # sz 0.9 # gain 0.8 # lpf 2000 # speed 0.5
+  , every 8 (hurry 2)
+    $ every 4 (rev) $ note "c g c f a g" + note "<0 0 <0 7 2> -5>" # s "uku"
+  , -- stut 4 0.75 0.25 $
+    loopAt 1 $ chop 8
+    $ s "mars" # n "99" # speed "<1 1.33 0.66 1>"
+  ]
+
+hush
+
+-- 19:15 16-Apr-22
+
+do
+  setcps (123/60/4)
+  let tom = s "mars" # n 3882
+  let kick = s "mars" # n 3829 # speed 2
+  let bd = s "mars" # n 105
+  let basslp = s "lpviz" # n 24
+  let vox = s "lpviz" # n "103 181 182"
+  let cycle = 8
+  let bias = 3
+  d1 $ stack [
+    every cycle (fast "3 4 7") $ struct "t(3,8)" $ cat [tom, kick]
+    , every cycle ((rev).(chop "8 17")) $ cat [basslp] # cut 1
+    , every' cycle bias (fast "7 9 2") $ struct "t(3,8)" $ vox # cut 2
+      # att 0.3 # decay 0.9 # sus 0.2 # speed 1 # begin (fast 7 "0.3 -0.3 0.2 0.1")
+    , every cycle (fast 2) $ n "0*4" # bd
+    , every cycle (hurry "3 5") $ stut 3 0.5 0.5
+      $ struct "t(3,8,1)"
+      -- $ note (slow (/ cycle 2) "0 <-5 -3> 7 4") +
+      $ note (slow cycle $ cat ["c4'7","c3'5","c4'min7","c5'maj"])
+      # s "gtr" # n "2 3 4" # cut 1
+      # bpf 500 # release 0.3
+    ]
+
+do
+  setcps (90/60/4)
+  d1 $ note "0 <7 <0 -2 -5 0>> 3 5" # s "uku" # room 0.8 # sz 0.7
+  d2 $ rotR 0.5 $ note "0" # s "mars" # n "<506 505 503>" # cut 1
+  d3 $ every 4 (rev) $  loopAt 1 $ chop 16 $ s "lpviz" # n 213
+
+--d1 $ note "0'maj" # s "superpiano"
+
+hush
