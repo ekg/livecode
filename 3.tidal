@@ -30,26 +30,41 @@ do
   let vox = s "lpviz" # n "103 181 182"
   let cycle = 8
   let bias = 3
+  let gains = [1, 1, 1, 1, 1]
   d1 $ stack [
     every cycle (fast "3 4 7") $ struct "t(3,8)" $ cat [tom, kick]
     , every cycle ((rev).(chop "8 17")) $ cat [basslp] # cut 1
     , every' cycle bias (fast "7 9 2") $ struct "t(3,8)" $ vox # cut 2
       # att 0.3 # decay 0.9 # sus 0.2 # speed 1 # begin (fast 7 "0.3 -0.3 0.2 0.1")
     , every cycle (fast 2) $ n "0*4" # bd
-    , every cycle (hurry "3 5") $ stut 3 0.5 0.5
+    , every cycle (hurry "0.5 0.666") $ stut 3 0.5 0.5
       $ struct "t(3,8,1)"
       -- $ note (slow (/ cycle 2) "0 <-5 -3> 7 4") +
-      $ note (slow cycle $ cat ["c4'7","c3'5","c4'min7","c5'maj"])
+      $ note (slow cycle $ cat ["c4'7","c3'5","f3'min7","c3'maj"])
       # s "gtr" # n "2 3 4" # cut 1
-      # bpf 500 # release 0.3
+      -- # room 0.3 # sz 0.89
+      # lpf (range 500 1500 (slow cycle saw))
+      # release (range 0.17 0.3 (slow (fast 2 cycle) saw))
     ]
 
 do
   setcps (90/60/4)
-  d1 $ note "0 <7 <0 -2 -5 0>> 3 5" # s "uku" # room 0.8 # sz 0.7
+  d1 $ every 3 (stut 4 0.5 (3/8))
+    $ note "0 <7 <0 -2 -5 0>> 3 5" # s "uku" # room 0.8 # sz 0.7 # release 0.4
   d2 $ rotR 0.5 $ note "0" # s "mars" # n "<506 505 503>" # cut 1
-  d3 $ every 4 (rev) $  loopAt 1 $ chop 16 $ s "lpviz" # n 213
+  d3 $ every 4 (rev) $  loopAt 2 $ chop 16 $ s "lpviz" # n 213
+  d4 $ every 4 (fast "1 2 4") $ arp "up" $ note "'min7 'min9" # s "mars" # n "<829 832 939 <~ 29>>"
 
---d1 $ note "0'maj" # s "superpiano"
+
+-- 19:26 24-Apr-22
+do
+  setcps (120/60/4)
+  d1 $ loopAt 2
+    $ off (3/8) (# speed 0.5)
+    $ struct "t(3,8,1)"
+    $ chop 8 $ s "lpviz" # stack [n 526, n 527]
+  d2 $ s "808bd*4" # n 3
+  d3 $ fast 2 $ s "~ cp"
+  
 
 hush
