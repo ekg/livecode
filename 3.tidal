@@ -105,3 +105,21 @@ do
     # room 0.7 # sz 0.99 # gain (slow 8 "0.2 0.3 0.4 <0.3 0.6>")
 
 hush
+
+-- 09:09 10-May-22
+
+do
+  setcps (90/60/4)
+  d1 $ every 8 (# crush "16 8 3")
+    $ every 5 (rev)
+    $ someCycles (# room 0.3).(# sz 0.9)
+    $ someCycles (# hpf 3000)
+    $ off "<0.125 0.25>" (# distort 0.3)
+    $ foldEvery [2,3,4] (slice "16 17" "9 2 [3 4 5] <7 8 13> 9 11")
+    $ chop 8 $ s "lpmr" # n 159
+  d2 $ off (3/8) (# coarse (fast 7 "1 2 1.7 1 1.7"))
+    $ every 2 (hurry "1 1 2")
+    $ struct "t(<3 4 3 5>,8)" $ s "lpmr" # n "<614 613 <199 777>>" # gain 1 # legato 1
+  d3 $ s "lpmr" # n 484 # release 0.3
+
+hush
