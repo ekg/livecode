@@ -1,0 +1,97 @@
+do
+  setcps (120/60/4)
+  let m = s "mars"
+  let l = lpf (range 200 5000 (slow 16 saw))
+  d1 $ every 2 (fast 2) $ fast 4 $ m # n (1382 + (irand 3)) # l
+  d2 $ n "388*4" # m # l 
+  d3 $ n "1171(2,4,2)" # m # l
+  d4 $ rarely (# gain "1 0") $ off 0.125 (# speed (4/3))
+    $ n "2129*4" # m -- # lpf 3000
+    # crush (fast 3 "6 7 4 9") # l 
+  d5 $ sometimes (+ n "<2 3>") $ rotR 0.125 $ n "3(3,8)" # s "flbass" # l
+  d6 $ foldEvery [2,3,4] (fast 2)
+    $ note (fast 1 "'min7") # n "2572_2574" # m
+    # speed (brak $ cat [(2/3), (3/4), (1/3), (1/2)])
+    # room 0.3 # sz 0.8 # l
+
+hush
+
+
+do
+  setcps (90/60/4)
+  let m = "mars"
+  let f = foldEvery [2,3,4] (hurry 2)
+  d1 $ f
+    $ fast 2
+    $ n "3796" # m
+  d2 $ off 0.25 f $ fast 2 $ s "808bd" # n 3
+  d3 $ off 0.125 f
+    $ fast 16 $ s "hc" # n 2 # gain (1.2 * range 0.2 0.25 (irand 6))
+  d4 $ off 0.25 (foldEvery [2,8] (fast 4)) $  s "flbass" # n "[3|4|7|8]" # cut 1
+  d5 $ f $ fast 2 $ note "'maj" # s "uku" # vowel (slow 3 "e o e")
+    # room 0.8 # sz 0.8 # cut 1 # gain 0.85
+
+hush
+
+do
+  setcps (100/60/4)
+  let l = s "lpmr"
+  let e = every 16 (# speed "1 0.9 0.3 0.1")
+  d1 $ e $ foldEvery [2,4] (hurry 0.5)
+    $ loopAt "<1!6 2>" $ chop 8 $ l # n 8 # gain 0.7
+  d2 $ e $ foldEvery [3,7] (jux rev) $ every 4 brak
+    $ loopAt "<1!7 2>" $ chop 8 $ n "<773 774>" # l # gain 0.7
+  d3 $ s "bd*4" # speed "<1 1 0.666 <0.666 [0.666 0.333]>>" -- (cat [1, (1/3), (2/3)
+  d4 $ sometimes (off (cat [(3/16), (1/16), (4/17), (3/16)]) (# speed "<0.5 0.666 0.5 0.333>"))
+    $ n "0(7,<16 8 16>,4)" # s "flbass" # n "<<3 [3, 4]> 4 5>" # speed 1 # legato 1 # release 0.2
+
+hush
+
+-- 23:19 06-Apr-22
+do
+  setcps (117/60/4)
+  let l = s "lpviz"
+  d1 $ stack [every 4 (rev).(fast 2) $ slice 8 "<0..3 0..5 3..7>"
+              $ loopAt (every 8 (+ 1) $ "1") $ chop 8 $ l # n 303
+             , slow 2 $ rev $ chop 8 $ l # n 88 # lpf (range 3000 8000 (slow 16 saw))
+             , stut 2 0.7 (3/16)
+               $ off "<0.125 0.25 0.125 0.5>" (+ note "-5")
+              $ slice 8 "1 <0 ~> 4 3" $ loopAt 0.5 $ l # n 182 # legato 1
+               # lpf 500
+             , note (slow 2 "<0 3 0 7>") # l # n 281
+             ] -- # crush 2 # distort 3 # lpf 30
+
+do
+  setcps (117/60/4)
+  let l = s "lpviz"
+  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310
+             , every 8 (stut 3 0.7 (3/8)) $ compress (1/4, 3/4)
+               $ every 16 (* note "0 7 -12 -5")
+               -- $ every 4 (hurry 2)
+               $ note (slow 2 "<0 3 0 7>") # l # n 281
+             , -- every 4 (compress (3/4, 4/4)) $ compress (0/4, 1/4) $
+               slow 4 $ every 3 (rev)
+               $ slice 32 "16..19 0..7" $ loopAt 4 $ chop 8 $ l
+               -- # n "<493 491 492 433>"
+               # n "<491 492>"
+               # legato 1 # speed 0.98 # gain 0.9 # crush "<4 4 5 7 9>"
+             , s "808bd*4" # n 3
+             , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4, 7]" # room 0.1 # sz 0.8
+             , struct "t(3,7)"
+               $ s "808mt(<12 12 13>,14,11)"
+               # speed (cat ["1 0.5 0.7 0.66"
+                            , "1 1 1 1"
+                            , "0.5 0.6 0.66 0.7"
+                            , "1 1 1 1"])
+             ]
+
+
+do
+  setcps (117/60/4)
+  let l = s "lpviz"
+  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310
+             , every 4 ( hurry 2) $ note (rotR 0.25 $ fast 2 "<0 0 3 -5>")
+               + note "<'min'o 'min 'min7'i 'maj9>" # s "pluck" # speed (0.89 * 2)
+             ]
+
+hush

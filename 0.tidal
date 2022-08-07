@@ -13,6 +13,8 @@ d1 -- moistpeace remix
 
 setcps (135/60/4)
 
+hush
+
 d1 -- $ every 4 (slow "<1 2 3>" . striate "4")
   $ iter (slow 3 "<4 9 7 11>") --
   $ chunk 8 ((# speed "-0.5")
@@ -79,7 +81,7 @@ d3 $ off (whenmod 16 4 (fast 2) $ "0.5 0.2 0.1 0") (# crush (slow 5 "5 16 [~ 3] 
   $ whenmod 8 3 (fast 2)
   $ segment 8
   $ note (scale "neapolitanMinor" "0 <1 ~ ~ 5> <~ 2 ~> <3 5> ~")
-  # s "piano" # speed "0.125" -- # room 0.8 # sz 0.93
+  # s "piano" # speed "0.125" # room 0.8 # sz 0.93
   # hpf 500 # lpf 1000 # release 0.3
 
 d4 $ every 3 (fast 2)
@@ -114,7 +116,7 @@ d5 $ every 3 (palindrome)
   $ slice 16 "0 3 . 8 8 7 . 9 . 15 14 13 12"
   $ s "reggae" # n 109 # gain 0
 
-d6 $ every 3 (speed "1 1.5 2 -1")
+d6 $ every 3 (# speed "1 1.5 2 -1")
   $ every 8 (hurry 2)
   $ struct "t(<3!8 5>,8,<0 2>)" $ s "lpmr" # n 106 # gain 1.2
 
@@ -202,8 +204,10 @@ d5 $ every 4 (stut 6 0.5 (3/16))
   # nudge (fast 8 "0 0.01")
   # gain 1
 
--- hmm
-d6 $ struct "t(3,8,<0 0 3 4>)" $ note (slow 7 "<'min 'maj '5 'min7>") + note "<-1 2 1 <~ 7>>" # s "supervibe" # delay 0.5 # delayt (3/8) # room 0.37 # sz 0.9 # lpf 7000 # gain 0.77
+d6 $ struct "t(<3 5>,8,<0 0 3 4>)" $ note (fast 7 "<'5 'min>") + note "<-1 2 1 <~ 7>>"
+  # s "[super808, superpiano, supervibe]"
+  # delay 0.75 # delayt (3/8) # room 0.37 # sz 0.9 # lpf 7000 # gain 0.77
+  # att (slow 8 "0.7 0.5 0.2 0.3 0.1")
 
 d6 silence
 
@@ -216,6 +220,10 @@ d1 $ n "0*4" # s "odx"
 d2 $ slice 8 "0 3 4 . 0 2 1 5" $ s "reggae" # n 106 # legato 1
 
 d3 $ struct "t(2,4,1)" $ s "lpmr" # n 197
+
+d7 $ loopAt 2 $ struct "t(<1 1 3 5>,4)" $ s "lpmr" # n 201
+
+d7 silence
 
 do
   let adj = always (note "<0 0 3 <0 7>>" +)
@@ -269,6 +277,12 @@ d4 $ every 4 (hurry 2)
   $ note "'5'i" + note "0" # s "ping"
   # n 4 # shape 0.8 # gain 0.9 # distort 0.3 # release 0.6 # lpf 400
 
+d4 $ every 4 (hurry 2)
+  -- $ every 3 (stut 0.4 (5/16))
+  $ struct "t(3,8,<1 -3 7 7>)"
+  $ note "'5'i" + note "0"
+  # s "ping" # n 4 # shape 0.8 # gain 0.9 # distort 0.3 # release 0.6 # lpf 400
+
 setcps (125/60/4)
 
 d1 $ off (0) (struct "t(11,16,14)" . (# gain (range 0 0.8 (slow 16 $ saw))))
@@ -277,9 +291,9 @@ d1 $ off (0) (struct "t(11,16,14)" . (# gain (range 0 0.8 (slow 16 $ saw))))
             fast 4 $ n "~ <2 6 2 9 6 5 2>" # nudge 0.04]
   # s "jazz" # gain 1.1
   # nudge (fast 8 "0 <0.03 0.02 0.05 -0.01>")
-  -- # pan (rand)
+  # pan (rand)
 
-d3 $ struct "t(3,8)" $ note "<0 0 <5 -5> 4>" # s "jazz" # n 5 # speed "0.5" # gain 1.1
+d3 $ struct "t(3,8)" $ note "<0 0 <5 -5> 4>" # s "jazz" # n 5 # speed "0.5" # gain 1.4
   # nudge (fast 4 "0 <0.03 0.02 0.05 -0.01>")
   # pan (rand)
 
@@ -303,7 +317,7 @@ d1 -- $ every "3 4 7" (slow 2) $ slow "<2 1.5 3>"
   $ every 4 (# sz 0.5)
   $ every 5 (struct "t(2,7)")
   $ every 7 (struct "t(3,5)")
-  $ slow 32 -- 4
+  $ slow 8 -- from 4 to 32 is fun
   $ note "<'maj'o ['min'oo/3, 'min7'i/2] 'maj9'i 'min9'oo>"
   + note "<0 7 0 0 -5 0 3 ~>"
   + note "ef <ef ~ c c> . bf/2 <bf f> f/4 . c c [c <ef c ~ ~> c]"
@@ -345,6 +359,12 @@ d5 $ struct (cat ["t(3,8)", "t(7,16,2)", "t(3,8,1)", "t(1,4)"])
   # n 2
   # legato 2
   -- # gain 1.1
+
+d5 $ struct (cat ["t(3,8)", "t(7,16,2)", "t(3,8,1)", "t(1,4)"])
+  $ note "<0 4 0 0 4 0 7 4>" + note "-5" # s "flbass"
+  -- # n (fast 8 "[<2 2 3 7>, <4 3 1>]")
+  # n 2
+  $ note "<0 4 0 0 4 0 7 4>" + note "-5" # s "flbass" # n 2 # legato 2 # gain 1.2
 
 d6 $ every 4 (hurry 0.5)
   $ every 8 (stut "0 0 5" 0.99 (1/8) . (# crush "16 11 4 3"))
@@ -464,13 +484,13 @@ d2 $ s "808bd:4*4"
 d1 -- $ struct "t(<3 5 7 2>,8)"
   $ struct "t(3,8)"
   $ slow 32 $ segment "<9 11 17 13>" $ fast 16 $ s "chordbot" # n "<1 0>" # legato 2
-  # room 0.8 # sz 0.9 # leslie 0.8 # lpf 3000
+  # room 0.8 # sz 0.9 # leslie 0.8 # lpf 3000 # gain 1.2
 
 d3 $ every 4 (off (1/8) palindrome)
   $ s "808oh(<12 13 11 9>,16,14)"
   # n 0 # gain (range 0.7 0.8 (fast "<7 8 <17 19> 3>" sine)) # lpf 2000
 
-d4 $ every 4 (slow 2) $ struct "t(5,8)" $ s "mars_synths_Synare_Long" # legato 1 # n "9" # note "-12"
+d4 $ every 4 (slow 2) $ struct "t(5,8)" $ s "mars_synths_Synare_Long" # legato 1 # n "9" # note "-13.3"
 
 hush
 
@@ -515,11 +535,92 @@ do
     # legato 1 # hpf 1000 # gain 1
   d4 $ struct "t(5,8,2)" $ s "mars_kits_SP1200_909" # n "<3@3 [0 [9 4] 2]>"
   d5 $ every' 4 3 (fast "2 3 4") $ struct "t(2,4,2)" $ s "808" # n 3
+  d6 $ struct "t(<1 2 0 3>,8,2)" $ note "<g4 d4'sus'5 g4'maj7'o f4 c4'min'3>"
+    # s "piano" # n 5 # release 0.4 # lpf 500
+    # room 0.7 # sz 0.8
+    # gain 1.0
+    # comb "<0 0 <0.3 0.7 0.2 0.001>>"
+    # freeze "<0.3 0.8 0.2 0.9>"
+    -- # delay 1 # delayt (3/7) # delayfb 0.9
+    -- # delay 0.2 # delayfb 0.9 # delayt (3/7)
   d1 silence
+  d2 silence
+  d3 silence
+  d4 silence
+  d5 silence
+  --d6 silence
+
+-- 10:50 10-Jan-22
+
+d1 $ note "'min"
+  + note (cat ["d a@2 e",
+                "a",
+                "d [d [d d5]] a . [b [e a]]",
+                "b",
+                "e"]) # s "[gtr,mars_synths_360_Vibes:2,mars_synths_360_Guitar]"
+  # legato 1 # smear 0.5
+  -- # room (slow 8 "0.2 0 0 0.8") # sz 0.86
+
+-- 17:19 12-Mar-22
+
+do
+  setcps (120/60/4)
+  d1 $ n "0 [13 14 15, ~ 14] ~"
+    # s "mars_kits_808_Heavy_Sat" -- # n (slow 16 "0 .. 16") # gain 1.1
+  d2 $ n "~ <~ 4> 3" # s "[coins, bottle, fire]" # legato 1 # speed "-1"
+  d3 $ rotR 0.1 $ n "~ 4 4 ~ 4 <4 2 1 8>" # s "[super808, <mars_kits_TOM_Conga mars_kits_TOM_608>]"
+    -- # delay 0.5 # delayt (3/8)
+  d4 $ every 3 (hurry 1.5) $ every 4 (fast 2) $ note "c g ~ <d e>" # s "flbass" # legato 1
+  d5 $ s "cpu2:8*16" # gain 1.1 # distort 0.13 # shape 0.55 # lpf (range 300 2000 sine)
+  --d1 silence
   --d2 silence
   --d3 silence
   --d4 silence
   --d5 silence
+
+do
+  setcps (130/60/4)
+  d1 $ every 4 (hurry 0.5) $ n "9(12,16,14)" # s "mars_kits_SP1200_Disco" # speed (fast 9 "1 0.75 1 -1 1")
+  d2 $ slow 2 $ n "0 ~ 0 0 . 0 0 [0 0 2 3] 0" # s "[mars_kits_MPC60_Boogie_Classic]"
+  d3 $ s "odx(<4 4 4 5>,16)" # n "0 0 2 <3 8>"
+  d4 $ stut (slow 8 "5 3 3 2 1 3 7") 0.5 0.25
+    $ arpg $ note "-3" + note (slow 8 "0 <0 -1> 7 3") + note "'maj9'oo" # s "superpiano"
+  d5 $ ghost $ note "-3" + note (slow 8 "0 <0 -1> 7 3") + note "'maj9'oo"
+    # s "mars_synths_S612_Rhodes" # n 2 # legato 1 # room 0.7 # sz 0.99 # gain 0.7
+  d6 $ every 4 (hurry "<0.5 0.25>") $ n "0(13,17,<0 15 3 5 15 0 15>)" # s "808hc" # speed 0.89
+  d7 $ fast 2 $ s "~ cp"
+  d1 silence
+  d2 silence
+  d3 silence
+  d4 silence
+  --d5 silence
+  d6 silence
+  d7 silence
+
+
+do
+  setcps (90/60/4)
+  d1 $ every 7 (# speed "-1")
+    $ every 14 (# room 0.7)
+    $ every' 3 1 (ghost)
+    $ every 2 (stut 3 0.7 0.4)
+    $ every 3 (hurry 0.5) $ n "[1 ~ 3, ~ 2, <[7 7 3] 7 [8 9 12] 0 7 2>(<[3 9] 5 7 9>,17)]"
+    # s "<tabla tabla2!5>" # legato 2
+  d2 $ every 7 (# speed "-1")
+    $ every' 2 1 (hurry 0.5)
+    $ s "clubkick:1(<4 4 3 5>,17)"
+  d3 $ every 7 (# speed "-0.75")
+    $ n "<4 4 3 1>(5,17,2)" # s "techno"
+  d4 $ every 7 (# speed "-0.75")
+    $ stack [n "0(3,17,3)" # s "808hc"
+            , n "0(<3 5 4>,17,1)" # s "808lc"]
+  d5 $ every 7 (# speed "-1")
+    $ stut 3 0.7 (3/17)
+    $ struct "t(<3 [9 11 13] 4 5 3 4>,17)"
+    $ note (slow 4 "0 4 7 -3") + note "'min7" # s "mars_synths_SK1_Organ" # legato 1
+    # att 0.2 # gain 1.2 # room 0.3 # sz 0.8
+  d6 $ struct "t(3,17)"
+    $ note (slow 4 "0 4 7 -3") + note "'min7" # s "mars_synths_S612_Choir" # legato 8 # speed 0.5
 
 hush
 
@@ -528,34 +629,236 @@ panic
 scaleList
 
 -- 19:42 21-Jan-22
+do -- a
+  setcps (135/60/4)
+  d1 $ rotR (1/8) $ slow 2 $ palindrome $ n "0 .. 15" # s "mars_kits_FoundSounds_Dr_Doom"
+    # amp "1(<7 4 3>,8,1)"
+  d2 $ slow 4 $ n "<[0 0 0 ]> .. 15" #  s "mars_kits_DrBohm_Mini_Bohm_From_Mars_1"
+  d3 $ note "<<0 0 [0 0 0] 2> [0 ~ 0] <1 3 2> <0 9 7>>" + note "<'min7 'maj 'min9'i>"
+    # s "mars_synths_VP330_Tape" # legato 1 # att (fast 9 "1 0.8 2") # n 0 # speed 0.66
+    # lpf (range 300 700 (slow 16 $ saw)) # decay 0.3 # release 0.5
+    # room 0.5 # sz 0.93 # gain 0.95 
+  d4 $ stut 3 0.6 (1/8)
+    $ note "<<0 0 [0 0 0] 2> [0 ~ 0] <1 3 2> <0 9 7>>" + note "<'min7 'maj'o 'min9>"
+    # s "mars_synths_S612_Rhodes" # speed (0.66) # legato 1.5 # n "[3, 1]"
+    # lpf 700 # decay 0.3 # release 0.5 # speed 0.988
+    # room 0.5 # sz 0.93 # gain 0.95 
+  d5 $ struct "t(<4 3 3 <3 7>>,8)" $ s "mars_kits_CR78_Kit_2" # n "[6, 8]"
+    # gain (range 1.1 1.2 (slow 7 sine))
+  d6 $ struct "t(11,16,14)" $ s "mars_kits_SDSV_Assorted_2" # room 0.2 # sz 0.97
+    # lpf (slow 3 "0 300 3000 0 7000 4000") # n 0
+  d7 $ struct "t(<5 7 7 3>,16,14)"
+    $ s "mars_kits_SDSV_Assorted_2" -- # room 0.2 # sz 0.97
+    # n (slow 4 "<3 2 [3 5 3] [2 8 7 7]>") # speed 0.97
+  d1 silence -- 1
+  d2 silence
+  --d3 silence -- 2
+  --d4 silence -- 3
+  d5 silence
+  d6 silence
+  d7 silence
 
-setcps (135/60/4)
+hush
 
-d1 $ rotR (1/8) $ slow 2 $ palindrome $ n "0 .. 15" # s "mars_kits_FoundSounds_Dr_Doom"
-  # amp "1(<7 4 3>,8,1)"
+-- 12:08 13-Mar-22
+do -- b
+  setcps (115/60/4)
+  let swing = nudge (fast 8 "0 <0.03 0.04 0.01 0.02 0.05>")
+  d1 $ struct "t(3,8)" $ s "mars_synths_S612_Bass_2" # legato 1 # n 0 # swing
+  d2 $ every 4 (stut 3 0.7 (1/8))
+    $ slow 2 $ note "0 3 ~ 5" + note "'maj" # s "mars_synths_KawaiiDreams_Air"
+    # n (slow 7 "5 3 7 2")
+    # legato 1 # swing
+  d3 $ slow 4
+    $ every 3 (hurry 2)
+    $ every 8 (palindrome)
+    $ note "0 0 ~ 0 ~ <[7 5 3] 7 3 5> 5 3 ~ ~ 0/2 0 ~ 3 ~ 7"
+    # stack [s "mars_synths_S612_Lead", s "mars_synths_SH5_Fuzz"] # legato 1 # n "[2, 3]"
+    # delay 0.5 # delayt (3/8) # room 0.3 # sz 0.8 # gain 0.76 # swing
+  d4 $ stack [n "0*4", n "~ 2 ~ 2", n "8(14,16,12)"] # s "cpu2" # swing
+  d5 $ every 8 (hurry 2) $ every 4 (+ n 3) $ fast 4 $ n "~ 0" # s "808mt"
+  d6 -- $ every 3 (fast 4)
+    $ slow 8 $ note "0 0 ~ 0 ~ <7/2 7 3 5> 5 3 ~ ~ 0/2 0 ~ [3 3] ~ 7" + note "<'maj7'i 'maj9'oo>"
+    # s "mars_synths_SovietSynths_Decay"
+    # lpf 500 # sustain 4 # room 0.8 # sz 0.9 # gain (range 0.7 0.79 (slow 8 sine))
+    # swing
+  d7 $ slow 4 $ s "reggae" # n 54 # legato 1 # end "<0.7 0.3 0.25 0.3>" # speed 0.93
+  d1 silencee
+  d2 silence
+  d3 silence
+  d4 silence
+  --d5 silence
+  --d6 silence
+  d7 silence
 
-d2 $ slow 4 $ n "<[0 0 0 ]> .. 15" #  s "mars_kits_DrBohm_Mini_Bohm_From_Mars_1"
+hush
 
-d3 $ note "<<0 0 [0 0 0] 2> [0 ~ 0] <1 3 2> <0 9 7>>" + note "<'min7 'maj 'min9'i>"
-  # s "mars_synths_VP330_Tape" # legato 1 # att (fast 9 "1 0.8 2") # n 0 # speed 0.66
-  # lpf (range 300 700 (slow 16 $ saw)) # decay 0.3 # release 0.5
-  # room 0.5 # sz 0.93 # gain 0.95 
+--12:34 13-Mar-22
+do -- e
+  setcps (84/60/4)
+  d1 $ struct "t ~ <t [t t]> ~" $ s "kick" # lpf 300
+  d2 $ every 4 (stut 3 0.7 (3/16)) $ struct "t(<3!7 7>,8,1)"
+    $ note "<7 7 0 7>"
+    # s "juno" # hpf (range 0 1000 (slow 8 saw)) # lpf 700
+  d3 $ every 4 (fast 2) $ struct "t(<11 14 13>,16,<11 13 12>)" $ s "808oh" # hpf 7000
+    # smear (range 0.1 0.3 (fast 7 sine)) # gain 0.86
+  d4 $ slow 2 $ s "mars_synths_Sid_ContraPad" # legato 1 # n "<0 1>"
+  d5 $ every 4 (# room "0 0.9")
+    $ fast 2 $ n "~ 0" # s "realclaps" # n "[0, 1, 2, 3]" # gain 0.89 # room 0 # sz 0.9
+  d6 $ loopAt 2 $ s "lpmr" # n "<735 736 736 734>"
+  d7 $ every 5 (# gain 0) $ every 4 (hurry "<2 1.5>") $ ghost $ note "7 7 12 7" # s "uku"
+  d8 $ note "<[-12/2 -12] -24 [-24 -12 [-17 -5]] -17> ~ -24 <-12 -17>" # s "supervibe"
+  --d1 silence
+  --d2 silence
+  d3 silence
+  --d4 silence
+  --d5 silence
+  d6 silence
+  --d7 silence
+  d8 silence
 
-d4 $ stut 3 0.6 (1/8)
-  $ note "<<0 0 [0 0 0] 2> [0 ~ 0] <1 3 2> <0 9 7>>" + note "<'min7 'maj'o 'min9>"
-  # s "mars_synths_S612_Rhodes" # speed (0.66) # legato 1.5 # n "[3, 1]"
-  # lpf 700 # decay 0.3 # release 0.5
-  # room 0.5 # sz 0.93 # gain 0.95 
+-- 23:29 14-Mar-22
+do
+  setcps (125/60/4)
+  d1 $ slice 16 "0 3 2 8 1 "
+    $ stack [n "0*4", fast 4 $ n "6", fast 2 $ n "~ 2"]
+    # s "[mars_kits_S612_Roomy, lpmr:388, lpmr:327]" # legato 1 # hpf 500 # gain 0.87
+  d2 $ every 3 (jux rev)
+    $ every 5 (# crush "16 7 4")
+    $ cat [loopAt 1 $ s "reggae" # n 44,
+            loopAt 1 $ s "reggae" # n 93,
+            loopAt 1 $ s "lpviz" # n 93,
+            loopAt 1 $ s "reggae" # n 39,
+            loopAt 2 $ s "reggae" # n 139,
+            loopAt 1 $ s "lpmr" # n 835]
+    -- # lpf 700 # gain 1.2
+  d3 $ stack [n "0(3,8)",
+              n "8(14,<16 17 16 15>,2)",
+              n "3(<2 3 4>,4,2)"]
+    # s "cpu2"
+  d4 $ every 4 (hurry 2) $ fast 2 $ s "~ cp"
+  d5 $ stut 5 0.7 (3/8) $ arp "<up down>" $ note "<'min'o 'min7'oo 'min9'oo>"
+    # s "gtr" # legato 1
+  d6 $ struct "t(4,4)" $ s "bskick" # n (slow 8 "0!4 8 2 1 0")
+  d7 $ struct "t(4,4)" $ s "cpu" # n 0
+  --d1 silence
+  d2 silence
+  --d3 silence
+  --d4 silence
+  d5 silence
+  --d6 silence
+  --d7 silence
+  -- # crush "16 7 4"
 
-d5 $ struct "t(<4 3 3 <3 7>>,8)" $ s "mars_kits_CR78_Kit_2" # n "[6, 8]"
-  # gain (range 1.1 1.2 (slow 7 sine))
+hush
 
-d6 $ struct "t(11,16,14)" $ s "mars_kits_SDSV_Assorted_2" # room 0.2 # sz 0.97
-  # lpf (slow 3 "0 300 3000 0 7000 4000") # n 0
+-- 11:38 19-Mar-22
+do -- c
+  setcps (122/60/4)
+  d1 $ every' 4 1 (# gain "0 1")
+    $ struct "t(<4 3>,8)" $ s "808bd" # n "[4, 5]" -- "<0 3 0 [0 1] 2 1>"
+  d2 $ every 8 (# sz "0 0.9") $ n "~ 3 ~ <2 4 3 5>" # s "realclaps" # room 0.3 # sz 0
+  d3 $ every 8 (off 0.125 (# crush "2 3 4 7"))
+    -- $ every 4 (struct "t(9,16,1)") -- $ s "lpmr" # n 832
+    -- $ rotR (5/8)
+    $ struct "t(3,8,2)"
+    $ note "<b6'min7'io e5'min7'o>" # s "mars_synths_DX100_Vibes" # n "<0 0 2 4>"
+    # delay 0.7 # delayt (3/17) # gain 0.76
+    # speed (range 0.997 1.001 (slow 7 $ sine))
+  d4 $ rotR (1/32) $ n "0*16" # s "mars_kits_LM1_High_Hats" # gain (range 0.8 0.95 (slow 16 $ sine))
+  d5 $ note "e4(<5 3 5>,7) <b2 b3>" # s "flbass" # n 8
+  d6 $ arp "up" (note "'min9'o" + note "e4(<5 3 5>,7) <b2 b3>") # s "uku" # n 5
+  d7 $ every 8 (slice 16 "15 14 13 . 8 . 7 8 5 0 . 0 1 2 3")
+    $ every' 8 7 (# gain "1 0 1")
+    $ every' 8 4 (# gain "0 1 0")
+    $ every' 8 6 (rev)
+    $ every' 8 1 (+ note "7")
+    $ s "reggae/2" #  n 47 # speed 1.03 # bpf 800 # gain 1.7 # crush 12
+  d8 $ slice 8 "<3 7> 3(3,8) 2 ~ 1 0" $ slow 2 $ note "0 . 5" # s "lpmr" # n 832
+    # room 0.8 # sz 0.8 # gain 0.8 # lpf 1300 # distort "0 0.3 0.2" # speed 1.027
+  d1 silence
+  d2 silence
+  d3 silence
+  d4 silence
+  --d5 silence
+  d6 silence
+  --d7 silence
+  d8 silence
 
-d7 $ struct "t(<5 7 7 3>,16,14)"
-  $ s "mars_kits_SDSV_Assorted_2" -- # room 0.2 # sz 0.97
-  # n (slow 4 "<3 2 [3 5 3] [2 8 7 7]>")
+hush
+
+do
+  setcps (110/60/4)
+  d1 $ every 4 (fast 2)
+    $ every 4 (# distort 0)
+    $ every 4 (# legato 4)
+    $ every 2 (struct "t(7,8,2)")
+    $ note "b <b e> b b ~ e e b"
+    + note (slow 8 "0 0 5 4") # s "jrhodes" # n 3
+    # distort (slow 4 "0.1 0.1 0.2 0.7") # legato 1
+  d2 $ struct "t(4,4)" $ s "808bd" # n 4 # gain 1.1
+  d3 $ struct "t(<11 13 15>,16,2)" $ s "h2ogmhh"
+    # shape (range 0.1 0.3 (fast "<7 8 9>" $ saw)) # gain 0.87
+    # crush (every "2 3 4" (fast 2) $ slow 8 "2 7 4 7 4 8 4 9 3 7 3 4 3")
+  --d1 silence
+  d2 silence
+  d3 silence
+
+hush
+
+-- 19:25 19-Mar-22
+do
+  setcps (120/60/7)
+  let key = speed (slow 4 "1 1 1 1 0.7 0.5")
+  d1 $ every 3 (# speed (range 0.5 1.5 (fast 7 $ sine)))
+    $ every 4 (# crush "8 3 2")
+    $ every 4 (hurry 2)
+    $ fast 2 $ n "[5,<13 14 15 16>](4,7)" # s "mars_kits_DX_Kit_1"
+    # key
+  d2 $ s "808bd(<5 6 6 6 4 6>,7)" # n "[3, 4]" # gain 1.3 # key
+  d3 $ every 4 (ghost)
+    $ note "<0 0'min7>"
+    + note "0 <3 3 3 3(3,7)> <-2 0> 0 3 4 4" # s "jrhodes" # key # legato 1
+  d1 silence
+  --d2 silence
+  d3 silence
+  
+hush
+
+-- 21:06 19-Mar-22
+do -- d
+  setcps (84/60/4)
+  d1 $ struct "t ~ <t t t [t t ~ t]> ~" $ s "lpmr"
+    # n 615 # gain 1.1
+  d2 $ loopAt 2 $ s "lpmr" # n 758
+  d3 $ every 8 (slice 16 "14 15 14 13 13 ~ 3 2 8 1 2")
+    -- $ always (# nudge (slow 8 "0.25 0.25 0.125 0.25"))
+    $ loopAt 2 $ s "lpmr" # n 767
+  d4 $ every 3 (stut 3 0.7 0.125)
+    $ every 4 (stut 2 0.8 0.133)
+    $ every 8 (+ n (-2))
+    $ rotR 0.125
+    $ slow 8 $ note "0!4 . 0 0 5 4 . 3 4 5 5 . 3 0 1 0" # s "flbass" # n 3
+  d5 $ slow 8 $ note "0 2 3 5" # s "lpmr" # n 1008 # legato 1 # decay 0.8 # sustain 0.3 # release 1
+     # room 0.3 # sz 0.8 # gain 0.8
+  d6 $ every 8 (+ note "-4 [-4 -3] -5 -3")
+    $ every 8 (# lpf "1000 2000 3000 5000")
+    -- $ every 8 (fast 2)
+    $ rotR (1/8) $ every 2 palindrome $ note "4 4 5 3" # s "strum"
+    # delay 0.3 # delayt (3/8) # room 0.7 # sz 0.9 # lpf 500
+  d7 $ every 4 (# lpf "300 500 1000 2000")
+    $ note (slow 3 "0 0 4 5") + note "<'min7'io 'min9'o 'min7'oo>"
+    # s "mars_synths_DrSample_80s_Piano" # n 0 # room 0.5 # sz 0.9
+  d1 silence
+  --d2 silence
+  d3 silence
+  d4 silence
+  d5 silence
+  d6 silence
+  d7 silence -- enter
+
+-- thanks everyone for the listen!!!!!!!!
+-- much love
 
 hush
 
