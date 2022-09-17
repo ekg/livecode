@@ -126,7 +126,7 @@ do
     $ slow 2 $ struct "t(3,8)" $ note "0 2 -2 1" # s "lpmr" # n 888 # release 0.7
 
 hush
-
+panic
 -- 17:52 11-Jun-22
 
 do
@@ -144,6 +144,13 @@ do
     $ ghost $ ghost
     $ struct "t(<13 13 15 13 13>,18,16)" $ s "lpmr" # n "[782, 784, [799 815], 799]"
     # hpf "5000 5000 5000 2000" # lpf "5000" # speed (slow 4 "0.623 0.7777 0.6666 0.922")
+  --d1 silence
+  --d2 silence
+  d3 silence
+  d4 silence
+  d5 silence
+  d6 silence
+  --map (silence) [d1, d2, d3, d4, d5, d6]
 
 
 hush
@@ -242,7 +249,7 @@ do
   d1 $ s "kick*4" # gain 1 # n 3 # lpf 300 
   d2 $ struct "t(<7 3 7 3>,8,1)" $ s "808mc"
     # speed "0.5" # legato 0.5 # lpf 300 # gain 1.3 # crush (slow 8 "8!3 3")
-  d4 $ stut 2 0.3 (3/16) $ n "382 999 832 <992 998 999 ~>" # s "mars"
+  d5 $ stut 2 0.3 (3/16) $ n "382 999 832 <992 998 999 ~>" # s "mars"
   d4 $ note "~ 'min7" + note "<-12 -7 -12 -5>" # s "superpiano" # velocity 0.7
     # gain (range 1 1.9 (slow 8 sine))
     -- # gain 1.2 # room 0.9 # sz 0.99
@@ -250,8 +257,11 @@ do
 
 -- "beyyo" 16:52 07-Aug-22
 
+hush
+
 do
-  --hush
+  hush
+  let silences x = sequence $ map ($ silence) x
   setcps (120/60/4)
   let stuff = (slow 8 $ note "0 7 5 7 3 4")
   d5 $ arp "up" $ note "~ 'min7'o" + note "<-12 -7 -12 -5>" -- + stuff
@@ -269,10 +279,12 @@ do
     $ loopAt 1 $ struct "t(2,4,2)"
     $ s "<mars:2143 mars:2144 mars:3492 mars:3484>"
   -- # legato 1
+  silences [d1, d3, d4]
 
 panic
 
 hush
+
 
 -- "beyyo" 17:06 07-Aug-22
 
@@ -304,7 +316,9 @@ do
 hush
 
 do
+  hush
   setcps (127/60/4)
+  let silences x = sequence $ map ($ silence) x
   d1 $ loopAt 2 $ s "lpviz" # n 388
   d2 $ loopAt 4 $ s "lpviz" # n 389
   d3 $ slice 16 "<0 11 13 7> 6 ~ [2 <3 9 0 13 8> 7 8] 5 11 ~ 0"
@@ -312,5 +326,290 @@ do
   d4 $ struct "t(3,8)" $ s "reggae" # n 99 # rel 0.3 # begin "0 0.5" # gain 1.1
   d5 $ struct "t(<5!7 7>,8)" $ s "reggae" # n 99 # rel 0.3 # begin "0 0.2 0.5 0.9" # gain 1.3
   d6 $ struct "~ t ~ t ~ t ~ t" $ s "flbass" # rel 0.4 # note "<0 0 3 7>"
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+  --d6 silence
+  silences [
+    d1,
+    d2,
+    d3,
+    d4,
+    --d5
+    d6
+    ]
+
+do
+    hush
+    setcps (127/60/4)
+    let silences x = sequence $ map ($ silence) x
+    d1 $ struct "t(3,8)" $ s "reggae" # n 99 # rel 0.3 # begin "0 0.5" # gain 1.1
+      # speed (range 0.9 1.1 (slow 4 sine))
+    d2 $ struct "t(5,8,2)"
+      $ struct "t(13,16,<7 9>)" $ s "reggae" # n 201 # rel 0.4 # begin "0.2 0.1" # gain 1
+      # speed (range 0.9 1.13 (slow 4 sine)) # bpf 1000
 
 
+do
+  hush
+  setcps (127/60/4)
+  let silences x = sequence $ map ($ silence) x
+  d5 $ struct "t(<5!7 7>,8)" $ s "reggae" # n 99 # rel 0.3 # begin "0 0.2 0.5 0.9" # gain 1.3
+  d1 $ n "0(3,8)" # s "cpu2" # gain 1.2
+  d2 $ struct "t(<2!7 5>,<4!7 8>,<2!7 3>)" $ n "3029" # s "mars" # legato 1
+  d3 $ struct "t(3,8)" $ s "flbass" # n 3 # note "<0 3 0 3>"
+
+hush
+
+do
+  hush
+  setcps (90/60/4)
+  d1 $ stack [n "0*4", n "8*2"] # s "cpu"
+  d2 $ n "0 0 ~ 0 0 ~" + n "-4" # s "flbass" # legato 1
+  d3 $ slow 2 $ n "<[7 3 3 7 0 0] [7 12 12 ~ 4 3 3 ~]>" + n "-4"
+    # stack [s "arpy",
+              n "-24" # s "supervibe"]
+    # speed "<0.125 0.25>" # room 0.8 # sz 0.3 # squiz 0.8
+
+hush
+
+-- sock <- carabiner tidal 4 (-0.23)
+hush
+
+do
+  hush
+  setcps (90/60/4)
+  d1 $ n "0*4" # s "cpu2"
+  d2 $ sew "t(5,16)"
+    (chop 16 $ slice 8 (slow 2 "2 38 2 8 1 9 9 39 ") $ loopAt 2 $ s "lpviz" # n 392)
+    (chop 16 $ loopAt 2 $ s "lpviz" # n 392)
+  --d3 silence -- $ s "808oh*16" # gain (range 0.5 0.75 (fast 7 $ sine))
+
+-- thick
+do
+  hush
+  setcps (100/60/4)
+  d1 $ chop 8 $ loopAt 2 $ n "469" # s "lpmr"
+  d2 $ chop 16 $ loopAt 2 $ n "329" # s "lpviz"
+  d3 $ n "0(<4!3 <3 [5 7]>>,8)"
+    # stack [s "mars" # n 469 # begin 0.01,
+             s "808bd" # n 3 # distort "<0.1 0.03 0.05 0.2>"]
+    -- # gain 1.2
+
+hush
+
+-- deepness
+-- "beyyo" 11:22 15-Aug-22
+do
+  hush
+  setcps (75/60/4)
+  let swing = nudge 0 -- (fast 8 "-0.005 0.01")
+  d1 $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "329" # s "reggae" # swing
+  d2 $ rev $ rotR (1/8) $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "329" # s "reggae" # swing
+  d3 $ jux rev $ rotR (3/8) $ always (# speed 4) $ chop 8 $ loopAt 2 $ n "329" # s "reggae" # swing
+  d4 $ every 4 (# gain 1)
+    $ chop 8
+    $ loopAt 1 $ n "329" # s "reggae"
+    # gain 0 # swing
+  d5 $ struct "t(2,8)" $ s "cpu2" # n 0 # swing
+  d6 $ struct "t(2,8,2)" $ s "cpu2" # n 2 # swing
+  d7 $ every 8 (struct "t(28,32,11)") $ struct "t(14,16,11)" $ s "mars" # n 1048 # release (fast 7 "0.05 0.3 0.03 0.1") # swing
+
+
+hush
+
+do
+  hush
+  setcps (75/60/4)
+  let swing = nudge (fast 7 "-0.005 0.005 0.002")
+  --d1 $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "992" # s "reggae" # swing
+  --d2 $ rev $ rotR (1/8) $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "993" # s "reggae" # swing
+  -- d2 $ rev $ rotR (1/8) $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "<993 889>" # s "reggae" # swing
+  d3 $ struct "t(7,16)" $ s "cpu2" # n 0
+  d4 $ struct "t(4,16,4)" $ s "realclaps" # n 0
+
+-- "beyyo" 15:23 16-Aug-22
+-- e should sleeepx
+do
+  hush
+  setcps (89/60/4)
+  let swing = nudge (fast 7 "-0.005 0.005 0.002")
+  d1 $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "983" # s "lpviz" # swing
+  d2 $ rev $always (# speed 0.5) $ chop 8 $ loopAt 2 $ n "913" # s "lpmr" # swing
+  -- d2 $ rev $ rotR (1/8) $ always (# speed 2) $ chop 8 $ loopAt 2 $ n "<993 889>" # s "reggae" # swing
+  d3 $ struct "t(7,16)" $ s "cpu2" # n 0
+  --d4 $ struct "t(4,16,4)" $ s "realclaps" # n 0
+
+hush
+
+-- "beyyo" 19:28 16-Aug-22
+do
+  hush
+  setcps (89/60/4)
+  let swing = always (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+  --d1 $ swing $ chop 8 $ loopAt 2 $ s "reggae" # n 30
+  --d2 $ swing $ slice 16 "9 2  8 2 8 288 19 3 1482 " $ chop 16 $ loopAt 2 $ s "lpviz" # n 390
+  d2 $ swing $ every 4 (fast "2 4 7 2") $ struct "t(4,4)" $ s "808bd" # n 3 # gain 1.5
+  d3 $ swing $ every 4 (struct "t(11,22,3)")
+    $ struct "t(11,16,14)" $ s "808oh" # n 3 # gain (fast 9 "1 0.95 1.05")
+    # speed (fast 19 "1 0.95 1.05")
+  d4 $ struct "t(2,4,2)" $ s "realclaps" # n "[3, 1, 0]" # gain (range 0.5 1.1 (slow 8 sine))
+  d5 $ struct "t(2,4,2)" $ s "cp" # gain 1.5 # room 0 # sz 0.9
+  d6 $ s "hh*16" # gain 1.3
+
+
+-- "beyyo" 19:28 16-Aug-22
+do
+  hush
+  setcps (89/60/4)
+  let swing = always (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+  --d1 $ swing $ chop 8 $ loopAt 2 $ s "reggae" # n 30
+  --d2 $ swing $ slice 16 "9 2  8 2 8 288 19 3 1482 " $ chop 16 $ loopAt 2 $ s "lpviz" # n 390
+  d2 $ swing $ every 4 (fast "2 4 7 2") $ struct "t(4,4)" $ s "808bd" # n 3 # gain 1.5
+  d3 $ swing $ every 4 (struct "t(11,22,3)")
+    $ stut 2 0.5 (3/16)
+    $ struct "t(11,16,14)" $ chop 16 $ loopAt 2
+    $ s "reggae" # n "<3 103 18>" # gain (fast 9 "1 0.95 1.05")
+    # speed (fast 19 "1 0.95 1.05")
+  --d4 $ struct "t(2,4,2)" $ s "realclaps" # n "[3, 1, 0]" # gain (range 0.5 1.1 (slow 8 sine))
+  --d5 $ struct "t(2,4,2)" $ s "cp" # gain 1.5 # room 0 # sz 0.9
+  --d6 $ s "hh*16" # gain 1.3
+
+hush
+
+-- "beyyo" 15:14 17-Aug-22
+do
+  hush
+  setcps (99/60/4)
+  let swing = always (# nudge (fast "9 13" "-0.005 0.005 0.002 -0.003"))
+  --d1 $ struct "t(2,4,2)" $ s "mars" # n 1079
+  d2 $ struct "t(<4 4 4 7>,8,<0!8 1>)" $ s "mars"
+    # stack [n 75 # speed 0.5,
+              every 4 (stut 2 0.7 (1/8)) $ struct "t(2,8)" $ n 89 # speed "2 <2 1 2 0.5>",
+              n 79 # speed 0.75]
+
+
+hush
+
+do
+  hush
+  setcps (99/60/4)
+  let swing = always (# nudge (fast "9 13" "-0.005 0.005 0.002 -0.003"))
+  d1 $ swing $ struct "t(<3 5 7 16>,8,2)" $ s "reggae" # n 303
+    # speed "-1 1 -1" # release (fast 7 $ struct "t(11,16,11)" $ (slow 7 "0.2 0.3 0.7"))
+  d2 $ swing $ slice (fast 3 "8 9 17 42 42 9 21") 9 $ chop 32 $ loopAt 4 $ s "lpviz" # n 191
+  d3 $ swing $ off (1/16) (# speed "-1 -0.75") $ struct "t(3,8)" $ s "kick" # lpf (slow 16 "400!8 800 400!6 1200")
+  d4 $swing $ struct "<t(4,4) t(4,4) t(3,8,3) t(5,8,2) t(4,4) t(3,8) t(4,4)>"
+    $ s "808bd" # n "[3, 7]" # gain 0.87
+  --d5 $ stut 32 0.7 (3/19)
+    -- $ swing $ struct "t(<11!3 0>,16,14)" $ s "mars" # n "<883 882 901 7>"
+    -- # lpf (range 0 1000 (slow 2 sine))
+  d5 $ swing $ struct "t(<11!3 <0 13>>,16,14)" $ s "mars" # n "<883 882 901 7>" # cut 3
+    -- # lpf (range 0 1000 (slow 2 sine))
+  d6 $ every 4 (stut 7 0.3 (3/16)) $ struct "t(<3 <0 2 3 7>>,8,2)"
+    $ note "'min7" + note "1" # s "jrhodes" # n 3
+    # velocity 0.8 # gain 1.1 # release 0.3 -- # distort 3 # room 0.8 # sz 0.3
+
+hush
+
+
+-- "beyyo" 09:54 18-Aug-22
+do
+  hush
+  setcps (90/60/4)
+  d1 $ rev $ chop 32 $ rev $ chop 16 $ loopAt 2 $ s "reggae" # speed "-1" # n 9
+  d2 $ fast 4 $ s "cpu2" # n 0
+  --d3 $ slow 2 $ note "cs gs . bf" # "moog" # n 0 # legato 1
+  d4 $ every 4 (slice 16 "8 9 3 2 1")
+    $ chop 8 $ loopAt 2 $ s "lpviz" # n "38" # lpf (range 500 2000 (slow 8 sine))
+    # room 0.4 # sz 0.98 # gain 0.65
+  d5 $ chop 8 $ loopAt 4 $ s "lpviz" # n "38" # lpf (slow 4 "2000!5 10000")
+    # room 0.6 # sz 0.99 # gain 0.6
+
+hush
+
+
+-- "beyyo" 11:00 18-Aug-22
+do
+  hush
+  setcps (90/60/4)
+  d1 $ chop 8 $ slice 8 "7 6 5 4 3 2 1 0" $ loopAt 2 $ s "lpviz" # n "<170 172>" # cut 1
+  --d2 $ slow 1 $ slice 8 "0 1 2 . 7 3 1 0" $ chop 16 $ loopAt 1 $ s "lpviz" # n "<198>" # cut 1
+  --d3 $ chop 8 $ loopAt 2 $ s "lpviz" # n "<198>" # cut 1
+  --d4 $ struct "t(4,4)" $ s "mars" # n 477 #  gain 1.2
+  --d5 $ struct "t(3,8,<0 1>)" $ fast 2 $ note "0 <2 2 2 2 3 3 7 7>"
+  --  # s "mars" # n 3723 # gain 1.2 # speed 1 # lpf 2000
+  --d6 $ struct "t(2,4,2)" $ s "mars" # n 1012
+  --d7 $ struct "t(11,16,14)" $ s "mars" # n 2429 # legato 1
+
+
+hush
+
+do
+  hush
+  setcps (84/60/4)
+  d1 $ sometimes (arp "up") $ slow 8 $ note "cs gs . bf . ef gs cs . cs bf" + note "'min7"
+    # s "jrhodes" # n 2 # release 2 # attack 0
+    # delay 0.7 # delayt (3/8) # delayfb 0.88 # speed 2
+    -- # room 0.7 # sz 0.9
+    # gain 0.8
+  -- d2 $ struct "t(3,8)" $ s "cpu" # n 0 # lpf 2000
+  -- d3 $ struct "t(2,4,2)" $ s "cpu2" # n 2
+
+hush
+
+
+-- six millian ways
+-- "beyyo" 19:40 20-Aug-22
+do
+  hush
+  setcps (89/60/4)
+  d1 $ struct "t(3,8)" $ s "cpu2" # n "0" # gain 1
+  d2 $ struct "t(<5 3 5 4>,8,1)" $ s "cpu2" # n "<19 22 83  19>" # gain 1
+  d3 $ struct "t(4,8)" $ stack [s "cpu" # n "0" # gain 1 # begin 0.01,
+                                s "808bd:3" # begin 0.01]
+  d4 $ every' 3 1 (# gain 0)
+    $ every 2 ((# speed 1.5).(# legato 0.93).(# begin (fast 7 "< 0.1 0.2 0.15>")))
+    $ loopAt 1 $ struct "t(3,8)" $ s "reggae" # n "1" # gain 1 # cut 1
+
+
+do
+  d1 $ struct "t(4,13)" $ s "cp"
+  d2 $ struct "t(5,13)" $ s "hh"
+  d3 $ struct "t(1,13)" $ s "bd"
+  
+
+do
+  d1 $ struct "t(11,24)" $ s "808oh"
+  d2 $ struct "t(13,24)" $ s "808mt"
+
+
+hush
+
+
+do
+  setcps (100/60/4)
+  d1 $ struct "t(11,16)" $ s "808oh"
+  d2 $ struct "t(13,16)" $ s "<808mt 808mc>" # n "<0 3 4 7>"
+  d3 $ s "bd*4"
+  d4 $ n "0(7,16,1)" # s "realclaps" + n (every 4 (fast "3 2 4") $ slow "<9 0.1 11 0.3>" "0 3 2 1 3 1")
+
+hush
+
+do
+  hush
+  setcps (112/60/4)
+  d1 $ struct "t(7,17)" $ stack [s "mars" # n 477]
+  d2 $ struct "t(4,17)" $ s "808bd" # n 4 # gain 1.3 -- s "mars" # n 138
+  d3 $ stut 5 0.6 (4/17)
+    $ struct "t(3,17,3)" $ note "'min7" + note "<0 7 0 <3 12>>" # s "mars" # n 4271 # legato 1
+  d4 $ stut 3 "0.8 0.7 0.6" (3/17)
+    $ struct "t(4,17,0)" $ note "<0 7 0 <3 12>>" # s "flbass" # n 3 # legato 1
+  d5 $ every' 4 3 (stut 8 0.8 (1/17)) $ struct "t(<2!3 1>,17,<8!2 7>)" $ s "cp"
+  d6 $ struct "t(11,17,8)" $ chop 8 $ loopAt 2 $ s "reggae" # n 95
+  --d4 $ struct "t(7,17,3)" $ chop 16 $ s "mars" # n 4930
+  --d2 $
+
+hush
