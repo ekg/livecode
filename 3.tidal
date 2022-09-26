@@ -613,3 +613,76 @@ do
   --d2 $
 
 hush
+
+-- "beyyo" 18:16 25-Sep-22
+do
+setcps (111/60/4)
+d1 $ every 3 (# crush "16 <[2 3] 6> 4")
+  $ stack [
+  slice 16 "3 28  1 3 1 9" $ s "bd sd hh <bd ~ bd> <sd cp [hh hh]> hh"
+  , note "<c4'min g4'min a4'min7 f4'min7>" # s "mars" # n "4309" # legato 1
+    # orbit 1 # room 0.3 # sz 0.9 # gain 0.9
+  , fast 8 $ note "<<~ c4'min> <~ g4'min ~> <a4'min7 ~ ~ ~> f4'maj>"
+    # s "mars" # n "<144  32 5  25 2525252 4399>" # legato 1
+    # orbit 2 # room 0.3 # sz 0.9 # gain 0.8 # lpf 2000 # speed 0.5
+  , every 8 (hurry 2)
+    $ every 4 (rev) $ note "a4'min7" + note "<0 0 <0 7 2> -5>" # s "uku"
+  , -- stut 4 0.75 0.25 $
+    loopAt 1 $ chop 8
+    $ s "mars" # n "99" # speed "<1 1.33 0.66 1>"
+  ]
+
+hush
+
+do
+setcps (120/60/4)
+let scala = "major"
+d1 $ stut 7 (range 0.75 0.99 (fast 7 sine)) (1/16)
+  $ slow 4 $ note (scale scala "0 1 2 3 4 5 6 7") # s "superpiano"
+d2 $ rotR 2.25 $ stut 7 (range 0.75 0.99 (fast 7 sine)) (1/16)
+  $ slow 4 $ note (scale scala "0 1 2 3 4 5 6 7") # s "superpiano"
+d3 $ rotR 0.75 $ stut 7 (range 0.75 0.99 (fast 7 sine)) (1/16)
+  $ slow 4 $ note (scale scala "7 1 1 3 0 5 6 7") # s "superpiano"
+d4 $ struct "t(4,4)" $ n 0 # s "cpu2"
+d4 silence
+
+hush
+
+-- "beyyo" 20:45 25-Sep-22
+
+setcps (120/60/4)
+
+d1 $ s "bd*4"
+
+d2 $ s "cp*2"
+
+d3 $ s "hh(7,16)"
+
+d4 $ n "3(4,8,2)" # s "flbass" # speed "-1"
+
+d5 $ s "mars" # n 3829
+
+hush
+
+-- "beyyo" 18:31 26-Sep-22
+
+do
+setcps (120/60/4)
+d1 $ every 4 (# room "0 0 0.8 0").(# sz 0.8)
+  $ stack [
+  every 8 (fast "2 3 7") $ loopAt 2 $ s "reggae" # n "293"
+  , every 8 ((# speed (-1)).(fast 2))
+    $ slice 16 "3 <2 ~> <9 ~ ~ 7> <1 7 9> 3" $ loopAt 2
+    $ s "reggae" # n "<387!2 386 385>" # gain 0.9
+  , n "0 ~ 0 ~" # s "cpu2"
+  , struct "t(4,8,1)" $ n (fast 7 "3828 3827 3826") # s "mars" # legato 1
+  , struct "~ ~ t ~" $ s "realclaps"
+  , every 4 (fast 3) $ struct "~ ~ t ~" $ s "mars" # n 1279 # gain 1.2
+  , every 4 (slice 8 "7 6 2 5 9 1 1 1") $ loopAt 1 $ s "reggae" # n 9
+  ]
+
+xfade 1 $ every 4 (# room "0 0 0.9 0").(# sz "0.9") $ struct "t(<7 7 5 3>,<8 8 8 16>)" $ s "mars" # n (run 8)
+
+hush
+
+scaleList
