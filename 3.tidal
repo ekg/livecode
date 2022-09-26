@@ -681,7 +681,14 @@ d1 $ every 4 (# room "0 0 0.8 0").(# sz 0.8)
   , every 4 (slice 8 "7 6 2 5 9 1 1 1") $ loopAt 1 $ s "reggae" # n 9
   ]
 
-xfade 1 $ every 4 (# room "0 0 0.9 0").(# sz "0.9") $ struct "t(<7 7 5 3>,<8 8 8 16>)" $ s "mars" # n (run 8)
+xfadeIn 1 8 $ every 4 (# room "0 0 0.9 0").(# sz "0.9") $ struct "t(<7 7 5 3>,<8 8 8 16>)" $ s "mars" # n (run 8)
+
+do
+setcps (120/60/4)
+d1 $ slow 2 $ note "'min7" + note "<0 -3 -7 -5>" # s "mars" # n 111987 # legato 1 # room 0.7 # sz 0.6 # release 1.3
+d2 $ struct "t(3,8)" $ s "kick" # n 8
+d3 $ slow 2 $ note "~ [-7 -5 0 ~ -3]" # s "mars" # n 38880 # legato 1 # speed 1.02
+d4 $ note (cat [" ", "-7 -5 0 -3", " ", "5 ~ 7(3,8)"]) # s "blip" # n 1 # legato 1 # delay 0.5 # delayfb 0.7 # delayt "<0.1 0.14>"
 
 hush
 
