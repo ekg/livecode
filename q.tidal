@@ -162,7 +162,9 @@ s "clubkick*[6|12|24]*6" |+ note 2 # cutoff 200
 ,s "[~ 808:1 808:4 ~]*[6|3]*3" # legato 1
 ]
 
+#d1 $ s "bd*[6|12|24]*6" |+ note 2 # cutoff 200
 
+d1 $ s "bd*4"
 
 stutWith 4 (1/12) ((|* gain 0.9) . (|+ note 12) . (|+ pan 0.1)) $
 note "[0,3,7,9](5,12)" |+ note 12 |+ note"<1 3>" # s "juno"

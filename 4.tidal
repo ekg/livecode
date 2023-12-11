@@ -1,0 +1,605 @@
+-- "figo" 16:32 10-Dec-23
+
+-- description of synths
+
+-- Basic instruments
+-- Default values are in parentheses. In all synths, sustain (default 1) affects the overall envelope timescale. The parameters pan and freq can also be set in all synths. The default value for freq is usually 440 – in synths where it’s not, freq and its default value for that synth are mentioned in its parameter list below.
+-- 
+-- CAUTION
+-- Some undocumented parameters are included without descriptions.
+-- 
+-- Additive synthesis
+-- Supergong
+-- An example of additive synthesis, building up a gong-like noise from a sum of sine-wave harmonics. Notice how the envelope timescale and amplitude can be scaled as a function of the harmonic frequency.
+-- 
+-- voice (0): provides something like a tone knob
+-- decay (1): adjusts how the harmonics decay
+-- accelerate (0): for pitch glide
+-- d1 $ n (slow 2 $ fmap (*7) $ run 8)
+--   # s "supergong"
+--   # decay "[1 0.2]/4"
+--   # voice "[0.5 0]/8"
+-- 
+-- Substractive synthesis
+-- Supersquare
+-- A moog-inspired square-wave synth; variable-width pulses with filter frequency modulated by an LFO:
+-- 
+-- voice: controls the pulse width (exactly zero or one will make no sound)
+-- decay (0): the decay
+-- accelerate (0): pitch glide
+-- semitone (12): how far off in pitch the secondary oscillator is (need not be integer)
+-- resonance (0.2): filter resonance
+-- lfo (1): how much the LFO affects the filter frequency
+-- rate (1): LFO rate
+-- pitch1 (1): filter frequency scaling multiplier, the frequency itself follows the pitch set by “n”
+-- Supersaw
+-- A moog-inspired sawtooth synth; slightly detuned saws with triangle harmonics, filter frequency modulated by LFO:
+-- 
+-- voice (0.5): controls a relative phase and detune amount
+-- decay (0)
+-- accelerate (0): pitch glide
+-- semitone (12): how far off in pitch the secondary oscillator is (need not be integer)
+-- resonance (0.2) filter resonance
+-- lfo (1) how much the LFO affects the filter frequency
+-- rate (1): LFO rate
+-- pitch1 (1): filter frequency scaling multiplier, the frequency itself follows the pitch set by “n”
+-- Superpwm
+-- A moog-inspired PWM synth; pulses multiplied by phase-shifted pulses, double filtering with an envelope on the second
+-- 
+-- voice: controls the phase shift rate
+-- decay (0): decay.
+-- accelerate (0): pitch glide
+-- semitone (12): how far off in pitch the secondary oscillator is (need not be integer)
+-- resonance (0.2): filter resonance
+-- lfo (1): how much the LFO affects the filter frequency
+-- rate (1): LFO rate
+-- pitch1 (1): filter frequency scaling multiplier, the frequency itself follows the pitch set by “n”
+-- Superchip
+-- Uses the Atari ST emulation UGen with 3 oscillators:
+-- 
+-- slide (0): for a linear frequency glide
+-- rate (1): repeats the above glide “n” times (can be fractional or negative)
+-- accelerate (0): for an overall glide
+-- pitch2 (2): control the ratio of harmonics
+-- pitch3 (3): control the ratio of harmonics
+-- voice (0): causes variations in the levels of the 3 oscillators
+-- Superhoover
+-- Hoover, adapted from Wouter Snoei’s implementation:
+-- 
+-- slide (0): for the amount of initial pitch glide, positive slides up in pitch, negative slides down
+-- decay (0): for a different envelope shape
+-- accelerate (0): for constant pitch glide
+-- Superzow
+-- Phased saws:
+-- 
+-- decay (0): for envelope shaping
+-- accelerate (0): for pitch bend
+-- slide (1): how fast it moves through the phase
+-- detune (1): for oscillator detuning
+-- Supertron
+-- Feedback PWM:
+-- 
+-- accelerate (0): pitch-glide
+-- voice (0): number of voices
+-- detune (0): detune amount
+-- d1 $ s "supertron"
+--   # octave 3
+--   # accelerate "0.2"
+-- 
+-- Superreese
+-- Vaguely Reese-like synth:
+-- 
+-- accelerate (0): pitch-glide.
+-- voice (0): number of voices
+-- detune (0): detune amount
+-- Supernoise
+-- Digital noise in several flavors with a bandpass filter:
+-- 
+-- Superstatic
+-- Impulse noise with a fadein/fadeout.
+-- 
+-- voice: at 0 is a digital noise for which “n” controls rate, at 1 is Brown+White noise for which “n” controls knee frequency
+-- accelerate: causes glide in n, “rate” will cause it to repeat
+-- pitch1: scales the bandpass frequency (which tracks “n”)
+-- slide: works like accelerate on the bandpass
+-- resonance: is the filter resonance
+-- Supercomparator
+-- voice (0.5): scales the comparator frequencies, higher values will sound “breathier”
+-- decay (0)
+-- accelerate (0): pitch glide
+-- resonance (0.5): filter resonance
+-- lfo (1): how much the LFO affects the filter frequency
+-- rate (1): LFO rate
+-- pitch1 (1): filter frequency scaling multiplier, the frequency itself follows the pitch set by “n”
+-- Physical modelling
+-- Supermandolin
+-- Physical modeling of a vibrating string, using a delay line (CombL) excited by an intial pulse (Impulse). To make it a bit richer, I’ve combined two slightly detuned delay lines:
+-- 
+-- sustain (1): changes the envelope timescale
+-- accelerate (0): pitch-glide
+-- detune (0.2): detune amount
+-- Superpiano
+-- Hooking into a nice synth piano already in SuperCollider:
+-- 
+-- velocity: affects how hard the keys are pressed
+-- sustain: controls envelope and decay time
+-- detune (0.1): detune amount.
+-- muffle (1)
+-- stereo (0.2): stereo amount.
+-- Superfork
+-- Tuning fork from Ben Gold’s experimentation and from “On the acoustics of tuning forks”, Rossing Russell and Brown:
+-- 
+-- accelerate (0): pitch-glide amount.
+-- Superhammond
+-- Hammond B3 sim. Frequency adjustments courtesy of Tom Wiltshire:
+-- 
+-- perc, percf and decay: an attempt at the percussion, no idea if it sounds at all reasonable. Vintage Hammonds had percf as 2 or 3 (switchable), two perc levels (maybe roughly 0.7 and 1.2?), and two decay options (roughly 0 and maybe 1ish?)
+-- vibrato, vrate, perc, percf: new parameters you’ll need to define in Tidal if you want to change them.
+-- Voices are drawbar presets:
+-- 
+-- 0. bass violin 16’
+-- 1. tibia 8’
+-- 2. bassoon 8’
+-- 3. french trumpet 8’
+-- 4. string ensemble
+-- 5. Blues
+-- 6. Jazz 1
+-- 7. Full Shout
+-- 8. Bro’ Jack
+-- 9. Jazz 2
+-- Supervibe
+-- Vibraphone simulation, adapted with some help from Kevin Larke’s thesis Real Time Vibraphone Pitch and Timbre Classification:
+-- 
+-- decay (0): use larger values to damp higher harmonics
+-- velocity (1): higher velocity will brighten the sound a bit
+-- accelerate (0): for a linear pitch bend
+-- modamp (1): amplitude of the tremolo (0-2 is OK)
+-- modfreq (7): frequency of the tremolo
+-- detune (0): adjusts a high harmonic to give the sound a different character
+-- FM synthesis
+-- Superfm
+-- 6 operator FM synth (DX7-like). Works a bit different from the original DX7. Instead of algorithms, you set the amount of modulation every operator receives from other operators and itself (feedback), virtually providing an endless number of possible combinations (algorithms).
+-- 
+-- Addition reference sources:
+-- 
+-- superfm super-tutorial by Loopier (aka Roger Pibernat) who created superfm.
+-- Club Tidal superfm thread: discussion on various ways to load and use the parameter variables.
+-- GitHub source of superfm variables for Tidal
+-- TIP
+-- To use superfm, you need to initialize all of the parameter variables you will use. Get the full list from the GitHub source (above) and execute this in your editor or add it to your BootTidal.hs. If you get "Variable not in scope" error messages, then you haven't loaded the variable definitions properly.
+-- 
+-- General parameters:
+-- 
+-- voice: preset number: 0 is user-defined; 1-5 are randomly generated presets
+-- lfofreq: overall pitch modulation frequency
+-- lfodepth: overall pitch modulation amplitude
+-- Each operator (of 6) responds to:
+-- 
+-- amp: operator volume - makes the operator a carrier
+-- ratio: frequency ratio - multiple of the base frequency (default: 440)
+-- use whole numbers for harmonic, decimal values for inharmonic frequencies
+-- detune: in Hz
+-- eglevel: 1-4 (env stage), envelope generator levels (env generators have 4 stages ADSR)
+-- egrate : 1-4 (env stage), envelope generator rates
+-- The syntax for operator arguments is <argumentName + opIndex>[modulatorIndex | egIndex]. For example:
+-- 
+-- # amp1 1 : op1 as carrier with full volume
+-- # ratio2 2.3 : op2 frequency ratio of 2.3
+-- # mod12 0.78 : op1 modulation amount by op2
+-- # mod11 0.5 # feedback 1 : op1 feedback (self modulate), need to specify feedback level
+-- # detune1 0.2 : op1 detune
+-- # egrate11 0.01 : op1 EG stage 1 rate (stage 1 is the attack)
+-- # eglevel11 1 : op1 EG stage 1 level
+-- # egrate12 5 : op1 EG stage 2 rate (stage )
+-- INFO
+-- Higher env generator (egrate) values go faster!
+-- 
+-- superfm examples
+-- 
+-- d1 $ s "superfm" # n 0 #octave "<4 5 6>"
+--   #amp1 1 #amp3 1
+--   #mod11 1 #feedback 2
+--   #mod12 "0 1 2"
+--   #ratio2 3
+--   #eglevel22 0.1
+-- 
+-- -- env generator values for 4 stages on one operator
+-- d1 $ n "[0 11]/8" # "superfm" #octave 4
+--   # amp1 1
+--   # ratio2 2.5
+--   # mod12 4
+--   # egrate11 0.3 # eglevel11 1 -- slow attack
+--   # egrate12 1  # eglevel12 0.1 -- fast decay to 1/2 amp
+--   # egrate13 0.5 # eglevel13 0.8 -- 2nd amp swell
+--   # egrate14 0.4 # eglevel14 0 -- decay of mod to 0
+-- 
+-- d1 $ freq "<200 300> <400 800>" #s "superfm"
+--   # amp1 1 # amp3 1
+--   # mod12 2 # ratio2 "<8 4> 0.5 0.9 1.4 2.5"
+--   # mod34 1 # ratio3 4
+-- 
+-- superfm code examples (longer)
+-- Drum synthesis
+-- Superhex
+-- Waveguide mesh, hexagonal drum-like membrane:
+-- 
+-- rate (1): ??
+-- accelerate (0): pitch-glide amount
+-- Superkick
+-- Kick Drum using Rumble-San’s implementation as a starting point:
+-- 
+-- n: controls the kick frequency in a nonstandard way
+-- accelerate (0): sweeps the click filter frequency
+-- pitch1 (1): affects the click frequency
+-- decay (1): changes the click duration relative to the overall timescale
+-- Super808
+-- A vaguely 808-ish kick drum:
+-- 
+-- n: controls the chirp frequency
+-- rate (1): controls the filter sweep speed voice (0): sets the sinewave feedback
+-- Superhat
+-- Hi-hat using Rumble-San’s implementation as a starting point:
+-- 
+-- n: provides some variation on the frequency in a weird way
+-- accelerate (0): sweeps the filter
+-- Supersnare
+-- Snare drum using Rumble-San’s implementation as a starting point:
+-- 
+-- n for some variation on frequency
+-- decay (1): for scaling noise duration relative to tonal part
+-- accelerate (0): for tonal glide
+-- Superclap
+-- Hand clap using Rumble-San’s implementation as a starting point:
+-- 
+-- n (?): changes how spread is calculated
+-- delay (1): controls the echo delay
+-- rate (1): affects the decay time
+-- pitch1 (1): scales the bandpass frequency
+-- SOSKick
+-- Kick drum synth. Increase pitch1 and voice for interesting electronic percussion:
+-- 
+-- midinote – controls the root note of the kick (the source comments mention this, but the function doesn’t have this parameter at all)
+-- pitch1 (0): controls modulation frequency in Hz (min: 0, max: SampleRate.ir / 2)
+-- voice (1): controls modulation input phase in radians (min: 0, max: your sanity)
+-- pitch2 (0): controls WhiteNoise amplitude (min: 0, max: 1)
+-- speed (0.3): controls WhiteNoise sweep (min: 0, max: 1)
+-- freq (65)
+-- SOSHats
+-- resonance (1): bandpass filter resonance value (min: 0, max: 1)
+-- pitch1 (238.5): oscillator modulation in radians (min: 0, max: SampleRate.ir / 2)
+-- sustain (0.5): sustain amount
+-- freq (220): frequency
+-- SOSToms
+-- voice (0.5): controls modulation input phase in radians (min: 0, max: your sanity)
+-- sustain (0.5): sustain amount
+-- freq (261.626): frequency
+-- SOSSnare
+-- voice (0.385): controls modulation input phase in radians (min: 0, max: your sanity) semitone (0.452): modulation frequency in semitones of fundamental pitch1 (2000): resonance filter frequency (Hz) resonance (0.1): resonance of bandpass and resonz filters (min: 0, max: 1) freq (405): frequency
+-- 
+-- Audio Input
+-- in
+-- Live audio input:
+-- 
+-- in: audio input
+-- inr
+-- Pitch shifted live audio input:
+-- 
+-- inr: audio input
+-- accelerate (0): pitch-glide
+-- Other synths and goodies
+-- imp
+-- Modulated band limited impulse:
+-- 
+-- accelerate (0): pitch-glide amount
+-- psin
+-- Modulated phase mod sines:
+-- 
+-- accelerate (0): pitch-glide amount
+-- gabor
+-- Gabor grain
+-- 
+-- cyclo
+-- Shepard on a cycle:
+-- 
+-- accelerate (0): pitch-glide amount.
+-- Supersiren
+-- A controllable synth siren, defaults to 1 second, draw it out with sustain.
+-- 
+-- Supergrind
+-- From synthdef.art fragment(2018-08-16):
+-- 
+-- accelerate (0): for pitch glide
+-- detune (0): in Hz, but even small values are quite noticeable
+-- voice (0): changes harmonics
+-- rate (1): is the impulse trigger rate
+
+
+-- list of available samples
+-- 51 (1 samples)
+-- 77 (1 samples)
+-- 808 (7 samples)
+-- 808bd (25 samples)
+-- 808cy (25 samples)
+-- 808hc (5 samples)
+-- 808ht (5 samples)
+-- 808lc (5 samples)
+-- 808lt (5 samples)
+-- 808mc (5 samples)
+-- 808mt (5 samples)
+-- 808oh (5 samples)
+-- 808sd (25 samples)
+-- 909 (1 samples)
+-- 9a (1 samples)
+-- ab (12 samples)
+-- ade (10 samples)
+-- ades2 (9 samples)
+-- ades3 (7 samples)
+-- ades4 (6 samples)
+-- alex (2 samples)
+-- alphabet (26 samples)
+-- amencutup (32 samples)
+-- armora (7 samples)
+-- arp (2 samples)
+-- arpy (11 samples)
+-- auto (11 samples)
+-- baa2 (7 samples)
+-- baa (7 samples)
+-- bass0 (3 samples)
+-- bass1 (31 samples)
+-- bass2 (6 samples)
+-- bass3 (12 samples)
+-- bass (4 samples)
+-- bassdm (25 samples)
+-- bassfoo (3 samples)
+-- battles (2 samples)
+-- bd (24 samples)
+-- bend (4 samples)
+-- bev (2 samples)
+-- bin (2 samples)
+-- birds (10 samples)
+-- birds3 (19 samples)
+-- bleep (13 samples)
+-- blip (2 samples)
+-- blue (2 samples)
+-- bottle (13 samples)
+-- branches (0 samples)
+-- breaks125 (2 samples)
+-- breaks152 (1 samples)
+-- breaks157 (1 samples)
+-- breaks165 (1 samples)
+-- breath (1 samples)
+-- bubble (8 samples)
+-- can (14 samples)
+-- casio (3 samples)
+-- cb (1 samples)
+-- cc (6 samples)
+-- chin (4 samples)
+-- chordbot (4 samples)
+-- circus (3 samples)
+-- clak (2 samples)
+-- click (4 samples)
+-- clubkick (5 samples)
+-- co (4 samples)
+-- coins (1 samples)
+-- control (2 samples)
+-- cosmicg (15 samples)
+-- cp (2 samples)
+-- cr (6 samples)
+-- crow (4 samples)
+-- d (4 samples)
+-- db (13 samples)
+-- diphone2 (12 samples)
+-- diphone (38 samples)
+-- Dirt-Samples (3 samples)
+-- dist (16 samples)
+-- dork2 (4 samples)
+-- dorkbot (2 samples)
+-- dr2 (6 samples)
+-- dr (42 samples)
+-- dr55 (4 samples)
+-- dr_few (8 samples)
+-- drum (6 samples)
+-- drumtraks (13 samples)
+-- e (8 samples)
+-- east (9 samples)
+-- electro1 (13 samples)
+-- em2 (6 samples)
+-- erk (1 samples)
+-- et_symlinks (0 samples)
+-- f (1 samples)
+-- f2 (1 samples)
+-- feel (7 samples)
+-- feelfx (8 samples)
+-- fest (1 samples)
+-- fire (1 samples)
+-- flick (17 samples)
+-- fm (17 samples)
+-- foo (27 samples)
+-- future (17 samples)
+-- gab (10 samples)
+-- gabba (4 samples)
+-- gabbaloud (4 samples)
+-- gabbalouder (4 samples)
+-- .git (6 samples)
+-- glasstap (3 samples)
+-- glitch2 (8 samples)
+-- glitch (8 samples)
+-- gretsch (24 samples)
+-- gtr (3 samples)
+-- h (7 samples)
+-- hand (17 samples)
+-- hardcore (12 samples)
+-- hardkick (6 samples)
+-- haw (6 samples)
+-- hc (6 samples)
+-- heads (1 samples)
+-- heads (1 samples)
+-- hh (13 samples)
+-- hh27 (13 samples)
+-- hit (6 samples)
+-- hmm (1 samples)
+-- ho (6 samples)
+-- hooks (13 samples)
+-- hoover (6 samples)
+-- house (8 samples)
+-- ht (16 samples)
+-- if (5 samples)
+-- ifdrums (3 samples)
+-- incoming (8 samples)
+-- industrial (32 samples)
+-- info (0 samples)
+-- info (1 samples)
+-- insect (3 samples)
+-- invaders (18 samples)
+-- jamz (1 samples)
+-- jazz (8 samples)
+-- jrhodes (65 samples)
+-- jungbass (20 samples)
+-- jungle (13 samples)
+-- juno (12 samples)
+-- jvbass (13 samples)
+-- kicklinn (1 samples)
+-- koy (2 samples)
+-- kurt (7 samples)
+-- latibro (8 samples)
+-- led (1 samples)
+-- less (4 samples)
+-- lighter (33 samples)
+-- linnhats (6 samples)
+-- logs (1 samples)
+-- lpviz (598 samples)
+-- lt (16 samples)
+-- made2 (1 samples)
+-- made (7 samples)
+-- mars (4374 samples)
+-- mars_symlinks (0 samples)
+-- mash2 (4 samples)
+-- mash (2 samples)
+-- metal (10 samples)
+-- miniyeah (4 samples)
+-- monsterb (6 samples)
+-- moog (7 samples)
+-- mouth (15 samples)
+-- mp3 (4 samples)
+-- msg (9 samples)
+-- mt (16 samples)
+-- mute (28 samples)
+-- newnotes (15 samples)
+-- noise (1 samples)
+-- noise2 (8 samples)
+-- notes (15 samples)
+-- numbers (9 samples)
+-- objects (0 samples)
+-- oc (4 samples)
+-- odx (15 samples)
+-- off (1 samples)
+-- old_et (0 samples)
+-- origin (2 samples)
+-- origin (2 samples)
+-- outdoor (6 samples)
+-- pack (2 samples)
+-- pad (3 samples)
+-- padlong (1 samples)
+-- pebbles (1 samples)
+-- perc (6 samples)
+-- peri (15 samples)
+-- pluck (17 samples)
+-- popkick (10 samples)
+-- print (11 samples)
+-- proc (2 samples)
+-- procshort (8 samples)
+-- psr (30 samples)
+-- rave2 (6 samples)
+-- rave (8 samples)
+-- ravemono (2 samples)
+-- realclaps (4 samples)
+-- refs (0 samples)
+-- refs (0 samples)
+-- reggae (142 samples)
+-- remotes (0 samples)
+-- remotes (0 samples)
+-- reverbkick (1 samples)
+-- rm (2 samples)
+-- rs (1 samples)
+-- sax (22 samples)
+-- sd (2 samples)
+-- seawolf (3 samples)
+-- sequential (8 samples)
+-- sf (18 samples)
+-- sheffield (1 samples)
+-- short (5 samples)
+-- sid (12 samples)
+-- sine (6 samples)
+-- sitar (8 samples)
+-- sn (52 samples)
+-- sounds (0 samples)
+-- space (18 samples)
+-- speakspell (12 samples)
+-- speech (7 samples)
+-- speechless (10 samples)
+-- speedupdown (9 samples)
+-- stab (23 samples)
+-- stomp (10 samples)
+-- subroc3d (11 samples)
+-- sugar (2 samples)
+-- sundance (6 samples)
+-- tabla2 (48 samples)
+-- tabla (26 samples)
+-- tablex (3 samples)
+-- tacscan (22 samples)
+-- tags (0 samples)
+-- tech (13 samples)
+-- techno (7 samples)
+-- tink (5 samples)
+-- tok (4 samples)
+-- toys (13 samples)
+-- trump (11 samples)
+-- ul (10 samples)
+-- ulgab (5 samples)
+-- uxay (3 samples)
+-- v (6 samples)
+-- voodoo (6 samples)
+-- wind (10 samples)
+-- wobble (1 samples)
+-- world (3 samples)
+-- xmas (1 samples)
+-- yeah (31 samples)
+-- youtube (1 samples)
+
+hush
+
+do
+  setcps (120/60/4)
+  let swing = always (# nudge (fast "9 13" "-0.005 0.005 0.002 -0.003"))
+  let freak = every 4 (# speed "<0.6 1 2> <-1 -1 -1 -0.5>")
+  d1 $ swing $ freak $ s "uxay(3,8,2)" # n "3 2 2 1"
+  d2 $ swing $ freak $ s "808bd(3,8)" # gain 1.5 + speed "0.7777"
+  d3 $ swing $ freak $ s "cp(2,4,1)" # n 3 # gain 1.1
+  d4 $ slow 4 $ s "superpiano" # note "c'min7" + note "0 -7 -12 -5" # gain 0.75 # room 0.5 # size 0.78 # lpf 1000
+  d5 $ rotR (1/8) $ every 2 (fast 2) $ note "c g f c" # s "pluck" # gain 1.2 # up "<0 2 4 7 9>"
+    # delay "0.25" # delaytime "1/6" # delayfeedback "0.45"
+    # att 0.2 # hold 2 # rel 3
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+
+panic
+
+do
+  setcps (130/60/4)
+  d1 $ every 4 (# gain 0)
+    $ every 7 (# gain "0 1 0")
+    $ sew "t(5,16,<2 0 0 3>)"
+    (chop 16 $ slice 8 (slow 2 "2 38 2 8 1 9 9 39 ") $ loopAt 2 $ s "reggae" # n 392)
+    (every 4 (fast 2)
+     $ chop 16 $ loopAt "<2 2 2 1>" $ s "reggae" # n 393)
+  d2 $ s "popkick(4,8)" # n "4" # lpf 200 # gain 2
+  d3 $ loopAt 8 $ chop 32 $ s "lpviz" # n 32 # lpf 300 # crush 8 # gain 1.3
+  --d1 silence
+  --d2 silence
+  --d3 silence
+
+hush
+
