@@ -138,4 +138,27 @@ d10 $ every 8 (jux (rev . (# speed "0.9")))
     # sustain 2
     # orbit 1
 
+-- Active melodic line with rhythmic slicing
+d11 $ every 4 (jux (rev . (# speed "1.2")))
+    $ every 3 (slice 8 "3 1 4 2 6 0 7 5")
+    $ every 6 (fast 2)
+    $ stack [
+      note (scale "major" (scramble 8 "0 2 4 7 9 11 12 14"))
+        # s "jrhodes" 
+        # n "25"
+        # gain 0.8
+        # room 0.4 # size 0.6
+        # lpf (range 1200 3000 (fast 4 sine))
+        # pan (range 0.2 0.8 (fast 3 sine)),
+      every 3 (stut 2 0.5 0.125) 
+        $ note (scale "major" "<[0,4] [2,5] [4,7] [7,11]>")
+        # s "jrhodes"
+        # n "37"
+        # gain 0.75
+        # room 0.5 # size 0.7
+        # hpf 800
+    ]
+    # sustain "<0.3 0.5 0.2 0.4>"
+    # orbit 2
+
 hush
