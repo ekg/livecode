@@ -1,5 +1,17 @@
 setcps (127/60/4)
 
+-- Hard kicks and breaks pattern
+d8 $ stack [
+  every 4 (fast 2) 
+    $ every 3 (# speed "1.5 0.8") 
+    $ s "mars_kits_909_Friendly_2(3,8)" # n "3" # gain 1.4 # lpf 200,
+  every 8 (slice 8 "3 1 4 2 6 0 7 5") 
+    $ loopAt 2 $ chop 8 
+    $ s "mars_kits_Drumulator_MP_Funky_Color" # n "8" # gain 1.1,
+  every 4 (# crush 4) 
+    $ s "mars_kits_909_Friendly_2(4,4)" # n "3" # gain 1.2 # lpf 150
+]
+
 -- Complex kick pattern with variations
 d9 $ every 4 (fast 2) 
    $ every 8 (# speed "0.8 1.2")
