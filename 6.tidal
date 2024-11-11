@@ -1,28 +1,41 @@
 setcps (127/60/4)
 
 d1 $ stack [
-  every 4 (# crush "16 8 4") 
-    $ sometimes (# accelerate "0.5 -1 2")
+  every 8 (# crush "8 4 2") 
+    $ sometimes (# accelerate "0.3 -0.5 0.7")
     $ every 7 (fast 2)
     $ note "<c4'min7 g4'maj a4'min7 f4'maj>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # legato 1 
-    # room (range 0.2 0.8 (slow 7 sine)) 
-    # sz 0.9 # gain 0.8
+    # room (range 0.3 0.9 (slow 7 sine)) 
+    # sz 0.95 # gain 0.8
   ,
-  every 8 (fast 2) 
-    $ sometimes (# squiz "1 2 4")
+  every 4 (fast 2) 
+    $ rarely (# squiz "0.5 1 2")
     $ note "~ <c4 g4 a4 f4>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # n "2" # legato 1
-    # lpf (range 800 3000 (slow 4 sine))
-    # gain (range 0.6 0.8 (slow 9 sine))
+    # lpf (range 1200 4000 (slow 5 sine))
+    # gain (range 0.7 0.9 (slow 9 sine))
   ,
-  every 5 (# speed "-1")
-    $ s "bd(3,8)" # gain 1.1
+  every 4 (# speed "-0.75")
+    $ s "mars_kits_808_Clean_01(3,8)" # n "3" # gain 1.2
+    # lpf (range 50 800 (slow 8 sine))
   ,
-  every 3 (stut 4 0.5 0.125)
-    $ fast 2 $ s "~ cp" # gain 0.9
+  every 4 (stut 3 0.6 0.25)
+    $ fast 2 $ s "~ realclaps" # n "2" # gain 0.85
+    # room 0.3 # sz 0.8
+  ,
+  loopAt 2 
+    $ slice 8 (scramble 8 $ run 8)
+    $ s "lpviz" # n "298" 
+    # gain 0.9 # lpf 2000
+  ,
+  every 8 (# speed "-1")
+    $ every 4 (chop 8)
+    $ loopAt 4
+    $ s "reggae" # n "131" 
+    # gain 0.85 # hpf 300
 ]
 
 hush
