@@ -23,6 +23,43 @@ d9 $ every 4 (fast 2)
    ]
 
 d1 $ stack [
+  -- Atmospheric pad layer with granular effects
+  every 6 (jux rev)
+    $ every 4 (# accelerate "-0.2 0.3 -0.1")
+    $ every 8 (chop 16)
+    $ note "<c4'min9 [g4'maj7 ~] a4'min11 f4'maj9>" 
+    # s "jrhodes" # n (irand 65)
+    # room 0.7 # size 0.8
+    # lpf (range 800 3000 (slow 7 sine))
+    # gain 0.75
+  ,
+  -- Glitchy percussion with industrial sounds
+  every 3 (fast 2)
+    $ every 5 (# speed "-1")
+    $ stack [
+      s "industrial(5,8)" # n (irand 32) # gain 0.8 # pan rand,
+      s "glitch:1*8?" # speed "0.8 1.2 1.5" # gain 0.7,
+      s "dr_few(3,8)" # n "0 1 2 3" # crush "4 8"
+    ]
+  ,
+  -- Bass sequence with filter modulation
+  every 4 (# squiz 2)
+    $ every 7 (fast 2)
+    $ note (scale "minor" "0 3 5 7")
+    # s "bass3" 
+    # lpf (range 200 1200 (slow 4 saw))
+    # resonance "0.2"
+    # shape 0.4
+    # gain 0.9
+  ,
+  -- Textural elements
+  sometimesBy 0.4 (# speed "-1")
+    $ every 6 (slice 8 "3 1 4 2 6 0 7 5")
+    $ loopAt 4
+    $ s "lpviz" # n "298 412 156"
+    # room 0.3 # gain 0.8
+    # lpf 3000
+  ,
   every 8 (# crush "8 4 2") 
     $ sometimes (# accelerate "0.3 -0.5 0.7")
     $ every 7 (fast 2)
