@@ -22,6 +22,19 @@ d9 $ every 4 (fast 2)
      rarely (stut 2 0.5 0.125) $ s "mars_kits_808_Clean_01(2,8,2)" # n "3" # speed 0.8 # gain 1.2
    ]
 
+-- Thick layered beat pattern
+d7 $ every 4 (jux rev)
+   $ every 8 (# crush "4 8")
+   $ stack [
+     every 3 (fast 2) $ s "hardkick(3,8)" # gain 1.3 # lpf 300,
+     s "industrial:4(5,8)" # gain 0.9 # pan (range 0.3 0.7 rand),
+     every 2 (# speed "1.5") $ s "drumtraks(3,8)" # n (irand 13) # gain 1.1,
+     sometimesBy 0.6 (stut 2 0.5 0.125) $ s "gabbaloud(2,8)" # gain 0.95,
+     every 4 (density 2) $ s "tabla2:8*2" # speed "1 0.8" # gain 0.85,
+     rarely (# squiz 2) $ s "mars_kits_909_Friendly_2*4" # n "2" # gain 1.2
+   ]
+   # room 0.2 # size 0.3
+
 d1 $ stack [
   -- Atmospheric pad layer with granular effects
   every 6 (jux rev)
