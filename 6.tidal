@@ -36,23 +36,29 @@ d7 $ every 4 (jux rev)
    # room 0.2 # size 0.3
 
 d1 $ stack [
-  -- Atmospheric pad layer with granular effects
+  -- Atmospheric pad layer with melodic progression
   every 6 (jux rev)
     $ every 4 (# accelerate "-0.2 0.3 -0.1")
     $ every 8 (chop 16)
-    $ note "<c4'min9 [g4'maj7 ~] a4'min11 f4'maj9>" 
-    # s "jrhodes" # n (irand 65)
-    # room 0.7 # size 0.8
-    # lpf (range 800 3000 (slow 7 sine))
-    # gain 0.75
+    $ stack [
+      note "<c4'min9 [g4'maj7 ~] a4'min11 f4'maj9>" 
+        # s "jrhodes" # n "0"
+        # room 0.7 # size 0.8
+        # lpf (range 800 3000 (slow 7 sine))
+        # gain 0.75,
+      note (scale "minor" "<[0,4,7] [7,11,14] [5,9,12] [3,7,10]>")
+        # s "jrhodes" # n "12"
+        # room 0.6 # size 0.7
+        # gain 0.7
+    ]
   ,
-  -- Glitchy percussion with industrial sounds
+  -- Melodic glitch percussion
   every 3 (fast 2)
     $ every 5 (# speed "-1")
     $ stack [
-      s "industrial(5,8)" # n (irand 32) # gain 0.8 # pan rand,
-      s "glitch:1*8?" # speed "0.8 1.2 1.5" # gain 0.7,
-      s "dr_few(3,8)" # n "0 1 2 3" # crush "4 8"
+      note (scale "minor" "<0 4 7 2>") # s "industrial" # n "4" # gain 0.8 # pan rand,
+      note "c5 g4 e5 a4" # s "glitch:1" # speed "0.8 1.2 1.5" # gain 0.7,
+      s "dr_few(3,8)" # note (scale "minor" "0 2 4 -1") # crush "4 8"
     ]
   ,
   -- Bass sequence with filter modulation
