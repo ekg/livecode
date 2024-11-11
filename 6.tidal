@@ -5,16 +5,17 @@ d1 $ stack [
     $ note "<c4'min7 g4'maj a4'min7 f4'maj>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # legato 1 
-    # room 0.3 # sz 0.9 # gain 0.8,
-  
+    # room 0.3 # sz 0.9 # gain 0.8
+  ,
   every 8 (fast 2) 
     $ note "~ <c4 g4 a4 f4>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # n "2" # legato 1
     # lpf (range 800 2000 (slow 4 sine))
-    # gain 0.7,
-    
-  s "bd(3,8)" # gain 1.1,
+    # gain 0.7
+  ,
+  s "bd(3,8)" # gain 1.1
+  ,
   fast 2 $ s "~ cp" # gain 0.9
 ]
 
