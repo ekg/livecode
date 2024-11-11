@@ -2,21 +2,27 @@ setcps (127/60/4)
 
 d1 $ stack [
   every 4 (# crush "16 8 4") 
+    $ sometimes (# accelerate "0.5 -1 2")
+    $ every 7 (fast 2)
     $ note "<c4'min7 g4'maj a4'min7 f4'maj>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # legato 1 
-    # room 0.3 # sz 0.9 # gain 0.8
+    # room (range 0.2 0.8 (slow 7 sine)) 
+    # sz 0.9 # gain 0.8
   ,
   every 8 (fast 2) 
+    $ sometimes (# squiz "1 2 4")
     $ note "~ <c4 g4 a4 f4>" 
     # s "mars_synths_KawaiiDreams_Strings" 
     # n "2" # legato 1
-    # lpf (range 800 2000 (slow 4 sine))
-    # gain 0.7
+    # lpf (range 800 3000 (slow 4 sine))
+    # gain (range 0.6 0.8 (slow 9 sine))
   ,
-  s "bd(3,8)" # gain 1.1
+  every 5 (# speed "-1")
+    $ s "bd(3,8)" # gain 1.1
   ,
-  fast 2 $ s "~ cp" # gain 0.9
+  every 3 (stut 4 0.5 0.125)
+    $ fast 2 $ s "~ cp" # gain 0.9
 ]
 
 hush
