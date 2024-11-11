@@ -145,7 +145,7 @@ d11 $ every 4 (jux (rev . (# speed "1.2")))
     $ stack [
       note (scale "major" (scramble 8 "0 2 4 7 9 11 12 14"))
         # s "jrhodes" 
-        # n "25"
+        -- # n "0"
         # gain 0.8
         # room 0.4 # size 0.6
         # lpf (range 1200 3000 (fast 4 sine))
