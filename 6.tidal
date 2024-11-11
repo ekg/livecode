@@ -1,3 +1,6 @@
-d1 $ "bd [~ bd] [~ bd] [~ bd]"
+d1 $ stack [
+  sound "mars*8" # n (irand 4374) # gain 0.7,
+  sound "bd [~ bd] [~ bd] [~ bd]" # gain 0.9
+]
 
 hush
