@@ -300,7 +300,6 @@ d12 $ every 4 (jux (rev . (# speed "0.95 0.93")))
       # delay 0.6
       # delaytime (range 0.2 0.4 (slow 7 sine))
       # delayfeedback 0.4,
-      
       -- Atmospheric pad layer
       note (cat [
         "[c4,e4,g4]",
@@ -314,7 +313,6 @@ d12 $ every 4 (jux (rev . (# speed "0.95 0.93")))
       # lpf (range 400 1800 (slow 9 sine))
       # room 0.9
       # size 0.95,
-      
       -- Deep supporting bass pattern
       note (cat [
         "c3(3,8)",
