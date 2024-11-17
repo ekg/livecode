@@ -319,10 +319,8 @@ d16 $ every 4 (jux (rev . (# speed "0.9")))
       # lpf (range 1200 3000 (slow 8 sine))
       # pan (range 0.3 0.7 (slow 6 sine))
       # sustain 0.5,
-    
     -- Harmonious layer that follows
-    sometimesBy 0.6
-      $ slow 4
+   slow 4
       $ note (scale "minor" "[7,11,14] [9,12,16] [11,14,18] [7,11,14]")
       # s "supersaw"
       # gain 0.65
@@ -330,7 +328,8 @@ d16 $ every 4 (jux (rev . (# speed "0.9")))
       # lpf (range 2000 4000 (slow 6 sine))
       # pan (range 0.4 0.6 (slow 4 sine))
       # sustain 1.5
-  ]
+    ]
   # orbit 3
+--  # silence
 
 hush
