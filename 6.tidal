@@ -472,7 +472,44 @@ d5 $ every 8 (jux rev)
   # lpf 2000
   # room 0.4
 
--- Loop-based patterns using lpviz samples with more space
+-- Previous dense version
+d1 $ stack [
+  -- Main loop with time stretching and chopping
+  every 4 (jux rev)
+    $ every 8 (# accelerate "-0.5 0.5")
+    $ loopAt 2
+    $ chop 16
+    $ s "lpviz:298"
+    # gain 0.9
+    # room 0.4
+    # lpf (range 800 2000 (slow 4 sine)),
+  -- Atmospheric pad loop with slice manipulation
+  every 6 (slice 8 "3 1 4 2 6 0 7 5")
+    $ loopAt 4
+    $ s "lpviz:412"
+    # gain 0.85
+    # room 0.6
+    # pan (range 0.3 0.7 sine),
+  -- Glitchy percussion loop
+  every 3 (fast 2)
+    $ every 5 (# speed "-1")
+    $ loopAt 1
+    $ chop 8
+    $ s "lpviz:156"
+    # gain 0.8
+    # crush "8 4"
+    # hpf 1000,
+  -- Deep atmospheric loop
+  every 8 (# speed "0.5")
+    $ loopAt 8
+    $ striate 32
+    $ s "lpviz:245"
+    # gain 0.75
+    # room 0.8
+    # lpf 1200
+]
+
+-- Spacious version (current)
 d1 $ stack [
   -- Main loop with time stretching and arpeggiated chopping
   every 4 (jux rev)
