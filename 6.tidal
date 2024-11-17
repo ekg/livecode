@@ -22,7 +22,6 @@ d6 $ stack [
     # gain 0.85
     # room 0.4 # size 0.8
     # lpf (range 800 2000 (slow 8 sine)),
-    
   -- Log drum bass pattern
   every 2 (fast 2)
     $ note (scale "minor" "0 ~ 3 ~ 2 ~ 0 ~")
@@ -30,7 +29,6 @@ d6 $ stack [
     # gain 1.1
     # lpf 400
     # sustain 0.3,
-    
   -- Shaker pattern
   every 4 (density 2)
     $ s "808oh(5,8)"
