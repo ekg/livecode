@@ -587,4 +587,48 @@ d1 $ stack [
     # lpf (range 600 1800 (slow 8 sine))
 ]
 
+-- Chill ambient melodic pattern using mars samples
+d17 $ stack [
+  -- Dreamy main melody using atmospheric pads
+  every 8 (jux (rev . (# speed "0.85")))
+    $ every 6 (|+ note "12")
+    $ note (scale "mixolydian" (cat [
+        "0 ~ 4 ~",
+        "7 ~ 4 ~", 
+        "5 ~ 2 ~",
+        "0 2 4 7"
+      ]))
+    # s "mars_synths_KawaiiDreams_Strings"
+    # gain 0.72
+    # room 0.9 # size 0.95
+    # lpf (range 800 2400 (slow 8 sine))
+    # pan (range 0.3 0.7 (slow 6 sine)),
+    
+  -- Soft atmospheric layer
+  every 4 (# speed "0.5")
+    $ s "mars_synths_KawaiiDreams_Pads(2,8)"
+    # note (scale "mixolydian" "0 4")
+    # gain 0.65
+    # room 0.8 # size 0.9
+    # lpf 1800,
+    
+  -- Gentle bell-like tones
+  every 6 (density 2)
+    $ every 8 (|- note "12")
+    $ note (scale "mixolydian" "7 4 2 0")
+    # s "mars_synths_KawaiiDreams_Keys"
+    # gain 0.58
+    # room 0.7
+    # lpf (range 2000 3500 (slow 6 sine)),
+    
+  -- Subtle textural elements
+  sometimesBy 0.4
+    $ s "mars_synths_KawaiiDreams_FX(3,16)"
+    # gain 0.5
+    # speed "0.25"
+    # room 0.9 # size 0.95
+    # pan (range 0.2 0.8 rand)
+]
+# orbit 4
+
 hush
