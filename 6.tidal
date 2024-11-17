@@ -264,4 +264,40 @@ d11 $ every 6 (jux (rev . (# speed "0.95")))
     # sustain 4
     # orbit 2
 
+-- Techno track components
+
+-- Part 1: Basic techno kick and bass pattern
+d12 $ stack [
+  s "bd(4,4)" # gain 1.2 # lpf 100,
+  every 8 (# crush 4) 
+    $ s "bass3(3,8)" 
+    # note (scale "minor" "0 -12") 
+    # gain 1.1 
+    # lpf 200
+]
+
+-- Part 2: Hi-hats and percussion
+d13 $ stack [
+  s "hh*8" # gain 0.8 # pan (range 0.3 0.7 rand),
+  s "cp(2,4)" # gain 0.85 # room 0.3,
+  every 4 (fast 2) $ s "tech(3,8)" # n (irand 8) # gain 0.75
+]
+
+-- Part 3: Synth stabs
+d14 $ every 4 (jux rev)
+  $ note (scale "minor" "<[0,4,7] [2,5,9]>")
+  # s "supersaw"
+  # sustain 0.2
+  # gain 0.8
+  # lpf (range 400 2000 (slow 4 sine))
+
+-- Part 4: Atmospheric layer
+d15 $ every 8 (chop 8)
+  $ s "pad:2"
+  # note (scale "minor" "0 4")
+  # room 0.6
+  # size 0.8
+  # gain 0.7
+  # lpf 2000
+
 hush
