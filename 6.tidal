@@ -283,13 +283,13 @@ d13 $ stack [
   every 4 (fast 2) $ s "tech(3,8)" # n (irand 8) # gain 0.75
 ]
 
--- Part 3: Synth stabs on backbeat
+-- Part 3: Synth stabs on 1/8th backbeat
 d14 $ every 4 (jux rev)
-  $ struct "~ 1 ~ 1"
+  $ struct "~ 1 ~ 1 ~ 1 ~ 1"
   $ note (scale "minor" "<[0,4,7] [2,5,9]>")
   # s "supersaw"
-  # sustain 0.3
-  # gain 0.85
+  # sustain 0.2
+  # gain 0.82
   # lpf (range 400 2000 (slow 4 sine))
   # room 0.2
 
