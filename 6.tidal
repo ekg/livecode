@@ -195,7 +195,17 @@ d5 $ stack [
     $ s "house(3,8)"
     # n "3"
     # gain 0.8
-    # pan (range 0.2 0.8 sine)
+    # pan (range 0.2 0.8 sine),
+  -- Chopped and manipulated loop
+  every 3 (# accelerate "-0.5 0.5")
+    $ every 4 (slice 8 "3 1 4 2 6 0 7 5")
+    $ every 2 (chop 8)
+    $ loopAt 2
+    $ s "lpviz"
+    # n "298"
+    # gain 0.85
+    # room 0.3
+    # lpf (range 800 2000 (slow 4 sine))
 ]
 
 -- Dreamy, filtered piano melody
