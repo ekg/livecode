@@ -24,11 +24,13 @@ d6 $ stack [
     # lpf (range 800 2000 (slow 8 sine)),
   -- Log drum bass pattern
   every 2 (fast 2)
-    $ note (scale "minor" "0 ~ 3 ~ 2 ~ 0 ~")
-    # s "supervibe"
-    # gain 1.1
-    # lpf 400
-    # sustain 0.3,
+    $ note (scale "minor" "-24 ~ -21 ~ -22 ~ -24 ~")
+    # s "supersaw"
+    # gain 1.2
+    # lpf 200
+    # resonance 0.3
+    # sustain 0.25
+    # shape 0.3,
   -- Shaker pattern
   every 4 (density 2)
     $ s "808oh(5,8)"
