@@ -30,7 +30,6 @@ d6 $ stack [
     # room 0.86 # size 0.8
     # lpf (range 800 2000 (slow 8 sine))
     # pan (range 0.3 0.7 (slow 4 sine)),
-    
   -- Log drum bass pattern with more groove
   every 2 (slow 2)
     $ every 3 (fast 2)
@@ -42,26 +41,22 @@ d6 $ stack [
     # resonance 0.3
     # sustain "<0.25 0.3 0.2>"
     # shape 0.3,
-    
   -- Enhanced percussion layers
   stack [
     every 4 (density 2)
       $ s "808oh(5,8,2)"
       # gain 0.8
       # hpf 3000,
-      
     every 3 (# speed "1.5")
       $ s "tabla2(3,8)"
       # n (irand 8)
       # gain 0.75
       # pan rand,
-      
     sometimesBy 0.4 (stut 3 0.4 0.125)
       $ s "cp(3,8,1)"
       # gain 0.7
       # room 0.4
   ],
-  
   -- Additional melodic elements
   every 6 (jux rev)
     $ note (scale "minor" "<0 4 7 2>")
