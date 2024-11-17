@@ -12,6 +12,32 @@ d8 $ stack [
     $ s "mars_kits_909_Friendly_2(4,4)" # n "3" # gain 1.2 # lpf 150
 ]
 
+-- Amapiano melody with log drums and piano stabs
+d6 $ stack [
+  -- Piano chords with characteristic stabs
+  every 4 (jux rev)
+    $ every 8 (# speed "0.9 1.1")
+    $ note (cat ["<[c4,e4,g4] [c4,f4,a4]>", "<[g3,b3,d4] [a3,c4,e4]>"])
+    # s "superpiano"
+    # gain 0.85
+    # room 0.4 # size 0.8
+    # lpf (range 800 2000 (slow 8 sine)),
+    
+  -- Log drum bass pattern
+  every 2 (fast 2)
+    $ note (scale "minor" "0 ~ 3 ~ 2 ~ 0 ~")
+    # s "supervibe"
+    # gain 1.1
+    # lpf 400
+    # sustain 0.3,
+    
+  -- Shaker pattern
+  every 4 (density 2)
+    $ s "808oh(5,8)"
+    # gain 0.8
+    # hpf 3000
+]
+
 -- Complex kick pattern with variations
 d9 $ every 4 (fast 2) 
    $ every 8 (# speed "0.8 1.2")
