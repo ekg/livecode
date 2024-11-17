@@ -472,6 +472,39 @@ d5 $ every 8 (jux rev)
   # lpf 2000
   # room 0.4
 
+-- Driving polyrhythmic beat pattern
+d2 $ stack [
+  -- Main kick pattern in 4/4
+  every 4 (fast 2) 
+    $ s "mars_kits_909_Friendly_2(4,8)" 
+    # n "3" 
+    # gain 1.2 
+    # lpf 200,
+  -- Hi-hats in 3/8
+  every 3 (# speed "1.5") 
+    $ s "808oh(3,8)" 
+    # gain 0.85 
+    # pan (range 0.2 0.8 sine)
+    # hpf 5000,
+  -- Claps in 5/8
+  every 5 (density 2) 
+    $ s "cp(5,8)" 
+    # gain 0.9 
+    # room 0.3,
+  -- Toms in 7/8
+  every 7 (# speed "0.8") 
+    $ s "industrial(7,8,2)" 
+    # n "2" 
+    # gain 0.85 
+    # lpf 1200,
+  -- Percussion in 6/8
+  whenmod 8 6 (# silence)
+    $ s "tabla2(6,8)" 
+    # n (irand 8) 
+    # gain 0.8 
+    # pan rand
+]
+
 -- Previous dense version
 d1 $ stack [
   -- Main loop with time stretching and chopping
