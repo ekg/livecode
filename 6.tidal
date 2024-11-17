@@ -585,12 +585,17 @@ d1 $ stack [
     # room 0.9
     # size 0.95
     # lpf (range 600 1800 (slow 8 sine))
-]
+] # room 0 # size 100
+
+-- get melodic using mars, go for amapiano vibes
+
+
+-- get some pads in there too
 
 -- Chill ambient melodic pattern using mars samples
 d1 $ stack [
   -- Dreamy main melody using atmospheric pads
-  every 8 (jux (rev . (# speed "0.85")))
+  every 8 (jux (rev . (# speed "0.666")))
     $ every 6 (|+ note "12")
     $ note (scale "mixolydian" (cat [
         "0 ~ 4 ~",
