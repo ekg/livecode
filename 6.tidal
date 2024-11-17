@@ -278,11 +278,12 @@ d10 $ every 8 (jux rev)
    ]
    # orbit 1
 
--- Sweet Dreams inspired melodic pattern
-d12 $ every 4 (jux (rev . (# speed "0.95")))
+-- Sweet Dreams inspired atmospheric melodic pattern
+d12 $ every 4 (jux (rev . (# speed "0.95 0.93")))
     $ every 8 (|- note "12")
+    $ every 6 (# accelerate "-0.2 0.2")
     $ stack [
-      -- Main riff pattern
+      -- Ethereal main riff pattern
       note (cat [
         "c4 ~ e4 ~",
         "g4 ~ e4 ~",
@@ -290,12 +291,31 @@ d12 $ every 4 (jux (rev . (# speed "0.95")))
         "g4 a4 e4 c4"
       ])
       # s "supersaw"
-      # sustain "0.2"
-      # gain 0.75
-      # lpf (range 1000 3000 (slow 4 sine))
-      # room 0.4
-      # size 0.8,
-      -- Supporting bass pattern
+      # sustain "1.2 0.8"
+      # gain 0.72
+      # lpf (range 800 2800 (slow 6 sine))
+      # resonance (range 0.1 0.3 (slow 8 sine))
+      # room 0.85
+      # size 0.9
+      # delay 0.6
+      # delaytime (range 0.2 0.4 (slow 7 sine))
+      # delayfeedback 0.4,
+      
+      -- Atmospheric pad layer
+      note (cat [
+        "[c4,e4,g4]",
+        "[e4,g4,b4]",
+        "[c4,e4,g4]",
+        "[g4,b4,d5]"
+      ])
+      # s "superpad"
+      # sustain 4
+      # gain 0.55
+      # lpf (range 400 1800 (slow 9 sine))
+      # room 0.9
+      # size 0.95,
+      
+      -- Deep supporting bass pattern
       note (cat [
         "c3(3,8)",
         "e3(3,8)",
@@ -303,9 +323,10 @@ d12 $ every 4 (jux (rev . (# speed "0.95")))
         "g2(3,8)"
       ])
       # s "supersaw"
-      # sustain "0.3"
-      # gain 0.7
-      # lpf 400
+      # sustain "1.5"
+      # gain 0.65
+      # lpf (range 200 600 (slow 7 sine))
+      # shape 0.3
     ]
     # orbit 2
 
