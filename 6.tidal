@@ -332,4 +332,54 @@ d16 $ every 4 (jux (rev . (# speed "0.9")))
   # orbit 3
 --  # silence
 
+-- Minimal Techno Section
+-- Start with basic elements and gradually build
+
+-- Core minimal techno beat
+d17 $ stack [
+  -- Basic kick pattern
+  s "bd(4,4)" 
+    # gain 1.1 
+    # lpf 90,
+  -- Subtle hi-hat pattern
+  every 4 (density 2) 
+    $ s "hh(3,8)" 
+    # gain 0.75 
+    # pan (range 0.2 0.8 rand)
+    # hpf 8000,
+  -- Minimal percussion
+  every 8 (rev) 
+    $ s "cp(1,4)" 
+    # gain 0.8 
+    # room 0.3
+]
+
+-- Hypnotic bassline
+d18 $ every 8 (|- note 12)
+  $ note (scale "minor" "0(3,8)")
+  # s "supersaw"
+  # sustain 0.2
+  # gain 0.85
+  # lpf (range 200 800 (slow 8 sine))
+  # resonance 0.2
+
+-- Atmospheric texture
+d19 $ every 4 (# speed "0.5")
+  $ s "pad:2(2,8)"
+  # note (scale "minor" "0")
+  # gain 0.6
+  # room 0.8
+  # size 0.9
+  # lpf 1000
+
+-- Minimal bleeps
+d20 $ every 8 (jux rev)
+  $ struct "~ 1 ~ 1"
+  $ note (scale "minor" "7")
+  # s "supersaw"
+  # sustain 0.1
+  # gain 0.65
+  # lpf 2000
+  # room 0.4
+
 hush
