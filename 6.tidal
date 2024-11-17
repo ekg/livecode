@@ -588,7 +588,7 @@ d1 $ stack [
 ] # room 0 # size 100
 
 -- Amapiano-style melodic pattern with log drums and pads
-d18 $ stack [
+d3 $ stack [
   -- Main log drum melody with characteristic Amapiano bounce
   every 4 (jux rev)
     $ every 8 (fast 2)
@@ -602,7 +602,6 @@ d18 $ stack [
     # gain 0.9
     # room 0.4 # size 0.8
     # lpf (range 400 1200 (slow 8 sine)),
-
   -- Atmospheric pad layer using deep textures
   every 6 (|+ note "12")
     $ slow 4
@@ -612,7 +611,6 @@ d18 $ stack [
     # room 0.8 # size 0.9
     # lpf (range 800 2400 (slow 12 sine))
     # pan (range 0.3 0.7 (slow 8 sine)),
-
   -- Ethereal background texture
   every 8 (# speed "0.5")
     $ s "mars_synths_Ambient_Textures(3,8,2)"
@@ -620,7 +618,6 @@ d18 $ stack [
     # gain 0.65
     # room 0.9 # size 0.95
     # lpf 2000,
-
   -- Piano stabs characteristic of Amapiano
   every 4 (density 2)
     $ every 3 (# speed "1.5")
