@@ -172,14 +172,14 @@ d1 $ stack [
 
 -- Dreamy, filtered piano melody
 d10 $ every 8 (jux (rev . (# speed "0.85")))
-    $ every 6 (|+ note "7")
+    $ every 6 (|+ note "12")
     $ stack [
       slow 4 
         $ note (scale "major" (cat [
-            "0 4 7 11",
-            "2 5 9 12",
-            "-2 2 5 9",
-            "0 3 7 10"
+            "0 4 7 12",
+            "2 5 9 14",
+            "4 7 11 16",
+            "-3 0 4 7"
           ]))
         # s "jrhodes" 
         # gain 0.7
@@ -188,7 +188,7 @@ d10 $ every 8 (jux (rev . (# speed "0.85")))
         # pan (range 0.2 0.8 (slow 6 sine)),
       every 4 (ghost)
         $ slow 2
-        $ note (scale "major" (scramble 8 "0 2 4 7 9 11 12 14"))
+        $ note (scale "major" "[0,4,7] [2,5,9] [4,7,11] [0,4,7]")
         # s "jrhodes"
         # gain 0.65
         # room 0.9 # size 0.95
@@ -199,13 +199,13 @@ d10 $ every 8 (jux (rev . (# speed "0.85")))
 
 -- Soft, ethereal piano melody
 d11 $ every 6 (jux (rev . (# speed "0.95")))
-    $ every 5 (|+ note "5")
+    $ every 5 (|+ note "7")
     $ stack [
       slow 3
         $ note (scale "major" (cat [
-            "[0 4] [7 11] [4 9] [2 7]",
-            "[7 11] [4 9] [2 5] [0 4]",
-            "[5 9] [2 7] [0 4] [-2 2]"
+            "[0,4,7] [4,7,11] [7,11,14] [4,7,11]",
+            "[2,5,9] [5,9,12] [0,4,7] [2,5,9]",
+            "[4,7,11] [0,4,7] [-3,0,4] [0,4,7]"
           ]))
         # s "superpiano" 
         # gain 0.68
@@ -213,7 +213,7 @@ d11 $ every 6 (jux (rev . (# speed "0.95")))
         # lpf (range 800 2000 (slow 16 sine))
         # pan (range 0.2 0.8 (slow 8 sine)),
       slow 2 
-        $ note (scale "major" (scramble 4 "[0,4] [2,7] [-2,4] [0,5]"))
+        $ note (scale "major" "[0,4,7] [2,5,9] [4,7,11] [0,4,7]")
         # s "superpiano"
         # gain 0.62
         # room 0.9 # size 0.95
