@@ -238,6 +238,50 @@ d10 $ every 8 (jux (rev . (# speed "0.85")))
     # sustain 3.5
     # orbit 1
 
+-- Complex 8-bar beat pattern with variations
+d20 $ every 8 (jux rev)
+   $ stack [
+     -- Main kick and snare foundation
+     every 4 (fast 2) 
+       $ every 6 (# speed "1.5")
+       $ s "[mars_kits_909_Friendly_2(3,8), ~ industrial:4 ~ industrial:4]"
+       # gain 1.2
+       # lpf (range 100 400 (slow 8 sine)),
+     
+     -- Hi-hat pattern with micro-timing variations
+     every 3 (0.125 <~)
+       $ every 5 (fast 2)
+       $ s "808oh(5,8,<0 2>)"
+       # gain 0.85
+       # pan (range 0.2 0.8 rand)
+       # hpf 3000,
+     
+     -- Glitch percussion layer
+     every 4 (slice 8 "3 1 4 2 6 0 7 5")
+       $ every 6 (# crush 8)
+       $ s "industrial:2(3,8,1)"
+       # gain 0.9
+       # room 0.3
+       # speed "<1 1.5 0.8 1.2>",
+     
+     -- Textural elements that evolve over 8 bars
+     every 8 (rev . chop 8)
+       $ every 4 (# accelerate "-0.5 0.5")
+       $ s "~ lpviz:298*2"
+       # gain 0.75
+       # room 0.4
+       # lpf (range 2000 4000 (slow 4 sine)),
+     
+     -- Additional rhythmic elements
+     every 2 (density 2)
+       $ every 7 (# speed "1.5 0.8")
+       $ s "tabla2(3,8)"
+       # n (irand 8)
+       # gain 0.8
+       # pan sine
+   ]
+   # orbit 1
+
 -- Sweet Dreams inspired melodic pattern
 d12 $ every 4 (jux (rev . (# speed "0.95")))
     $ every 8 (|- note "12")
