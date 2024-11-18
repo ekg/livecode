@@ -61,6 +61,8 @@ d4 $ stack [
     # gain "0.75" # resonance "0.3" # cutoff (range 1000 3000 $ slow 4 sine)
 ] # orbit 4
 
+d4 silence
+
 -- ambient interlude
 d5 $ stack [
   -- floating pad base
