@@ -45,4 +45,20 @@ d3 silence
 
 hush
 
+-- progressive synth pattern
+d4 $ stack [
+  -- evolving bass sequence
+  slow 2 $ s "mars_synths_Mini_MadBass*8" # n (scale "minor" "<[0 4 7] [2 5 9] [-2 2 5] [-3 0 4]>" + "48") 
+    # gain "0.85" # shape "0.3" # lpf (range 300 1200 $ slow 8 sine),
+  -- atmospheric pad layer
+  slow 4 $ s "mars_synths_KawaiiDreams_Air" # n "0" # gain "0.6" 
+    # room "0.8" # size "0.9" # lpf (range 2000 4000 $ slow 16 sine),
+  -- glitchy percussion
+  every 3 (jux(rev)) $ s "glitch:2(3,8) glitch:4(3,8)" # gain "0.7" 
+    # pan (range 0.2 0.8 rand) # speed "<1 0.8 1.2>",
+  -- acid line
+  every 4 (fast 2) $ s "mars_synths_Wasp_Acid(5,8)" # n (scale "minor" "0 4 7 11" + "60") 
+    # gain "0.75" # resonance "0.3" # cutoff (range 1000 3000 $ slow 4 sine)
+] # orbit 4
+
 -- onward
