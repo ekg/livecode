@@ -1,3 +1,5 @@
+setcps(120/60/4)
+
 -- spacey reggae with loopAt control
 d1 $ stack [
   s "808bd:3(2,8)" # gain "1.1", -- deep kick
@@ -10,3 +12,5 @@ d1 $ stack [
 ] # room "0.9" # orbit 0
 
 panic
+
+hush
