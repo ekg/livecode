@@ -14,7 +14,7 @@ d1 $ stack [
 hush
 
 -- industrial techno variation
-d2 $ stack [
+d1 $ stack [
   s "mars_kits_909_Clean:1(2,8)" # gain "1.2", -- punchy kick
   s "~ mars_kits_SP909_909_Standard:4" # gain "0.9" # room "0.8", -- metallic clap
   loopAt 2 $ s "mars_synths_SH5_Dirt:2(3,8)" # gain "0.65" # speed "0.8" # pan sine, -- gritty atmosphere
