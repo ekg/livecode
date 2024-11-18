@@ -91,6 +91,48 @@ d7 $ every 4 (jux rev)
 
 hush
 
+-- Warm, uplifting beat with rich sample variety
+d1 $ stack [
+  -- Warm kick and percussion foundation
+  every 4 (jux rev)
+    $ every 8 (# speed "1.2")
+    $ s "[bd(3,8), ~ industrial:4 ~ industrial:4]"
+    # gain 1.1
+    # lpf (range 200 800 (slow 8 sine)),
+  -- Uplifting melodic elements
+  every 6 (|+ note "12")
+    $ note (scale "major" "<0 4 7 2>")
+    # s "jrhodes"
+    # gain 0.75
+    # room 0.6 # size 0.8
+    # lpf (range 1200 3000 (slow 6 sine)),
+  -- Rhythmic texture layer
+  every 3 (fast 2)
+    $ s "tabla2(5,8)"
+    # n (irand 8)
+    # gain 0.8
+    # pan rand,
+  -- Atmospheric elements
+  every 8 (# speed "0.5")
+    $ s "pad:3(3,8)"
+    # note (scale "major" "0 4")
+    # gain 0.7
+    # room 0.8 # size 0.9
+    # lpf 2000,
+  -- Bright percussion accents
+  every 4 (density 2)
+    $ s "808oh(3,8)"
+    # gain 0.65
+    # hpf 3000
+    # pan (range 0.2 0.8 sine),
+  -- Warm bass foundation
+  note (scale "major" "0 2 -1 4")
+    # s "jvbass"
+    # gain 0.85
+    # lpf 400
+    # shape 0.3
+] # room 0.4 # size 0.8
+
 d1 $ stack [
   -- Atmospheric pad layer with melodic progression
   every 6 (jux rev)
