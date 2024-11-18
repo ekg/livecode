@@ -1,0 +1,7 @@
+-- reggae beat
+d1 $ stack [
+  s "bd(2,8)" # gain "1.1", -- kick on 3 and 7
+  s "sn(2,8, 1)" # gain "1.0", -- snare on 2 and 4  
+  s "hh(7,8)" # gain "0.9", -- hi-hats on most beats except 3
+  s "~ reggae:1*2" # gain "0.8" # speed "1.0" -- offbeat guitar chops
+] # room "0.2" # orbit 0
