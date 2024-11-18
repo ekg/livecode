@@ -13,16 +13,14 @@ d1 $ stack [
 
 hush
 
--- industrial techno variation
+-- melodic piano progression
 d1 $ stack [
-  s "mars_kits_909_Clean:1(2,8)" # gain "1.2", -- punchy kick
-  s "~ mars_kits_SP909_909_Standard:4" # gain "0.9" # room "0.8", -- metallic clap
-  loopAt 2 $ s "mars_synths_SH5_Dirt:2(3,8)" # gain "0.65" # speed "0.8" # pan sine, -- gritty atmosphere
-  loopAt 1 $ s "~ mars_synths_Mini_MadBass:2" # gain "0.4" # delay "0.6" # delaytime "0.33" # lpf (range 600 4000 $ slow 4 sine) # resonance "0.4" # shape "0.4", -- acid bass with filter sweep
-  every 6 (const $ loopAt 2 $ s "mars_kits_MPC60_909") $ -- clean break every 6
-  every 4 (const $ loopAt 2 $ slice 16 "0 8 4 12 14 2 10 6 15 3 11 7 13 1 9 5" $ s "mars_kits_MPC60_909") $ -- chopped break every 4
-  loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "mars_kits_MPC60_909" # gain "0.85" # speed "0.9" # lpf "3500" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern
-] # room "0.2" # sz "<0 8 0 0 2 2 0>" # orbit 1
+  s "superpiano*8" # n (scale "minor" "<[0 4 7 11] [2 5 9 0] [-2 2 5 9] [-3 0 4 7]>" + "60") # gain "0.7" # sustain "2.0", -- piano chords
+  s "superpiano(5,8)" # n (scale "minor" (scramble "<[0 4 7 11 14] [2 5 9 12 0]>") + "72") # gain "0.6" # sustain "1.0" # room "0.8", -- melodic line
+  s "jazz:4(3,8)" # gain "0.8", -- soft kick
+  s "jazz:1*2" # gain "0.6" # room "0.7", -- brushed snare
+  slow 4 $ s "pad:3" # gain "0.4" # lpf (range 800 2000 $ slow 8 sine) # resonance "0.2" -- atmospheric pad
+] # room "0.6" # orbit 1
 
 panic
 
