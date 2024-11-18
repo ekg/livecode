@@ -425,15 +425,16 @@ d13 $ stack [
 
 hush
 
--- Part 3: Synth stabs on 1/8th backbeat
+-- Part 3: Synth stabs with deep moving bass
 d14 $ every 4 (jux rev)
+  $ every 8 (|- note "24")
   $ struct "~ 1 ~ 1 ~ 1 ~ 1"
   $ note (scale "minor" "<[0,4,7] [2,5,9]>")
   # s "808mc" # n 1
-  # sustain 0.2
+  # sustain (every 8 (const 0.8) $ "0.2")
   # gain 0.82
   # lpf (range 400 2000 (slow 4 sine))
-  # room 0.2
+  # room (every 8 (const 0.6) $ "0.2")
 
 -- Part 4: Atmospheric layer
 d15 $ every 8 (chop 8)
