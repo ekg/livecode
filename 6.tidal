@@ -711,10 +711,16 @@ d1 $
 d2 $ stack [
   -- Four-on-the-floor kick
   s "bd(4,4)" # gain 1.1 # lpf 100,
-  -- Hi-hats with shuffle
-  every 2 (fast 2) $ s "hh(7,8)" # gain 0.8 # hpf 8000,
-  -- Claps on 2 and 4
-  s "cp(2,4)" # gain 0.85 # room 0.3,
+  -- Varied hi-hat pattern using industrial and 808 samples
+  every 2 (fast 2) $ stack [
+    s "industrial:4(5,8)" # gain 0.7 # hpf 6000 # pan (range 0.2 0.8 rand),
+    s "808oh(3,8)" # gain 0.75 # hpf 8000 # pan (range 0.3 0.7 sine)
+  ],
+  -- Layered claps and snares with more character
+  every 4 (density 2) $ stack [
+    s "realclaps(2,4)" # gain 0.8 # room 0.4,
+    s "drumtraks:7(2,4,1)" # gain 0.75 # room 0.3
+  ],
   -- Subtle percussion
   every 4 (jux rev) $ s "tabla2(3,8)" # n (irand 8) # gain 0.75 # pan rand
 ] # room 0.2
