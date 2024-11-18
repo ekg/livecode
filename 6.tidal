@@ -89,6 +89,7 @@ d7 $ every 4 (jux rev)
    ]
    # room 0.2 # size 0.3
 
+hush
 
 d1 $ stack [
   -- Atmospheric pad layer with melodic progression
@@ -208,35 +209,36 @@ d5 $ stack [
     # lpf (range 800 2000 (slow 4 sine))
 ]
 
+hush
+
 -- Dreamy, filtered piano melody
 d10 $ every 8 (jux (rev . (# speed "0.85")))
-    $ every 6 (|+ note "12")
-    $ stack [
-      slow 4 
-        $ note (scale "major" (cat [
-            "~ 4 7 12",
-            "~ 5 9 14",
-            "~ 7 11 16",
-            "~ ~ 4 7"
-          ]))
-        # s "jrhodes" 
-        # gain 0.7
-        # room 0.8 # size 0.9
-        # lpf (range 400 1800 (slow 12 sine))
-        # pan (range 0.2 0.8 (slow 6 sine)),
-      -- Harmonious arpeggiated layer that fades in/out
-      sometimesBy 0.6
-        $ every 4 (arpg)
-        $ slow 2
-        $ note (scale "major" "[7,11,14] [9,12,16] [11,14,18] [7,11,14]")
-        # s "jrhodes"
-        # gain (range 0.45 0.6 (slow 16 sine))
-        # room 0.9 # size 0.95
-        # lpf (range 800 2000 (slow 8 sine))
-        # pan (range 0.3 0.7 (slow 4 sine))
-    ]
-    # sustain 3.5
-    # orbit 1
+  $ every 6 (|+ note "12")
+  $ stack [
+  slow 4
+    $ note (scale "major" (cat [
+                              "~ 4 7 12",
+                              "~ 5 9 14",
+                                "~ 7 11 16",
+                                "~ ~ 4 7"
+                              ]))
+    # s "jrhodes" 
+    # gain 0.7
+    # room 0.8 # size 0.9
+    # lpf (range 400 1800 (slow 12 sine))
+    # pan (range 0.2 0.8 (slow 6 sine)),
+    -- Harmonious arpeggiated layer that fades in/out
+    every 4 (arpg)
+    $ slow 2
+    $ note (scale "major" "[7,11,14] [9,12,16] [11,14,18] [7,11,14]")
+    # s "jrhodes"
+    # gain (range 0.45 0.6 (slow 16 sine))
+    # room 0.9 # size 0.95
+    # lpf (range 800 2000 (slow 8 sine))
+    # pan (range 0.3 0.7 (slow 4 sine))
+  ]
+  # sustain 3.5
+  # orbit 1
 
 -- Complex 8-bar beat pattern with variations
 d10 $ every 8 (jux rev)
