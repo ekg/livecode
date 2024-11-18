@@ -104,10 +104,12 @@ d7 $ stack [
     # lpf "200" # speed "0.9"
 ] # orbit 7
 
+hush
+
 -- extended melodic interlude with filter transitions
 d8 $ stack [
   -- global filter sweep with longer cycle
-  whenmod 16 14 (const silence) $ s "808lt:0" # gain "0.0" 
+   whenmod 16 14 (const silence) $ s "808lt:0" # gain "0.0" 
     # lpf (range 20000 20 $ slow 16 sine) # resonance "0.4" 
     # orbit "[0 1 2 3 4 5 6 7]",
   -- expanded melodic section
