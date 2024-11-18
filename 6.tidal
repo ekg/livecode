@@ -133,6 +133,8 @@ d1 $ stack [
     # shape 0.3
 ] # room 0.4 # size 0.8
 
+hush
+
 d1 $ stack [
   -- Atmospheric pad layer with melodic progression
   every 6 (jux rev)
