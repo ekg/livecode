@@ -1,5 +1,5 @@
--- spacey reggae with loopAt control
-d1 $ stack [
+-- spacey reggae with loopAt control and structured space
+d1 $ struct "t(3,8)" $ stack [
   s "808bd:3(2,8)" # gain "1.1", -- deep kick
   s "~ realclaps:2" # gain "0.85" # room "0.9", -- natural clap with space
   loopAt 2 $ s "wind:3(3,8)" # gain "0.7" # speed "0.7" # pan sine, -- atmospheric wind with 2-cycle loop
@@ -7,6 +7,6 @@ d1 $ stack [
   every 6 (const $ loopAt 2 $ s "breaks157") $ -- clean version every 6 cycles
   every 4 (const $ loopAt 2 $ slice 16 "0 8 4 12 14 2 10 6 15 3 11 7 13 1 9 5" $ s "breaks157") $ -- more chopped version every 4 cycles
   loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "breaks157" # gain "0.8" # speed "0.8" # lpf "3000" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern
-] # room "0.7" # orbit 0
+] # room (struct "t(5,8)" $ "0.9" ) # orbit 0
 
 panic
