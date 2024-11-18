@@ -1,7 +1,7 @@
--- spacey reggae
+-- spacey reggae with controlled loops
 d1 $ stack [
   s "bd(2,8)" # gain "1.0", -- minimal kick
   s "~ sn:2" # gain "0.9" # room "0.8", -- echoed snare
-  s "space:3(3,8)" # gain "0.75" # speed "0.8" # pan sine, -- space swooshes
-  s "~ reggae:1" # gain "0.8" # speed "0.9" # delay "0.6" # delaytime "0.25" -- delayed guitar
+  s "space:3(3,8)" # gain "0.75" # speed "0.8" # pan sine # loop "1", -- space swooshes with loop control
+  s "~ reggae:1" # gain "0.8" # speed "0.9" # delay "0.6" # delaytime "0.25" # loop "1" -- delayed guitar with loop control
 ] # room "0.6" # orbit 0
