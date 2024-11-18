@@ -715,7 +715,7 @@ d2 $ stack [
     # resonance (range 0.2 0.5 (slow "<11 17>" sine)),
   -- Complex hi-hat pattern with intricate filter modulation
   every 2 (fast 2) $ stack [
-    s "industrial:3(5,8)" # gain 0.55 
+    s "industrial:8(5,8)" # gain 0.55 
       # hpf (range 4000 12000 (slow "<7 11 13>" sine)) 
       # lpf (range 6000 14000 (slow "<5 8 13>" sine))
       # resonance (range 0.1 0.4 (slow "<9 14>" sine))
@@ -750,3 +750,5 @@ d2 $ stack [
 ] # room 0.2
 
 hush
+
+
