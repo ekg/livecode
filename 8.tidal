@@ -4,8 +4,6 @@ d1 $ s "kick*4" # n (run 4)
   # size 0.5
   # orbit 1
   # shape 0.5
-  # reshz 200
-  # resgain 0.5
   # attack 0.01
   # decay 0.1
   # sustain 0.5
@@ -17,8 +15,6 @@ d2 $ s "sn*4" # n (run 4)
   # size 0.5
   # orbit 1
   # shape 0.5
-  # reshz 200
-  # resgain 0.5
   # attack 0.01
   # decay 0.1
   # sustain 0.5
@@ -30,8 +26,6 @@ d3 $ s "amencutup*4" # n (run 4)
   # size 0.5
   # orbit 1
   # shape 0.5
-  # reshz 200
-  # resgain 0.5
   # attack 0.01
   # decay 0.1
   # sustain 0.5
@@ -43,8 +37,6 @@ d4 $ s "yeah*4" # n (run 4)
   # size 0.5
   # orbit 1
   # shape 0.5
-  # reshz 200
-  # resgain 0.5
   # attack 0.01
   # decay 0.1
   # sustain 0.5
