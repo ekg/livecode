@@ -22,6 +22,8 @@ d1 $ stack [
   slow 4 $ s "pad:3" # gain "0.4" # lpf (range 800 2000 $ slow 8 sine) # resonance "0.2" -- atmospheric pad
 ] # room "0.6" # orbit 1
 
+d1 silence
+
 panic
 
 -- heavy kick pattern
@@ -30,6 +32,8 @@ d2 $ stack [
   s "mars_kits_MPC60_808:2(2,8)" # gain "1.1" # lpf "100" # resonance "0.2" # shape "0.4" -- sub kick
 ] # orbit 2
 
+d2 silence
+
 -- snare break pattern
 d3 $ stack [
   s "~ snare:2" # gain "0.9", -- basic snare
@@ -37,4 +41,8 @@ d3 $ stack [
   every 6 (# speed "0.8") $ s "~ [~ snare:7*2]" # gain "0.75" # pan (range 0.3 0.7 rand) -- ghost notes
 ] # orbit 3
 
+d3 silence
+
 hush
+
+-- onward
