@@ -404,6 +404,7 @@ d11 $ every 8 (jux (rev . (# speed "0.85")))
     # orbit 2
 
 -- Techno track components
+hush
 
 -- Part 1: Basic techno kick and bass pattern
 d12 $ stack [
@@ -422,11 +423,13 @@ d13 $ stack [
   every 4 (fast 2) $ s "tech(3,8)" # n (irand 8) # gain 0.75
 ]
 
+hush
+
 -- Part 3: Synth stabs on 1/8th backbeat
 d14 $ every 4 (jux rev)
   $ struct "~ 1 ~ 1 ~ 1 ~ 1"
   $ note (scale "minor" "<[0,4,7] [2,5,9]>")
-  # s "supersaw"
+  # s "808mc" # n 1
   # sustain 0.2
   # gain 0.82
   # lpf (range 400 2000 (slow 4 sine))
