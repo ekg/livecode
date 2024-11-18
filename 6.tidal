@@ -707,34 +707,45 @@ d1 $
     # lpf (range 800 2400 (slow 8 sine))
     # pan (range 0.3 0.7 (slow 6 sine))
 
--- Clean house beat on separate channel with modulated filters
+-- Clean house beat on separate channel with complex polyrhythmic filters
 d2 $ stack [
-  -- Four-on-the-floor kick with filter movement
-  s "bd(4,4)" # gain 1.1 # lpf (range 80 800 (slow 8 sine)) # resonance 0.3,
-  -- Complex hi-hat pattern using higher frequency samples
+  -- Four-on-the-floor kick with dual filter movement
+  s "bd(4,4)" # gain 1.1 
+    # lpf (range 80 800 (slow "<8 13 21>" sine)) 
+    # resonance (range 0.2 0.5 (slow "<11 17>" sine)),
+  -- Complex hi-hat pattern with intricate filter modulation
   every 2 (fast 2) $ stack [
     s "industrial:3(5,8)" # gain 0.55 
-      # hpf (range 4000 8000 (slow 4 sine)) 
+      # hpf (range 4000 12000 (slow "<7 11 13>" sine)) 
+      # lpf (range 6000 14000 (slow "<5 8 13>" sine))
+      # resonance (range 0.1 0.4 (slow "<9 14>" sine))
       # pan (range 0.2 0.8 rand),
     s "808cp:0(3,8)" # gain 0.6 
-      # hpf (range 6000 10000 (slow 6 sine)) 
+      # hpf (range 6000 15000 (slow "<6 9 15>" sine)) 
+      # lpf (range 8000 16000 (slow "<4 7 11>" sine))
+      # resonance (range 0.2 0.5 (slow "<8 12>" sine))
       # pan (range 0.3 0.7 sine)
   ],
-  -- Layered high-frequency percussion with filter modulation
+  -- Layered percussion with interweaving filter patterns
   every 4 (density 2) $ stack [
     s "realclaps:3(2,4)" # gain 0.8 
-      -- # bandpf (range 2000 8000 (slow 5 sine)) 
+      # hpf (range 2000 8000 (slow "<5 8 13>" sine))
+      # lpf (range 4000 12000 (slow "<7 11 16>" sine))
+      # resonance (range 0.3 0.6 (slow "<9 14>" sine))
       # room 0.4,
     s "drumtraks:11(2,4,1)" # gain 0.75 
-      # hpf (range 4000 9000 (slow 7 sine)) 
+      # hpf (range 4000 10000 (slow "<7 12 15>" sine))
+      # lpf (range 6000 14000 (slow "<5 9 13>" sine))
+      # resonance (range 0.2 0.5 (slow "<11 16>" sine))
       # room 0.3
   ],
-  -- Bright percussion with moving filters
+  -- Bright percussion with complex modulated filters
   every 4 (jux rev) 
     $ s "tabla2:12(3,8)" # n (irand 8) 
     # gain 0.75 
-    -- # bandpf (range 3000 10000 (slow 9 sine)) 
-    # resonance (range 0.2 0.4 (slow 11 sine))
+    # hpf (range 3000 9000 (slow "<6 11 14>" sine))
+    # lpf (range 5000 13000 (slow "<8 13 17>" sine))
+    # resonance (range 0.2 0.6 (slow "<9 15>" sine))
     # pan rand
 ] # room 0.2
 
