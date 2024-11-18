@@ -1,9 +1,7 @@
--- reggae beat variation
+-- spacey reggae
 d1 $ stack [
-  s "bd(2,8)" # gain "1.1", -- kick on 3 and 7
-  s "sn(2,8, 1)" # gain "1.0", -- snare on 2 and 4
-  s "hh(7,8)" # gain "0.85", -- hi-hats
-  s "[~ reggae:2*2, ~ reggae:5*2]" # gain "0.8" # speed "[1.0 0.98]", -- layered guitar chops
-  s "bass3(3,8)" # gain "1.0" # speed "0.8" # lpf 800, -- bassline
-  s "tabla2:8(3,16)" # gain "0.7" # pan (rand) -- percussion fills
-] # room "0.3" # orbit 0
+  s "bd(2,8)" # gain "1.0", -- minimal kick
+  s "~ sn:2" # gain "0.9" # room "0.8", -- echoed snare
+  s "space:3(3,8)" # gain "0.75" # speed "0.8" # pan sine, -- space swooshes
+  s "~ reggae:1" # gain "0.8" # speed "0.9" # delay "0.6" # delaytime "0.25" -- delayed guitar
+] # room "0.6" # orbit 0
