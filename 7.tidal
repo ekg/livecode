@@ -78,3 +78,16 @@ d5 $ stack [
   degradeBy 0.6 $ s "gtr:3(5,16)" # n "0" # gain "0.3" 
     # delay "0.8" # delaytime "0.5" # delayfb "0.7"
 ] # orbit 5
+
+-- subtle breakbeat layer
+d6 $ stack [
+  -- processed breaks
+  loopAt 2 $ chop 16 $ s "breaks157" # gain "0.6" 
+    # lpf (range 1000 3000 $ slow 8 sine) # room "0.7",
+  -- scattered hits
+  degradeBy 0.6 $ s "amencutup*8" # n (irand 8) # gain "0.45" 
+    # pan (range 0.2 0.8 rand) # speed "0.8",
+  -- filtered break layer
+  every 4 (# crush "8") $ loopAt 4 $ s "breaks125" # gain "0.5" 
+    # hpf "2000" # room "0.8" # size "0.9"
+] # orbit 6
