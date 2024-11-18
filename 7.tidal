@@ -91,3 +91,7 @@ d6 $ stack [
   every 4 (# crush "8") $ loopAt 4 $ s "breaks125" # gain "0.5" 
     # hpf "2000" # room "0.8" # size "0.9"
 ] # orbit 6
+
+d6 silence
+
+-- oooh yeah
