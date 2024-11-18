@@ -240,6 +240,8 @@ d10 $ every 8 (jux (rev . (# speed "0.85")))
   # sustain 3.5
   # orbit 1
 
+hush
+
 -- Complex 8-bar beat pattern with variations
 d10 $ every 8 (jux rev)
    $ stack [
