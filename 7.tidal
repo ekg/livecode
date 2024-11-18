@@ -104,18 +104,21 @@ d7 $ stack [
     # lpf "200" # speed "0.9"
 ] # orbit 7
 
--- transition filter sweep and melodic break
+-- extended melodic interlude with filter transitions
 d8 $ stack [
-  -- global filter sweep
-  whenmod 8 6 (const silence) $ s "808lt:0" # gain "0.0" 
-    # lpf (range 20000 20 $ slow 8 sine) # resonance "0.3" 
+  -- global filter sweep with longer cycle
+  whenmod 16 14 (const silence) $ s "808lt:0" # gain "0.0" 
+    # lpf (range 20000 20 $ slow 16 sine) # resonance "0.4" 
     # orbit "[0 1 2 3 4 5 6 7]",
-  -- emerging melody after silence
-  whenmod 8 7 (const $ stack [
-    s "superpiano(5,8)" # n (scale "minor" "0 4 7 11 14" + "72") 
-      # gain "0.8" # room "0.9" # size "0.95",
+  -- expanded melodic section
+  whenmod 16 15 (const $ stack [
+    s "superpiano(5,8)" # n (scale "minor" (scramble 8 "0 4 7 11 14 7 4 11") + "72") 
+      # gain "0.85" # room "0.95" # size "0.98",
     s "mars_synths_KawaiiDreams_Air(3,8)" # n (scale "minor" "[0,4,7]" + "60") 
-      # gain "0.6" # room "0.8"
+      # gain "0.7" # room "0.9",
+    -- additional textural layer
+    slow 2 $ s "mars_synths_2600_Jackies33(3,8)" # n "0" 
+      # gain "0.5" # room "0.8" # lpf (range 2000 4000 $ slow 8 sine)
   ]) $ s "~"
 ] # orbit 8
 
