@@ -129,19 +129,20 @@ d8 $ stack [
 -- ethereal piano composition
 d9 $ stack [
   -- main piano melody
-  slow 2 $ s "superpiano(7,8)" # n (scale "minor" (cat [
+  slow 2 $ s "superpiano(7,8)" # note (scale "minor" (cat [
     "7 11 14 11 7 4 0",
     "9 12 16 12 9 5 2",
     "7 11 14 11 7 4 0",
     "5 9 12 9 5 2 -2"
-  ]) + "60") # gain "0.75" # sustain "3.0" # room "0.9" # size "0.95",
+  ]) + "<0 7>") # gain "0.75" # sustain "3.0" # room "0.9" # size "0.95",
   -- gentle supporting chords
-  slow 8 $ s "superpiano" # n (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,2,5,9] [-7,0,4,7]>" + "48") 
+  slow 8 $ s "superpiano" # note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,2,5,9] [-7,0,4,7]>" + "48") 
     # gain "0.6" # sustain "6.0" # room "0.95" # size "0.98",
   -- soft atmospheric pad
-  slow 4 $ s "mars_synths_KawaiiDreams_Air" # n (scale "minor" "[0,7]" + "48") 
+  slow 4 $ s "mars_synths_KawaiiDreams_Air" # note (scale "minor" "[0,7]" + "48") 
     # gain "0.4" # room "0.9" # lpf (range 800 2000 $ slow 16 sine),
   -- delicate high notes
-  degradeBy 0.6 $ s "superpiano(3,8)" # n (scale "minor" "14 11 7" + "72") 
+  degradeBy 0.6 $ s "superpiano(3,8)" # note (scale "minor" "14 11 7" + "72") 
     # gain "0.45" # sustain "2.0" # room "0.95"
 ] # orbit 9
+
