@@ -11,6 +11,8 @@ d1 $ stack [
   loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "breaks157" # gain "0.8" # speed "0.8" # lpf "3000" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern
 ] # room "0.9" # orbit 0
 
+hush
+
 -- industrial techno variation
 d2 $ stack [
   s "mars_kits_909_Clean:1(2,8)" # gain "1.2", -- punchy kick
@@ -20,7 +22,7 @@ d2 $ stack [
   every 6 (const $ loopAt 2 $ s "mars_kits_MPC60_909") $ -- clean break every 6
   every 4 (const $ loopAt 2 $ slice 16 "0 8 4 12 14 2 10 6 15 3 11 7 13 1 9 5" $ s "mars_kits_MPC60_909") $ -- chopped break every 4
   loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "mars_kits_MPC60_909" # gain "0.85" # speed "0.9" # lpf "3500" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern
-] # room "0.8" # orbit 1
+] # room "0.2" # sz "<0 8 0 0 2 2 0>" # orbit 1
 
 panic
 
