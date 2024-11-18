@@ -330,30 +330,31 @@ d12 $ every 4 (jux (rev . (# speed "0.95 0.93")))
     ]
     # orbit 2
 
--- Soft, ethereal piano melody
-d11 $ every 6 (jux (rev . (# speed "0.95")))
-    $ every 5 (|+ note "7")
+-- Soft, ethereal piano melody with extended space
+d11 $ every 8 (jux (rev . (# speed "0.85")))
+    $ every 6 (|+ note "7")
     $ stack [
-      slow 3
+      slow 6
         $ note (scale "major" (cat [
-            "[~,4,7] [4,7,11] [7,11,14] [4,7,11]",
-            "[~,5,9] [5,9,12] [~,4,7] [~,5,9]",
-            "[4,7,11] [~,4,7] [~,~,4] [~,4,7]"
+            "[~,4,7] ~ [4,7,11] ~",
+            "[7,11,14] ~ [4,7,11] ~",
+            "[~,5,9] ~ [~,4,7] ~"
           ]))
         # s "superpiano" 
-        # gain 0.68
-        # room 0.85 # size 0.9
-        # lpf (range 800 2000 (slow 16 sine))
-        # pan (range 0.2 0.8 (slow 8 sine)),
-      slow 2 
-        $ note (scale "major" "[0,4,7] [2,5,9] [4,7,11] [0,4,7]")
-        # s "superpiano"
-        # gain 0.62
+        # gain 0.65
         # room 0.9 # size 0.95
-        |*| gain "[0.9 0.85 0.8 0.75]"
+        # lpf (range 400 1600 (slow 32 saw))
+        # pan (range 0.2 0.8 (slow 16 sine)),
+      slow 4 
+        $ note (scale "major" "[0,4,7] ~ [4,7,11] [0,4,7]")
+        # s "superpiano"
+        # gain 0.58
+        # room 0.95 # size 0.98
+        |*| gain "[0.85 0.8 0.75 0.7]"
+        # lpf (range 600 2000 (slow 24 saw))
     ]
-    # room 0.7 # size 0.95
-    # sustain 4
+    # room 0.8 # size 0.97
+    # sustain 6
     # orbit 2
 
 -- Techno track components
