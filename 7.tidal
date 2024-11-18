@@ -61,4 +61,18 @@ d4 $ stack [
     # gain "0.75" # resonance "0.3" # cutoff (range 1000 3000 $ slow 4 sine)
 ] # orbit 4
 
--- onward
+-- ambient interlude
+d5 $ stack [
+  -- floating pad base
+  slow 8 $ s "mars_synths_KawaiiDreams_Air*4" # n (scale "minor" "<[0,4,7] [-3,0,4]>" + "60") 
+    # gain "0.5" # room "0.9" # size "0.95" # lpf (range 500 2000 $ slow 16 sine),
+  -- gentle bells
+  slow 4 $ s "superpiano(3,8)" # n (scale "minor" "[0,7,11] [4,7,11]" + "72") 
+    # gain "0.4" # sustain "4.0" # room "0.8",
+  -- soft texture
+  sometimesBy 0.3 (# speed "0.5") $ s "wind:3(2,8)" # gain "0.35" 
+    # pan (range 0.2 0.8 $ slow 8 sine) # room "0.95",
+  -- distant chimes
+  degradeBy 0.6 $ s "gtr:3(5,16)" # n "0" # gain "0.3" 
+    # delay "0.8" # delaytime "0.5" # delayfb "0.7"
+] # orbit 5
