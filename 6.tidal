@@ -428,9 +428,11 @@ hush
 -- Part 3: Synth stabs with deep moving bass
 d14 $ every 4 (jux rev)
   $ every 8 (|- note "24")
-  $ struct "~ 1 ~ 1 ~ 1 ~ 1"
+  -- $ struct "~ 1 ~ 1 ~ 1 ~ 1"
+  $ struct "t(5,<8 8 8 13 8 8 9 11>)"
   $ note (scale "minor" "<[0,4,7] [2,5,9]>")
-  # s "808mc" # n 1
+  # stack [s "[808lt, <~ ~ 808lc ~ 808mt>]" # n 0,
+           s "jrhodes" # n "[0 1 2 3]"]
   # sustain (every 8 (const 0.8) $ "0.2")
   # gain 0.82
   # lpf (range 400 2000 (slow 4 sine))
@@ -474,6 +476,8 @@ d16 $ every 4 (jux (rev . (# speed "0.9")))
     ]
   # orbit 3
 --  # silence
+
+hush
 
 -- Minimal Techno Section
 -- Start with basic elements and gradually build
