@@ -16,7 +16,7 @@ hush
 -- melodic piano progression
 d1 $ stack [
   s "superpiano*8" # n (scale "minor" "<[0 4 7 11] [2 5 9 0] [-2 2 5 9] [-3 0 4 7]>" + "60") # gain "0.7" # sustain "2.0", -- piano chords
-  s "superpiano(5,8)" # n (scale "minor" (scramble "<[0 4 7 11 14] [2 5 9 12 0]>") + "72") # gain "0.6" # sustain "1.0" # room "0.8", -- melodic line
+  s "superpiano(5,8)" # n (scale "minor"  "<[0 4 7 11 14] [2 5 9 12 0]>" + "72") # gain "0.6" # sustain "1.0" # room "0.8", -- melodic line
   s "jazz:4(3,8)" # gain "0.8", -- soft kick
   s "jazz:1*2" # gain "0.6" # room "0.7", -- brushed snare
   slow 4 $ s "pad:3" # gain "0.4" # lpf (range 800 2000 $ slow 8 sine) # resonance "0.2" -- atmospheric pad
