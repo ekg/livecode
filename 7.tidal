@@ -1,7 +1,7 @@
 -- spacey reggae with loopAt control
 d1 $ stack [
-  s "bd(2,8)" # gain "1.0", -- minimal kick
-  s "~ sn:2" # gain "0.9" # room "0.8", -- echoed snare
-  loopAt 2 $ s "space:3(3,8)" # gain "0.75" # speed "0.8" # pan sine, -- space swooshes with 2-cycle loop
-  loopAt 1 $ s "~ reggae:1" # gain "0.8" # delay "0.6" # delaytime "0.25" -- delayed guitar with 1-cycle loop
-] # room "0.6" # orbit 0
+  s "808bd:3(2,8)" # gain "1.1", -- deep kick
+  s "~ realclaps:2" # gain "0.85" # room "0.9", -- natural clap with space
+  loopAt 2 $ s "wind:3(3,8)" # gain "0.7" # speed "0.7" # pan sine, -- atmospheric wind with 2-cycle loop
+  loopAt 1 $ s "~ gtr:2" # gain "0.85" # delay "0.7" # delaytime "0.33" -- echoed guitar with 1-cycle loop
+] # room "0.7" # orbit 0
