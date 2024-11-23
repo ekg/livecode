@@ -12,7 +12,7 @@ d1 $ stack [
   -- Deep sub bass
   s "jungbass:4(3,8,1)" # gain 1.2 # lpf 100,
   -- Shaker pattern
-  fast 2 $ s "industrial:8(5,16,3)" # n (fast 7 "<7 8 9 2>") # gain 0.75 # pan (range 0.3 0.7 sine),
+  fast 2 $ s "flbass:0(5,16,3)" # n (fast 7 "<7 8 9 2>") # gain 0.75 # pan (range 0.3 0.7 sine)
 ] # room 0.4 # size 0.8
 
 hush
@@ -26,9 +26,8 @@ do
   d3 $ s "tabla2:15(5,8,1)" # gain 1.1 # lpf 300 # resonance 0.4
   d4 $ fast 2 $ s "industrial:8(5,16,3)" # n (fast 7 "<7 8 9 2>") # gain 0.75 # pan (range 0.3 0.7 sine)
   -- use ­mars_synths_DrSample_Strings (3)
-  d5 $ slow 4 $ note "c5'min7 e5'min7 g5'min7 ~" # s "mars_synths_DrSample_Strings:3"
-    # gain 0.8 # room 0.7 # cut 1 # attack 0.1 # release 0.7 # sustain 0.7
-    -- $ s "mars_synths_DrSample_Strings:3" # gain 0.8 # room 0.7 # cut 1
+  d5 $ slow 4 $ note "c6'min7 e6'min7 g6'min7 ~" # s "flbass:0"
+    # gain 0.8 # room 0.7 # attack 0.1 # release 0.7 # sustain 0.7
 
 -- Deep house chords with filter sweep
 d2 $ every 4 (|+ note 2)
@@ -89,6 +88,8 @@ d2 $ stack [
   struct "t(7,16)" $ s "arpy:1" # note (scale "minor" "0 5 7") # pan sine,
   slow 2 $ s "notes:4(3,8)" # speed 0.8 # room 0.6
 ] # orbit 3
+
+hush
 
 -- Rhythmic melodic pattern with stutter effects
 d3 $ every 4 (stut 3 0.5 0.125) $ stack [

@@ -15,3 +15,9 @@ The operator will mix on the level of playing different code blocks.
 Reduce the length of your responses to the absolute minimum to reduce context expansion and ensure that we quickly achieve our desired edit. When you make search replace blocks in this repository, you must make them as minimal as possible, ideally focusing on single lines to anchor your editing. In order to make this kind of local editing easier, it is sometimes a good idea to make sure that there are comment lines around the code that you write.
 
 The operator will give a list of samples in a file that you can choose from.
+
+Use do blocks to collect different channels together into a single set. This is a typical pattern:
+
+```haskell
+
+```
