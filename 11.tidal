@@ -34,10 +34,20 @@ do
 
 hush
 
-d1 $ stack [
-  s "808bd:3(3,8)" # lpf 600 # crush 2,
-  fast 0.5 $ s "~ realclaps:0(3,8) ~ cp:0" # crush 8,
-  fast "<8 8 8 9 7>" $ s "hh(2,7)" # n (fast "<11 12 11 13>" "0 0 0 3 7 0") # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9")
+do
+  -- Rhythmic base
+  d1 $ stack [
+    s "808bd:3(3,8)" # lpf 600 # crush 2,
+    fast 0.5 $ s "~ realclaps:0(3,8) ~ cp:0" # crush 8,
+    fast "<8 8 8 9 7>" $ s "hh(2,7)" # n (fast "<11 12 11 13>" "0 0 0 3 7 0") # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9")
   ]
+  -- Spacey piano line
+  d5 $ slow 4 
+    $ note (scale "minor" "0 3 5 7 3 0 -2 -4") 
+    # s "superpiano" 
+    # gain 0.7 
+    # room 0.8 
+    # size 0.9 
+    # lpf (range 800 2000 $ slow 8 sine)
 
 hush
