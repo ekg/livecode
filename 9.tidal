@@ -1,0 +1,15 @@
+-- Hot beat with 909 kicks, MPC hats and percussion layers
+d1 $ stack [
+  s "mars_kits_909_Clean:0*4" # gain 1.2,
+  s "mars_kits_MPC60_Real_Light:1 ~ mars_kits_MPC60_Real_Light:1 ~" # gain 0.9,
+  fast 2 $ s "mars_kits_MPC60_Real_Light:4*2" # gain 0.8 # pan (range 0.3 0.7 sine)
+] # room 0.2
+
+-- Add some synth stabs 
+d2 $ every 4 (fast 2) $ s "mars_synths_SH101_Rave:2(3,8)" # gain 0.85 # lpf 2000
+
+-- Percussion groove
+d3 $ stack [
+  s "~ mars_kits_909_Clean:5 ~ mars_kits_909_Clean:5" # gain 0.9,
+  fast 2 $ s "mars_kits_MPC60_Real_Light:6*2" # gain 0.75 # pan rand
+] # room 0.3
