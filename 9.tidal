@@ -31,3 +31,19 @@ d4 $ stack [
   struct (binary 85) $ s "industrial:15" # gain 0.7 # pan sine,
   struct "t(5,8)" $ s "space:7" # gain 0.9 # lpf (range 400 3000 $ slow 4 sine)
 ] # size 0.8 # orbit 1
+
+-- Deep space breaks (8-bar cycle)
+d5 $ whenmod 8 7 (# gain 1) 
+   $ stack [
+    slow 4 $ s "space:2*8" # begin (range 0 0.8 rand) # speed "-0.5",
+    slow 2 $ s "industrial:4(3,8)" # room 0.9 # size 0.95 # gain 0.85,
+    struct "t(7,16)" $ s "birds3:2" # speed "-1" # pan sine
+   ] # gain 0
+
+-- Weird space effects (16-bar cycle)
+d6 $ whenmod 16 15 (# gain 1)
+   $ stack [
+    slow 8 $ s "space:15*4" # speed (range 0.5 2 sine) # begin rand,
+    stut 4 0.6 0.125 $ s "industrial:8(5,8)" # room 0.95,
+    chop 32 $ s "birds3:5" # speed "-0.75" # pan (slow 4 sine)
+   ] # cloudsblend 0.7 0.8 0.6 0.5 # gain 0
