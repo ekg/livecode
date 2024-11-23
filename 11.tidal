@@ -34,6 +34,43 @@ do
 
 hush
 
+-- Section C: Deep/Atmospheric with driving beat
+do
+  setcps (128/60/4)
+  -- Core rhythm section
+  d5 $ stack [
+    s "808bd(3,8)" # gain 1.2 # lpf 200,
+    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
+    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)
+  ]
+  -- Atmospheric pad with filter sweep
+  d6 $ every 8 (rev) 
+    $ loopAt 4 
+    $ chop 16 
+    $ s "lpviz" # n 388 
+    # gain 0.85 
+    # room 0.6 
+    # lpf (range 400 3000 $ slow 16 sine)
+  -- Rolling bass with occasional flourishes
+  d7 $ every 5 (stut 3 0.5 (1/3))
+    $ note "c2 [~ g2] e2 [~ a2]"
+    # s "flbass"
+    # n 3
+    # gain 0.9
+    # room 0.3
+  -- Melodic line with specific intervals
+  d8 $ every 4 (fast 2)
+    $ note (scale "minor" "0 3 [5 7] 4")
+    # s "supervibe"
+    # gain 0.75
+    # room 0.5
+  -- Mute options
+  -- d5 silence
+  -- d6 silence
+  -- d7 silence
+  -- d8 silence
+
+hush
 -- Section A: Dark/Spacey
 do
   -- Rhythmic base
