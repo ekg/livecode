@@ -64,11 +64,12 @@ do
     -- fast 2 $ s "~ realclaps" # n "[3,4]" # room 0.3 ]
   -- Long melodic line with direct note progression
   d2 $ slow 16
-    $ note "0 <0 4 7> 5 <2 6 9> 7 <4 8 11> 3 <-2 2 5>"
+    $ note 24 + note "0 <0 4 7> 5 <2 6 ~> 7 <4 8> 3 <-2 2 5>"
     # s "flbass"
-    # room 0.6
+    # room 0.9
     # size 0.7
     # gain 0.8
+    # lpf (range 500 2000 $ slow 16 sine)
   -- Arpeggiated melody with specific intervals
   d3 $ every 4 (fast 2)
     $ arp "up down"
