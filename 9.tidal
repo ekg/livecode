@@ -1,3 +1,6 @@
+-- Set tempo to 125 BPM
+setcps (125/60/4)
+
 -- Amapiano/Deep House beat
 d1 $ stack [
   -- Log drum pattern using tabla
