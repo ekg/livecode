@@ -30,3 +30,39 @@ d4 $ slow 8 $ stut 4 0.6 0.25
   # orbit 2
   # lpf (range 800 2800 $ slow 16 sine)
   # resonance 0.3
+
+-- Alternative version with different timbres
+d5 $ stack [
+  -- 3-beat cycle with modular kicks
+  s "mars_kits_ModularDrums_WestCoast:0(3,8)" # gain 1.0,
+  -- 4-beat cycle with electronic claps
+  s "mars_kits_ModularDrums_Aliena:1(5,8)" # gain 0.85 # pan 0.3,
+  -- 5-beat cycle with digital hats
+  fast 1.25 $ s "mars_kits_ModularDrums_SilentShout:2(5,8)" # gain 0.75 # pan 0.7
+] # room 0.2
+
+-- Complementary modular synth line
+d6 $ slow 2 $ note (scale "minor" "0 3 5 7") 
+  # s "mars_synths_ModularCreations_Model15" 
+  # gain 0.7 
+  # lpf 2000
+
+-- Atmospheric pad with enhanced space
+d7 $ slow 4 $ s "mars_synths_ModularCreations_STO*2" 
+  # note (scale "minor" "<0 3>")
+  # gain 0.5
+  # room 0.95
+  # size 0.97
+  # orbit 1
+  # pan (range 0.2 0.8 $ slow 8 sine)
+
+-- Ethereal modular texture
+d8 $ slow 8 $ stut 4 0.6 0.25 
+  $ s "mars_synths_ModularCreations_VCO6" 
+  # note (scale "minor" "7") 
+  # gain 0.4
+  # room 0.99
+  # size 0.99
+  # orbit 2
+  # lpf (range 800 2800 $ slow 16 sine)
+  # resonance 0.3
