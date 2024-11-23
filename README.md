@@ -8,7 +8,7 @@ There are only 16 `d`-channels. So you have `d1` to `d16`.
 
 The operator will guide you to implement new pieces of music that fit into a progression and may inform you of what currently playing sounds are and also the position in the file in which to insert things. If no position is given you should tend to place things at the end. Make sure that you use lower numbers typically. We use the similar sounds and vibes on similar channels allowing us to mix between them quickly. That's what the operator will be doing.
 
-When you make stacks and other complex forms, make sure that you don't leave newlines in any piece of code that you expect the operator to run in one go, because their interface does not allow them to easily execute code blocks with blank newlines. In general, the new lines are taken as chunk separators.
+IMPORTANT: When writing do blocks or any other code that needs to be executed as one unit, you MUST NOT include any empty lines (double newlines) between the lines of code. The operator's interface treats empty lines as separators between different code chunks. Keep all related code lines together without empty lines between them to ensure it can be executed as one block.
 
 The operator will mix on the level of playing different code blocks.
 

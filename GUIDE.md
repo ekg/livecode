@@ -217,8 +217,10 @@ do
 ```
 
 ### Using Stack
+IMPORTANT: Never include empty lines (double newlines) in do blocks or any code that needs to be executed as one unit. The operator's interface treats empty lines as separators between different code chunks.
+
 ```haskell
--- Basic stacking
+-- Basic stacking (note: no empty lines between code lines)
 d1 $ stack [
   s "bd*4",
   s "~ cp ~ cp",
@@ -226,7 +228,7 @@ d1 $ stack [
   note "0 3 5 7" # s "bass"
 ]
 
--- Advanced stacking with effects
+-- Advanced stacking with effects (note: no empty lines)
 d1 $ stack [
   s "bd*4" # lpf 800,
   s "~ cp ~ cp" # room 0.5,
