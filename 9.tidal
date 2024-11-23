@@ -24,3 +24,10 @@ d3 $ stack [
   fast 2 $ s "hand:4(3,8)" # gain 0.7 # pan rand,
   s "~ ~ ~ industrial:12" # gain 0.9
 ] # room 0.5 # nudge (fast 8 "0 0.02")
+
+-- Space section with binary rhythms
+d4 $ stack [
+  struct (binary 170) $ s "space:3" # gain 0.8 # room 0.7,
+  struct (binary 85) $ s "industrial:15" # gain 0.7 # pan sine,
+  struct "t(5,8)" $ s "space:7" # gain 0.9 # lpf (range 400 3000 $ slow 4 sine)
+] # size 0.8 # orbit 1
