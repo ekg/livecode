@@ -4,8 +4,7 @@ do
   d1 $ stack [
     s "bd(3,8)" # gain 1.2,
     s "~ cp ~ cp" # room 0.3,
-    fast 2 $ s "hh*2" # gain 0.8
-  ]
+    fast 2 $ s "hh*2" # gain 0.8 ]
   -- Atmospheric lpviz layer
   d2 $ every 4 (rev) 
     $ loopAt 2 

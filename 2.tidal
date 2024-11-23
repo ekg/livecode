@@ -44,6 +44,10 @@ do
   d3 $ s "bd*4" # speed "<1 1 0.666 <0.666 [0.666 0.333]>>" -- (cat [1, (1/3), (2/3)
   d4 $ sometimes (off (cat [(3/16), (1/16), (4/17), (3/16)]) (# speed "<0.5 0.666 0.5 0.333>"))
     $ n "0(7,<16 8 16>,4)" # s "flbass" # n "<<3 [3, 4]> 4 5>" # speed 1 # legato 1 # release 0.2
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
 
 hush
 
@@ -61,6 +65,7 @@ do
              , note (slow 2 "<0 3 0 7>") # l # n 281
              ] -- # crush 2 # distort 3 # lpf 30
 
+-- soundscape!
 do
   setcps (117/60/4)
   let l = s "lpviz"
@@ -71,7 +76,7 @@ do
                $ note (slow 2 "<0 3 0 7>") # l # n 281
              , -- every 4 (compress (3/4, 4/4)) $ compress (0/4, 1/4) $
                slow 4 $ every 3 (rev)
-               $ slice 32 "16..19 0..7" $ loopAt 4 $ chop 8 $ l
+               $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
                -- # n "<493 491 492 433>"
                # n "<491 492>"
                # legato 1 # speed 0.98 # gain 0.9 # crush "<4 4 5 7 9>"
@@ -85,6 +90,7 @@ do
                             , "1 1 1 1"])
              ]
 
+hush
 
 do
   setcps (117/60/4)
