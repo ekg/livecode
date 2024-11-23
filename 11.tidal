@@ -192,12 +192,12 @@ do
     sometimesBy 0.3 (# crush 4) $ s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85,
     s "~ realclaps:3 ~ realclaps:3" # gain 1.1 # room 0.5,
     every 2 (fast 2) $ s "~ sd:2 ~ [sd:2 sd:1]" # gain 0.9 # room 0.3,
-    fast 4 $ s "hh*2" # n (irand 4) # gain 0.75 # pan (rand)
-  ]
+    fast 4 $ s "hh*2" # n (irand 4) # gain 0.75 # pan (rand) ]
   -- Walking bass line in blues scale
   d2 $ every 4 (stut 2 0.5 0.125)
     $ note "c2 e2 g2 a2 bf2 a2 g2 e2"
     # s "flbass"
+    # legato 1
     # gain 0.9
     # room 0.3
   -- Blues piano chords
