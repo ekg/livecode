@@ -524,12 +524,32 @@ do
 ```haskell
 -- Pattern designed for live manipulation
 do
-    d1 $ stack [every 4 (fast 2) $ s "bd*4" # gain 1.1, every 3 (rev) $ s "~ cp ~ cp" # room 0.4, sometimesBy 0.3 (# speed 2) $ s "hh*8" # gain 0.8]
-    d2 $ note (scale "minor" "<[0 3 5 7] [2 5 7 9]>") # s "supersquare" # lpf (range 400 4000 $ slow 8 sine) # resonance 0.3 # room 0.6 # size 0.8
-    let pattern1 = stack [s "bd*4", note "0 3 5 7" # s "bass"]
-    let pattern2 = stack [s "cp(3,8)", note "2 5 7 9" # s "lead"]
+    d1 $ stack [
+        every 4 (fast 2) $ s "bd*4" # gain 1.1,
+        every 3 (rev) $ s "~ cp ~ cp" # room 0.4,
+        sometimesBy 0.3 (# speed 2) $ s "hh*8" # gain 0.8
+    ]
+    d2 $ note (scale "minor" "<[0 3 5 7] [2 5 7 9]>") 
+        # s "supersquare" 
+        # lpf (range 400 4000 $ slow 8 sine) 
+        # resonance 0.3 
+        # room 0.6 
+        # size 0.8
+    let pattern1 = stack [
+        s "bd*4",
+        note "0 3 5 7" # s "bass"
+    ]
+    let pattern2 = stack [
+        s "cp(3,8)",
+        note "2 5 7 9" # s "lead"
+    ]
     xfade 3 $ every 4 (fast 2) pattern1
-    d4 $ s "ambient:4" # gain 0.7 # room (range 0.2 0.8 $ slow 16 sine) # delay 0.5 # delaytime (1/3) # delayfeedback 0.4
+    d4 $ s "ambient:4" 
+        # gain 0.7 
+        # room (range 0.2 0.8 $ slow 16 sine) 
+        # delay 0.5 
+        # delaytime (1/3) 
+        # delayfeedback 0.4
 ```
 
 This comprehensive guide covers a wide range of techniques and patterns in TidalCycles, including:
