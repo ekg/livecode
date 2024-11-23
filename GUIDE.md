@@ -61,6 +61,22 @@ d1 $ palindrome $ s "bd cp hh sd"
 
 -- Jux (juxtapose)
 d1 $ jux (rev) $ s "bd cp hh sd"
+
+-- Rolled (arpeggiate chords)
+d1 $ rolled $ note "c'maj"
+
+-- Move (offset patterns)
+d1 $ move $ s "bd cp hh sd"
+```
+
+### Binary Patterns
+```haskell
+-- Using binary numbers for rhythms
+d1 $ struct (binary 170) $ s "bd" -- 10101010
+d1 $ struct (binaryN 16 43690) $ s "bd" -- 1010101010101010
+
+-- Inverting binary patterns
+d1 $ struct (inv (binary 170)) $ s "bd"
 ```
 
 ## Effects and Processing
@@ -87,6 +103,33 @@ d1 $ s "hh*8" # hpf 3000
 
 -- Filter modulation
 d1 $ s "bd*4" # lpf (range 400 4000 $ slow 4 sine)
+
+-- DJ-style filter
+d1 $ s "bd*4" # djf 0.7 -- 0=lpf, 1=hpf
+
+-- Filter bus modulation
+d1 $ s "bd*4" # djfbus 1 (range 0 1 $ slow 4 sine)
+```
+
+### Clouds (Granular Effects)
+```haskell
+-- Basic clouds
+d1 $ s "bd*4" # clouds 0.5 0.5 0.3 0.4
+
+-- Clouds blend parameters
+d1 $ s "bd*4" # cloudsblend 0.9 0.7 0.4 0.5
+
+-- Clouds freeze
+d1 $ s "bd*4" # cloudsfreeze 1
+```
+
+### Rings (Resonator)
+```haskell
+-- Basic rings
+d1 $ s "bd*4" # rings 0.5 0.7 0.4 0.6 0.3
+
+-- Rings parameters
+d1 $ s "bd*4" # ringspos 0.5 # ringsstruc 0.7 # ringsbright 0.4 # ringsdamp 0.6 # ringsmodel 0.3
 ```
 
 ## Melodic Patterns
@@ -101,6 +144,24 @@ d1 $ note (scale "minor" "0 2 4 5") # s "superpiano"
 
 -- Chord progressions
 d1 $ note "<'min7 'maj7 'dom7>" # s "superpiano"
+
+-- Note taking from list
+d1 $ note (noteTake "melody" [0,2,4,7]) # s "superpiano"
+
+-- Octave shifting
+d1 $ note "0 3 7" # octave 5 # s "superpiano"
+```
+
+### MIDI Control
+```haskell
+-- Basic MIDI note
+d1 $ note "0 3 7" # s "midi0"
+
+-- MIDI control changes
+d1 $ ccv (range 0 127 $ slow 4 sine) # ccn 1 # s "midi0"
+
+-- MIDI channel
+d1 $ note "0 3 7" # s "midi0" # midichan 2
 ```
 
 ### Arpeggiation
