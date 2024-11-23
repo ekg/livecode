@@ -184,11 +184,12 @@ do
 do
   hush
   setcps (90/60/4)  -- Classic blues tempo
-  -- Shuffle rhythm with hihat and claps
+  -- Complex rhythm section with varied drums
   d1 $ stack [
-    s "bd(3,8)" # gain 1.2,
-    s "~ realclaps:3" # room 0.4,
-    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)
+    every 4 (fast 2) $ s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300,
+    every 3 (rev) $ s "~ [cpu2:3 cpu2:8] ~ cpu2:2" # room 0.4 # gain 0.9,
+    fast 2 $ s "[808oh*2, 808hc(3,8)]" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine),
+    sometimesBy 0.3 (# crush 4) $ s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85
   ]
   -- Walking bass line in blues scale
   d2 $ every 4 (stut 2 0.5 0.125)
