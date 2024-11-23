@@ -58,7 +58,7 @@ do
 -- Section B: Bright/Happy
 do
   -- Loop-based rhythm with breaks
-  d1 $ stack [
+  d4 $ stack [
     every 4 (rev) $ loopAt 2 $ chop 8 $ s "breaks125" # n 4 # gain 1.1 # hpf 500,
     s "808bd(3,8)" # n 3 # gain 1.2 ]
     -- fast 2 $ s "~ realclaps" # n "[3,4]" # room 0.3 ]
@@ -83,4 +83,3 @@ do
   -- d2 silence
   -- d3 silence
 
-hush
