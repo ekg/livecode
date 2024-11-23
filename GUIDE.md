@@ -1,5 +1,3 @@
-Sure! Here is the integrated document:
-
 # Tidal Patterns and Techniques Guide
 
 ## Basic Rhythm Structures
