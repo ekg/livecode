@@ -72,3 +72,13 @@ d3 $ every 4 (stut 3 0.5 0.125) $ stack [
   struct "t(5,8)" $ s "industrial:4*2" # gain 0.8 # speed 1.5,
   slow 2 $ s "birds3:2(3,8)" # speed "-1" # room 0.7
 ] # orbit 4
+
+-- Amapiano piano pattern
+d4 $ stack [
+  -- Piano chords with swing
+  every 4 (|+ note 2) $ note "c3'min7(3,8)" # s "jrhodes" # gain 0.9,
+  -- Log drum accent
+  struct "t(5,8)" $ s "tabla2:15" # gain 0.85 # lpf 400,
+  -- High piano stabs
+  struct "t(3,8,2)" $ note "c5'min" # s "jrhodes" # gain 0.75 # room 0.6
+] # orbit 5
