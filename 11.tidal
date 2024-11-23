@@ -57,22 +57,22 @@ do
 
 -- Section B: Bright/Happy
 do
-  -- Simpler upbeat rhythm
+  -- Loop-based rhythm with breaks
   d1 $ stack [
-    s "bd(3,8)" # gain 1.1,
-    s "~ sd ~ sd" # room 0.3,
-    fast 2 $ s "hh*2" # gain 0.8 ]
-  -- Long melodic line with trills
+    every 4 (rev) $ loopAt 2 $ chop 8 $ s "breaks125" # n 4 # gain 1.1,
+    s "808bd(3,8)" # n 3 # gain 1.2,
+    fast 2 $ s "~ realclaps" # n "[3,4]" # room 0.3 ]
+  -- Long melodic line with proper chord progression
   d2 $ slow 8
-    $ note (scale "major" "0 [2,4] 7 [4,9] 5 [7,11] 9 [5,12] 2 [0,4] -2 [2,5] 4 [7,9] 5 [2,7]")
+    $ note (scale "major" "0 [0,4,7] 5 [2,5,9] 7 [4,7,11] 3 [0,3,7]")
     # s "superpiano"
     # room 0.6
     # size 0.7
     # gain 0.8
-  -- Happy arpeggiated melody
+  -- Happy arpeggiated melody using common chord progression
   d3 $ every 4 (fast 2)
-    $ arp "up"
-    $ note (scale "major" "<[0,4,7] [2,5,9] [4,7,11] [5,9,12]>")
+    $ arp "up down"
+    $ note (scale "major" "<[0,4,7] [5,9,12] [3,7,10] [7,11,14]>")
     # s "supervibe"
     # gain 0.75
     # room 0.5
