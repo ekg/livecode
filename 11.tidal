@@ -1,0 +1,21 @@
+do
+  setcps (130/60/4)
+  -- Basic techno beat
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.2,
+    s "~ cp ~ cp" # room 0.3,
+    fast 2 $ s "hh*2" # gain 0.8
+  ]
+  -- Atmospheric lpviz layer
+  d2 $ every 4 (rev) 
+    $ loopAt 2 
+    $ chop 8 
+    $ s "lpviz" # n 388 
+    # gain 0.9 
+    # room 0.4
+  -- Bass texture from lpviz
+  d3 $ every 8 (stut 3 0.5 (1/3))
+    $ s "lpviz" # n 832
+    # speed 0.5
+    # gain 0.85
+    # lpf 1000
