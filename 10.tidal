@@ -66,3 +66,24 @@ d8 $ slow 8 $ stut 4 0.6 0.25
   # orbit 2
   # lpf (range 800 2800 $ slow 16 sine)
   # resonance 0.3
+
+-- Classic house beat
+d9 $ stack [
+  -- Four-on-the-floor kick
+  s "mars_kits_909_Clean:0*4" # gain 1.1,
+  -- Offbeat open hihat
+  s "~ mars_kits_909_Clean:4 ~ mars_kits_909_Clean:4" # gain 0.85,
+  -- Classic house clap
+  s "~ mars_kits_909_Clean:1 ~ mars_kits_909_Clean:1" # gain 0.9,
+  -- Driving closed hihat
+  s "mars_kits_909_Clean:2(3,4)" # gain 0.8
+] # room 0.2
+
+-- House bass
+d10 $ note "c2 ~ c2 c2" # s "mars_synths_SH101_Rave:2" # gain 0.85 # lpf 1000
+
+-- Classic house stab
+d11 $ every 4 (jux(rev)) $ note "c'min7 ~ f'min7 ~" 
+  # s "mars_synths_KawaiiDreams_Air" 
+  # gain 0.75 
+  # room 0.6
