@@ -1,0 +1,12 @@
+-- Polyrhythmic pattern with 3:4:5 relationship
+d1 $ stack [
+  -- 3-beat cycle with 909 kicks
+  s "mars_kits_909_Clean:0(3,8)" # gain 1.1,
+  -- 4-beat cycle with claps
+  s "mars_kits_MPC60_Real_Light:1(5,8)" # gain 0.9 # pan 0.3,
+  -- 5-beat cycle with hats
+  fast 1.25 $ s "mars_kits_909_Clean:2(5,8)" # gain 0.8 # pan 0.7
+] # room 0.2
+
+-- Complementary synth line in 5:4
+d2 $ slow 2 $ note (scale "minor" "0 3 5 7") # s "mars_synths_SH101_Rave" # gain 0.75 # lpf 2000
