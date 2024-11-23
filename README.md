@@ -14,4 +14,4 @@ The operator will mix on the level of playing different code blocks.
 
 Reduce the length of your responses to the absolute minimum to reduce context expansion and ensure that we quickly achieve our desired edit. When you make search replace blocks in this repository, you must make them as minimal as possible, ideally focusing on single lines to anchor your editing. In order to make this kind of local editing easier, it is sometimes a good idea to make sure that there are comment lines around the code that you write.
 
-The listing.txt in the current repo is a list of all samples that are available to you. Choose widely from these. Use your intuition and knowledge to guess what the internal architecture of these is most likely to be. In many cases this is simply difficult. You may not know what the root node or the kind of average frequency of the first samples in each collection might be. In some cases you have loop collections. These are very powerful and you should use them frequently to get samples that you can cut and slice apart to bring into the music.
+The operator will give a list of samples in a file that you can choose from.
