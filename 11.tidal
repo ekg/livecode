@@ -1,4 +1,5 @@
 do
+  hush
   setcps (130/60/4)
   -- Basic techno beat
   d1 $ stack [
@@ -36,10 +37,11 @@ hush
 
 -- Section C: Deep/Atmospheric with driving beat
 do
+  hush
   setcps (128/60/4)
   -- Core rhythm section
   d5 $ stack [
-    s "808bd(3,8)" # gain 1.2 # lpf 200,
+    every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200,
     every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
     fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
   -- Atmospheric pad with filter sweep
@@ -57,31 +59,32 @@ do
     # n 3
     # gain 0.9
     # room 0.3
-  -- Melodic line with specific intervals
-  d8 $ every 4 (fast 2)
-    $ note (scale "minor" "0 3 [5 7] 4")
-    # s "supervibe"
+  -- thing
+  d8 $ slow 4 $ every 4 (fast 2)
+    $ note 0 + note "<0 4 7 12>"
+    # s "gtr:1"
     # gain 0.75
     # room 0.5
+    # hpf (range 500 1000 (slow 16 sine))
   -- Vocal-like melody line
   d9 $ slow 4
     $ every 4 (stut 2 0.4 0.25)
-    $ note "c4 [~ e4] g4 [~ a4] [~ c5] [~ g4] e4 [~ c4]"
+    $ note 36 + note "c4 [~ e4] g4 [~ a4] [~ c5] [~ g4] e4 [~ c4]"
     # s "mars_synths_S612_Rhodes"
-    # room 0.7
-    # size 0.8
+    # room 0.6
+    # size 0.95
     # gain 0.85
     # lpf (range 800 2000 $ slow 8 sine)
   -- Mute options
   -- d5 silence
   -- d6 silence
   -- d7 silence
-  -- d8 silence
+  --d8 silence
   -- d9 silence
 
-hush
 -- Section A: Dark/Spacey
 do
+  hush
   -- Rhythmic base
   d1 $ stack [
     s "808bd:3(3,8)" # lpf 600 # crush 2,
@@ -103,6 +106,7 @@ do
 
 -- Section B: Bright/Happy
 do
+  hush
   -- Loop-based rhythm with breaks
   d4 $ stack [
     every 4 (rev) $ loopAt 2 $ chop 8 $ s "breaks125" # n 4 # gain 1.1 # hpf 500,
@@ -131,4 +135,4 @@ do
 
 hush
 
-
+-- bluesy track
