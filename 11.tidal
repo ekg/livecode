@@ -18,8 +18,7 @@ do
     # speed 0.5
     # gain 0.85
     # lpf 1000
-
   -- Silence commands
-  -- d1 silence
-  -- d2 silence
+  d1 silence
+  d2 silence
   -- d3 silence
