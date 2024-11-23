@@ -41,8 +41,7 @@ do
   d5 $ stack [
     s "808bd(3,8)" # gain 1.2 # lpf 200,
     every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
-    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)
-  ]
+    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
   -- Atmospheric pad with filter sweep
   d6 $ every 8 (rev) 
     $ loopAt 4 
