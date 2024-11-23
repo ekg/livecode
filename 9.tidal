@@ -82,4 +82,11 @@ d4 $ stack [
   struct "t(3,8,2)" $ note "c5'min" # s "jrhodes" # gain 0.75 # room 0.6
 ] # orbit 5
 
+-- Warm melodic line with thoughtful progression
+d7 $ stack [
+  slow 4 $ note "c4 e4 g4 a4" # s "sprvibe:2" # gain 0.8 # room 0.7,
+  slow 8 $ note "c5(3,8)" # s "notes:4" # speed 0.9 # pan (range 0.3 0.7 sine),
+  whenmod 16 14 (|+ note 12) $ note "e4 g4 a4 c5" # s "sprvibe:4" # gain 0.7
+] # orbit 7 # lpf 3000 # resonance 0.2
+
 hush
