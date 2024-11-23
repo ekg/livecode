@@ -82,6 +82,28 @@ d4 $ stack [
   struct "t(3,8,2)" $ note "c5'min" # s "jrhodes" # gain 0.75 # room 0.6
 ] # orbit 5
 
+-- Deep house beat with cut loop from 300break samples
+d5 $ stack [
+  -- Deep house beat
+  s "kick:4*4" # gain 1.2,
+  s "cp:4(2,4)" # gain 0.93,
+  -- Cut loop from 300break samples
+  struct "t(<5 7>,8,2)" $ slice 16 "8 <2 3 9 11 15> 9 [2 3] 2 8" $ loopAt 4
+  $ s "300break" # n "<3 4 88>" # gain 1 # speed 0.6666 # cut "<1 2 4 4 4>"
+]
+
+setcps(120/60/4)
+
+-- deep deep plucks
+d6 $ s "cpluck" # note "[24, 12]" + note "c4 e4 g4 a4 c5 g4 e4 d4" # gain 0.75 # room 0.9 # size 0.95
+  # orbit 6 # lpf 4000 # resonance 0.3 # legato 1
+
+d8 $ s "808bd(3,8)" # n 9 # gain 1.3
+
+d9 $ struct "t(2,8,4)" $ s "[realclaps:2, cp:3]" # gain 1.1
+
+hush
+
 -- Expressive piano melody with deep reverb
 d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [
   slow 4 $ note "c4 e4 g4 a4 c5 g4 e4 d4" # s "superpiano" # gain 0.85 # room 0.9 # size 0.95,
@@ -94,15 +116,12 @@ d8 $ every 8 (jux rev) $ stack [
   loopAt "<2 4 3>" $ chop "<8 16 12>" $ 
     struct (binary "<170 85 170 149>") $ 
     s "lpviz:<15 18 22 25>" # gain 0.9 # cut 1,
-  
   loopAt "<4 3 2>" $ chop "<16 12 8>" $ 
     struct (binary "<85 170 85 149>") $ 
     s "lpviz:<18 22 25 15>" # pan sine # cut 1,
-    
   loopAt "<3 2 4>" $ chop "<12 8 16>" $ 
     struct (binary "<42 85 170 85>") $ 
     s "lpviz:<22 25 15 18>" # room 0.4 # cut 1,
-    
   whenmod 8 6 (fast 2) $ loopAt "<2 3 4>" $ chop "<6 12 8>" $ 
     struct (binary 170) $ 
     s "lpviz:<25 15 18 22>" # gain 0.85 # cut 1
@@ -114,8 +133,10 @@ d2 $ every 4 (jux rev) $ stack [
   s "cp(<2 0 2 3>,8,1)" # gain 0.9 # pan sine,
   fast 2 $ s "industrial:8(3,8)" # gain 0.8,
   whenmod 8 6 (fast 2) $ s "tabla:4*2" # room 0.6
-  ]
+  ]  
 
 hush
+
+setcps 0.5
 
 panic
