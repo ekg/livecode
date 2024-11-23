@@ -51,6 +51,32 @@ d1 $ slow 2 $ s "bd cp"
 d1 $ loopAt 2 $ chop 8 $ s "break"
 ```
 
+### Tempo Control
+```haskell
+-- Set tempo in BPM
+setcps (120/60/4)  -- 120 BPM
+setcps (85/60/4)   -- 85 BPM
+
+-- Variable tempo
+setcps ((range 100 150 (slow 4 saw))/60/4)  -- Sweeping tempo
+```
+
+### Timing and Swing
+```haskell
+-- Basic swing using nudge
+d1 $ s "bd*4" # nudge (fast 8 "0 0.02")
+
+-- Complex swing pattern
+let swing = always (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+d1 $ swing $ s "bd cp bd cp"
+
+-- Multiple swing rates
+d1 $ stack [
+  s "bd*4" # nudge (fast 8 "0 0.02"),
+  s "hh*8" # nudge (fast 16 "0 0.01")
+]
+```
+
 ### Pattern Transformation
 ```haskell
 -- Reverse patterns
@@ -175,13 +201,54 @@ d1 $ arp "<up down diverge>" $ note "<c'maj f'min>" # s "superpiano"
 
 ## Layering and Composition
 
+### Pattern Variables and Let Bindings
+```haskell
+-- Define pattern variables
+do
+  let swing = nudge (fast 8 "0 0.02")
+  let bass = note "0 3 5 7" # s "bass"
+  let drums = stack [
+    s "bd*4",
+    s "~ cp ~ cp" 
+  ]
+  d1 $ swing $ stack [drums, bass]
+
+-- Complex pattern composition
+do
+  let melody = note "c a f e"
+  let chords = note "<c'maj f'maj>"
+  let rhythm = struct "t(3,8)"
+  d1 $ stack [
+    melody # s "lead",
+    chords # s "pad",
+    rhythm # s "drums"
+  ]
+```
+
 ### Using Stack
 ```haskell
+-- Basic stacking
 d1 $ stack [
   s "bd*4",
   s "~ cp ~ cp",
   s "hh(3,8)",
   note "0 3 5 7" # s "bass"
+]
+
+-- Advanced stacking with effects
+d1 $ stack [
+  s "bd*4" # lpf 800,
+  s "~ cp ~ cp" # room 0.5,
+  s "hh(3,8)" # pan sine,
+  note "0 3 5 7" # s "bass" # shape 0.3
+]
+
+-- Conditional stacking
+d1 $ stack [
+  s "bd*4",
+  every 4 (const silence) $ s "~ cp ~ cp",
+  whenmod 8 6 (const silence) $ s "hh*8",
+  every 2 (# gain 0) $ note "0 3 5 7" # s "bass"
 ]
 ```
 
@@ -205,6 +272,16 @@ d1 $ stut 4 0.5 0.125 $ s "bd cp"
 
 -- Complex stut
 d1 $ every 4 (stut 3 0.7 (1/8)) $ s "bd cp sd hh"
+
+-- Multiple stut layers
+d1 $ stut 3 0.7 (1/8) 
+   $ stut 2 0.5 (1/16)
+   $ s "bd cp"
+
+-- Conditional stut
+d1 $ every 8 (stut 4 0.6 (3/16)) 
+   $ every 4 (stut 2 0.5 (1/8))
+   $ s "bd cp"
 ```
 
 ### Conditional Patterns
@@ -234,6 +311,22 @@ d1 $ s "bd cp" # gain 0.8
 
 -- Dynamic gain
 d1 $ s "bd cp" # gain (range 0.7 0.9 $ slow 4 sine)
+
+-- Orbit routing for effects
+d1 $ s "bd cp" # orbit 1
+d2 $ s "hh sd" # orbit 2
+
+-- Complex effect routing
+d1 $ stack [
+  s "bd*4" # orbit 1 # room 0.8,
+  s "cp(3,8)" # orbit 2 # delay 0.5,
+  s "hh*8" # orbit 3 # lpf 2000
+] 
+
+-- Effect buses
+d1 $ s "bd cp" 
+   # lpfbus 1 (range 200 2000 sine)
+   # delaybus 2 (range 0.1 0.5 saw)
 ```
 
 ### Spatial Effects
