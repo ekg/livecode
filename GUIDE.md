@@ -443,10 +443,29 @@ let bassline = note (scale "minor" "0 3 5 7")
 
 -- Main pattern combining multiple techniques
 do
-    d1 $ stack [struct (binary 170) $ s "bd" # gain 1.2, struct "t(5,8)" $ s "cp" # room 0.3, struct "t(11,16)" $ s "hh" # gain 0.8 # pan sine]
-    d2 $ every 4 (fast 2) $ bassline # s "supersaw" # lpf (range 400 3000 $ slow 8 sine) # resonance 0.3 # gain 0.9
-    d3 $ melody # s "superchip" # room 0.6 # size 0.8 # delay 0.4 # delaytime (1/3) # delayfeedback 0.3
-    d4 $ stut 4 0.5 0.125 $ struct gate $ s "ambient:2" # gain 0.7 # clouds 0.4 0.4 0.1 0.7 # cloudsblend 0.5 0.7 0.3 0.7
+    d1 $ stack [
+        struct (binary 170) $ s "bd" # gain 1.2,
+        struct "t(5,8)" $ s "cp" # room 0.3,
+        struct "t(11,16)" $ s "hh" # gain 0.8 # pan sine
+    ]
+    d2 $ every 4 (fast 2) $ bassline 
+        # s "supersaw" 
+        # lpf (range 400 3000 $ slow 8 sine) 
+        # resonance 0.3 
+        # gain 0.9
+    d3 $ melody 
+        # s "superchip" 
+        # room 0.6 
+        # size 0.8 
+        # delay 0.4 
+        # delaytime (1/3) 
+        # delayfeedback 0.3
+    d4 $ stut 4 0.5 0.125 
+        $ struct gate 
+        $ s "ambient:2" 
+        # gain 0.7 
+        # clouds 0.4 0.4 0.1 0.7 
+        # cloudsblend 0.5 0.7 0.3 0.7
 ```
 
 ### Orchestral-Electronic Fusion
