@@ -19,6 +19,6 @@ do
     # gain (range 0 0.85 $ slow 16 sine)
     # lpf (range 200 1000 $ slow 16 sine)
   -- Silence commands
-  d1 silence
+  --d1 silence
   d2 silence
-  -- d3 silence
+  --d3 silence
