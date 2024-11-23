@@ -234,3 +234,42 @@ do
 hush
 
 -- cool deep house vibes
+do
+  hush
+  setcps (124/60/4)  -- Classic house tempo
+  -- Deep house beat with 808 drums and real claps
+  d1 $ stack [
+    s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300,
+    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4 # gain 0.9,
+    fast 2 $ s "808oh*2" # gain 0.7 # pan (range 0.3 0.7 $ slow 4 sine),
+    s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85 ]
+  -- Deep house bass with filter movement
+  d2 $ every 4 (stut 2 0.5 0.125)
+    $ note (cat ["c2 [~ g2] e2 [~ a2]", "f2 [~ c3] g2 [~ e2]"])
+    # s "flbass"
+    # legato 1.2
+    # gain 0.9
+    # lpf (range 400 1200 $ slow 8 sine)
+    # resonance 0.3
+  -- Rhodes chords with swing
+  d3 $ every 8 (rev)
+    $ note (cat ["<c'min7 [c'min7 d'min7]>", "<f'min7 [f'min7 g'min7]>"])
+    # s "mars_synths_S612_Rhodes"
+    # gain 0.8
+    # room 0.6
+    # velocity (range 0.5 1.0 $ slow 4 sine)
+  -- Atmospheric pad
+  d4 $ loopAt 4
+    $ chop 16
+    $ s "lpviz"
+    # n 388
+    # gain 0.7
+    # room 0.8
+    # lpf (range 500 3000 $ slow 16 sine)
+  -- Mute options
+  -- d1 silence  -- drums
+  -- d2 silence  -- bass
+  -- d3 silence  -- rhodes
+  -- d4 silence  -- pad
+
+hush
