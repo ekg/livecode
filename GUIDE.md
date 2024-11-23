@@ -593,4 +593,61 @@ This comprehensive guide covers a wide range of techniques and patterns in Tidal
 * Reordering samples with reversing, palindromes, and juxtaposition
 * Integrated examples of layered electronic tracks, orchestral-electronic fusion, rhythmic pattern integration, and performance-oriented patterns
 
-By mastering these techniques, you can create complex and engaging live coding performances with TidalCycles.
+## Commonly Used Samples
+
+### Drum/Percussion Samples
+1. 808 Family:
+   - 808bd (especially n "3", "4") - Bass drums
+   - 808oh - Open hats
+   - 808mt - Mid toms
+   - 808hc - High conga
+   - 808lc - Low conga
+
+2. CPU/CPU2:
+   - cpu2 (especially n "0", "2", "3", "8") - Electronic drum hits
+   - cpu - Digital percussion
+
+3. Claps/Snares:
+   - realclaps (n "2", "3", "7") - Natural clap sounds
+   - cp - Classic clap sounds
+   - sd - Snare drums
+
+4. Breaks:
+   - breaks125 - Classic breakbeats
+   - breaks152 - More breakbeats
+   - breaks157 - Additional breaks
+   - breaks165 - Extended breaks
+
+### Melodic/Tonal Samples
+1. Mars Synths:
+   - mars_synths_S612_Rhodes - Electric piano sounds
+   - mars_synths_KawaiiDreams_Air - Atmospheric pads
+   - mars_synths_360_Bass - Bass sounds
+   - mars_synths_SK1_Organ - Organ tones
+   - mars_synths_DrSample_Strings - String sounds
+
+2. Bass Sounds:
+   - flbass (especially n "2", "3", "8") - Bass instruments
+   - jvbass - Classic bass sounds
+   - bass3 - Additional bass tones
+
+3. Keys/Pads:
+   - jrhodes - Rhodes electric piano
+   - superpiano - Piano sounds
+   - supervibe - Vibraphone sounds
+   - gtr - Guitar tones
+
+4. Textural:
+   - lpviz (many numbers including "388", "389", "832", "735", "736") - Various textures
+   - lpmr - Additional textural elements
+   - reggae (various numbers including "30", "38", "39", "44", "93", "109", "133", "134") - Reggae samples
+
+### Common Effects Applications
+- Speed adjustments (0.5-2.0 range common)
+- Room/Size for space (0.3-0.9 typical)
+- LPF/HPF filtering
+- Distortion/crush for texture
+- Delay/stutter for rhythm
+- Cut for sample isolation
+
+By mastering these samples and their manipulation, you can create complex and engaging live coding performances with TidalCycles.
