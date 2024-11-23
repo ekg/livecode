@@ -34,6 +34,7 @@ do
 
 hush
 
+-- Section A: Dark/Spacey
 do
   -- Rhythmic base
   d1 $ stack [
@@ -42,13 +43,43 @@ do
     fast "<8 8 8 9 7>" $ s "hh(2,7)"
       # n (fast "<11 12 11 13>" "0 0 0 3 7 0")
       # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9") ]
-  -- Spacey piano line
-  d5 $ slow 4 
+  -- Spacey piano line  
+  d2 $ slow 4 
     $ note (scale "minor" "0 3 5 7 3 0 -2 -4") 
     # s "superpiano" 
     # gain 0.7 
     # room 0.8 
     # size 0.9 
     # lpf (range 800 2000 $ slow 8 sine)
+  -- Mute options
+  -- d1 silence
+  -- d2 silence
+
+-- Section B: Bright/Happy
+do
+  -- Simpler upbeat rhythm
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.1,
+    s "~ sd ~ sd" # room 0.3,
+    fast 2 $ s "hh*2" # gain 0.8 ]
+  -- Long melodic line with trills
+  d2 $ slow 8
+    $ note (scale "major" "0 [2,4] 7 [4,9] 5 [7,11] 9 [5,12] 2 [0,4] -2 [2,5] 4 [7,9] 5 [2,7]")
+    # s "superpiano"
+    # room 0.6
+    # size 0.7
+    # gain 0.8
+  -- Happy arpeggiated melody
+  d3 $ every 4 (fast 2)
+    $ arp "up"
+    $ note (scale "major" "<[0,4,7] [2,5,9] [4,7,11] [5,9,12]>")
+    # s "supervibe"
+    # gain 0.75
+    # room 0.5
+    # lpf (range 1000 3000 $ slow 4 sine)
+  -- Mute options  
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
 
 hush
