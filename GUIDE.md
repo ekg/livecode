@@ -524,6 +524,34 @@ do
 ```haskell
 -- Pattern designed for live manipulation
 do
+  setcps (117/60/4)
+  let l = s "lpviz"
+  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310
+             , every 8 (stut 3 0.7 (3/8)) $ compress (1/4, 3/4)
+               $ every 16 (* note "0 7 -12 -5")
+               -- $ every 4 (hurry 2)
+               $ note (slow 2 "<0 3 0 7>") # l # n 281
+             , -- every 4 (compress (3/4, 4/4)) $ compress (0/4, 1/4) $
+               slow 4 $ every 3 (rev)
+               $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
+               -- # n "<493 491 492 433>"
+               # n "<491 492>"
+               # legato 1 # speed 0.98 # gain 0.9 # crush "<4 4 5 7 9>"
+             , s "808bd*4" # n 3
+             , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4, 7]" # room 0.1 # sz 0.8
+             , struct "t(3,7)"
+               $ s "808mt(<12 12 13>,14,11)"
+               # speed (cat ["1 0.5 0.7 0.66"
+                            , "1 1 1 1"
+                            , "0.5 0.6 0.66 0.7"
+                            , "1 1 1 1"])
+             ]
+
+### Performance-Oriented Pattern
+
+```haskell
+-- Pattern designed for live manipulation
+do
     d1 $ stack [
         every 4 (fast 2) $ s "bd*4" # gain 1.1,
         every 3 (rev) $ s "~ cp ~ cp" # room 0.4,
