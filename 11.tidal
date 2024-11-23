@@ -180,4 +180,38 @@ do
   -- d6 silence
   --
 
--- bluesy section
+-- Section D: Blues Shuffle
+do
+  hush
+  setcps (90/60/4)  -- Classic blues tempo
+  -- Shuffle rhythm with hihat and claps
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.2,
+    s "~ realclaps:3" # room 0.4,
+    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)
+  ]
+  -- Walking bass line in blues scale
+  d2 $ every 4 (stut 2 0.5 0.125)
+    $ note "c2 e2 g2 a2 bf2 a2 g2 e2"
+    # s "flbass"
+    # gain 0.9
+    # room 0.3
+  -- Blues piano chords
+  d3 $ every 8 (rev)
+    $ note "<c'7 f'7 g'7 f'7>"  
+    # s "superpiano"
+    # gain 0.8
+    # room 0.6
+  -- Lead blues line
+  d4 $ every 4 (fast 2)
+    $ note (scale "blues" "0 3 2 0 5 3 2 0")
+    # s "mars_synths_S612_Rhodes"
+    # gain 0.75
+    # room 0.5
+  -- Mute options
+  -- d1 silence  -- rhythm
+  -- d2 silence  -- bass
+  -- d3 silence  -- piano
+  -- d4 silence  -- lead
+
+hush
