@@ -47,3 +47,14 @@ d6 $ whenmod 16 15 (# gain 1)
     stut 4 0.6 0.125 $ s "industrial:8(5,8)" # room 0.95,
     chop 32 $ s "birds3:5" # speed "-0.75" # pan (slow 4 sine)
    ] # cloudsblend 0.7 0.8 0.6 0.5 # gain 0
+
+-- Fun polyrhythmic pattern with steady kick
+d1 $ stack [
+  -- Steady kick foundation
+  s "bd:4*4" # gain 1.1 # lpf 200,
+  -- Polyrhythmic percussion layers
+  struct "t(5,8)" $ s "tabla:2" # gain 0.8 # pan sine,
+  struct "t(7,16)" $ s "industrial:8" # gain 0.7,
+  -- Melodic elements
+  struct "t(3,8)" $ s "arpy:2" # note (scale "minor" "0 5") # gain 0.75
+] # room 0.4 # orbit 2
