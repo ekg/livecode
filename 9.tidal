@@ -1,22 +1,47 @@
 -- Set tempo to 125 BPM
 setcps (125/60/4)
 
+setcps (65/60/4)
+
 -- Amapiano/Deep House beat
 d1 $ stack [
+  -- Kick drum pattern
+  s "909:0(3,8)" # lpf 300 # gain 1.2,
   -- Log drum pattern using tabla
-  s "tabla2:15(5,8)" # gain 1.1 # lpf 300 # resonance 0.4,
+  s "tabla2:15(5,8,1)" # gain 1.1 # lpf 300 # resonance 0.4,
   -- Deep sub bass
-  s "jungbass:4(3,8)" # gain 1.2 # lpf 100,
+  s "jungbass:4(3,8,1)" # gain 1.2 # lpf 100,
   -- Shaker pattern
-  fast 2 $ s "industrial:8*4" # gain 0.75 # pan (range 0.3 0.7 sine)
+  fast 2 $ s "industrial:8(5,16,3)" # n (fast 7 "<7 8 9 2>") # gain 0.75 # pan (range 0.3 0.7 sine),
 ] # room 0.4 # size 0.8
 
+hush
+
+-- padlong
+d2 $ slow 8 $ s "padlong:0" # gain 0.8 # room 0.7 # cut 1
+
+do 
+  d1 $ s "bd:4*4" # gain 1.2
+  d2 $ s "jungbass:4(3,8,1)" # gain 1.2 # lpf 100
+  d3 $ s "tabla2:15(5,8,1)" # gain 1.1 # lpf 300 # resonance 0.4
+  d4 $ fast 2 $ s "industrial:8(5,16,3)" # n (fast 7 "<7 8 9 2>") # gain 0.75 # pan (range 0.3 0.7 sine)
+  -- use ­mars_synths_DrSample_Strings (3)
+  d5 $ slow 4 $ note "c5'min7 e5'min7 g5'min7 ~" # s "mars_synths_DrSample_Strings:3"
+    # gain 0.8 # room 0.7 # cut 1 # attack 0.1 # release 0.7 # sustain 0.7
+    -- $ s "mars_synths_DrSample_Strings:3" # gain 0.8 # room 0.7 # cut 1
+
 -- Deep house chords with filter sweep
-d2 $ every 4 (|+ note 2) $ note "c2'min7" 
+d2 $ every 4 (|+ note 2)
+-- melody by shifts
+  $ note (slow 8 "0 5 0 7")
+  + note "c5'min7" 
   # s "jrhodes" 
   # gain 0.9 
-  # lpf (range 300 2000 $ slow 8 sine)
+  # lpf (range 300 2000 $ every 4 (fast 19) $ slow 9 sine)
   # resonance 0.3
+  -- # room 0
+
+hush
 
 -- Percussion layers with swing
 d3 $ stack [
