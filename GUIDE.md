@@ -354,6 +354,26 @@ d1 $ ur 16 "pat1 pat2 pat3 pat4" [
 
 ## Sample Manipulation
 
+### Working with Samples
+```haskell
+-- Basic sample playback
+d1 $ s "bd cp hh" 
+
+-- Sample selection with n
+d1 $ s "drum*4" # n (run 8)
+
+-- Sample bank switching
+d1 $ n "0 1 2 3" # s "[drum, jazz, world]"
+
+-- Sample attributes
+d1 $ s "break" 
+   # begin 0.2    -- Start point
+   # end 0.8      -- End point
+   # speed 0.5    -- Playback speed
+   # unit "c"     -- Cycle units
+   # loop 2       -- Loop count
+```
+
 ### Chopping Samples
 ```haskell
 -- Divide a sample into 8 parts and play them in reverse order
@@ -364,12 +384,19 @@ d1 $ stut 4 0.5 0.125 $ chop 16 $ s "break"
 
 -- Divide a sample into 32 parts, select parts 1, 3, 5, and 7, and play them in reverse order
 d1 $ slice 32 "1 3 5 7" $ s "break"
-```
 
-### Slicing Samples
-```haskell
--- Divide a sample into 8 parts and select parts 1, 3, and 5
-d1 $ slice 8 "1 3 5" $ s "break"
+-- Complex slicing patterns
+d1 $ slice 16 "0 3 8 2 11 4" $ s "break"
+
+-- Time-stretched slicing with loopAt
+d1 $ loopAt 4 $ chop 16 $ s "break"
+
+-- Combining slice techniques
+d1 $ every 4 (slice 8 "7 6 5 4 3 2 1 0")
+   $ loopAt 2 
+   $ chop 16 
+   $ s "break"
+```
 
 -- Divide a sample into 16 parts, select parts 2, 4, 6, and 8, and apply a stutter effect
 d1 $ stut 4 0.5 0.125 $ slice 16 "2 4 6 8" $ s "break"
