@@ -81,3 +81,5 @@ d4 $ stack [
   -- High piano stabs
   struct "t(3,8,2)" $ note "c5'min" # s "jrhodes" # gain 0.75 # room 0.6
 ] # orbit 5
+
+hush
