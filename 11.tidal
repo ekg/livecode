@@ -63,11 +63,21 @@ do
     # s "supervibe"
     # gain 0.75
     # room 0.5
+  -- Vocal-like melody line
+  d9 $ slow 4
+    $ every 4 (stut 2 0.4 0.25)
+    $ note "c4 [~ e4] g4 [~ a4] [~ c5] [~ g4] e4 [~ c4]"
+    # s "mars_synths_S612_Rhodes"
+    # room 0.7
+    # size 0.8
+    # gain 0.85
+    # lpf (range 800 2000 $ slow 8 sine)
   -- Mute options
   -- d5 silence
   -- d6 silence
   -- d7 silence
   -- d8 silence
+  -- d9 silence
 
 hush
 -- Section A: Dark/Spacey
