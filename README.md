@@ -19,5 +19,8 @@ The operator will give a list of samples in a file that you can choose from.
 Use do blocks to collect different channels together into a single set. This is a typical pattern:
 
 ```haskell
-
+do
+    d1 $ s "bd*4"
+    d2 $ s "~ cp ~ cp"
+    d3 $ s "hh(3,8)"
 ```
