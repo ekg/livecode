@@ -68,7 +68,7 @@ d8 $ slow 8 $ stut 4 0.6 0.25
   # resonance 0.3
 
 -- Classic house beat
-d9 $ stack [
+d9 $ every 4 (fast "1 4") $ struct "t(7,16,<2 3>)" $ stack [
   -- Four-on-the-floor kick
   s "mars_kits_909_Clean:0*4" # gain 1.1,
   -- Offbeat open hihat
@@ -87,3 +87,5 @@ d11 $ every 4 (jux(rev)) $ note "c'min7 ~ f'min7 ~"
   # s "mars_synths_KawaiiDreams_Air" 
   # gain 0.75 
   # room 0.6
+
+hush

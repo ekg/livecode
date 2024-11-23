@@ -83,7 +83,7 @@ d4 $ stack [
 ] # orbit 5
 
 -- Expressive piano melody with deep reverb
-d7 $ stack [
+d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [
   slow 4 $ note "c4 e4 g4 a4 c5 g4 e4 d4" # s "superpiano" # gain 0.85 # room 0.9 # size 0.95,
   slow 8 $ note "c5 g4 e5 c5" # s "superpiano" # gain 0.7 # pan (slow 4 sine),
   whenmod 16 14 (|+ note 12) $ note "e4(3,8) a4(3,8)" # s "superpiano" # gain 0.75
