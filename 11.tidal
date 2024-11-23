@@ -31,3 +31,13 @@ do
   d2 silence
   --d3 silence
   --d4 silence
+
+hush
+
+d1 $ stack [
+  s "808bd:3(3,8)" # lpf 600 # crush 2,
+  fast 0.5 $ s "~ realclaps:0(3,8) ~ cp:0" # crush 8,
+  fast "<8 8 8 9 7>" $ s "hh(2,7)" # n (fast "<11 12 11 13>" "0 0 0 3 7 0") # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9")
+  ]
+
+hush
