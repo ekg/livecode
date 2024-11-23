@@ -91,10 +91,10 @@ d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [
 
 -- Complex cut-up beat with binary patterns
 d8 $ stack [
-  loopAt 2 $ chop 8 $ struct (binary "<170 85 170 149>") $ s "lpviz:15" # gain 0.9,
-  loopAt 4 $ chop 16 $ struct (binary "<85 170 85 149>") $ s "lpviz:18" # pan sine,
-  loopAt 3 $ chop 12 $ struct (binary "<42 85 170 85>") $ s "lpviz:22" # room 0.4,
-  whenmod 8 6 (fast 2) $ loopAt 2 $ chop 6 $ struct (binary 170) $ s "lpviz:25" # gain 0.85
+  loopAt 2 $ chop 8 $ struct (binary "<170 85 170 149>") $ s "lpviz:15" # gain 0.9 # cut 1,
+  loopAt 4 $ chop 16 $ struct (binary "<85 170 85 149>") $ s "lpviz:18" # pan sine # cut 1,
+  loopAt 3 $ chop 12 $ struct (binary "<42 85 170 85>") $ s "lpviz:22" # room 0.4 # cut 1,
+  whenmod 8 6 (fast 2) $ loopAt 2 $ chop 6 $ struct (binary 170) $ s "lpviz:25" # gain 0.85 # cut 1
 ] # orbit 8 # shape 0.4
 
 -- Complex tabla drum pattern with industrial accents
