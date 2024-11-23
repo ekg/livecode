@@ -203,24 +203,17 @@ d1 $ arp "<up down diverge>" $ note "<c'maj f'min>" # s "superpiano"
 ```haskell
 -- Define pattern variables
 do
-  let swing = nudge (fast 8 "0 0.02")
-  let bass = note "0 3 5 7" # s "bass"
-  let drums = stack [
-    s "bd*4",
-    s "~ cp ~ cp" 
-  ]
-  d1 $ swing $ stack [drums, bass]
+    let swing = nudge (fast 8 "0 0.02")
+    let bass = note "0 3 5 7" # s "bass"
+    let drums = stack [s "bd*4", s "~ cp ~ cp"]
+    d1 $ swing $ stack [drums, bass]
 
 -- Complex pattern composition
 do
-  let melody = note "c a f e"
-  let chords = note "<c'maj f'maj>"
-  let rhythm = struct "t(3,8)"
-  d1 $ stack [
-    melody # s "lead",
-    chords # s "pad",
-    rhythm # s "drums"
-  ]
+    let melody = note "c a f e"
+    let chords = note "<c'maj f'maj>"
+    let rhythm = struct "t(3,8)"
+    d1 $ stack [melody # s "lead", chords # s "pad", rhythm # s "drums"]
 ```
 
 ### Using Stack
@@ -450,37 +443,10 @@ let bassline = note (scale "minor" "0 3 5 7")
 
 -- Main pattern combining multiple techniques
 do
-    -- Drums with binary and Euclidean patterns
-    d1 $ stack [
-        struct (binary 170) $ s "bd" # gain 1.2,
-        struct "t(5,8)" $ s "cp" # room 0.3,
-        struct "t(11,16)" $ s "hh" # gain 0.8 # pan sine
-    ]
-
-    -- Bass with filter modulation
-    d2 $ every 4 (fast 2) 
-        $ bassline 
-        # s "supersaw" 
-        # lpf (range 400 3000 $ slow 8 sine)
-        # resonance 0.3
-        # gain 0.9
-
-    -- Lead synth with effects
-    d3 $ melody
-        # s "superchip"
-        # room 0.6 
-        # size 0.8
-        # delay 0.4 
-        # delaytime (1/3)
-        # delayfeedback 0.3
-
-    -- Gated ambient layer
-    d4 $ stut 4 0.5 0.125 
-        $ struct gate 
-        $ s "ambient:2" 
-        # gain 0.7
-        # clouds 0.4 0.4 0.1 0.7
-        # cloudsblend 0.5 0.7 0.3 0.7
+    d1 $ stack [struct (binary 170) $ s "bd" # gain 1.2, struct "t(5,8)" $ s "cp" # room 0.3, struct "t(11,16)" $ s "hh" # gain 0.8 # pan sine]
+    d2 $ every 4 (fast 2) $ bassline # s "supersaw" # lpf (range 400 3000 $ slow 8 sine) # resonance 0.3 # gain 0.9
+    d3 $ melody # s "superchip" # room 0.6 # size 0.8 # delay 0.4 # delaytime (1/3) # delayfeedback 0.3
+    d4 $ stut 4 0.5 0.125 $ struct gate $ s "ambient:2" # gain 0.7 # clouds 0.4 0.4 0.1 0.7 # cloudsblend 0.5 0.7 0.3 0.7
 ```
 
 ### Orchestral-Electronic Fusion
@@ -488,34 +454,12 @@ do
 ```haskell
 -- Complex orchestral pattern with electronic elements
 do
-    -- Orchestral layers
-    d1 $ stack [
-        slow 32 $ note (scale "minor" "0 2 -3 1 8 0 0 4"),
-        slow 16 $ note (scale "minor" "0 2 7 1 4 0 0 4"),
-        slow 8 $ note (scale "minor" "0 2 7 1 8 0 0 4")
-    ] # s "cbow:0" 
-      # room 0.8 
-      # size 0.9
-      # gain 0.9
-
-    -- Electronic percussion with dynamic variables
+    d1 $ stack [slow 32 $ note (scale "minor" "0 2 -3 1 8 0 0 4"), slow 16 $ note (scale "minor" "0 2 7 1 4 0 0 4"), slow 8 $ note (scale "minor" "0 2 7 1 8 0 0 4")] # s "cbow:0" # room 0.8 # size 0.9 # gain 0.9
     setB "dynb" (binary "<170 148 191 168>")
     setI "dyni" (run 4)
     setF "dynf" (rand)
-
-    d2 $ struct "^dynb"
-        $ s "[bd*4, cp(3,8)]"
-        # n "^dyni"
-        # pan "^dynf"
-        # verb 0.4 0.6 0.3 0.2
-
-    -- Arpeggiated synth layer
-    d3 $ every 4 (fast 2) 
-        $ arp "up down converge"
-        $ note "<c'min7 f'maj7 g'dom7>"
-        # s "superpiano"
-        # room 0.6
-        # lpf (range 800 4000 $ slow 8 sine)
+    d2 $ struct "^dynb" $ s "[bd*4, cp(3,8)]" # n "^dyni" # pan "^dynf" # verb 0.4 0.6 0.3 0.2
+    d3 $ every 4 (fast 2) $ arp "up down converge" $ note "<c'min7 f'maj7 g'dom7>" # s "superpiano" # room 0.6 # lpf (range 800 4000 $ slow 8 sine)
 ```
 
 ### Rhythmic Pattern Integration
@@ -561,42 +505,12 @@ do
 ```haskell
 -- Pattern designed for live manipulation
 do
-    -- Base rhythm section
-    d1 $ stack [
-        every 4 (fast 2) $ s "bd*4" # gain 1.1,
-        every 3 (rev) $ s "~ cp ~ cp" # room 0.4,
-        sometimesBy 0.3 (# speed 2) $ s "hh*8" # gain 0.8
-    ]
-
-    -- Melodic pattern with live control parameters
-    d2 $ note (scale "minor" "<[0 3 5 7] [2 5 7 9]>")
-        # s "supersquare"
-        # lpf (range 400 4000 $ slow 8 sine)
-        # resonance 0.3
-        # room 0.6
-        # size 0.8
-
-    -- Transition patterns
-    let pattern1 = stack [
-            s "bd*4",
-            note "0 3 5 7" # s "bass"
-        ]
-        pattern2 = stack [
-            s "cp(3,8)",
-            note "2 5 7 9" # s "lead"
-        ]
-
-    -- Use xfade for smooth transitions
+    d1 $ stack [every 4 (fast 2) $ s "bd*4" # gain 1.1, every 3 (rev) $ s "~ cp ~ cp" # room 0.4, sometimesBy 0.3 (# speed 2) $ s "hh*8" # gain 0.8]
+    d2 $ note (scale "minor" "<[0 3 5 7] [2 5 7 9]>") # s "supersquare" # lpf (range 400 4000 $ slow 8 sine) # resonance 0.3 # room 0.6 # size 0.8
+    let pattern1 = stack [s "bd*4", note "0 3 5 7" # s "bass"]
+    let pattern2 = stack [s "cp(3,8)", note "2 5 7 9" # s "lead"]
     xfade 3 $ every 4 (fast 2) pattern1
-    -- Later: xfade 3 $ pattern2
-
-    -- Effect modulation
-    d4 $ s "ambient:4"
-        # gain 0.7
-        # room (range 0.2 0.8 $ slow 16 sine)
-        # delay 0.5
-        # delaytime (1/3)
-        # delayfeedback 0.4
+    d4 $ s "ambient:4" # gain 0.7 # room (range 0.2 0.8 $ slow 16 sine) # delay 0.5 # delaytime (1/3) # delayfeedback 0.4
 ```
 
 This comprehensive guide covers a wide range of techniques and patterns in TidalCycles, including:
