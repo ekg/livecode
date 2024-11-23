@@ -58,3 +58,10 @@ d1 $ stack [
   -- Melodic elements
   struct "t(3,8)" $ s "arpy:2" # note (scale "minor" "0 5") # gain 0.75
 ] # room 0.4 # orbit 2
+
+-- Melodic pattern with arpy and fm
+d2 $ stack [
+  every 4 (|+ note 2) $ note "c3(3,8)" # s "fm:4" # gain 0.85,
+  struct "t(7,16)" $ s "arpy:1" # note (scale "minor" "0 5 7") # pan sine,
+  slow 2 $ s "notes:4(3,8)" # speed 0.8 # room 0.6
+] # orbit 3
