@@ -10,3 +10,19 @@ d1 $ stack [
 
 -- Complementary synth line in 5:4
 d2 $ slow 2 $ note (scale "minor" "0 3 5 7") # s "mars_synths_SH101_Rave" # gain 0.75 # lpf 2000
+
+-- Atmospheric pad with subtle modulation
+d3 $ slow 4 $ s "mars_synths_KawaiiDreams_Air*2" 
+  # note (scale "minor" "<0 3>")
+  # gain 0.6 
+  # room 0.8 
+  # size 0.9
+  # pan (range 0.3 0.7 $ slow 8 sine)
+
+-- Ethereal texture layer
+d4 $ slow 8 $ stut 4 0.5 0.125 
+  $ s "mars_synths_ModularCreations_Tides" 
+  # note (scale "minor" "7") 
+  # gain 0.5
+  # room 0.7
+  # lpf (range 1000 3000 $ slow 16 sine)
