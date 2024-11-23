@@ -193,25 +193,38 @@ do
     s "~ realclaps:3 ~ realclaps:3" # gain 1.1 # room 0.5,
     every 2 (fast 2) $ s "~ sd:2 ~ [sd:2 sd:1]" # gain 0.9 # room 0.3,
     fast 4 $ s "hh*2" # n (irand 4) # gain 0.75 # pan (rand) ]
-  -- Walking bass line in blues scale
+  -- Walking bass line with chromatic runs and octave jumps
   d2 $ every 4 (stut 2 0.5 0.125)
-    $ note "c2 e2 g2 a2 bf2 a2 g2 e2"
+    $ every 3 (fast 2)
+    $ note (cat ["c2 e2 g2 a2", "bf2 a2 g2 e2", "c2 [c3 b2] a2 g2", "[f2 e2 ef2 d2] c2"])
     # s "flbass"
-    # legato 1
+    # legato "<1 1.2 0.8>"
     # gain 0.9
     # room 0.3
-  -- Blues piano chords
+    # lpf (range 400 1200 $ slow 8 sine)
+  -- Blues piano chords with rhythmic variations and grace notes
   d3 $ every 8 (rev)
-    $ note "<c'7 f'7 g'7 f'7>"  
+    $ every 3 (fast 2)
+    $ note (cat ["<c'7 [c'7 d'7]>", "<f'7 [f'7 g'7]>", "<g'7 [g'7 a'7]>", "<f'7 [f'7 e'7]>"])
     # s "superpiano"
     # gain 0.8
     # room 0.6
-  -- Lead blues line
+    # velocity (range 0.5 1.0 $ slow 4 sine)
+    # sustain "<0.5 1.2 0.8>"
+  -- Lead blues line with bends and expressive phrasing
   d4 $ every 4 (fast 2)
-    $ note (scale "blues" "0 3 2 0 5 3 2 0")
+    $ every 3 (rev)
+    $ note (cat [
+      scale "blues" "0 3 [2 3] 0",
+      scale "blues" "[5 ~] 3 [2 1] 0",
+      scale "blues" "[7 8] 5 3 [2 0]",
+      scale "blues" "[0 -2] 0 2 3"
+    ])
     # s "mars_synths_S612_Rhodes"
     # gain 0.75
     # room 0.5
+    # speed (range 0.98 1.02 $ slow 8 sine)
+    # lpf (range 800 2000 $ slow 4 sine)
   -- Mute options
   -- d1 silence  -- rhythm
   -- d2 silence  -- bass
