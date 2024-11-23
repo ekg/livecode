@@ -135,4 +135,49 @@ do
 
 hush
 
--- bluesy track
+-- copilot mixup of above
+do
+  hush
+  setcps (130/60/4)
+  -- Core rhythm section
+  d1 $ stack [
+    every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200,
+    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
+    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
+  -- Atmospheric pad with filter sweep
+  d2 $ every 8 (rev) 
+    $ loopAt 4 
+    $ chop 16 
+    $ s "lpviz" # n 388 
+    # gain 0.85 
+    # room 0.6 
+    # lpf (range 400 3000 $ slow 16 sine)
+  -- Rolling bass with occasional flourishes
+  d3 $ every 5 (stut 3 0.5 (1/3))
+    $ note "c2 [~ g2] e2 [~ a2]"
+    # s "flbass"
+    # n 3
+    # gain 0.9
+    # room 0.3
+  -- thing
+  d4 $ slow 4 $ every 4 (fast 2)
+    $ note 0 + note "<0 4 7 12>"
+    # s "gtr:1"
+    # gain 0.75
+    # room 0.5
+    # hpf (range 500 1000 (slow 16 sine))
+  -- Vocal-like melody line
+  d5 $ slow 4
+    $ every 4 (stut 2 0.4 0.25)
+    $ note 36 + note "c4 [~ e4] g4 [~ a4] [~ c5] [~ g4] e4 [~ c4]"
+    # s "mars_synths_S612_Rhodes"
+    # room 0.6
+    # size 0.95
+    # gain 0.85
+    # lpf (range 800 2000 $ slow 8 sine)
+  -- Mute options
+  -- d5 silence
+  -- d6 silence
+  --
+
+-- bluesy section
