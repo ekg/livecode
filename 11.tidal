@@ -63,17 +63,17 @@ do
     s "808bd(3,8)" # n 3 # gain 1.2 ]
     -- fast 2 $ s "~ realclaps" # n "[3,4]" # room 0.3 ]
   -- Long melodic line with direct note progression
-  d2 $ slow 8
+  d2 $ slow 16
     $ note "0 [0,4,7] 5 [2,6,9] 7 [4,8,11] 3 [-2,2,5]"
-    # s "superpiano"
+    # s "flbass"
     # room 0.6
     # size 0.7
     # gain 0.8
   -- Arpeggiated melody with specific intervals
   d3 $ every 4 (fast 2)
     $ arp "up down"
-    $ note "<[0,4,7] [5,8,12] [3,7,10] [7,11,14]>"
-    # s "supervibe"
+    $ note 12 + note "<[0,4,7] [5,8,12] [3,7,10] [7,11,14]>"
+    # s "flbass"
     # gain 0.75
     # room 0.5
     # lpf (range 1000 3000 $ slow 4 sine)
