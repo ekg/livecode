@@ -91,10 +91,12 @@ d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [
 
 -- Complex tabla drum pattern with industrial accents
 d2 $ every 4 (jux rev) $ stack [
-  s "tabla2:15(5,8,2)" # gain 1.1 # lpf 400,
-  s "tabla2:8(3,8)" # gain 0.9 # pan sine,
+  s "909(5,8,2)" # gain 1.1 # lpf 400,
+  s "cp(<2 0 2 3>,8,1)" # gain 0.9 # pan sine,
   fast 2 $ s "industrial:8(3,8)" # gain 0.8,
   whenmod 8 6 (fast 2) $ s "tabla:4*2" # room 0.6
-] # orbit 2
+  ]
 
 hush
+
+panic
