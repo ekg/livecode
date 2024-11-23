@@ -20,7 +20,18 @@ Use do blocks to collect different channels together into a single set. This is 
 
 ```haskell
 do
-    d1 $ s "bd*4"
-    d2 $ s "~ cp ~ cp"
-    d3 $ s "hh(3,8)"
+  setcps (100/60/4)
+  let l = s "lpmr"
+  let e = every 16 (# speed "1 0.9 0.3 0.1")
+  d1 $ e $ foldEvery [2,4] (hurry 0.5)
+    $ loopAt "<1!6 2>" $ chop 8 $ l # n 8 # gain 0.7
+  d2 $ e $ foldEvery [3,7] (jux rev) $ every 4 brak
+    $ loopAt "<1!7 2>" $ chop 8 $ n "<773 774>" # l # gain 0.7
+  d3 $ s "bd*4" # speed "<1 1 0.666 <0.666 [0.666 0.333]>>" -- (cat [1, (1/3), (2/3)
+  d4 $ sometimes (off (cat [(3/16), (1/16), (4/17), (3/16)]) (# speed "<0.5 0.666 0.5 0.333>"))
+    $ n "0(7,<16 8 16>,4)" # s "flbass" # n "<<3 [3, 4]> 4 5>" # speed 1 # legato 1 # release 0.2
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
 ```
