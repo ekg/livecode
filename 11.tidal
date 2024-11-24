@@ -372,6 +372,56 @@ do
     # size 0.98
     # lpf (range 300 2000 $ slow 32 sine)
 
--- xxxx go
+-- Section F: Hard 4x4 Version
+do
+  setcps (128/60/4)
+  let l = s "lpviz"
+  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310 # room 0.6 # gain 1.1
+             , every 4 (stut 3 0.8 (1/4)) $ compress (1/4, 3/4)
+               $ every 8 (* note "0 5 -7 -12")
+               $ note (slow 2 "<-7 0 5 7>") # l # n 281 # delay 0.5 # delaytime (1/4) # delayfeedback 0.4
+             , slow 4 $ every 2 (rev)
+               $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
+               # n "<491 492>"
+               # legato 1.2 # speed 0.8 # gain 0.95 # crush "<3 4 5>"
+             , s "808bd(4,8)" # n 3 # lpf 300 # gain 1.3
+             , every 4 (# gain 1.2) $ fast 2 $ s "~ realclaps" # n "[3, 4]" # room 0.4 # sz 0.8
+             , struct "t(7,8)"
+               $ s "808mt(8,8)"
+               # speed (cat ["1 0.8 0.7"
+                          , "1 1 1"
+                          , "0.8 0.7 0.6"
+                          , "1 0.8 0.7"])
+               # room 0.4 ]
+  -- Hard bass line with aggressive filter
+  d2 $ every 4 (stut 2 0.6 0.125)
+    $ note (scale "minor" $ cat ["-7 0 -5 2", "-12 -7 0 -5"])
+    # s "flbass"
+    # n 3
+    # legato 1.2
+    # gain 1.1
+    # lpf (range 200 1200 $ slow 8 sine)
+    # resonance 0.6
+  -- Stabbing Rhodes with shorter decay
+  d3 $ every 4 (rev)
+    $ note (scale "minor" $ cat ["<[-7,0,5] [-12,-5,0]>", "<[-5,0,7] [-7,0,5]>"])
+    # s "mars_synths_S612_Rhodes"
+    # gain 0.9
+    # room 0.6
+    # size 0.8
+    # attack 0.01
+    # sustain 0.3
+    # release 0.2
+  -- Aggressive atmospheric pad
+  d4 $ slow 4
+    $ every 2 (|* speed 0.8)
+    $ note (scale "minor" "<[-12,-5,0] [-7,0,5]>")
+    # s "lpviz"
+    # n 388
+    # gain 0.85
+    # room 0.7
+    # size 0.8
+    # lpf (range 400 3000 $ slow 16 sine)
+    # crush 8
 
 hush
