@@ -379,7 +379,7 @@ do
   d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310 # room 0.6 # gain 1.1
              , every 4 (stut 3 0.8 (1/4)) $ compress (1/4, 3/4)
                $ every 8 (* note "0 5 -7 -12")
-               $ note (slow 2 "<-7 0 5 7>") # l # n 281 # delay 0.5 # delaytime (1/4) # delayfeedback 0.4
+               $ note (slow 2 "<-7 0 5 7>") # l # n "<278 288 399 193>" # delay 0.5 # delaytime (1/4) # delayfeedback 0.4
              , slow 4 $ every 2 (rev)
                $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
                # n "<491 492>"
