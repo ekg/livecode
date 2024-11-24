@@ -253,11 +253,12 @@ do
     # resonance 0.3
   -- Rhodes chords with swing
   d3 $ every 8 (rev)
-    $ note (cat ["<c'min7 [c'min7 d'min7]>", "<f'min7 [f'min7 g'min7]>"])
-    # s "mars_synths_S612_Rhodes"
-    # gain 0.8
+    $ note 0 + note (cat ["<c'min7 [c'min7 d'min7]>", "<f'min7 [f'min7 g'min7]>"])
+    # s "jrhodes"
+    # gain 0.9
     # room 0.6
     # velocity (range 0.5 1.0 $ slow 4 sine)
+    # attack 1 # sustain 3 # decay 3 # size 0.9
   -- Atmospheric pad
   d4 $ loopAt 4
     $ chop 16
@@ -271,5 +272,9 @@ do
   -- d2 silence  -- bass
   -- d3 silence  -- rhodes
   -- d4 silence  -- pad
+
+-- next phase of the above pattern
+-- get funky and write a melody over the chords by choosing a binary pattern on a scale over the chords for jrhodes
+-- xxx
 
 hush
