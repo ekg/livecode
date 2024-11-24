@@ -295,5 +295,30 @@ do
                           , "0.5 0.6 0.66 0.7"
                           , "1 1 1 1"])
              ]
+  -- Melodic bass line with filter movement
+  d2 $ every 4 (stut 2 0.5 0.125)
+    $ note (scale "minor" $ cat ["0 [~ 3] -1 [~ 5]", "-2 [~ 0] 2 [~ 3]"])
+    # s "flbass"
+    # n 3
+    # legato 1.2
+    # gain 0.9
+    # lpf (range 400 1200 $ slow 8 sine)
+    # resonance 0.3
+  -- Rhodes chords with velocity variation
+  d3 $ every 8 (rev)
+    $ note (scale "minor" $ cat ["<[0,3,7] [0,5,8]>", "<[-2,2,5] [0,3,7]>"])
+    # s "mars_synths_S612_Rhodes"
+    # gain 0.85
+    # room 0.6
+    # velocity (range 0.5 1.0 $ slow 4 sine)
+  -- Atmospheric pad layer
+  d4 $ slow 4
+    $ every 3 (|* speed 1.5)
+    $ note (scale "minor" "<[0,4,7] [-2,2,5]>")
+    # s "lpviz"
+    # n 388
+    # gain 0.7
+    # room 0.8
+    # lpf (range 500 3000 $ slow 16 sine)
 
 hush
