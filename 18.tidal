@@ -35,8 +35,8 @@ do
     slow 1 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,~,-2] [-7,~,0]>") 
       # s "jrhodes"
       # gain 0.8 # room 0.6 # size 0.8]
-  d1 silence
-  d2 silence
-  d3 silence
-  d4 silence
-  -- d5 silence
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  d5 silence
