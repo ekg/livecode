@@ -48,6 +48,7 @@ hush
 
 -- Sparse melodic log drums
 do
+  hush
   setcps (126/60/4)
   -- Minimal log drum melody
   d1 $ every 4 (jux(rev))
