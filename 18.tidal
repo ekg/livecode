@@ -82,7 +82,7 @@ do
   --d4 silence
   --d5 silence
 
--- Deep Minimal House Scene
+-- Deep Minimal House Scene, B
 do
   hush
   setcps (126/60/4)
@@ -98,7 +98,7 @@ do
       # lpf (range 1000 3000 $ slow 2 sine)]
   -- Deep bass pulses with blues walk
   d2 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") 
-    # s "flbass" # sustain 0.8 
+    # s "flbass" # sustain 0.8 # n 3
     # lpf (range 200 400 $ slow 4 sine) # gain 0.9
   -- Filtered chord stabs with extended progression
   d3 $ swing $ every 4 (jux rev) 
