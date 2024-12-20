@@ -32,3 +32,14 @@ do
   -- d2 silence
   -- d3 silence
   -- d4 silence
+  -- Tech house pattern
+  d5 $ swing $ stack [
+    s "bd(3,8)" # gain 1.1 # lpf 200,
+    every 4 (jux(rev)) $ s "~ cp ~ cp" # gain 0.9,
+    sometimesBy 0.3 (fast 2) $ s "hh(7,8)" # gain 0.85 # pan sine,
+    every 8 (const silence) $ s "~ ~ lt ~" # n "2" # gain 0.8,
+    slow 4 $ note "c3(3,8)" # s "supersaw" # lpf 400 # gain 0.75 # sustain 0.3,
+    slow 8 $ note (scale "minor" "<0 3 7 5>") # s "superpad" 
+      # lpf (range 800 2000 $ slow 4 sine) 
+      # room 0.6 # size 0.8 # gain 0.7]
+  -- d5 silence
