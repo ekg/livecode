@@ -45,10 +45,11 @@ do
     "f4'maj7 ~",
     "a3'min7 ~"])
     # s "superpiano"
+    # velocity 0.86
     # room (range 0.7 0.95 $ slow 16 sine) 
     # size (range 0.8 0.99 $ slow 12 sine)
     # lpf (range 2000 4000 $ slow 8 sine)
-    # gain 0.8
+    # gain 0.9
   -- Simple bass following chord roots
   d7 $ note (cat [
     "c5(3,8,<0 2>) [c5 g5]",
