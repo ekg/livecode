@@ -50,7 +50,7 @@ hush
 do
   hush
   setcps (132/60/4)
-  let complexity = "<t f f t>"  -- Toggle between full and reduced patterns
+  let complexity = "struct(t(2,8),t(3,8),t(5,8),t(7,8),t(11,16),t(13,16))"
   -- Main beat with binary pattern
   d1 $ (whenmod 8 6 (struct "t(3,8)")) $ stack [
     struct (binary 170) $ s "808bd" # n 3 # gain 1.2,
