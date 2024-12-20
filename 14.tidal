@@ -144,7 +144,11 @@ do
   -- Main beat
   d1 $ stack [
     s "bd(3,8)" # gain 1.2,
-    s "~ cp ~ cp" # room 0.3,
+    s "~ cp ~ cp" # room 0.4 # size 0.6 
+      # speed (range 0.95 1.05 $ slow 4 sine) 
+      # pan (range 0.3 0.7 $ slow 3 sine)
+      # lpf (range 2000 4000 $ slow 8 sine) 
+      # gain 0.85,
     s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
   -- Rolling bass with more movement
   d2 $ every 4 (fast 2)
