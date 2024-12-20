@@ -5,5 +5,5 @@ do
   -- Four on the floor beat
   d1 $ stack [
     s "bd*4" # gain 1.1,
-    s "~ cp ~ cp" # room 0.3,
+    s "~ realclaps ~ realclaps" # n "[3,7]" # room 0.3,
     s "hh*8" # gain 0.8 ]
