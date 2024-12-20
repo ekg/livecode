@@ -10,10 +10,11 @@ do
     $ s "reggae" # n 133 
     # room 0.6 # size 0.8
     # delay 0.4 # delaytime (1/3) # delayfeedback 0.4,
-    -- Deep bassline
-    every 4 (fast 2) 
-    $ note "c2(3,8)" # s "mars_synths_SH101_Rave:2" 
-    # gain 0.85 # lpf 800,
+    -- Deep melodic bassline
+    every 4 (fast 2)
+    $ note "c2(3,8)" # s "flbass" # n 3
+    # sustain 0.5 # release 0.3
+    # gain 0.9 # lpf 800,
     -- Classic reggae drums
     s "bd(3,8,0)" # gain 1.2,
     fast 2 $ s "~ cp" # gain 0.9,
