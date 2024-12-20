@@ -9,15 +9,15 @@ do
     every 4 (jux(rev)) $ s "~ cp ~ cp" # gain 0.9,
     sometimesBy 0.3 (fast 2) $ s "hh(7,8)" # gain 0.85 # pan sine]
   -- Driving bass pattern
-  d2 $ swing $ note (scale "minor" "<[0 ~] [0 2] [~ 3] [0 ~]>")
-    # s "mars_synths_ModularCreations_Bass"
+  d2 $ every 4 (stut 4 (1/8) 0.5) $ swing $ note (scale "minor" "<[0 ~] [0 2] [~ 3] [0 ~]>")
+    # s "flbass" # n 3
     # legato 1.2
     # lpf (range 400 1200 $ slow 4 sine)
     # gain 1.1
     # shape 0.3
   -- Atmospheric pad
-  d3 $ swing $ slow 8 $ note (scale "minor" "<0 3 7 5>") 
-    # s "mars_synths_KawaiiDreams_Air"
+  d3 $ swing $ slow 2 $ note (scale "minor" "<0 3 7 5>") 
+    # s "mars_synths_KawaiiDreams_Air" # n (irand 4) # legato 1.2
     # lpf (range 800 2000 $ slow 4 sine)
     # room 0.6 # size 0.8 # gain 0.75
   -- Percussive accents
@@ -25,7 +25,9 @@ do
     $ struct "t(5,8)" $ s "tabla2" 
     # n (irand 8) # gain 0.8 
     # pan (range 0.3 0.7 rand)
-  -- d1 silence
+  d1 silence
   -- d2 silence
   -- d3 silence
-  -- d4 silence
+  d4 silence
+
+hush
