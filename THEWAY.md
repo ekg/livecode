@@ -135,6 +135,7 @@ The user has many favorite sample sets:
     - `uku`: Delicate plucked sounds for melodic motifs
     - `flbass`: Melodic bass for low-end movement
     - `arpy`: For arpeggiator-style patterns
+    - `cbow`: Bowed string sounds (always use with `# legato 1` or higher for smooth transitions)
   - Avoid overusing `superpiano`. When needed, keep gain low (0.7-0.8)
   - Build rich chords with these intervals:
     - Minor: `0 3 7` (triad) or `0 3 7 10` (minor7)
