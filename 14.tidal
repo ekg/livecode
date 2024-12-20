@@ -78,10 +78,10 @@ do
     $ every 4 (jux(rev))
     $ note "<c3'min7 f3'maj7>"
     # s "superpiano"
-    # room 0.6 # size 0.8
+    # room 0.6 # size 0.9
     # lpf (range 800 2000 $ slow 4 sine)
-    # resonance 0.2
-    # gain 0.85
+    -- # resonance 0.2
+    # gain 0.76
 
 hush
 
