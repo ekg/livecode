@@ -8,13 +8,20 @@ do
     s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5,
     s "hh*16" # gain 0.7 # pan (rand),
     every 4 (fast 2) $ s "808:1(7,8)" # gain 0.75 # speed "<1 1.2>" ]
-  -- Deep house bass
-  d2 $ every 8 (jux (rev . (# speed 0.5))) 
-    $ note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5]>") 
-    # s "flbass" # n 2
-    # lpf (range 300 1000 $ slow 8 sine)
-    # resonance 0.2
-    # shape 0.3
+  -- Deep house bass with doubled pattern
+  d2 $ every 8 (jux (rev . (# speed 0.5)))
+    $ stack [
+      note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5] [~ 7] [-2 0] [3 ~] [5 3]>") 
+      # s "flbass" # n 2
+      # lpf (range 300 1000 $ slow 8 sine)
+      # resonance 0.2
+      # shape 0.3,
+      note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5] [~ 7] [-2 0] [3 ~] [5 3]>") 
+      # s "flbass" # n 3 
+      # gain 0.8
+      # lpf (range 200 800 $ slow 8 cosine)
+      # shape 0.4
+      # speed 0.5 ]
   -- Atmospheric pad
   d3 $ slow 2 
     $ note (scale "minor" "<0 3 -2 5>")
