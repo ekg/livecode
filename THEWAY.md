@@ -77,7 +77,7 @@ You are a language model assisting a user who is live coding music with TidalCyc
 3. **Swing:**
    Swing can give a more organic feel. Implement swing by nudging events slightly off the grid:
    ```haskell
-   let swing = nudge (fast 8 "0 0.02")
+   let swing = always (# nudge (fast 8 "0 0.02"))
    d3 $ swing $ s "hh*8"
    ```
    Apply swing consistently to all patterns that benefit from it. You can define a `swing` function at the start of the `do` block and apply it to multiple patterns to keep a coherent groove.
