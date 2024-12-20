@@ -50,7 +50,6 @@ do
     # s "flbass" # n 0
     # lpf 800 # resonance 0.2
     # gain 1.1
-
   -- d7 silence
   d1 silence
   d2 silence
