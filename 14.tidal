@@ -46,6 +46,43 @@ d5 $ every 4 (jux(rev))
 
 hush
 
+-- Tech house section with melody
+do
+  setcps (126/60/4)
+  -- Main beat
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.2,
+    s "~ cp ~ cp" # room 0.3,
+    s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
+  -- Rolling bass with more movement
+  d2 $ every 4 (fast 2)
+    $ note "c1(3,8,1) e1(3,8,2)" # s "bass3"
+    # lpf (range 400 1800 $ slow 8 sine)
+    # resonance 0.3
+    # gain 1.1
+  -- Percussion groove with more variation  
+  d3 $ every 2 (jux(rev))
+    $ s "~ [~ cpu2:3] <cpu:2 cpu:4> cpu2:8"
+    # room 0.2 # gain 0.9
+  -- Filtered synth stabs with chord progression
+  d4 $ every 4 (fast 2)
+    $ note "<c3'min7 f3'maj7 g3'dom7 a3'min7>(3,8)" # s "supervibe"
+    # lpf (range 800 3000 $ slow 4 sine)
+    # gain 0.8
+  -- Hi-hat groove with more swing
+  d5 $ every 3 (fast 2)
+    $ s "808oh(5,8,2)" # n 2
+    # gain 0.7 # pan (rand)
+  -- New melodic lead line
+  d6 $ every 4 (jux(rev))
+    $ note (scale "minor" "{0 3 5 7 8 5 3 0}%8")
+    # s "superpiano"
+    # room 0.6 # size 0.8
+    # lpf (range 1200 4000 $ slow 4 sine)
+    # gain 0.85
+
+hush
+
 -- Tech house section
 do
   setcps (126/60/4)
