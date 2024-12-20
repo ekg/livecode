@@ -654,6 +654,52 @@ This comprehensive guide covers a wide range of techniques and patterns in Tidal
 
 By mastering these samples and their manipulation, you can create complex and engaging live coding performances with TidalCycles.
 
+## Pattern Reset and Structure
+
+### Resetting All Instruments
+Always structure your patterns with a `do` block that includes `hush` at the start and sets the tempo. This ensures a clean slate:
+
+```haskell
+do
+  hush
+  setcps (126/60/4)
+  -- Your pattern code here
+```
+
+### Example Pattern Structures
+
+1. Basic House Pattern:
+```haskell
+do
+  hush
+  setcps (126/60/4)
+  -- Core rhythm
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.2,
+    s "~ cp ~ cp" # room 0.3,
+    s "hh*8" # gain 0.8 # pan sine ]
+  -- Bass line
+  d2 $ note "c1(3,8,1)" # s "bass3"
+    # lpf 800 # resonance 0.2
+  -- Hi-hats
+  d3 $ s "808oh(5,8)" # gain 0.7
+```
+
+2. Ambient Pattern:
+```haskell
+do
+  hush
+  setcps (85/60/4)
+  -- Atmospheric pad
+  d1 $ slow 4 $ note "<c4'maj7 a3'min7>"
+    # s "supersaw" # room 0.8
+  -- Gentle percussion
+  d2 $ s "jazz(3,8)" # gain 0.7
+  -- Textural elements
+  d3 $ loopAt 4 $ chop 16 
+    $ s "ambient:4" # gain 0.8
+```
+
 IMPORTANT:
 
 This does not work:
