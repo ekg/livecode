@@ -1,7 +1,7 @@
 -- Dub reggae vibes
 do
   setcps (140/60/4)
-  -- Core reggae rhythm
+  -- Core reggae rhythm with dubby textures and melodic progression
   d1 $ stack [
     -- Offbeat chords with delay
     every 4 (# speed "0.5") 
@@ -18,31 +18,27 @@ do
     -- Classic reggae drums
     s "bd(3,8,0)" # gain 1.2,
     fast 2 $ s "~ cp" # gain 0.9,
-    s "hh(5,8)" # gain 0.8 ]
-
--- Dubby texture layer
-d2 $ every 4 (# crush 8)
-   $ every 8 (rev)
-   $ loopAt 4 
-   $ chop 16 
-   $ s "reggae" # n 30
-   # room 0.95 # size 0.9
-   # gain 1
-
--- Melodic elements with heavy effects and clear progression
-d3 $ every 4 (jux(rev))
-   $ note (cat ["c4 [~ e4] g4 [~ a4]",
-                "a3 [~ c4] e4 [~ g4]",
-                "f4 [~ a4] c5 [~ e5]",
-                "g4 [~ b4] d5 [~ f5]"])
-   # s "mars_synths_KawaiiDreams_Strings"
-   # room 0.8 # size 0.9
-   # start 2 # end 2.05
-   # sustain 1 # release 1
-   # delay 0.6 # delaytime (1/3)
-   # lpf (range 800 2000 $ slow 8 sine)
-   # gain 1
+    s "hh(5,8)" # gain 0.8,
+    -- Dubby texture layer
+    every 4 (# crush 8)
+    $ every 8 (rev)
+    $ loopAt 4 
+    $ chop 16 
+    $ s "reggae" # n 30
+    # room 0.95 # size 0.9
+    # gain 0.8,
+    -- Melodic elements with heavy effects and clear progression
+    every 4 (jux(rev))
+    $ note (cat ["c4 [~ e4] g4 [~ a4]",
+                 "a3 [~ c4] e4 [~ g4]",
+                 "f4 [~ a4] c5 [~ e5]",
+                 "g4 [~ b4] d5 [~ f5]"])
+    # s "mars_synths_KawaiiDreams_Strings"
+    # room 0.8 # size 0.9
+    # sustain 0.3 # release 0.4
+    # speed 0.5
+    # delay 0.6 # delaytime (1/3)
+    # lpf (range 800 2000 $ slow 8 sine)
+    # gain 0.75 ]
 
 hush
-
-panic
