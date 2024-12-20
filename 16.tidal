@@ -1,9 +1,10 @@
--- Basic house beat
+-- Polyrhythmic patterns with Euclidean rhythms
 do
   hush
   setcps (126/60/4)
-  -- Four on the floor beat
+  -- Layered Euclidean rhythms
   d1 $ stack [
-    s "bd*4" # gain 1.1,
-    s "~ realclaps ~ realclaps" # n "[3,7]" # room 0.3,
-    s "hh*8" # gain 0.8 ]
+    struct "t(5,8)" $ s "bd" # gain 1.1,
+    struct "t(3,8,2)" $ s "realclaps" # n "[3,7]" # room 0.3,
+    struct "t(7,12)" $ s "hh" # gain 0.8 # pan sine,
+    struct "t(4,7)" $ s "808mt" # n (irand 4) # speed "<1 0.5 1.5 0.75>" ]
