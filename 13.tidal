@@ -5,16 +5,13 @@ do
   d1 $ stack [
     s "808bd(3,8)" # n 3 # gain 1.2,
     every 4 (fast 2) $ s "~ realclaps ~ realclaps" # n 3 # room 0.2,
-    struct "t(11,16)" $ s "808mt*2" # n "3 7" # speed "1 0.9"
-  ]
-  
+    struct "t(11,16)" $ s "808mt*2" # n "3 7" # speed "1 0.9" ]
   -- Bass groove
   d2 $ every 4 (jux rev) 
     $ note (scale "minor" "0 3 ~ 7") 
     # s "flbass" # n 3 
     # lpf (range 400 1200 $ slow 4 sine)
     # resonance 0.3
-    
   -- Textural layer
   d3 $ stut 4 0.5 (1/8)
     $ s "lpviz" # n 832
