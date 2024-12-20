@@ -73,14 +73,14 @@ do
   d5 $ every 3 (fast 2)
     $ s "808oh(5,8,2)" # n 2
     # gain 0.7 # pan (rand)
-  -- Slower arpeggiated melody
+  -- Straight chords with filter
   d6 $ slow 4 
     $ every 4 (jux(rev))
-    $ arp "up down converge diverge" 
     $ note "<c3'min7 f3'maj7>"
     # s "superpiano"
     # room 0.6 # size 0.8
-    # lpf (range 1200 4000 $ slow 4 sine)
+    # lpf (range 800 2000 $ slow 4 sine)
+    # resonance 0.2
     # gain 0.85
 
 hush
