@@ -133,6 +133,7 @@ The user has many favorite sample sets:
     - `mars_synths_S612_Rhodes` for warm Rhodes chords.
     - `mars_synths_Sh101_Rave` or `mars_synths_ModularCreations_*` for evolving melodic lines.
   - Avoid overusing `superpiano`. There are better options for leads and chords, like `jrhodes` (Rhodes piano), `teclado` (keyboard), `flbass` (melodic bass), `gtr`, or `uku` for subtle melodic material.
+  - When using `superpiano`, set the velocity to a lower value, like 0.7 or 0.8. Try not to exceed 0.9.
   - Combine chord tones (like `0 3 7` for a minor triad, or `0 4 7 11` for a maj7 chord) and slow them down:
     ```haskell
     d4 $ slow 8 $ note (scale "minor" "0 3 7 10") # s "jrhodes" # room 0.7

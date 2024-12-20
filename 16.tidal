@@ -20,8 +20,9 @@ do
   d3 $ slow 8 $ note (scale "minor" "<0 3 7 5>")
     # s "mars_synths_KawaiiDreams_Air"
     # room 0.7 # size 0.8
+    # start 0.1
     # lpf (range 800 2000 $ slow 8 sine)
-    # gain 0.75
+    # gain 1
   -- Subtle bass movement
   d4 $ note (scale "minor" "0(3,8)")
     # s "bass3"
