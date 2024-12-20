@@ -653,3 +653,20 @@ This comprehensive guide covers a wide range of techniques and patterns in Tidal
 - Cut for sample isolation
 
 By mastering these samples and their manipulation, you can create complex and engaging live coding performances with TidalCycles.
+
+IMPORTANT:
+
+This does not work:
+
+do
+  setcps (120/60/4)
+  -- Smooth kick and hat pattern
+  d1 $ stack [
+    s "808bd(3,8,<0 2>)" # n 3 # gain 1.1,
+    s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5
+  ]
+<--- you need to close the stack [ ] after the code.
+It should be like this:
+  d1 $ stack [
+    s "808bd(3,8,<0 2>)" # n 3 # gain 1.1,
+    s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5 ]
