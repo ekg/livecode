@@ -41,5 +41,14 @@ do
     # room 0.9 # size 0.95
     # lpf 3000
     # gain 0.8
+  -- Walking bass line
+  d7 $ note (cat [
+    "c3 eb3 g3 bb3",
+    "g2 bb2 d3 f3", 
+    "f2 a2 c3 e3",
+    "a2 c3 e3 g3"])
+    # s "flbass" # n 3
+    # lpf 800 # resonance 0.2
+    # gain 1.1
 
 hush
