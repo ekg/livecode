@@ -17,8 +17,7 @@ do
     -- Classic reggae drums
     s "bd(3,8,0)" # gain 1.2,
     fast 2 $ s "~ cp" # gain 0.9,
-    s "hh(5,8)" # gain 0.8
-  ]
+    s "hh(5,8)" # gain 0.8 ]
 
 -- Dubby texture layer
 d2 $ every 4 (# crush 8)
