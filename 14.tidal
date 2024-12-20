@@ -75,7 +75,7 @@ do
       "~ [10 ~] 8 7",
       "[~ 12] 10 8 7"]))
     # s "superpiano"
-    # room 0.9 # size 0.9
+    # room 0.99 # size 0.99
     # delay 0.6 # delaytime (3/8) # delayfeedback 0.4
     # lpf (range 1000 3000 $ slow 8 sine)
     # gain 0.72
