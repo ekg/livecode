@@ -8,12 +8,14 @@ do
 -- Scene 2: Breakbeat Development
 do
   setcps (120/60/4)
-  -- Layered breaks
-  d1 $ loopAt "<16 16 <8 16> 12>"
+  -- Layered breaks with 4x4 kick foundation
+  d1 $ stack [
+    s "808bd*4" # gain 1.2,
+    loopAt "<16 16 <8 16> 12>"
     $ chunk 4 (hurry 2)
     $ scramble (irand 6) $ chop 32
     $ n "48" # s "300break"
-    # room 0.5 # size 0.8
+    # room 0.5 # size 0.8 ]
   d2 $ loopAt 8 $ chop 32 $ n "73" # s "300break"
     # room 0.7 # size 0.9
   d3 $ loopAt 4 $ every 8 (scramble (irand 7))
