@@ -34,11 +34,11 @@ do
     slow 4 $ note (scale "minor" "<0 -3 -5 -7>") 
       # s "flbass" # gain 1 # legato 1.2 
       # lpf (range 300 800 $ slow 4 sine),
-    slow 8 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,~,-2] [-7,~,0]>") 
-      # s "mars_synths_S612_Rhodes" 
+    slow 1 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,~,-2] [-7,~,0]>") 
+      # s "jrhodes"
       # gain 0.8 # room 0.6 # size 0.8]
-  -- d1 silence
-  -- d2 silence
-  -- d3 silence
-  -- d4 silence
+  d1 silence
+  d2 silence
+  d3 silence
+  d4 silence
   -- d5 silence
