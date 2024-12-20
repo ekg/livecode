@@ -31,33 +31,15 @@ do
     $ s "reggae" # n 30
     # lpf (range 800 2000 $ slow 8 sine)
     # room 0.6 # gain 0.75
-  -- Complex interweaving melodies
-  d6 $ stack [
-    note (scale "minor" (cat [
-      "~ 7 3 0",
-      "~ 5 7 3",
-      "~ 8 5 7",
-      "~ 3 8 5"]))
-    # s "supersquare"
-    # room 0.8 # size 0.9
-    # lpf (range 400 1200 $ slow 4 sine)
-    # pan (range 0.3 0.7 $ slow 3 sine)
-    # gain 0.7,
-    note (scale "minor" (cat [
-      "0 ~ 7 ~",
-      "3 ~ 5 ~",
-      "5 ~ 3 ~",
-      "7 ~ 0 ~"]))
-    # s "supervibe"
-    # room 0.7 # size 0.8
-    # lpf (range 800 2000 $ slow 3 sine)
-    # pan (range 0.7 0.3 $ slow 3 sine)
-    # gain 0.65 ]
-  -- Vocal chops
-  d7 $ every 4 (jux(rev))
-    $ slice 32 "~ 8 ~ 16 ~ 24 ~ 28" 
-    $ s "mars_synths_KawaiiDreams_Air" # n 2
-    # speed 0.8 # room 0.6
-    # gain 0.78
+  -- Soulful piano chords
+  d6 $ slow 2 $ note (cat [
+    "c4'min7 ~",
+    "g3'min7 ~", 
+    "f4'maj7 ~",
+    "a3'min7 ~"])
+    # s "superpiano"
+    # room 0.9 # size 0.95
+    # lpf 3000
+    # gain 0.8
 
 hush
