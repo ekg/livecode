@@ -2,29 +2,30 @@
 do
   hush
   setcps (126/60/4)
+  let swing = nudge (fast 8 "0 0.02")
   -- Core rhythm with breathing room
-  d1 $ stack [
+  d1 $ swing $ stack [
     struct "t(3,8)" $ s "808bd" # gain 1.1 # lpf 300,
     whenmod 8 6 (const silence) $ struct "t(3,8,2)" $ s "realclaps" 
       # n "3" # room 0.2 # gain 0.9,
     sometimesBy 0.4 (fast 2) $ struct "t(5,8)" $ s "hh*2" 
       # gain 0.8 # pan sine ]
   -- Evolving mid-layer with space
-  d2 $ whenmod 16 14 (const silence)
+  d2 $ swing $ whenmod 16 14 (const silence)
     $ every 4 (jux(rev))
     $ struct "t(4,7)" $ s "808mt" 
     # n (irand 4) 
     # speed "<1 0.5 1.5 0.75>"
     # room 0.3 # gain 0.85
   -- Rhodes pad following chord progression
-  d3 $ every 3 (struct "t(3,8)" . jux(rev))
+  d3 $ swing $ every 3 (struct "t(3,8)" . jux(rev))
     $ slow 2 $ note (scale "minor" "<0 3 7 5>")
     # s "jrhodes"
     # room 0.5 # size 0.95
     # lpf (range 1200 3000 $ slow 8 sine)
     # gain 0.95
   -- Subtle bass movement
-  d4 $ note (-24) + note (scale "minor" "<0 1 0 3>(3,8,<1 1 1 0>)")
+  d4 $ swing $ note (-24) + note (scale "minor" "<0 1 0 3>(3,8,<1 1 1 0>)")
     # s "supersaw"
     # lpf 400 # gain 1
   -- d1 silence
