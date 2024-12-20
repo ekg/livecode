@@ -2,14 +2,14 @@
 do
   setcps (120/60/4)
   -- Smooth kick and hat pattern
-  d1 $ stack [
+  d1 $ every 8 (const $ sound "~") $ stack [
     s "808bd*4" # n 3 # gain 1.2,
     s "808bd*4" # n 4 # gain 0.9 # speed 0.8,
     s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5,
     s "hh*16" # gain 0.7 # pan (rand),
     every 4 (fast 2) $ s "808:1(7,8)" # gain 0.75 # speed "<1 1.2>" ]
   -- Deep house bass with doubled pattern
-  d2 $ every 8 (jux (rev . (# speed 0.5)))
+  d2 $ every 8 (const $ sound "~") $ every 8 (jux (rev . (# speed 0.5)))
     $ stack [
       note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5] [~ 7] [-2 0] [3 ~] [5 3]>") 
       # s "flbass" # n 2
@@ -23,7 +23,7 @@ do
       # shape 0.4
       # speed 0.5 ]
   -- Atmospheric pad
-  d3 $ slow 2 
+  d3 $ every 8 (# gain 0.9) $ slow 2 
     $ note (scale "minor" "<0 3 -2 5>")
     # s "supervibe" 
     # gain 0.7
