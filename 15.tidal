@@ -49,14 +49,14 @@ do
     # size (range 0.8 0.99 $ slow 12 sine)
     # lpf (range 2000 4000 $ slow 8 sine)
     # gain 0.8
-  -- Walking bass line
+  -- Simple bass following chord roots
   d7 $ note (cat [
-    "c5 d5 eb5 e5",
-    "g4 a4 bb4 b4",
-    "f4 g4 a4 b4", 
-    "a4 b4 c5 d5"])
+    "c4 c4 c4 c4",
+    "g3 g3 g3 g3",
+    "f3 f3 f3 f3",
+    "a3 a3 a3 a3"])
     # s "flbass" # n 0
-    # lpf 800 # resonance 0.2
+    # lpf 600 # resonance 0.2
     # gain 1.1 # legato 1
   --d7 silence
   --d1 silence
