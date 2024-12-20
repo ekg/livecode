@@ -1,0 +1,25 @@
+-- Instrumental hip-hop with cut-up breaks
+do
+  hush
+  setcps (85/60/4)
+  -- Main break loop with cuts
+  d1 $ every 4 (jux(rev))
+    $ slice 16 "0 3 8 2 11 4" 
+    $ s "breaks125" # n 2
+    # room 0.3 # gain 0.9
+  -- Additional break layers  
+  d2 $ every 3 (# speed "0.5")
+    $ loopAt 2 $ chop 8 
+    $ s "breaks157" # n 4
+    # lpf 2000 # gain 0.85
+  -- Bass hits
+  d3 $ note "c1(3,8)" 
+    # s "bass3" 
+    # lpf 400 # gain 1.1
+  -- Filtered vinyl texture
+  d4 $ slow 4 
+    $ s "reggae" # n 30
+    # lpf (range 800 2000 $ slow 8 sine)
+    # room 0.6 # gain 0.75
+
+hush
