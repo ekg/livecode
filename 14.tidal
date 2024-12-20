@@ -46,29 +46,47 @@ d5 $ every 4 (jux(rev))
 
 hush
 
--- Complex rhythmic section with binary patterns
+-- Complex rhythmic section with binary patterns and structural toggle
 do
   hush
   setcps (132/60/4)
+  let complexity = "<1 1 1 0>"  -- Toggle between full and reduced patterns
   -- Main beat with binary pattern
-  d1 $ stack [
+  d1 $ (if (density 4 complexity) then id else (struct "t(3,8)")) $ stack [
     struct (binary 170) $ s "808bd" # n 3 # gain 1.2,
     struct (binary 85) $ s "realclaps" # n 7 # room 0.3,
     struct "t(11,16)" $ s "808oh" # n 2 # gain 0.8 ]
   -- Complex tom pattern
-  d2 $ struct "t(7,16,<0 2>)" 
+  d2 $ (if (density 4 complexity) then id else (struct "t(2,8)")) 
+    $ struct "t(7,16,<0 2>)" 
     $ s "808mt" # n (irand 4)
     # speed (cat ["1 0.5 0.7 0.66", "1 1 1 1"])
   -- Glitchy percussion layer  
-  d3 $ struct (binaryN 16 43690)
+  d3 $ (if (density 4 complexity) then id else (struct "t(3,8)")) 
+    $ struct (binaryN 16 43690)
     $ s "cpu2" # n "<3 8>"
     # pan (rand) # room 0.2
     # gain 0.9
   -- Additional rhythmic texture
-  d4 $ struct "t(<9 11>,16,<0 4>)"
+  d4 $ (if (density 4 complexity) then id else (struct "t(2,8)")) 
+    $ struct "t(<9 11>,16,<0 4>)"
     $ s "cpu" # n "<2 4>"
     # lpf (range 800 2000 $ slow 4 sine)
     # gain 0.85
+  -- Metallic texture layer
+  d5 $ (if (density 4 complexity) then id else (const silence)) 
+    $ struct "t(13,16,<0 4>)"
+    $ s "808mt" # n "<5 6>"
+    # speed "<2 1.5 2 1>"
+    # room 0.4 # gain 0.75
+  -- Glitch layer
+  d6 $ (if (density 4 complexity) then id else (const silence)) 
+    $ struct (binary 43605)
+    $ s "cpu2:8"
+    # speed "<1 2 0.5 1.5>"
+    # pan (rand)
+    # delay 0.3 # delaytime (1/6) # delayfeedback 0.3
+    # gain 0.8
 
 hush
 
