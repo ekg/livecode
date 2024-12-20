@@ -210,5 +210,11 @@ do
   d5 $ every 3 (fast 2)
     $ s "808oh(5,8)" # n 2
     # gain 0.7 # pan (rand)
+  -- Driving melody on the back beat
+  d6 $ note (scale "minor" "~ 0 ~ 3 ~ 0 ~ 5") 
+    # s "supervibe"
+    # room 0.4 # size 0.6
+    # lpf (range 1200 3000 $ slow 4 sine)
+    # gain 0.85
 
 hush
