@@ -144,12 +144,13 @@ do
   -- Main beat
   d1 $ stack [
     s "bd(3,8)" # gain 1.2,
-    s "~ cp ~ cp" # room 0.4 # size 0.6 
-      # speed (range 0.95 1.05 $ slow 4 sine) 
-      # pan (range 0.3 0.7 $ slow 3 sine)
-      # lpf (range 2000 4000 $ slow 8 sine) 
-      # gain 1.1,  -- Increased gain for emphasis
-    s "~ [~ realclaps] ~ [~ realclaps]" # n 7 # gain 0.8 # room 0.3,  -- Additional back beat accent
+    s "~ cp ~ cp" # room 0.6 # size 0.8
+      # speed (range 0.8 1.4 $ fast 2 $ sine)
+      # pan (range 0.2 0.8 $ fast 3 sine)
+      # lpf (range 1000 8000 $ fast 4 sine)
+      # resonance (range 0.2 0.6 $ fast 3 sine)
+      # distort (range 0.2 0.4 $ slow 8 sine)
+      # gain 0.95,
     s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
   -- Rolling bass with more movement
   d2 $ every 4 (fast 2)
