@@ -47,7 +47,7 @@ do
     "g2 bb2 d3 f3", 
     "f2 a2 c3 e3",
     "a2 c3 e3 g3"])
-    # s "flbass" # n 3
+    # s "flbass" # n 0
     # lpf 800 # resonance 0.2
     # gain 1.1
 
