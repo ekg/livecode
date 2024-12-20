@@ -53,8 +53,7 @@ do
   d1 $ stack [
     s "bd(3,8)" # gain 1.2,
     s "~ cp ~ cp" # room 0.3,
-    s "hh*8" # gain 0.8 # pan sine
-  ] # shape 0.3
+    s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
   -- Rolling bass
   d2 $ every 4 (fast 2)
     $ note "c1(3,8,1)" # s "bass3"
