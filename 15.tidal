@@ -31,12 +31,28 @@ do
     $ s "reggae" # n 30
     # lpf (range 800 2000 $ slow 8 sine)
     # room 0.6 # gain 0.75
-  -- Dreamy synth melody
-  d6 $ note (scale "minor" "~ 7 ~ 3 ~ 5 ~ 0")
+  -- Complex interweaving melodies
+  d6 $ stack [
+    note (scale "minor" (cat [
+      "~ 7 3 0",
+      "~ 5 7 3",
+      "~ 8 5 7",
+      "~ 3 8 5"]))
     # s "supersquare"
     # room 0.8 # size 0.9
-    # lpf (range 200 800 $ slow 4 sine)
-    # gain 0.72
+    # lpf (range 400 1200 $ slow 4 sine)
+    # pan (range 0.3 0.7 $ slow 3 sine)
+    # gain 0.7,
+    note (scale "minor" (cat [
+      "0 ~ 7 ~",
+      "3 ~ 5 ~",
+      "5 ~ 3 ~",
+      "7 ~ 0 ~"]))
+    # s "supervibe"
+    # room 0.7 # size 0.8
+    # lpf (range 800 2000 $ slow 3 sine)
+    # pan (range 0.7 0.3 $ slow 3 sine)
+    # gain 0.65 ]
   -- Vocal chops
   d7 $ every 4 (jux(rev))
     $ slice 32 "~ 8 ~ 16 ~ 24 ~ 28" 
