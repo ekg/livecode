@@ -1,0 +1,9 @@
+-- Basic house beat
+do
+  hush
+  setcps (126/60/4)
+  -- Four on the floor beat
+  d1 $ stack [
+    s "bd*4" # gain 1.1,
+    s "~ cp ~ cp" # room 0.3,
+    s "hh*8" # gain 0.8 ]
