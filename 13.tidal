@@ -24,7 +24,7 @@ do
   -- Atmospheric pad
   d3 $ every 8 (# gain 0.9)
     $ note (scale "minor" "<0 -2 3 5>*2")
-    # s "supervibe" 
+    # s "piano"
     # distort 0.4
     # gain 0.8
     # room 0.4 # size 0.6
