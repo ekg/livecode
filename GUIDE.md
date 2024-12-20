@@ -654,6 +654,53 @@ This comprehensive guide covers a wide range of techniques and patterns in Tidal
 
 By mastering these samples and their manipulation, you can create complex and engaging live coding performances with TidalCycles.
 
+## Important Production Considerations
+
+### Space and Modulation
+1. Avoid filling every beat:
+   - Give your patterns room to breathe
+   - Use silence as an instrument
+   - Create interest through rhythmic gaps
+   - Use `whenmod`, `every`, or `sometimes` to vary density
+
+2. Default to modulation:
+   - Always include some movement in your patterns
+   - Vary parameters over time
+   - Use `slow`, `range`, and oscillators like `sine`
+   - Consider structural variation with `every` or `whenmod`
+
+### Thoughtful Effects Use
+1. Reverb placement:
+   - Avoid heavy reverb on harsh sounds (like claps)
+   - Best on smoother sounds: pads, keys, melodic elements
+   - Use subtle room reverb (0.1-0.3) for percussion
+   - Save larger reverbs (0.6-0.9) for atmospheric elements
+
+2. Effect Layering:
+   - Consider frequency content when adding effects
+   - High-frequency sounds need gentler processing
+   - Layer complementary sounds rather than similar ones
+   - Use effects to create depth, not mask poor sound choices
+
+### Example of Balanced Pattern:
+```haskell
+do
+  hush
+  setcps (126/60/4)
+  -- Core rhythm with space
+  d1 $ stack [
+    s "bd(3,8)" # gain 1.1,
+    -- Clap with minimal reverb
+    s "~ cp ~ ~" # room 0.1,
+    -- Varied hi-hat pattern
+    sometimesBy 0.4 (fast 2) $ s "hh(5,8)" # gain 0.8 ]
+  -- Atmospheric pad with more reverb
+  d2 $ slow 4 $ note "c4'maj7"
+    # s "supersaw"
+    # room 0.7 # size 0.8
+    # lpf (range 400 2000 $ slow 8 sine)
+```
+
 ## Pattern Reset and Structure
 
 ### Resetting All Instruments
