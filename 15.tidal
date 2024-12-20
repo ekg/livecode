@@ -76,11 +76,11 @@ do
     s "bd(3,8)" # gain 1.1 # lpf 300,
     s "~ cp ~ cp" # room 0.4 # size 0.8 # gain 0.9,
     s "hh*8" # gain 0.75 # pan sine ]
-  -- Melodic percussion layer in 15/8
-  d2 $ struct "t(9,15,<0 3>)" 
-    $ s "808mt" # n (irand 4)
-    # speed "<1 0.5 1.5 0.75>"
-    # room 0.4 # gain 0.9
+  -- Deep, warm bassline following chord progression
+  d2 $ note (cat ["c2(3,8)", "a1(3,8)", "f2(3,8)", "g1(3,8)"])
+    # s "bass3" 
+    # lpf 400 # resonance 0.2
+    # shape 0.3 # gain 1.1
   -- Emotional chord progression with rhodes
   d3 $ slow 2 $ note (cat [
     "c4'maj7 ~", 
