@@ -87,7 +87,7 @@ do
     "a3'min7 ~",
     "f4'maj7 ~",
     "g3'dom7 ~"])
-    # s "superpiano"
+    # s "jrhodes"
     # room 0.7 # size 0.8
     # lpf (range 800 2000 $ slow 8 sine)
     # gain 0.85
@@ -97,9 +97,11 @@ do
     "e5 c5 a4 ~", 
     "c5 a4 f4 ~",
     "d5 b4 g4 ~"]))
-    # s "supervibe"
+    # s "jrhodes"
     # room 0.6 # size 0.7
     # lpf (range 1000 3000 $ slow 4 sine)
     # gain 0.78
 
 hush
+
+panic
