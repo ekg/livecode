@@ -73,9 +73,11 @@ do
   d5 $ every 3 (fast 2)
     $ s "808oh(5,8,2)" # n 2
     # gain 0.7 # pan (rand)
-  -- New melodic lead line
-  d6 $ every 4 (jux(rev))
-    $ note (scale "minor" "{0 3 5 7 8 5 3 0}%8")
+  -- Slower arpeggiated melody
+  d6 $ slow 4 
+    $ every 4 (jux(rev))
+    $ arp "up down converge diverge" 
+    $ note "<c3'min7 f3'maj7>"
     # s "superpiano"
     # room 0.6 # size 0.8
     # lpf (range 1200 4000 $ slow 4 sine)
