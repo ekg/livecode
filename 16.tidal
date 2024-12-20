@@ -2,7 +2,7 @@
 do
   hush
   setcps (126/60/4)
-  let swing = always (# nudge (fast 9 "0 0.02"))
+  let swing = always (# nudge (fast 8 "0 0.02"))
   -- Core rhythm with breathing room
   d1 $ swing $ stack [
     struct "t(3,8)" $ s "808bd" # gain 0.9 # lpf 300,
