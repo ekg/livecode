@@ -1,0 +1,32 @@
+d1 $ s "bd(4,8)" # n "0 1 2 3" # gain "1"
+
+d1 silence
+
+d1 $ n "0(3,8)" # s "akCutup"
+
+d1 $ loopAt "<16 16 <8 16> 12>"
+  $ chunk 4 (hurry 2)
+  $ scramble (irand 6) $ chop 32
+  $ n "48" # s "300break"
+  # room 0.5 # size 0.8
+
+d2 $ loopAt 8 $ chop 32 $ n "73" # s "300break"
+  # room 0.7 # size 0.9
+
+d3 $ loopAt 4 $ every 8 (scramble (irand 7))
+  $ chop 32 $ n "73" # s "300break"
+  # room 0.5 # size 0.8
+
+d4 $ rev $ loopAt 2 $ jux (rev) $ chop 16 $ s "gtrm"
+
+d1 $ stack [ s (fast 4 "~ cbow") # cut 1 # begin 0.1 # sustain "<0.2@3 [0.1 0.3 0.5]>" # lpf 300 # note (slow 8 "0 0 -7 -5")
+             , s "808bd(4,4)" # gain 1.3
+             , s "cp(2,4,2)" # hpf 3000 # speed (range 0.05 0.1 (slow 4 sine)) # gain 1.3 # room 0.5 # size 0.9
+             , s "realclaps:0(2,4,2)" # begin 0.05 # end 0.2 # delay 0.95 # delayt 0.35 # delayfb 0.99 # bpf 1000
+           ]
+
+d1 $ n "1 2 3 4" # s "harm"
+
+d2 $ n "8(4,4)" # s "h2o808" # gain 1.3
+
+hush
