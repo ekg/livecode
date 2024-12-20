@@ -33,9 +33,9 @@ do
     # room 0.6 # gain 0.75
   -- Dreamy synth melody
   d6 $ note (scale "minor" "~ 7 ~ 3 ~ 5 ~ 0")
-    # s "supervibe"
+    # s "supersquare"
     # room 0.8 # size 0.9
-    # lpf (range 1200 3000 $ slow 4 sine)
+    # lpf (range 200 800 $ slow 4 sine)
     # gain 0.72
   -- Vocal chops
   d7 $ every 4 (jux(rev))
