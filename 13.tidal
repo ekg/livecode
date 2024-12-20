@@ -5,7 +5,9 @@ do
   d1 $ stack [
     s "808bd*4" # n 3 # gain 1.2,
     s "808bd*4" # n 4 # gain 0.9 # speed 0.8,
-    s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5 ]
+    s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5,
+    s "hh*16" # gain 0.7 # pan (rand),
+    every 4 (fast 2) $ s "808:1(7,8)" # gain 0.75 # speed "<1 1.2>" ]
   -- Deep house bass
   d2 $ every 8 (jux (rev . (# speed 0.5))) 
     $ note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5]>") 
