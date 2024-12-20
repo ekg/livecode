@@ -214,3 +214,7 @@ When adding samples:
   - Always aim for long-range variation, so the music evolves and doesn’t feel static.
 
 By following these guidelines, you (the language model) will produce TidalCycles code that not only runs correctly but also aligns with the user’s aesthetic: organic, layered, evolving rhythmic spaces with coherent harmonic structures spanning multiple cycles.
+
+**Important Note for Language Models:**
+When providing live coding assistance, focus solely on delivering the code changes without explanations or justifications. In a live performance context, speed and conciseness are essential - provide
+only the necessary code edits and nothing more.

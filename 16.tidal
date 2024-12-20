@@ -17,14 +17,13 @@ do
     # speed "<1 0.5 1.5 0.75>"
     # room 0.3 # gain 0.85
   -- Rhodes pad following chord progression
-  d3 $ slow 8 $ note (scale "minor" "<0 3 7 5>")
+  d3 $ slow 2 $ note (scale "minor" "<0 3 7 5>")
     # s "jrhodes"
     # room 0.7 # size 0.8
-    # velocity 0.75
     # lpf (range 1200 3000 $ slow 8 sine)
     # gain 0.95
   -- Subtle bass movement
-  d4 $ note (scale "minor" "0(3,8)")
+  d4 $ note (scale "minor" "0(3,8,1)")
     # s "bass3"
     # lpf 400 # gain 1.0
   -- d1 silence
