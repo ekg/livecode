@@ -96,13 +96,13 @@ do
       # gain 0.8 # lpf (range 2000 6000 $ slow 4 sine),
     sometimesBy 0.4 (rev) $ s "808mt(5,8)" # gain 0.85 
       # lpf (range 1000 3000 $ slow 2 sine)]
-  -- Deep bass pulses
-  d2 $ swing $ note (scale "minor" "0 . -3 . -5 . -7 .") 
-    # s "flbass" # sustain 0.5 
-    # lpf 300 # gain 0.9
-  -- Filtered chord stabs
+  -- Deep bass pulses with blues walk
+  d2 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") 
+    # s "flbass" # sustain 0.8 
+    # lpf (range 200 400 $ slow 4 sine) # gain 0.9
+  -- Filtered chord stabs with extended progression
   d3 $ swing $ every 4 (jux rev) 
-    $ note (scale "minor" "<[0,4,7] [-3,0,4]>") 
+    $ note (scale "minor" "<[0,4,7] [-3,0,4] [-5,~,2] [-7,-3,0] [0,5,9] [-3,2,5] [-5,0,4] [-7,-3,2]>") 
     # s "teclado" # sustain 0.3 
     # lpf (range 800 2000 $ slow 8 sine)
     # gain 0.7 # room 0.4
