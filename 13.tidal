@@ -1,20 +1,22 @@
--- Sick beat with layered percussion and bass
+-- Chill house groove
 do
-  setcps (128/60/4)
-  -- Core rhythm section
+  setcps (120/60/4)
+  -- Smooth kick and hat pattern
   d1 $ stack [
-    s "808bd(3,8)" # n 3 # gain 1.2,
-    every 4 (fast 2) $ s "~ realclaps ~ realclaps" # n 3,
-    struct "t(11,16)" $ s "808mt*2" # n "3 7" # speed "1 0.9" ]
-  -- Bass groove
-  d2 $ every 4 (jux rev) 
-    $ note (scale "minor" "0 3 ~ 7") 
-    # s "flbass" # n 3 
-    # lpf (range 400 1200 $ slow 4 sine)
-    # resonance 0.3
-  -- Textural layer
-  d3 $ stut 4 0.5 (1/8)
-    $ s "lpviz" # n 832
-    # gain 0.8
-    # pan (range 0.3 0.7 $ slow 2 sine)
-    # crush 4 # shape 0.4
+    s "808bd(3,8,<0 2>)" # n 3 # gain 1.1,
+    s "~ 808oh ~ 808oh" # n 2 # gain 0.8 # room 0.3 # size 0.5
+  ]
+  -- Deep house bass
+  d2 $ every 8 (jux (rev . (# speed 0.5))) 
+    $ note (scale "minor" "<[0 ~] [0 3] [0 ~] [0 5]>") 
+    # s "flbass" # n 2
+    # lpf (range 300 1000 $ slow 8 sine)
+    # resonance 0.2
+    # shape 0.3
+  -- Atmospheric pad
+  d3 $ slow 2 
+    $ note (scale "minor" "<0 3 -2 5>")
+    # s "supervibe" 
+    # gain 0.7
+    # room 0.6 # size 0.8
+    # lpf 2000
