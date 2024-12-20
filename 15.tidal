@@ -67,4 +67,29 @@ do
   --d5 silence
   --d6 silence
   
+-- Polyrhythmic pattern in 15/8
+do
+  hush
+  setcps (85/60/4)
+  -- Complex layered rhythm with odd time signature
+  d1 $ stack [
+    struct "t(5,15)" $ s "808bd" # n 3 # gain 1.1,
+    struct "t(7,15,2)" $ s "realclaps" # n 7 # room 0.3,
+    struct "t(11,15,4)" $ s "808oh" # n 2 # gain 0.8 # pan sine ]
+  -- Melodic percussion layer in 15/8
+  d2 $ struct "t(9,15,<0 3>)" 
+    $ s "808mt" # n (irand 4)
+    # speed "<1 0.5 1.5 0.75>"
+    # room 0.4 # gain 0.9
+  -- Bass following the 15/8 structure
+  d3 $ note (scale "minor" "0(5,15) 3(4,15,2)")
+    # s "flbass" # n 3
+    # lpf 600 # resonance 0.2
+    # gain 1.1
+  -- Atmospheric texture
+  d4 $ slow 4 
+    $ s "ambient:4"
+    # lpf (range 800 2000 $ slow 8 sine)
+    # room 0.6 # gain 0.75
+
 hush
