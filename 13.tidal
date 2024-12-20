@@ -32,3 +32,5 @@ do
     # lpf (range 1800 3000 $ slow 4 sine)
     # shape 0.4
     # attack 0.02 # release 0.2
+
+hush

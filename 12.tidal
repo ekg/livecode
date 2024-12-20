@@ -10,7 +10,7 @@ do
   setcps (120/60/4)
   -- Layered breaks with 4x4 kick foundation
   d1 $ stack [
-    s "808bd*4" # gain 1.2,
+    s "kick*4" # gain 1.1 # n 4,
     loopAt "<16 16 <8 16> 12>"
     $ chunk 4 (hurry 2)
     $ scramble (irand 6) $ chop 32
