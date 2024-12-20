@@ -16,13 +16,13 @@ do
     # n (irand 4) 
     # speed "<1 0.5 1.5 0.75>"
     # room 0.3 # gain 0.85
-  -- Atmospheric pad following chord progression
+  -- Rhodes pad following chord progression
   d3 $ slow 8 $ note (scale "minor" "<0 3 7 5>")
-    # s "mars_synths_KawaiiDreams_Air"
+    # s "jrhodes"
     # room 0.7 # size 0.8
-    # start 0.1
-    # lpf (range 800 2000 $ slow 8 sine)
-    # gain 1
+    # velocity 0.75
+    # lpf (range 1200 3000 $ slow 8 sine)
+    # gain 0.95
   -- Subtle bass movement
   d4 $ note (scale "minor" "0(3,8)")
     # s "bass3"
