@@ -14,10 +14,9 @@ do
     # lpf 2000 # gain 0.85
   -- Classic boom-bap drums
   d3 $ stack [
-    s "bd(3,8)" # gain 1.2,
+    s "kick ~ kick ~" # gain 1,
     s "~ sd ~ sd" # gain 0.9 # room 0.2,
-    s "hh(5,8)" # gain 0.8
-  ]
+    s "hh(5,8)" # gain 0.8 ]
   -- Bass hits
   d4 $ note "c1(3,8)" 
     # s "bass3" 
