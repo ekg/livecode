@@ -46,6 +46,29 @@ d5 $ every 4 (jux(rev))
 
 hush
 
+-- Sparse melodic log drums
+do
+  setcps (126/60/4)
+  -- Minimal log drum melody
+  d1 $ every 4 (jux(rev))
+    $ note (scale "minor" "0 ~ 3 ~")
+    # s "cpu2:3"
+    # room 0.7 # size 0.8
+    # gain 0.85
+  -- Sparse supporting rhythm
+  d2 $ struct "t(3,8)"
+    $ s "cpu:2"
+    # lpf (range 400 1200 $ slow 8 sine)
+    # resonance 0.3
+    # gain 0.9
+  -- Occasional textural elements
+  d3 $ every 8 (stut 3 0.4 0.25)
+    $ s "~ [~ cpu2:8] ~ cpu:4"
+    # room 0.4
+    # gain 0.75
+
+hush
+
 -- Tech house section with melody
 do
   setcps (126/60/4)
