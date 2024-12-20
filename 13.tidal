@@ -22,12 +22,13 @@ do
       # lpf (range 300 900 $ slow 7 cosine)
       # shape 0.3 ]
   -- Funky backbeat piano
-  d3 $ every 8 (# gain 0.9)
+  d3 $ every 3 (fast 2)
+    $ every 8 (# size 0.999)
     $ note (scale "minor" "~ <0 [0 3]> ~ <-2 [3 5]>")
-    # s "piano"
-    # distort 0.5
-    # gain 0.85
-    # room 0.3 # size 0.5
+    # s "superpiano" # velocity 0.4
+    # crush 10
+    # gain 1.3
+    # room 0.9 # size 0.9
     # lpf (range 1800 3000 $ slow 4 sine)
     # shape 0.4
     # attack 0.02 # release 0.2
