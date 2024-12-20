@@ -31,5 +31,17 @@ do
     $ s "reggae" # n 30
     # lpf (range 800 2000 $ slow 8 sine)
     # room 0.6 # gain 0.75
+  -- Dreamy synth melody
+  d6 $ note (scale "minor" "~ 7 ~ 3 ~ 5 ~ 0")
+    # s "supervibe"
+    # room 0.8 # size 0.9
+    # lpf (range 1200 3000 $ slow 4 sine)
+    # gain 0.72
+  -- Vocal chops
+  d7 $ every 4 (jux(rev))
+    $ slice 32 "~ 8 ~ 16 ~ 24 ~ 28" 
+    $ s "mars_synths_KawaiiDreams_Air" # n 2
+    # speed 0.8 # room 0.6
+    # gain 0.78
 
 hush
