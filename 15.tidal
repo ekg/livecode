@@ -51,10 +51,10 @@ do
     # gain 0.8
   -- Simple bass following chord roots
   d7 $ note (cat [
-    "c5 c5 c5 c5",
-    "g4 g4 g4 g4",
-    "f4 f4 f4 f4",
-    "a4 a4 a4 a4"])
+    "c5 c5 c5 [c5 g5]",
+    "g4 g4 g4 [g4 d5]",
+    "f4 f4 f4 [f4 c5]",
+    "a4 a4 a4 [a4 e5]"])
     # s "flbass" # n 0
     # lpf 600 # resonance 0.2
     # gain 1.1 # legato 1
