@@ -181,20 +181,22 @@ When adding samples:
 
 ## Swing and Groove
 
-- Define a swing pattern at the start and apply it to several patterns to maintain a coherent groove:
-  ```haskell
-  do
-    hush
-    setcps (127/60/4)
-    let swing = nudge (fast 8 "0 0.02")
-    d1 $ swing $ s "bd*4"
-    d2 $ swing $ struct "t(3,8)" $ s "cp"
-    d3 $ swing $ every 3 (fast 2) $ s "hh(5,8)"
-    -- d1 silence
-    -- d2 silence
-    -- d3 silence
-  ```
-  This ensures all patterns share the same subtle timing shift.
+Almost every pattern should use swing - it's essential for creating organic, human-feeling rhythms. Define your swing pattern at the start of every composition and apply it consistently:
+
+```haskell
+do
+  hush
+  setcps (127/60/4)
+  let swing = nudge (fast 8 "0 0.02")
+  d1 $ swing $ s "bd*4"
+  d2 $ swing $ struct "t(3,8)" $ s "cp"
+  d3 $ swing $ every 3 (fast 2) $ s "hh(5,8)"
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+```
+
+Without swing, patterns can sound mechanical and rigid. With swing, they breathe and groove naturally. Always define your swing at the start and apply it to all rhythmic patterns - it's as important as setting your tempo!
 
 ---
 
