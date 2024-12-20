@@ -17,3 +17,4 @@ do
     $ s "lpviz" # n 832
     # gain 0.8
     # pan (range 0.3 0.7 $ slow 2 sine)
+    # crush 4 # shape 0.4
