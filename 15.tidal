@@ -12,10 +12,21 @@ do
     $ loopAt 2 $ chop 8 
     $ s "breaks157" # n 4
     # lpf 2000 # gain 0.85
+  -- Classic boom-bap drums
+  d3 $ stack [
+    s "bd(3,8)" # gain 1.2,
+    s "~ sd ~ sd" # gain 0.9 # room 0.2,
+    s "hh(5,8)" # gain 0.8
+  ]
   -- Bass hits
-  d3 $ note "c1(3,8)" 
+  d4 $ note "c1(3,8)" 
     # s "bass3" 
     # lpf 400 # gain 1.1
+  -- Additional break chops
+  d5 $ every 4 (jux(rev))
+    $ slice 32 "8 12 16 20" 
+    $ s "breaks125" # n 4
+    # speed 0.8 # gain 0.85
   -- Filtered vinyl texture
   d4 $ slow 4 
     $ s "reggae" # n 30
