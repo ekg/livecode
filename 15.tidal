@@ -2,21 +2,27 @@
 do
   hush
   setcps (85/60/4)
-  -- Main break loop with cuts
-  d1 $ every 4 (jux(rev))
+  -- Main break loop with cuts and sweeping filter
+  d1 $ whenmod 8 6 (const silence)
+    $ every 4 (jux(rev))
     $ slice 16 "0 3 8 2 11 4" 
     $ s "breaks125" # n 2
     # room 0.3 # gain 0.9
-  -- Additional break layers  
-  d2 $ every 3 (# speed "0.5")
+    # lpf (range 400 4000 $ slow 16 sine)
+    # resonance (range 0.1 0.4 $ slow 8 sine)
+  -- Additional break layers with spatial movement
+  d2 $ whenmod 8 7 (const silence)
+    $ every 3 (# speed "0.5")
     $ loopAt 2 $ chop 8 
     $ s "breaks157" # n 4
     # lpf 2000 # gain 0.85
-  -- Classic boom-bap drums
-  d3 $ stack [
+    # pan (range 0.2 0.8 $ slow 12 sine)
+  -- Classic boom-bap drums with dynamic presence
+  d3 $ whenmod 16 14 (const silence)
+    $ stack [
     s "kick ~ kick ~" # gain 1,
-    s "~ sd ~ sd" # gain 0.9 # room 0.2,
-    s "hh(5,8)" # gain 0.8 ]
+    s "~ sd ~ sd" # gain 0.9 # room (range 0.2 0.6 $ slow 8 sine),
+    s "hh(5,8)" # gain (range 0.6 0.8 $ slow 6 sine) ]
   -- Bass hits
   d4 $ note "c1(3,8)" 
     # s "bass3" 
@@ -31,15 +37,17 @@ do
     $ s "reggae" # n 30
     # lpf (range 800 2000 $ slow 8 sine)
     # room 0.6 # gain 0.75
-  -- Soulful piano chords
-  d6 $ slow 2 $ note (cat [
+  -- Soulful piano chords with evolving texture
+  d6 $ whenmod 16 15 (const silence)
+    $ slow 2 $ note (cat [
     "c4'min7 ~",
     "g3'min7 ~", 
     "f4'maj7 ~",
     "a3'min7 ~"])
     # s "superpiano"
-    # room 0.9 # size 0.95
-    # lpf 3000
+    # room (range 0.7 0.95 $ slow 16 sine) 
+    # size (range 0.8 0.99 $ slow 12 sine)
+    # lpf (range 2000 4000 $ slow 8 sine)
     # gain 0.8
   -- Walking bass line
   d7 $ note (cat [
