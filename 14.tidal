@@ -79,6 +79,12 @@ do
     # delay 0.6 # delaytime (3/8) # delayfeedback 0.4
     # lpf (range 1000 3000 $ slow 8 sine)
     # gain 0.72
+  -- Off-beat bass and kick
+  d5 $ note (scale "minor" "~ 0 ~ 0")
+    # s "bass3"
+    # lpf 800 # resonance 0.2
+    # gain 1.1
+  d6 $ s "bd(3,8)" # gain 1.2
 
 hush
 
