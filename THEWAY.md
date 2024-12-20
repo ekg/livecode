@@ -128,17 +128,27 @@ The user has many favorite sample sets:
   Introduce these slowly, using `loopAt`, `chop`, and `slice` to create long evolving textures spanning multiple cycles.
 
 - **Melodic and Harmonic:**
-  - `mars_synths_...` series offers a variety of synth sounds:
-    - `mars_synths_KawaiiDreams_Air` for dreamy pads.
-    - `mars_synths_S612_Rhodes` for warm Rhodes chords.
-    - `mars_synths_Sh101_Rave` or `mars_synths_ModularCreations_*` for evolving melodic lines.
-  - Avoid overusing `superpiano`. There are better options for leads and chords, like `jrhodes` (Rhodes piano), `teclado` (keyboard), `flbass` (melodic bass), `gtr`, or `uku` for subtle melodic material.
-  - When using `superpiano`, set the velocity to a lower value, like 0.7 or 0.8. Try not to exceed 0.9.
-  - Combine chord tones (like `0 3 7` for a minor triad, or `0 4 7 11` for a maj7 chord) and slow them down:
+  - Use these core melodic instruments:
+    - `jrhodes`: Warm Rhodes piano for chords and progressions
+    - `teclado`: Keyboard sounds for sustained chords
+    - `gtr`: Guitar textures for arpeggios and patterns
+    - `uku`: Delicate plucked sounds for melodic motifs
+    - `flbass`: Melodic bass for low-end movement
+    - `arpy`: For arpeggiator-style patterns
+  - Avoid overusing `superpiano`. When needed, keep gain low (0.7-0.8)
+  - Build rich chords with these intervals:
+    - Minor: `0 3 7` (triad) or `0 3 7 10` (minor7)
+    - Major: `0 4 7` (triad) or `0 4 7 11` (major7)
+  - Create long-form progressions:
     ```haskell
-    d4 $ slow 8 $ note (scale "minor" "0 3 7 10") # s "jrhodes" # room 0.7
+    d4 $ slow 8 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,-2,2] [-7,-4,0]>") 
+      # s "jrhodes" # room 0.7 # gain 0.8
     ```
-    This stretches the progression over multiple bars, giving long-range harmonic variation.
+  - Layer melodic elements:
+    ```haskell
+    d5 $ slow 4 $ note (scale "minor" "0 5") # s "flbass" # lpf 400 # gain 1
+    d6 $ slow 8 $ every 4 (jux rev) $ note (scale "minor" "7 9 12") # s "uku" # gain 0.6
+    ```
 
 - **Acid, Hoover, and Special Synths:**
   - `superfm` for FM synthesis textures.
