@@ -43,10 +43,10 @@ do
     # gain 0.8
   -- Walking bass line
   d7 $ note (cat [
-    "c4 d4 eb4 e4",
-    "g3 a3 bb3 b3",
-    "f3 g3 a3 b3", 
-    "a3 b3 c4 d4"])
+    "c5 d5 eb5 e5",
+    "g4 a4 bb4 b4",
+    "f4 g4 a4 b4", 
+    "a4 b4 c5 d5"])
     # s "flbass" # n 0
     # lpf 800 # resonance 0.2
     # gain 1.1 # legato 1
