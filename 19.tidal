@@ -43,7 +43,7 @@ do
   -- Core reggae beat with emphasis on the 3
   d1 $ swing $ stack [
     s "bd(3,8)" # gain 1.1,
-    every 4 (# crush 12) $ s "~ ~ cp:2 ~" # gain 1.2 
+    every 4 (# crush 12) $ s "~ ~ cp:2 ~" # gain 0.96
       # room 0.4 # size 0.6,
     sometimesBy 0.3 (fast 2) $ s "hh(5,8)" # gain 0.8]
   -- Dubby bass with delay
@@ -61,7 +61,7 @@ do
   d4 $ swing $ every 4 (jux rev) 
     $ s "~ tabla2 ~ [tabla2 tabla2]" 
     # n (irand 8)
-    # gain 0.8 
+    # gain 0.8
     # delay 0.5 # delaytime (1/3) # delayfb 0.6
   -- Atmospheric reggae samples
   d5 $ slow 8 
