@@ -22,15 +22,15 @@ do
     # gain 0.4 # room 0.95 # size 0.95
     # lpf (range 800 2400 $ slow 16 sine)
   -- Movement layer
-  d4 $ swing $ slow 8
+  d4 $ swing $ fast 8
     $ every 3 (fast 2)
     $ note (scale "minor" "7 11 4 9") 
     # s "gtr" # sustain 0.3
-    # gain 0.5 # room 0.6
+    # gain 0.5 # size 0.95 # room 0.99
     # pan (range 0.2 0.8 $ slow 2 sine)
-  --d1 silence
-  --d2 silence
-  --d3 silence
+  d1 silence
+  d2 silence
+  d3 silence
   --d4 silence
 
 hush
