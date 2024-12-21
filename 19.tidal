@@ -1,24 +1,36 @@
--- Minimal Tech House
+-- Minimal Tech House with Movement
 do
   hush
   setcps (128/60/4)
   let swing = always (# nudge (fast 8 "0.02"))
-  -- Core beat
+  -- Core beat with fast hats
   d1 $ swing $ stack [
     s "bd:4*4" # gain 1.0,
     s "~ cp ~ cp" # gain 0.9,
-    s "hh:2*8" # gain 0.7]
-  -- Simple bass
-  d2 $ swing $ note (scale "minor" "0 [~ 0] -3 [2 ~]") 
+    every 4 (fast 2) $ struct "t(11,16)" $ s "hh:2" 
+      # gain 0.7 # pan (range 0.2 0.8 $ fast 3 sine)]
+  -- Bass with more variation
+  d2 $ swing $ every 4 (jux rev) 
+    $ note (scale "minor" "<0 [~ 0] -3 [2 ~] 4 [-3 2] -5 [0 4]>") 
     # s "flbass" # sustain 0.3
-    # gain 0.8 # lpf 400
-  -- Minimal pad
+    # gain 0.8 
+    # lpf (range 300 600 $ slow 4 sine)
+  -- Evolving pad
   d3 $ slow 16 
-    $ note (scale "minor" "<[0,4,7] [-3,0,4]>") 
+    $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-2,2,5] [-7,-3,0,4]>") 
     # s "teclado" # sustain 8 
-    # gain 0.4 # room 0.7
+    # gain 0.4 # room 0.8
+    # lpf (range 1000 3000 $ slow 8 sine)
+  -- Movement layer
+  d4 $ swing $ slow 4
+    $ every 3 (fast 2)
+    $ note (scale "minor" "7 11 4 9") 
+    # s "gtr" # sustain 0.3
+    # gain 0.5 # room 0.6
+    # pan (range 0.2 0.8 $ slow 2 sine)
   --d1 silence
   --d2 silence
   --d3 silence
+  --d4 silence
 
 hush
