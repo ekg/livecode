@@ -226,6 +226,69 @@ Without swing, patterns can sound mechanical and rigid. With swing, they breathe
 - **No Single-Cycle Stagnation:**
   - Always aim for long-range variation, so the music evolves and doesn’t feel static.
 
+## Building Complex, Evolving Scenes
+
+When creating a scene, combine multiple elements for rich, evolving soundscapes:
+
+1. **Layered Rhythm Section:**
+   - Start with a core beat using `stack`:
+     - Solid kick pattern with careful gain and filtering
+     - Claps/snares with room/reverb for space
+     - Multiple hat layers at different speeds
+     - Percussion with Euclidean patterns
+   - Add periodic dropouts with `whenmod` for tension
+   - Use `stut` for stutter effects at key points
+   - Apply consistent swing across all rhythmic elements
+
+2. **Bass Movement:**
+   - Create walking basslines that span multiple bars
+   - Use `slow` with scale walks: `"0 [-3 0] -5 [-7 -5]"`
+   - Apply subtle LPF modulation for movement
+   - Consider blues-influenced progressions
+   
+3. **Harmonic Elements:**
+   - Layer multiple chord instruments:
+     - Rhodes for warm chords
+     - Pads for atmosphere
+     - Guitar for textural elements
+   - Use extended progressions (8-16 bars)
+   - Add delay and reverb carefully
+   - Create call-and-response between elements
+
+4. **Dynamic Evolution:**
+   - Use `whenmod` for periodic changes
+   - Add `stut` effects for builds
+   - Create dropouts in different layers
+   - Modulate filters over long periods
+   - Apply `jux rev` and other spatial effects
+   
+Example structure:
+```haskell
+d1 $ stack [
+  whenmod 16 14 (const $ s "~") $ -- periodic dropout
+  s "bd*4",
+  every 4 (# crush 12) $ -- texture variation
+  s "~ cp ~ cp",
+  every 2 (fast 2) $ -- rhythmic complexity
+  struct "t(7,8)" $ s "hh"]
+
+d2 $ slow 2 $ -- extended bass progression
+  note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>")
+  # s "flbass"
+
+d3 $ every 4 (jux rev) $ -- spatial movement
+  whenmod 8 6 (stut 4 0.5 0.125) $ -- periodic stutter
+  note (scale "minor" "<[0,4,7] [-3,0,4] [-5,~,2] [-7,-3,0]>")
+  # s "teclado"
+```
+
+By combining these elements thoughtfully, you create music that:
+- Evolves meaningfully over time
+- Has both micro and macro-level variation
+- Maintains groove while adding complexity
+- Creates space through strategic dropouts
+- Builds tension and release through effects
+
 By following these guidelines, you (the language model) will produce TidalCycles code that not only runs correctly but also aligns with the user’s aesthetic: organic, layered, evolving rhythmic spaces with coherent harmonic structures spanning multiple cycles.
 
 **Important Note for Language Models:**
