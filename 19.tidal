@@ -48,26 +48,26 @@ do
     struct "t(5,8)" $ s "hh:6" # gain 0.7
       # pan (range 0.2 0.8 $ slow 3 sine)]
   -- Contemplative bass movement
-  d2 $ swing $ slow 8 
+  d2 $ swing $ slow 2 
     $ note (scale "minor" "<0 [-3 ~] -5 [-7 -5] -3 [0 ~] 2 [-3 0]>") 
     # s "flbass" # sustain 4
     # gain 0.85 
     # lpf (range 200 800 $ slow 8 sine)
   -- Main piano progression
-  d3 $ swing $ slow 16 
+  d3 $ swing $ slow 4 
     $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-2,2,5] [-7,-3,0,4] [-2,2,5,9] [0,4,7,11] [2,5,9,12] [4,7,11,14]>") 
     # s "superpiano" # sustain 8
     # gain 0.8 # room 0.9 # size 0.9
     # lpf (range 800 2400 $ slow 32 sine)
   -- Floating harmonics
-  d4 $ swing $ slow 12 
+  d4 $ swing $ slow 4
     $ every 3 (jux rev) 
     $ note (scale "minor" "[11,14,19] [9,12,16] [7,11,14] [4,9,12]") 
     # s "superpiano" # sustain 6
     # gain 0.6 # room 0.95 # size 0.95
     # hpf 800
   -- Textural elements
-  d5 $ slow 24 
+  d5 $ slow 8
     $ note (scale "minor" "<[0,7,11,14] [-3,4,7,11]>") 
     # s "cbow" # sustain 12 
     # gain 0.5 # room 0.95 # size 0.95
