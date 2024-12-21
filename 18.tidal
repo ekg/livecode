@@ -174,4 +174,49 @@ do
 
 
 
+-- Polyrhythmic Chaos Scene
+do
+  hush
+  setcps (135/60/4)
+  let swing = always (# nudge (fast 8 "0 0.02"))
+  -- Complex layered beats with odd time signatures
+  d1 $ swing $ stack [
+    every 3 (fast 2) $ s "bd(5,8)" # gain 1.1,
+    every 5 (rev) $ s "cp(3,7)" # gain 0.9 # room 0.4,
+    struct "t(7,11)" $ s "808mt" # gain 0.85 
+      # pan (range 0.2 0.8 $ fast 3 sine),
+    every 2 (# crush 8) $ s "hh(11,16)" # gain 0.7]
+  -- Glitchy synth stabs
+  d2 $ swing $ every 4 (jux rev) 
+    $ every 3 (fast 2) 
+    $ note (scale "minor" "<[0,4,9] [2,5,11] [-3,0,7] [-5,2,6]>") 
+    # s "superfm" # sustain 0.2 
+    # gain 0.75 # room 0.6
+    # lpf (range 400 4000 $ fast 3 sine)
+  -- Acid bassline in 7/8
+  d3 $ swing $ slow 7 
+    $ note (scale "minor" "0 4 7 11 9 5 2") 
+    # s "superhoover" # sustain 0.3
+    # gain 0.7 # distort 0.2
+    # lpf (range 300 1200 $ fast 7 sine)
+  -- Chaotic break chops
+  d4 $ swing $ every 3 (rev) 
+    $ every 5 (# crush 12)
+    $ loopAt "<2 1.5 3 1>" 
+    $ chop 16 $ s "breaks157" 
+    # gain 0.85 # pan (rand)
+  -- Weird atmospheric textures
+  d5 $ slow 16 
+    $ stut 4 0.6 0.125
+    $ s "lpviz:310" # gain 0.6 
+    # room 0.9 # size 0.95
+    # waveloss (trigger 5 $ range 0 100 $ slow 8 sine)
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+
+hush
+
 -- it's 
