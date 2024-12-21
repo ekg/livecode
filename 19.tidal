@@ -38,7 +38,7 @@ hush
 -- Amma Piano Scene with Log Drums
 do
   hush
-  setcps (86/60/4)
+  setcps (115/60/4)
   let swing = always (# nudge (fast 8 "0 0.02"))
   -- Log drum core with tabla accents
   d1 $ swing $ stack [
@@ -47,12 +47,12 @@ do
     every 4 (fast 2) $ s "tabla(3,8)" # n "4 6 8" # gain 0.9
       # pan (range 0.3 0.7 $ slow 2 sine),
     sometimesBy 0.3 (rev) $ s "808oh(3,8)" # gain 0.75]
-  -- Gentle bass movement
-  d2 $ swing $ slow 8 
+  -- Deep house bass movement
+  d2 $ swing $ every 2 (fast 2) 
     $ note (scale "minor" "<0 [~ 2] 4 [~ 5] 7 [4 2] 0 [-3 ~]>") 
-    # s "flbass" # sustain 2
-    # gain 0.85 
-    # lpf (range 300 600 $ slow 8 sine)
+    # s "flbass" # sustain 0.8
+    # gain 0.9 
+    # lpf (range 400 1200 $ fast 4 sine)
   -- Soaring piano melody
   d3 $ swing $ slow 4 
     $ note (scale "minor" "<[0,4,7] [2,5,9] [4,7,11] [5,9,12] [7,11,14] [4,7,11] [2,5,9] [0,4,7]>") 
