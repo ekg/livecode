@@ -40,12 +40,12 @@ do
   hush
   setcps (92/60/4)
   let swing = always (# nudge (fast 8 "0 0.02"))
-  -- Broken beat foundation
+  -- Solid beat foundation
   d1 $ swing $ stack [
-    every 3 (fast 2) $ s "bd(3,8)" # gain 1.0,
-    every 5 (rev) $ s "~ sn:2 ~ sn:2" # gain 0.85 
+    s "bd*4" # gain 1.0,
+    s "~ sn:2 ~ sn:2" # gain 0.85 
       # room 0.3 # size 0.4,
-    struct "t(5,8)" $ s "hh:6" # gain 0.7
+    s "hh:6*8" # gain 0.7
       # pan (range 0.2 0.8 $ slow 3 sine)]
   -- Contemplative bass movement
   d2 $ swing $ slow 2 
