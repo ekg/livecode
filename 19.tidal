@@ -54,7 +54,7 @@ do
     # gain 0.85 
     # lpf (range 300 600 $ slow 8 sine)
   -- Soaring piano melody
-  d3 $ swing $ slow 16 
+  d3 $ swing $ slow 4 
     $ note (scale "minor" "<[0,4,7] [2,5,9] [4,7,11] [5,9,12] [7,11,14] [4,7,11] [2,5,9] [0,4,7]>") 
     # s "superpiano" # sustain 4
     # gain 0.75 # room 0.9 # size 0.9
