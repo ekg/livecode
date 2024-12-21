@@ -13,10 +13,10 @@ do
     # s "flbass" # sustain 0.4
     # gain 0.9 
     # lpf (range 300 800 $ slow 4 sine)
-  -- Off-kilter piano chords on the backbeat
+  -- Off-kilter piano chords on the backbeat with doubled voicings
   d3 $ every 4 (jux rev) 
-    $ note (scale "minor" "<[0,4,11] [-3,0,7] [-5,2,9] [-7,-3,4]>") 
-    # s "superpiano" # sustain "<0.4 0.6 0.3>"
+    $ note (scale "minor" "<[0,4,7,11,14] [-3,0,4,7,11] [-5,2,5,9,12] [-7,-3,0,4,7]>") 
+    # s "superpiano" # sustain "<0.5 0.7 0.4>"
     # gain 0.75 # room 0.6 # size 0.8
     # delay 0.3 # delaytime (1/6) # delayfb 0.3
     # pan (range 0.3 0.7 $ slow 3 sine)
