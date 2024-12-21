@@ -72,8 +72,12 @@ do
     # s "teclado" # sustain 16 
     # gain 0.4 # room 0.95 # size 0.95
     # lpf (range 600 1800 $ slow 16 sine)
-  --d1 silence
-  --d2 silence
+  d6 $ stack [s "kick:3*4" # lpf 200,
+              fast 2 $ s "~ cp",
+              fast 16 $ s "hh",
+              s "808bd(4,8)" # gain 1.2]
+  d1 silence
+  d2 silence
   --d3 silence
   --d4 silence
   --d5 silence
