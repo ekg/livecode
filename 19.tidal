@@ -1,0 +1,42 @@
+-- Tech House with Complex Rhythms
+do
+  hush
+  setcps (128/60/4)
+  let swing = always (# nudge (fast 8 "0 0.02"))
+  -- Solid tech house foundation
+  d1 $ swing $ stack [
+    s "bd:4*4" # gain 1.1 # lpf 100,
+    s "~ cp ~ cp" # gain 0.9 # room 0.3 # hpf 2000,
+    every 4 (fast 2) $ s "hh:2(7,8)" # gain 0.8,
+    sometimesBy 0.3 (rev) $ s "808oh(3,8)" # gain 0.7]
+  -- Complex percussion layers
+  d2 $ swing $ stack [
+    struct "t(5,8,2)" $ s "808mt" # gain 0.85 
+      # pan (range 0.3 0.7 $ fast 3 sine),
+    every 3 (fast 2) $ struct "t(7,11)" $ s "tabla2" 
+      # gain 0.8 # room 0.2,
+    every 5 (# crush 12) $ s "cpu2(9,16)" # gain 0.75]
+  -- Rolling tech bassline
+  d3 $ swing $ note (scale "minor" "0 [~ 0] -3 [2 ~]") 
+    # s "superhoover" # sustain 0.2
+    # gain 0.8 # distort 0.2
+    # lpf (range 300 800 $ slow 4 sine)
+  -- Lush evolving pads
+  d4 $ slow 32 
+    $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-2,2,5] [-7,-3,0,4]>") 
+    # s "teclado" # sustain 16 
+    # gain 0.5 # room 0.9 # size 0.95
+    # lpf (range 1000 3000 $ slow 16 sine)
+  -- Atmospheric textures
+  d5 $ slow 16 
+    $ stut 4 0.6 0.25
+    $ s "lpviz:310" # gain 0.45 
+    # room 0.8 # size 0.9
+    # waveloss (trigger 5 $ range 0 50 $ slow 8 sine)
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+
+hush
