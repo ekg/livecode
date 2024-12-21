@@ -38,15 +38,15 @@ hush
 -- Neo-Classical Piano with Broken Beats
 do
   hush
-  setcps (92/60/4)
+  setcps (128/60/4)
   let swing = always (# nudge (fast 8 "0 0.02"))
   -- Solid beat foundation
   d1 $ swing $ stack [
-    s "bd*4" # gain 1.0,
+    s "bd*4" # gain 2,
     s "~ sn:2 ~ sn:2" # gain 0.85 
       # room 0.3 # size 0.4,
-    s "hh:6*8" # gain 0.7
-      # pan (range 0.2 0.8 $ slow 3 sine)]
+    s "hh:6*8" # gain 0.7 ]
+      -- # pan (range 0.2 0.8 $ slow 3 sine)]
   -- Contemplative bass movement
   d2 $ swing $ slow 2 
     $ note (scale "minor" "<0 [-3 ~] -5 [-7 -5] -3 [0 ~] 2 [-3 0]>") 
