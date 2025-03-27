@@ -5,9 +5,17 @@ hush
 do
   hush
   setcps (120/60/4)
-  d1 $ s "808bd(3,8)" # gain 2
-  -- Harmonics in G with canyon effect
-  d4 $ slow 4 $ stut 4 0.6 0.25 
+  -- Define swing function for consistent groove
+  let swing = always (# nudge (fast 8 "0 0.02"))
+  -- Bass drum with polyrhythmic variations between 3,8 and 7,12 patterns
+  d1 $ swing $ whenmod 16 12 (jux rev) $ every 4 (fast 2) 
+    $ stack [
+      every 3 (const $ s "808bd(7,12)") $ s "808bd(3,8)",
+      every 5 (# s "808:3(3,7)") $ s "~ 808:1*2 ~ ~" # gain 0.9,
+      every 7 (stut 3 0.4 0.125) $ struct "t(5,16)" $ s "808bd:2" # gain 0.85]
+    # gain 1.1
+  -- Harmonics in G with canyon effect (with swing)
+  d4 $ swing $ slow 4 $ stut 4 0.6 0.25 
     $ note (scale "major" "<[0,7,12,19] [2,7,14,19] [4,7,16,19] [7,12,16,19]>") 
     # s "superhammond" 
     # sustain 2
@@ -15,8 +23,8 @@ do
     # gain 0.7
     # pan (range 0.2 0.8 $ slow 3 sine)
     # lpf (range 500 2000 $ slow 8 sine)
-  -- String melody at twice the speed with heavy delay and tight arpeggiation
-  d5 $ slow 2 $ every 4 (jux rev) 
+  -- String melody at twice the speed with heavy delay and tight arpeggiation (with swing)
+  d5 $ swing $ slow 2 $ every 4 (jux rev) 
     $ arp "up" $ note (scale "major" "<[0,7,12,14,19] [7,12,14,19,24] [4,7,12,16,19] [2,7,12,14,19]>") 
     # s "cbow" 
     # legato 0.8
@@ -26,8 +34,8 @@ do
     # gain 0.65
     # pan (range 0.3 0.7 $ slow 5 sine)
     # lpf (range 800 3000 $ slow 6 sine)
-  -- Polyrhythmic breakdown that builds between the two lines
-  d6 $ whenmod 16 12 (|* gain 1.2) 
+  -- Polyrhythmic breakdown that builds between the two lines (with swing)
+  d6 $ swing $ whenmod 16 12 (|* gain 1.2) 
     $ stack [
       slow 3 $ stut 3 0.4 0.25 
         $ note (scale "major" "0 7 12 4 -3") 
@@ -38,12 +46,18 @@ do
       slow 7 $ struct "t(5,8)" 
         $ note (scale "major" "0 4 7") 
         # s "arpy" # gain 0.55 # room 0.5]
-  -- Percussive polyrhythm to enhance the breakdown
-  d7 $ whenmod 16 8 (|* gain 1.1) 
+  -- Percussive polyrhythm to enhance the breakdown (with swing)
+  d7 $ swing $ whenmod 16 8 (|* gain 1.1) 
     $ stack [
       struct "t(3,8,<0 1 2>)" $ s "tabla:2" # gain 0.8,
       struct "t(5,12)" $ s "cpu2:3" # gain 0.7,
       struct "t(7,16)" $ s "808oh" # gain 0.6 # pan (range 0.3 0.7 $ slow 3 sine)]
+  -- Additional polyrhythmic layers with 3 and 7 patterns
+  d8 $ swing $ every 3 (fast 2) $ every 7 (rev) 
+    $ stack [
+      struct "t(3,7)" $ s "realclaps" # gain 0.75 # pan 0.3,
+      struct "t(7,12)" $ s "cpu:2" # gain 0.7 # pan 0.7,
+      struct "t(3,5,1)" $ s "tabla2:4" # gain 0.65 # room 0.4]
 
 -- Straight Tech House
 do
