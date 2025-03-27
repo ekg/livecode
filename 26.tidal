@@ -1,0 +1,52 @@
+-- Sick Beat with Complex Rhythms and Evolving Patterns
+do
+  hush
+  setcps (140/60/4)
+  let swing = always (# nudge (fast 16 $ range 0 0.025 $ slow 4 $ sine))
+  -- Core rhythm section with heavy kick and snare
+  d1 $ swing $ whenmod 32 28 (# crush 6) $ stack [
+    every 16 (fast 2) $ s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3,
+    every 8 (jux (0.125 ~>)) $ s "~ [cp ~ cp:1] ~ [~ cp:2]" # gain 0.9 # room 0.2 # size 0.2,
+    every 4 (fast 2) $ s "hh(7,16)" # gain 0.8 # pan (range 0.3 0.7 $ slow 3 $ sine)]
+  -- Glitchy percussion layer with complex Euclidean patterns
+  d2 $ swing $ whenmod 16 12 (# crush 8) $ every 8 (jux rev) $ stack [
+    struct "t(5,16,<0 1>)" $ s "cpu2:3" # gain 0.85 # pan (range 0.3 0.7 $ slow 5 $ sine),
+    struct "t(7,16,<0 2>)" $ s "cpu:4" # gain 0.8 # pan (range 0.4 0.6 $ slow 5 $ sine),
+    struct "t(3,8,<0 3>)" $ s "808oh" # gain 0.75 # pan (range 0.2 0.8 $ slow 4 $ sine)]
+    # room 0.2 # size 0.2
+  -- Chopped breakbeat with heavy processing
+  d3 $ swing $ whenmod 32 24 (# accelerate (range (-0.5) 0.5 $ slow 8 $ sine)) 
+    $ every 16 (jux rev) $ every 8 (# crush 4)
+    $ every 4 (iter 4)
+    $ striate' 16 (1/4)
+    $ s "breaks157" # gain 0.9
+    # lpf (range 1000 4000 $ slow 16 $ sine)
+    # room 0.3 # size 0.3
+  -- Aggressive bassline with movement
+  d4 $ swing $ whenmod 16 12 (# shape 0.5) $ every 8 (jux (0.125 ~>))
+    $ note (scale "minor" (slow 8 $ "0 [~ 0] -3 [~ -3] -5 [~ -5] -7 [~ -7]")) 
+    # s "flbass" # sustain 0.3
+    # gain 1.0 
+    # lpf (range 300 800 $ slow 16 $ sine)
+    # shape 0.3
+  -- Glitchy percussion accents
+  d5 $ swing $ degradeBy 0.4 $ whenmod 16 12 (# crush 8) $ every 8 (jux rev)
+    $ sometimesBy 0.3 (stut 4 0.6 0.05)
+    $ struct "t(5,16,<0 1 2 3>)" 
+    $ s "glitch" # n (irand 8) # gain 0.8 
+    # pan (range 0.2 0.8 $ rand)
+    # room 0.2 # size 0.2
+  -- Atmospheric texture with long evolution
+  d6 $ swing $ whenmod 64 48 (# gain 0.8)
+    $ loopAt 8 $ striate 64 
+    $ s "lpviz:310" # gain 0.6
+    # lpf (range 500 3000 $ slow 32 $ sine)
+    # room 0.6 # size 0.7
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+
+hush
