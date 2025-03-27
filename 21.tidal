@@ -151,3 +151,64 @@ do
   d8 silence
 
 hush
+
+-- Bach Dub Reprise with Harmonic Pad
+do
+  hush
+  setcps (140/60/4)
+  let swing = always (# nudge (fast 8 $ range 0 0.04 $ slow 4 $ sine))
+  -- Deep dub reggae rhythm section (from original)
+  d1 $ swing
+    $ every 8 (stut 3 0.7 (7/16))
+    $ stack [
+    every 4 (stut 3 0.5 (3/16)) $ s "bd(3,8)" # gain 1.2 # lpf 400 # shape 0.3,
+    every 4 (jux rev) $ s "~ cp ~ ~" # gain 0.9 # room 0.3 # size 0.3,
+    every 2 (fast 2) $ s "hh(5,8)" # gain 0.8 # pan (range 0.3 0.7 $ slow 3 $ sine),
+    s "808oh(3,8,<0 2>)" # gain 0.7 # pan (range 0.4 0.6 $ slow 4 $ sine)]
+    # shape 0.2
+  -- Bach-inspired bassline with dub treatment (from original)
+  d2 $ swing $ every 4 (jux rev) 
+    $ sometimesBy 0.3 (# crush 8)
+    $ note (scale "minor" (slow 8 $ "0 2 3 5 7 5 3 2 0 -2 -3 -5 -7 -5 -3 -2")) 
+    # s "flbass" # sustain 0.4
+    # gain 1.1 
+    # lpf (range 300 700 $ slow 8 $ sine)
+    # shape 0.3
+  -- Dub skanks with Bach-inspired rhythm (from original)
+  d3 $ swing $ degradeBy 0.2
+    $ sometimesBy 0.4 (# crush 8)
+    $ struct "t(3,8,<0 1>)" 
+    $ note (scale "minor" "<0 -3 -5 -7>") 
+    # s "teclado" # sustain 0.2
+    # gain 0.75 
+    # lpf (range 1000 3000 $ slow 4 $ sine)
+    # room 0.3 # size 0.3
+  -- Dub effects and atmosphere (from original)
+  d4 $ swing $ degradeBy 0.6
+    $ sometimesBy 0.5 (stut 8 0.7 0.125)
+    $ loopAt 8 $ chop 32 
+    $ s "reggae:3" # gain 0.7
+    # lpf (range 500 2000 $ slow 16 $ sine)
+    # room 0.7 # size 0.7
+  -- New harmonic pad with evolving texture
+  d5 $ swing $ degradeBy 0.2
+    $ sometimesBy 0.3 (stut 2 0.6 0.25)
+    $ slow 8 
+    $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-1,2,7] [-7,-3,0,4]>") 
+    # s "superhammond" # sustain 8
+    # gain 0.7 
+    # lpf (range 500 2000 $ slow 16 $ sine)
+    # room 0.8 # size 0.8
+  -- Vinyl crackle and tape hiss atmosphere (from original)
+  d6 $ swing $ stack [
+    s "vinyl*16" # gain 0.4 # pan (range 0.3 0.7 $ slow 7 $ sine),
+    s "tape*8" # gain 0.3 # pan (range 0.4 0.6 $ slow 5 $ sine)]
+    # lpf 3000
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+
+hush
