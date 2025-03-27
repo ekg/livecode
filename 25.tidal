@@ -1,0 +1,43 @@
+-- Drum and Bass Backing Track for Jamming
+do
+  hush
+  setcps (170/60/4)
+  let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
+  -- Core drum and bass rhythm section
+  d1 $ swing $ stack [
+    s "bd(3,8)" # gain 1.0 # lpf 300,
+    s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1,
+    every 8 (fast 2) $ s "hh(7,16)" # gain 0.75 # pan (range 0.4 0.6 $ slow 3 $ sine)]
+  -- Breakbeat layer with subtle variations
+  d2 $ swing $ every 16 (jux rev) $ every 8 (# crush 4) 
+    $ loopAt 2 $ chop 16 
+    $ s "breaks157" # gain 0.9
+    # lpf (range 1000 4000 $ slow 16 $ sine)
+    # room 0.2 # size 0.2
+  -- Deep rolling bassline
+  d3 $ swing $ every 16 (jux (0.125 ~>)) 
+    $ note (scale "minor" (slow 8 $ "0 [~ 0] -3 [~ -3] -5 [~ -5] -7 [~ -7]")) 
+    # s "flbass" # sustain 0.3
+    # gain 0.95 
+    # lpf (range 300 800 $ slow 16 $ sine)
+    # shape 0.3
+  -- Atmospheric pad for harmonic context
+  d4 $ swing $ whenmod 32 24 (# gain 0.8)
+    $ note (scale "minor" (slow 32 $ "<[0,4,7] [0,4,7] [-3,0,4] [-3,0,4] [-5,-1,2] [-5,-1,2] [-7,-3,0] [-7,-3,0]>")) 
+    # s "superhammond" # sustain 8.0
+    # gain 0.6 
+    # lpf (range 500 2000 $ slow 32 $ sine)
+    # room 0.7 # size 0.8
+  -- Subtle atmospheric texture
+  d5 $ swing $ whenmod 64 48 (# gain 0.7)
+    $ loopAt 8 $ striate 32 
+    $ s "lpviz:310" # gain 0.5
+    # lpf 2000
+    # room 0.6 # size 0.7
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+
+hush
