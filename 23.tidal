@@ -5,7 +5,7 @@ do
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Core minimal techno kick and percussion
   d1 $ swing $ stack [
-    every 16 (drop 8) $ s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3,
+    s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3,
     every 8 (# crush 8) $ s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1,
     every 4 (jux (0.125 ~>)) $ s "hh(7,16)" # gain 0.75 # pan (range 0.3 0.7 $ slow 3 $ sine)]
   -- Minimal percussion with subtle variations
