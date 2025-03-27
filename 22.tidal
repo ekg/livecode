@@ -93,10 +93,12 @@ do
       struct "t(7,16,<0 2>)" $ s "cpu:4" # gain 0.8 # pan (range 0.4 0.6 $ slow 5 $ sine),
       struct "t(9,16,<0 3>)" $ s "808oh" # gain 0.75 # pan (range 0.2 0.8 $ slow 4 $ sine)]
     # room 0.2 # size 0.2
-  -- Breakbeat layer with controlled chaos
+  -- Breakbeat layer with controlled chaos - chopped and reshuffled
   d3 $ swing $ every 8 (# crush 4) 
     $ sometimesBy 0.3 (# accelerate (range (-0.5) 0.5 $ slow 8 $ sine))
-    $ loopAt 2 $ chop 16 
+    $ every 4 (jux (rev . (0.125 ~>)))
+    $ every 6 (iter 4)
+    $ striate' 16 (1/4)
     $ s "breaks157" # gain 0.9
     # lpf (range 1000 4000 $ slow 8 $ sine)
     # room 0.3 # size 0.3
