@@ -294,3 +294,5 @@ By following these guidelines, you (the language model) will produce TidalCycles
 **Important Note for Language Models:**
 When providing live coding assistance, focus solely on delivering the code changes without explanations or justifications. In a live performance context, speed and conciseness are essential - provide
 only the necessary code edits and nothing more.
+
+Extra bonus note: DO NOT PUT SPACES WITHIN `do ...` blocks! This makes it impossible to run them in one go.
