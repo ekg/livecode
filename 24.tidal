@@ -1,0 +1,41 @@
+-- Clean Minimal Techno with Essential Elements
+do
+  hush
+  setcps (120/60/4)
+  let swing = always (# nudge (fast 16 $ range 0 0.01 $ slow 4 $ sine))
+  -- Simple, clean kick pattern
+  d1 $ swing $ stack [
+    s "bd(3,8)" # gain 1.0 # lpf 300,
+    s "~ cp ~ ~" # gain 0.8 # room 0.1 # size 0.1,
+    s "hh(7,16)" # gain 0.7 # pan (range 0.4 0.6 $ slow 3 $ sine)]
+  -- Minimal percussion with space
+  d2 $ swing $ every 8 (# crush 4) 
+    $ struct "t(5,16)" $ s "cpu2:3" # gain 0.75 
+    # pan (range 0.3 0.7 $ slow 5 $ sine)
+    # room 0.2 # size 0.2
+  -- Clean, focused bassline
+  d3 $ swing $ note (scale "minor" (slow 8 $ "0 ~ 0 ~ -3 ~ -3 ~")) 
+    # s "flbass" # sustain 0.3
+    # gain 0.9 
+    # lpf 500
+  -- Simple, sparse Rhodes notes
+  d4 $ swing $ degradeBy 0.5
+    $ struct "t(3,16)"
+    $ note (scale "minor" (slow 4 $ "0 7 4")) 
+    # s "jrhodes" # sustain 0.3
+    # gain 0.7 
+    # lpf 2000
+    # room 0.4 # size 0.4
+  -- Subtle atmospheric texture
+  d5 $ swing $ degradeBy 0.6
+    $ loopAt 8 $ striate 32 
+    $ s "lpviz:310" # gain 0.6
+    # lpf 2000
+    # room 0.6 # size 0.7
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+
+hush
