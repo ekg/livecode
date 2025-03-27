@@ -1,41 +1,70 @@
--- Clean Minimal Techno with Essential Elements
+-- Deep House with Long-Range Evolution and Uplifting Pads
 do
   hush
-  setcps (120/60/4)
+  setcps (124/60/4)
   let swing = always (# nudge (fast 16 $ range 0 0.01 $ slow 4 $ sine))
-  -- Simple, clean kick pattern
-  d1 $ swing $ stack [
+  -- Deep house kick and percussion with long-term variation
+  d1 $ swing $ whenmod 64 56 (# gain 0.8) $ whenmod 32 24 (jux (0.25 <~)) $ stack [
     s "bd(3,8)" # gain 1.0 # lpf 300,
-    s "~ cp ~ ~" # gain 0.8 # room 0.1 # size 0.1,
-    s "hh(7,16)" # gain 0.7 # pan (range 0.4 0.6 $ slow 3 $ sine)]
-  -- Minimal percussion with space
-  d2 $ swing $ every 8 (# crush 4) 
-    $ struct "t(5,16)" $ s "cpu2:3" # gain 0.75 
+    every 16 (# crush 8) $ s "~ cp ~ ~" # gain 0.8 # room 0.1 # size 0.1,
+    every 8 (fast 2) $ s "hh(7,16)" # gain 0.7 # pan (range 0.4 0.6 $ slow 3 $ sine)]
+  -- Evolving percussion with subtle variations over time
+  d2 $ swing $ whenmod 64 48 (# crush 4) $ whenmod 32 24 (jux rev) 
+    $ every 16 (iter 4)
+    $ struct "t(5,16,<0 1 2 3>)" $ s "cpu2:3" # gain 0.75 
     # pan (range 0.3 0.7 $ slow 5 $ sine)
     # room 0.2 # size 0.2
-  -- Clean, focused bassline
-  d3 $ swing $ note (scale "minor" (slow 8 $ "0 ~ 0 ~ -3 ~ -3 ~")) 
-    # s "flbass" # sustain 0.3
+  -- Deep house bassline with long progression
+  d3 $ swing $ whenmod 64 56 (# lpf 300) $ whenmod 32 24 (# shape 0.3)
+    $ note (scale "minor" (slow 32 $ "0 [~ 0] 0 [~ 0] -3 [~ -3] -3 [~ -3] -5 [~ -5] -5 [~ -5] -7 [~ -7] -7 [~ -7]")) 
+    # s "flbass" # sustain 0.4
     # gain 0.9 
-    # lpf 500
-  -- Simple, sparse Rhodes notes
-  d4 $ swing $ degradeBy 0.5
-    $ struct "t(3,16)"
-    $ note (scale "minor" (slow 4 $ "0 7 4")) 
-    # s "jrhodes" # sustain 0.3
+    # lpf (range 300 800 $ slow 64 $ sine)
+  -- Uplifting chord progression with Rhodes
+  d4 $ swing $ whenmod 64 48 (# room 0.7) $ whenmod 32 24 (jux (0.125 <~))
+    $ note (scale "minor" (slow 32 $ "<[0,4,7] [0,4,7] [-3,0,4] [-3,0,4] [-5,-1,2] [-5,-1,2] [-7,-3,0] [-7,-3,0]>")) 
+    # s "jrhodes" # sustain 1.2
+    # gain 0.8 
+    # lpf (range 800 3000 $ slow 64 $ sine)
+    # room 0.5 # size 0.5
+  -- Uplifting pad with long evolution
+  d5 $ swing $ whenmod 64 32 (# gain 0.9) 
+    $ note (scale "minor" (slow 64 $ "<[0,4,7,11] [0,4,7,11] [-3,0,4,7] [-3,0,4,7] [-5,-1,2,7] [-5,-1,2,7] [-7,-3,0,4] [-7,-3,0,4]>")) 
+    # s "superhammond" # sustain 8.0
     # gain 0.7 
-    # lpf 2000
-    # room 0.4 # size 0.4
-  -- Subtle atmospheric texture
-  d5 $ swing $ degradeBy 0.6
-    $ loopAt 8 $ striate 32 
+    # lpf (range 500 4000 $ slow 128 $ sine)
+    # room 0.8 # size 0.9
+  -- Atmospheric texture with very long evolution
+  d6 $ swing $ whenmod 128 96 (# gain 0.8) $ whenmod 64 32 (# room 0.9)
+    $ loopAt 16 $ striate 128 
     $ s "lpviz:310" # gain 0.6
-    # lpf 2000
-    # room 0.6 # size 0.7
+    # lpf (range 800 5000 $ slow 128 $ sine)
+    # room 0.7 # size 0.8
+  -- Subtle deep house stabs with long-term variation
+  d7 $ swing $ whenmod 64 48 (# gain 0.8) $ whenmod 32 24 (jux rev)
+    $ degradeBy 0.3
+    $ every 16 (iter 4)
+    $ struct "t(3,8,<0 1 2 3>)" 
+    $ note (scale "minor" "<0 4 7 11>") 
+    # s "teclado" # sustain 0.2
+    # gain 0.7 
+    # lpf (range 1000 3000 $ slow 32 $ sine)
+    # room 0.4 # size 0.4
+  -- Subtle, sparse tabla hits for organic texture with long-term variation
+  d8 $ swing $ whenmod 64 32 (# gain 0.8) $ whenmod 32 16 (jux (0.25 <~))
+    $ degradeBy 0.7
+    $ sometimesBy 0.3 (stut 3 0.5 0.1)
+    $ struct "t(3,16,<0 1 2 3>)" 
+    $ s "tabla:2" # gain 0.7 
+    # pan (range 0.3 0.7 $ slow 3 $ sine)
+    # room 0.3 # size 0.3
   -- d1 silence
   -- d2 silence
   -- d3 silence
   -- d4 silence
   -- d5 silence
+  -- d6 silence
+  -- d7 silence
+  -- d8 silence
 
 hush
