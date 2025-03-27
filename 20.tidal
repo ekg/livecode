@@ -6,7 +6,15 @@ do
   hush
   setcps (120/60/4)
   d1 $ s "808bd(3,8)" # gain 2
-  --here
+  -- Harmonics in G with canyon effect
+  d4 $ slow 4 $ stut 4 0.6 0.25 
+    $ note (scale "major" "<[0,7,12,19] [2,7,14,19] [4,7,16,19] [7,12,16,19]>") 
+    # s "superhammond" 
+    # sustain 2
+    # room 0.8 # size 0.9 
+    # gain 0.7
+    # pan (range 0.2 0.8 $ slow 3 sine)
+    # lpf (range 500 2000 $ slow 8 sine)
 
 -- Straight Tech House
 do
