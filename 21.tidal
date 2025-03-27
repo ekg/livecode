@@ -136,11 +136,6 @@ do
     # lpf (range 1500 4000 $ slow 8 $ sine)
     # room 0.4 # size 0.4
     # pan (range 0.2 0.8 $ slow 3 $ sine)
-  -- Dub vinyl crackle and tape hiss
-  d8 $ swing $ stack [
-    s "vinyl*16" # gain 0.4 # pan (range 0.3 0.7 $ slow 7 $ sine),
-    s "tape*8" # gain 0.3 # pan (range 0.4 0.6 $ slow 5 $ sine)]
-    # lpf 3000
   --d1 silence
   --d2 silence
   d3 silence
@@ -148,7 +143,6 @@ do
   --d5 silence
   --d6 silence
   --d7 silence
-  d8 silence
 
 hush
 
@@ -195,10 +189,10 @@ do
     $ sometimesBy 0.3 (stut 2 0.6 0.25)
     $ slow 8 
     $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-1,2,7] [-7,-3,0,4]>") 
-    # s "superhammond" # sustain 8
+    # s "supersaw" # sustain 8
     # gain 0.7 
-    # lpf (range 500 2000 $ slow 16 $ sine)
-    # room 0.8 # size 0.8
+    -- # lpf (range 500 2000 $ slow 16 $ sine)
+    # room 0.9 # size 0.9
   -- Vinyl crackle and tape hiss atmosphere (from original)
   d6 $ swing $ stack [
     s "vinyl*16" # gain 0.4 # pan (range 0.3 0.7 $ slow 7 $ sine),
