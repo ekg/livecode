@@ -1,0 +1,79 @@
+-- Lo-Fi Hip-Hop Beats
+do
+  hush
+  setcps (85/60/4)
+  let swing = always (# nudge (fast 8 $ range 0 0.04 $ slow 4 $ sine))
+  -- Dusty drum pattern with vinyl crackle
+  d1 $ swing $ stack [
+    s "bd(3,8)" # gain 1.1 # lpf 500 # shape 0.3,
+    every 4 (jux rev) $ s "~ cp ~ ~" # gain 0.9 # room 0.2 # size 0.2,
+    every 2 (fast 2) $ s "hh(5,8)" # gain 0.8 # pan (range 0.3 0.7 $ slow 3 $ sine),
+    s "vinyl*8" # gain 0.7 # pan (range 0.2 0.8 $ slow 5 $ sine)]
+    # shape 0.2
+  
+  -- Mellow bass line
+  d2 $ swing $ every 4 (jux rev) 
+    $ note (scale "minor" (slow 8 $ "0 [~ 0] -3 [2 ~] 0 [~ 0] -5 [-3 ~]")) 
+    # s "flbass" # sustain 0.4
+    # gain 1.0 
+    # lpf (range 300 600 $ slow 8 $ sine)
+    # shape 0.2
+  
+  -- Rhodes chords with slight detuning
+  d3 $ swing $ every 8 (jux rev) 
+    $ sometimesBy 0.2 (stut 2 0.4 0.1)
+    $ slow 2 
+    $ note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,-1,2,7] [-7,-3,0,4]>") 
+    # s "jrhodes" # sustain 2
+    # gain 0.8 
+    # lpf (range 800 2000 $ slow 8 $ sine)
+    # room 0.4 # size 0.4
+  
+  -- Vinyl crackle and tape hiss atmosphere
+  d4 $ swing $ stack [
+    s "vinyl*16" # gain 0.5 # pan (range 0.3 0.7 $ slow 7 $ sine),
+    s "tape*8" # gain 0.4 # pan (range 0.4 0.6 $ slow 5 $ sine)]
+    # lpf 3000
+  
+  -- Occasional melodic elements
+  d5 $ swing $ degradeBy 0.6
+    $ sometimesBy 0.4 (stut 3 0.5 0.1)
+    $ note (scale "minor" (slow 4 $ "7 9 11 12 14 11 9 7")) 
+    # s "gtr" # sustain 0.5
+    # gain 0.7 
+    # room 0.5 # size 0.5
+    # pan (range 0.2 0.8 $ slow 3 $ sine)
+  
+  -- Subtle glitchy percussion
+  d6 $ swing $ degradeBy 0.7
+    $ sometimesBy 0.3 (# crush 8)
+    $ stack [
+      struct "t(5,16)" $ s "cpu2:3" # gain 0.6 # pan (range 0.3 0.7 $ slow 3 $ sine),
+      struct "t(3,8,2)" $ s "tabla2:4" # gain 0.55 # pan (range 0.4 0.6 $ slow 5 $ sine)]
+    # room 0.2 # size 0.2
+  
+  -- Occasional vocal samples
+  d7 $ swing $ degradeBy 0.8
+    $ sometimesBy 0.4 (stut 2 0.5 0.1)
+    $ loopAt 4 $ chop 16 
+    $ s "reggae:2" # gain 0.7
+    # lpf (range 1000 3000 $ slow 8 $ sine)
+    # room 0.4 # size 0.4
+  
+  -- Subtle field recordings
+  d8 $ swing $ degradeBy 0.6
+    $ loopAt 8 $ chop 32 
+    $ s "lpviz:310" # gain 0.5
+    # lpf 2000
+    # room 0.6 # size 0.6
+  
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+  -- d7 silence
+  -- d8 silence
+
+hush
