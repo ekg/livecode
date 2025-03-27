@@ -1,7 +1,7 @@
 -- Lo-Fi Hip-Hop Beats
 do
   hush
-  setcps (85/60/4)
+  setcps (95/60/4)
   let swing = always (# nudge (fast 8 $ range 0 0.04 $ slow 4 $ sine))
   -- Dusty drum pattern with vinyl crackle
   d1 $ swing $ stack [
