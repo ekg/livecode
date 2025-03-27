@@ -1,3 +1,13 @@
+hush
+
+
+
+do
+  hush
+  setcps (120/60/4)
+  d1 $ s "808bd(3,8)" # gain 2
+  --here
+
 -- Straight Tech House
 do
   hush
@@ -14,7 +24,7 @@ do
     # gain 0.9 
     # lpf (range 300 800 $ slow 4 sine)
   -- Off-kilter piano chords on the backbeat with doubled voicings
-  d3 $ every 4 (jux rev) 
+  d3 $ stut 2 0.25 0.5 $ every 4 (jux rev) 
     $ note (scale "minor" "<[0,4,7,11,14] [-3,0,4,7,11] [-5,2,5,9,12] [-7,-3,0,4,7]>") 
     # s "superpiano" # sustain "<0.5 0.7 0.4>"
     # gain 0.75 # room 0.6 # size 0.8
