@@ -15,6 +15,15 @@ do
     # gain 0.7
     # pan (range 0.2 0.8 $ slow 3 sine)
     # lpf (range 500 2000 $ slow 8 sine)
+  -- String melody at twice the speed
+  d5 $ slow 2 $ every 4 (jux rev) 
+    $ note (scale "major" "<[0 7 12 14 19] [7 12 14 19 24] [4 7 12 16 19] [2 7 12 14 19]>") 
+    # s "cbow" 
+    # legato 1.2
+    # room 0.7 # size 0.8
+    # gain 0.65
+    # pan (range 0.3 0.7 $ slow 5 sine)
+    # lpf (range 800 3000 $ slow 6 sine)
 
 -- Straight Tech House
 do
