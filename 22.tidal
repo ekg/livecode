@@ -61,16 +61,16 @@ do
     # room 0.2 # size 0.2
   -- Atmospheric texture
   d7 $ swing $ degradeBy 0.5
-    $ loopAt 8 $ chop 32 
-    $ s "lpviz:310" # gain 0.6
-    # lpf 2000
+    $ loopAt "<2 2 2 1>" $ chop 32 
+    $ s "lpviz:310" # gain 1.2
+    # lpf 5000
     # room 0.7 # size 0.8
   --d1 silence
   --d2 silence
   --d3 silence
   --d4 silence
   --d5 silence
-  d6 silence
-  d7 silence
+  --d6 silence
+  --d7 silence
 
 hush
