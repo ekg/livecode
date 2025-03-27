@@ -1,0 +1,80 @@
+-- Minimal Techno with Hypnotic Elements
+do
+  hush
+  setcps (126/60/4)
+  let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
+  -- Core minimal techno kick and percussion
+  d1 $ swing $ stack [
+    every 16 (drop 8) $ s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3,
+    every 8 (# crush 8) $ s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1,
+    every 4 (jux (0.125 ~>)) $ s "hh(7,16)" # gain 0.75 # pan (range 0.3 0.7 $ slow 3 $ sine)]
+  -- Minimal percussion with subtle variations
+  d2 $ swing $ every 8 (# crush 4) 
+    $ stack [
+      struct "t(5,16,<0 1>)" $ s "cpu2:3" # gain 0.8 # pan (range 0.4 0.6 $ slow 5 $ sine),
+      struct "t(3,16,<0 2>)" $ s "808oh" # gain 0.7 # pan (range 0.2 0.8 $ slow 4 $ sine)]
+    # room 0.2 # size 0.2
+  -- Hypnotic, subtle breakbeat - heavily processed
+  d3 $ swing $ every 8 (# crush 4) 
+    $ sometimesBy 0.2 (# accelerate (range (-0.3) 0.3 $ slow 16 $ sine))
+    $ every 16 (jux rev)
+    $ striate' 32 (1/8)
+    $ s "breaks157" # gain 0.8
+    # lpf (range 800 2000 $ slow 16 $ sine)
+    # room 0.4 # size 0.4
+  -- Minimal, repetitive bassline with subtle movement
+  d4 $ swing $ every 16 (jux rev) 
+    $ note (scale "minor" (slow 8 $ "0 [~ 0] 0 [~ 0] -3 [~ -3] -3 [~ -3]")) 
+    # s "flbass" # sustain 0.3
+    # gain 1.0 
+    # lpf (range 300 600 $ slow 16 $ sine)
+    # shape 0.2
+  -- Sparse, hypnotic synth stabs
+  d5 $ swing $ degradeBy 0.5
+    $ every 8 (jux (0.25 ~>))
+    $ struct "t(3,16,<0 1>)"
+    $ note (scale "minor" "<[0,4,7] [-3,0,4] [0,4,7] [-3,0,4]>") 
+    # s "superhammond" # sustain 0.4
+    # gain 0.75 
+    # lpf (range 800 1500 $ slow 16 $ sine)
+    # room 0.3 # size 0.3
+  -- Atmospheric texture with long evolution
+  d6 $ swing $ degradeBy 0.3
+    $ loopAt 8 $ striate 64 
+    $ s "lpviz:310" # gain 0.9
+    # lpf (range 500 3000 $ slow 32 $ sine)
+    # room 0.7 # size 0.8
+  -- Minimal, glitchy percussion accents
+  d7 $ swing $ degradeBy 0.7
+    $ sometimesBy 0.3 (# crush 8)
+    $ struct "t(5,32,<0 1 2 3>)" 
+    $ s "glitch" # n (irand 8) # gain 0.7 
+    # pan (range 0.2 0.8 $ rand)
+    # room 0.2 # size 0.2
+  -- Subtle, sparse tabla hits for organic texture
+  d8 $ swing $ degradeBy 0.8
+    $ sometimesBy 0.3 (stut 3 0.5 0.1)
+    $ struct "t(3,32,<0 2>)" 
+    $ s "tabla:2" # gain 0.75 
+    # pan (range 0.3 0.7 $ slow 3 $ sine)
+    # room 0.3 # size 0.3
+  -- Minimal, repetitive Rhodes notes
+  d9 $ swing $ degradeBy 0.6
+    $ every 16 (jux rev)
+    $ struct "t(3,16,<0 1>)"
+    $ note (scale "minor" (slow 4 $ "0 7 4")) 
+    # s "jrhodes" # sustain 0.3
+    # gain 0.7 
+    # lpf (range 800 2000 $ slow 16 $ sine)
+    # room 0.4 # size 0.4
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+  -- d7 silence
+  -- d8 silence
+  -- d9 silence
+
+hush
