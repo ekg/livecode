@@ -24,6 +24,24 @@ do
     # gain 0.65
     # pan (range 0.3 0.7 $ slow 5 sine)
     # lpf (range 800 3000 $ slow 6 sine)
+  -- Polyrhythmic breakdown that builds between the two lines
+  d6 $ whenmod 16 12 (|* gain 1.2) 
+    $ stack [
+      slow 3 $ stut 3 0.4 0.25 
+        $ note (scale "major" "0 7 12 4 -3") 
+        # s "gtr" # gain 0.7 # room 0.6,
+      slow 5 $ every 3 (fast 2) 
+        $ note (scale "major" "7 12 14 19") 
+        # s "uku" # gain 0.6 # pan (range 0.2 0.8 $ slow 4 sine),
+      slow 7 $ struct "t(5,8)" 
+        $ note (scale "major" "0 4 7") 
+        # s "arpy" # gain 0.55 # room 0.5]
+  -- Percussive polyrhythm to enhance the breakdown
+  d7 $ whenmod 16 8 (|* gain 1.1) 
+    $ stack [
+      struct "t(3,8,<0 1 2>)" $ s "tabla:2" # gain 0.8,
+      struct "t(5,12)" $ s "cpu2:3" # gain 0.7,
+      struct "t(7,16)" $ s "808oh" # gain 0.6 # pan (range 0.3 0.7 $ slow 3 sine)]
 
 -- Straight Tech House
 do
