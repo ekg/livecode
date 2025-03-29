@@ -3,26 +3,20 @@
 do
   hush
   setcps (125/60/4)
-  let swing = nudge (fast 8 "0 0.02")
-  
+  let swing = always (# nudge (fast 8 "0 0.02"))
   -- four-on-the-floor kick with subtle variation
   d1 $ swing $ every 8 (jux (iter 4)) $ s "808bd:4*4" # gain 1.05 # lpf 200 # resonance 0.1
-  
   -- snares/claps on backbeat with occasional fills
   d2 $ swing $ every 8 (fast 2) $ s "~ realclaps:2 ~ realclaps:3" # gain 0.85 # room 0.2 # size 0.3
-  
   -- hi-hats with euclidean pattern for groove
   d3 $ swing $ every 4 (density 2) $ whenmod 16 14 (# crush 4) $ 
     stack [s "808oh(3,8)" # gain 0.75 # hpf 6000,
     s "cpu2:8(7,16,5)" # gain 0.7 # hpf 8000]
-  
   -- subtle percussion & accents for texture
   d4 $ swing $ every 4 (rev) $ every 16 (jux (# speed 1.5)) $ 
     s "~ tabla:4 ~ 808mt:2" # gain 0.8 # room 0.3 # size 0.2
-  
   -- low percussion for depth
   d5 $ swing $ whenmod 8 7 (# crush 8) $ s "808lc(5,16,2)" # gain 0.75 # lpf 2000
-  
   -- silencing options
   -- d1 silence
   -- d2 silence
