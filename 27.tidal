@@ -24,6 +24,54 @@ do
   -- d4 silence
   -- d5 silence
 
+-- driving scene with prominent bass and tonal 808s
+do
+  hush
+  setcps (125/60/4)
+  let swing = always (# nudge (fast 8 "0 0.02"))
+  
+  -- driving 808 kick with tone
+  d1 $ swing $ every 8 (jux (iter 4)) $ s "808bd:3*4" # gain 1.1 
+    # lpf 900 # resonance 0.3 # shape 0.3
+  
+  -- driving bassline with flbass
+  d6 $ swing $ every 4 (jux (# speed 0.5)) $ 
+    note (scale "minor" "<0 0 -3 -3 -5 -5 -7 -7>") # s "flbass:14" 
+    # lpf (range 300 1200 $ slow 8 sine) # resonance 0.3 
+    # gain 1.0 # shape 0.2
+  
+  -- snares/claps on backbeat with more punch
+  d2 $ swing $ every 8 (# delay 0.3) $ every 4 (# crush 6) $ 
+    s "~ realclaps:7 ~ realclaps:2" # gain 0.9 # room 0.2 # size 0.3
+  
+  -- hi-hats with more drive
+  d3 $ swing $ every 2 (density 2) $ whenmod 8 6 (# crush 4) $ 
+    stack [s "808oh(5,8)" # gain 0.8 # hpf 6000,
+    s "cpu2:8(11,16)" # gain 0.85 # hpf 9000]
+  
+  -- aggressive percussion & accents
+  d4 $ swing $ every 4 (rev) $ every 8 (jux (# speed 1.5)) $ 
+    s "808mt:3(3,8) tabla:4 808mt:1 808mt:2" # gain 0.9 
+    # room 0.3 # size 0.2
+  
+  -- low percussion with drive
+  d5 $ swing $ whenmod 8 7 (# crush 8) $ s "808lc(7,16,2)" 
+    # gain 0.85 # lpf 3000
+  
+  -- acid-like accent on off beats for more drive
+  d7 $ swing $ s "~ superfm ~ superfm" # note (scale "minor" "0") 
+    # lpf (range 300 3000 $ slow 4 sine) # resonance 0.7 
+    # gain 0.8 # attack 0.01 # release 0.2
+  
+  -- silencing options
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+  -- d7 silence
+
 -- breakdown scene (strip elements and build back up)
 do
   hush
