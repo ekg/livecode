@@ -92,3 +92,34 @@ do
   -- d3 silence
   -- d4 silence
   -- d5 silence
+
+-- hard driving polyrhythmic dub scene
+do
+  hush
+  setcps (130/60/4)
+  let swing = always (# nudge (fast 8 "0 0.03"))
+  -- aggressive polyrhythmic kick (3 against 4)
+  d1 $ swing $ every 4 (jux (iter 3)) $ s "808bd:4(3,8,<0 1>)" # gain 1.2 # shape 0.4 # lpf 500 # resonance 0.2
+  -- heavy dub bassline
+  d2 $ swing $ every 5 (rev) $ s "flbass:6(5,16,<0 2>)" # note (scale "minor" "<0 0 -5 -5 -7 -7 -3 -3>") # gain 1.1 # shape 0.3 # lpf (range 200 800 $ slow 4 sine) # resonance 0.3
+  -- dubby delay claps
+  d3 $ swing $ s "~ realclaps:7 ~ realclaps:2" # gain 0.9 # room 0.3 # size 0.4 # delay 0.8 # delaytime (3/16) # delayfeedback 0.7 # orbit 1
+  -- polyrhythmic hi-hats (5 against 4)
+  d4 $ swing $ whenmod 8 6 (# crush 5) $ s "808oh(5,16,<0 2 3>)" # gain 0.8 # hpf 7000 # orbit 0
+  -- fast glitchy percussion
+  d5 $ swing $ whenmod 4 3 (density 2) $ s "cpu2:3(7,16,1) cpu2:8*2" # gain 0.85 # pan (range 0.3 0.7 $ fast 3 rand) # hpf 3000
+  -- dubby stabs with filter
+  d6 $ swing $ s "[~ lpviz:388 ~ lpviz:389]*2" # gain 0.9 # room 0.6 # size 0.7 # delay 0.6 # delaytime (1/3) # delayfeedback 0.6 # lpf (range 500 3000 $ slow 8 sine) # resonance 0.3 # orbit 2
+  -- low tom hits for power
+  d7 $ swing $ every 3 (density 2) $ s "~ ~ 808mt:1 ~" # gain 1.0 # shape 0.2 # lpf 900
+  -- massive stabs
+  d8 $ swing $ whenmod 16 14 (# crush 6) $ s "~ ~ ~ superhoover/2" # note (scale "minor" "<0 -5>") # release 0.3 # gain 0.8 # lpf 2000 # resonance 0.2 # room 0.4 # size 0.8 # orbit 3
+  -- silencing options
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+  -- d7 silence
+  -- d8 silence
