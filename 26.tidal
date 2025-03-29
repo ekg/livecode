@@ -1,7 +1,7 @@
 -- Sick Beat with Complex Rhythms and Evolving Patterns
 do
   hush
-  setcps (140/60/4)
+  setcps (80/60/4)
   let swing = always (# nudge (fast 16 $ range 0 0.025 $ slow 4 $ sine))
   -- Core rhythm section with heavy kick and snare
   d1 $ swing $ whenmod 32 28 (# crush 6) $ stack [
