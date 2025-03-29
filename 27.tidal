@@ -23,3 +23,37 @@ do
   -- d3 silence
   -- d4 silence
   -- d5 silence
+
+-- breakdown scene (strip elements and build back up)
+do
+  hush
+  setcps (125/60/4)
+  let swing = always (# nudge (fast 8 "0 0.02"))
+  -- start with just hi-hats and sparse percussion
+  d3 $ swing $ every 2 (density 2) $ 
+    stack [s "808oh(3,8)" # gain 0.75 # hpf 6000 # room 0.4,
+    s "cpu2:8(5,16)" # gain 0.7 # hpf (range 8000 12000 $ slow 8 sine) # room 0.5]
+  
+  -- add filtered claps with delay
+  d2 $ swing $ s "~ realclaps:2 ~ ~" # gain 0.8 # room 0.6 # size 0.5 # lpf 5000 
+    # delay 0.4 # delaytime (1/3) # delayfeedback 0.4
+  
+  -- add sparse, filtered percussion that builds
+  d4 $ swing $ whenmod 16 8 (density 2) $ whenmod 32 24 (density 1.5) $ 
+    s "~ tabla:4 ~ 808mt:2" # gain 0.85 # room 0.5 
+    # lpf (range 1000 5000 $ slow 16 sine)
+  
+  -- after 16 bars, bring in filtered kick that opens up
+  d1 $ swing $ whenmod 8 4 (# gain 0.9) $ s "~ ~ 808bd:4 ~" 
+    # lpf (range 300 800 $ slow 16 sine) # gain 0.8
+  
+  -- after 32 bars, build to full kick pattern
+  d5 $ swing $ whenmod 32 24 (density 2) $ whenmod 32 28 (# gain 1) $ 
+    s "808bd:4(3,8)" # lpf (range 200 500 $ slow 8 sine) # gain 0.9
+  
+  -- silencing options
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
