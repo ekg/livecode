@@ -116,10 +116,10 @@ do
   d8 $ swing $ whenmod 16 14 (# crush 6) $ s "~ ~ ~ superhoover/2" # note (scale "minor" "<0 -5>") # release 0.3 # gain 0.8 # lpf 2000 # resonance 0.2 # room 0.4 # size 0.8 # orbit 3
   -- silencing options
   -- d1 silence
-  -- d2 silence
-  -- d3 silence
-  -- d4 silence
-  -- d5 silence
-  -- d6 silence
-  -- d7 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
+  d6 silence
+  d7 silence
   -- d8 silence

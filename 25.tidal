@@ -1,7 +1,10 @@
+hush
+
 -- Drum and Bass Backing Track for Jamming
 do
   hush
-  setcps (170/60/4)
+  setcps (130/60/4) -- also good at 170
+  --setcps (170/60/4)
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Core drum and bass rhythm section
   d1 $ swing $ stack [
@@ -27,10 +30,10 @@ do
     $ s "lpviz:310" # gain 0.5
     # lpf 2000
     # room 0.6 # size 0.7
-  d1 silence
-  d2 silence
-  d3 silence
-  d4 silence
-  d5 silence
+  --d1 silence
+  --d2 silence
+  --d3 silence
+  --d4 silence
+  --d5 silence
 
 hush
