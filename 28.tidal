@@ -6,7 +6,7 @@ do
   -- Core rhythm section with 17-step pattern
   d1 $ swing $ stack [
     s "bd(5,17)" # gain 1.1,
-    s "~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~" # room 0.2,
+    every 4 (stut 3 (3/17) 0.5) $ s "realclaps(2,17)" # n "<0 2 1 2>",
     struct "t(7,17,2)" $ s "hh" # gain 0.8]
   -- Percussion with complementary euclidean pattern
   d2 $ swing $ every 4 (jux rev) $ 
@@ -15,11 +15,11 @@ do
   -- Subtle bass line following the 17-step pattern but with long-range variation
   d3 $ swing $ slow 4 $ 
     note (scale "minor" "<[0 0 -3 0 2 0 -5 0 -7 0 -3 0 0 0 2 0 4] [0 0 -5 0 -3 0 0 0 2 0 -3 0 -5 0 -7 0 -5]>") # 
-    s "flbass" # gain 0.9 # lpf (slow 8 $ range 300 800 sine)
+    s "flbass" # gain 0.9 # lpf (slow 8 $ range 300 800 sine) # release 1
   -- Rhodes chord progression with 8-bar cycle (spanning 4 x 17-step patterns)
   d4 $ swing $ slow 1 $ 
     --note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3] [-3,0,4,7] [0,3,7,10] [-5,-2,2,5] [0,4,7,11]>") # 
-    s "jrhodes" # room 0 # size 0.8 # gain 0.8 # release 0.5
+    s "jrhodes" # room 0 # size 0.8 # gain 0.8 # release 1.0
   -- Atmospheric texture that evolves over 8 bars
   d5 $ swing $ slow 16 $ 
     loopAt 8 $ chop 32 $ 
