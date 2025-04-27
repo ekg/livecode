@@ -8,37 +8,30 @@ do
     s "bd(3,17)" # gain 1.0 # lpf 2000,
     s "~ sd:1 ~ ~ ~ ~ ~ ~ ~ sd:1 ~ ~ ~ ~ ~ ~ ~" # gain 0.9 # room 0.2 # lpf 3500,
     every 4 (jux (# speed 1.5)) $ struct "t(7,17,3)" $ s "hh:8" # gain 0.75]
-  
   -- Vinyl crackle and lofi texture
   d2 $ swing $ s "vinyl:1*17" # gain 0.4 # lpf 3000 # pan (slow 4 sine)
-  
   -- Chopped breaks with lofi treatment
   d3 $ swing $ every 4 (jux rev) $ 
     loopAt 2 $ chop 17 $ 
     s "breaks125" # gain 0.8 # lpf 1800 # crush 10 # shape 0.2
-  
   -- Rhodes chords with lofi treatment
   d4 $ swing $ slow 8 $ 
     note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3] [-3,0,4,7] [0,3,7,10] [-5,-2,2,5] [0,4,7,11]>") # 
     s "jrhodes" # room 0.5 # size 0.7 # gain 0.8 # lpf 2000 # crush 8
-  
   -- Mellow bass line
   d5 $ swing $ slow 4 $ 
     note (scale "minor" "<[0 ~ ~ 0 ~ ~ -3 ~ ~ -3 ~ ~ -5 ~ ~ -5 ~] [0 ~ ~ 0 ~ ~ -7 ~ ~ -7 ~ ~ -5 ~ ~ -5 ~]>") # 
     s "flbass" # gain 0.9 # lpf 500 # release 0.8
-  
   -- Occasional jazz samples
   d6 $ swing $ slow 8 $ 
     whenmod 8 6 (const $ s "~") $ 
     struct "t(3,17,8)" $ s "reggae" # n (irand 10) # 
     gain 0.75 # pan (slow 2 sine) # lpf 2200 # begin (rand/2) # end (rand/2+0.5)
-  
   -- Subtle melodic elements
   d7 $ swing $ slow 4 $ 
     whenmod 8 7 (# crush 10) $ 
     note (scale "minor" "<[~ 7 ~ 10 ~ 12 ~ 10 ~ 7 ~ 5 ~ 3 ~ 0 ~] [~ 5 ~ 7 ~ 10 ~ 7 ~ 5 ~ 3 ~ 0 ~ -2 ~]>") # 
     s "uku" # gain 0.65 # room 0.4 # lpf 3000
-  
   -- d1 silence
   -- d2 silence
   -- d3 silence

@@ -1,3 +1,5 @@
+hush
+
 do
   hush
   setcps (90/60/4)
@@ -21,9 +23,9 @@ do
     --note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3] [-3,0,4,7] [0,3,7,10] [-5,-2,2,5] [0,4,7,11]>") # 
     s "jrhodes" # room 0 # size 0.8 # gain 0.8 # release 1.0
   -- Atmospheric texture that evolves over 8 bars
-  d5 $ swing $ slow 16 $ 
-    loopAt 8 $ chop 32 $ 
-    s "lpviz:310" # gain 0.6 # lpf (slow 8 $ range 800 2000 sine) # pan (slow 4 sine)
+  d5 $ swing $ slow 2 $ 
+    chop 32 $ loopAt 2 $
+    s "lpviz:310" # gain 1.0 # lpf (slow 8 $ range 800 2000 sine) # pan (slow 4 sine)
   -- Space for melody line (commented out)
   -- d6 $ swing $ note (scale "minor" "...") # s "..."
   -- d1 silence
