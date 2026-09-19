@@ -8,16 +8,16 @@
 --
 -- state below = step 4 full send (take history in git)
 
-setcps (170/60/4)
+setcps (140/60/4)
 
 -- amapiano kick still rolling underneath (crossfade in progress)
-d1 $ s "bd*4" # gain 1.2
+d1 $ s "bd ~ bd [~ bd]" # gain 1.2
 
 -- punk snare backbeat, 2 & 4
 d3 $ s "~ sn ~ sn" # gain 1.2 # speed 1.15
 
 -- distorted guitar chugs, straight 8ths
-d4 $ s "gtr*8" # n (irand 7) # gain 1.25 # distort 0.7 # lpf 8000 # sustain 0.15 # release 0.08
+d4 $ s "gtr*8" # n (irand 7) # gain 0.5 # distort 0.3 # lpf 5000 # sustain 0.15 # release 0.08
 
 -- pianos silenced at user request (bring back for the breakdown):
 -- d5 $ n "<a3'min9 f3'maj9 c4'maj9 g3'9>" # s "superpiano" # gain 0.9 # room 0.7 # sz 0.8 # lpf 3500
