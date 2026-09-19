@@ -1,0 +1,23 @@
+-- deep house jam · 125 bpm · orbits d1-d7
+setcps (125/60/4)
+
+-- four on the floor
+d1 $ s "bd*4" # gain 1.1
+
+-- offbeat open hats
+d2 $ s "~ oh ~ oh ~ oh ~ oh" # gain 0.85 # room 0.2
+
+-- clap on 2 & 4
+d3 $ s "~ clak ~ clak" # gain 0.9 # shape 0.3
+
+-- rolling offbeat bass
+d4 $ s "~ bass1 ~ bass1 ~ bass1 ~ bass1" # n "0 0 7 3" # legato 1 # gain 0.9 # cut 1
+
+-- lush chord progression: Am9 → Fmaj9 → Cmaj9 → G9, one chord per bar
+d5 $ n "<a3'min9 f3'maj9 c4'maj9 g3'9>" # s "superpiano" # gain 0.55 # room 0.7 # sz 0.8 # lpf 1500
+
+-- hats keep the 16ths ticking
+d6 $ s "hh27*8" # n (irand 13) # gain "0.35 0.5"
+
+-- arpeggiated chord shimmer, same progression an octave up
+d7 $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain 0.45 # room 0.4 # lpf 2500

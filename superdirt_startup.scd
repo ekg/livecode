@@ -4,25 +4,32 @@ This is an example startup file. You can load it from your startup file
 */
 
 (
-s.reboot { // server options are only updated on reboot
+// no s.reboot here: a fresh sclang is never booted, and reboot caused a boot race that cleanly killed the server
 	// configure the sound server: here you could add hardware specific options
 	// see http://doc.sccode.org/Classes/ServerOptions.html
 	s.options.numBuffers = 1024 * 256; // increase this if you need to load more samples
-	s.options.memSize = 8192 * 32; // increase this if you get "alloc failed" messages
-	s.options.numWireBufs = 64; // increase this if you get "exceeded number of interconnect buffers" messages
+	s.options.memSize = 8192 * 256; // increase this if you get "alloc failed" messages
+	s.options.numWireBufs = 2048; // increase this if you get "exceeded number of interconnect buffers" messages
 	s.options.maxNodes = 1024 * 32; // increase this if you are getting drop outs and the message "too many nodes"
 	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
 	s.options.numInputBusChannels = 2; // set this to your hardware output channel size, if necessary
+	s.options.useSystemClock = false; // SC 3.13 default (true) makes scsynth exit cleanly with pipewire-jack
 	// boot the server and start SuperDirt
 	s.waitForBoot {
 		~dirt.stop; // stop any old ones, avoid duplicate dirt (if it is nil, this won't do anything)
 		~dirt = SuperDirt(2, s); // two output channels, increase if you want to pan across more channels
+		// lazy loading: register banks but read files on first use. This MUST come
+		// before any loadSoundFiles call — eagerly reading the full Dirt-Samples
+		// tree (~450 MB of buffers in one burst) crashes scsynth under pipewire-jack
+		// with a clean "Server exited with exit code 0" a few seconds after boot.
+		~dirt.doNotReadYet = true;
 		~dirt.loadSoundFiles;   // load samples (path containing a wildcard can be passed in)
 		// for example: ~dirt.loadSoundFiles("/Users/myUserName/Dirt/samples/*");
         ~dirt.loadSoundFiles("/home/erik/sounds/*");
         ~dirt.loadSoundFiles("/home/erik/sounds/mars_symlinks/*");
-        s.sync; // optionally: wait for samples to be read
+		// s.sync; // optionally: wait for samples to be read
 		~dirt.start(57120, 0 ! 12);   // start listening on port 57120, create two busses each sending audio to channel 0
+		SuperDirt.default = ~dirt; // make this instance available in sclang (optional)
 
 		// optional, needed for convenient access from sclang:
 		(
@@ -33,5 +40,4 @@ s.reboot { // server options are only updated on reboot
 		);
 	};
 	s.latency = 0.3; // increase this if you get "late" messages
-};
 );
