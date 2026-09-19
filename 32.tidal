@@ -17,17 +17,19 @@ d1 $ s "bd ~ bd [~ bd]" # gain 1.2
 d3 $ s "~ sn ~ sn" # gain 1.2 # speed 1.15
 
 -- distorted guitar chugs, straight 8ths
-d4 $ s "gtr*8" # n (irand 7) # gain 0.5 # distort 0.3 # lpf 5000 # sustain 0.15 # release 0.08
+d4 $ s "gtr*8" # n (irand 7) # gain 0.8 # distort 0.5 # lpf 6500 # sustain 0.15 # release 0.08
 
--- pianos silenced at user request (bring back for the breakdown):
+-- d5 pad still silenced; d7 came back as the wild jux-rev arp:
 -- d5 $ n "<a3'min9 f3'maj9 c4'maj9 g3'9>" # s "superpiano" # gain 0.9 # room 0.7 # sz 0.8 # lpf 3500
 -- d7 $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain 0.9 # room 0.5 # lpf 3500
+-- take: wild jux-rev arp — L/R juxtaposed, reversed copy delayed a 16th,
+-- density doubles every 4 bars, dotted dub delay. (prev: jux rev)
+d7 $ jux (\x -> 0.125 <~ rev x) $ every 4 (density 2) $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain 0.55 # room 0.5 # lpf 3500 # delay 0.4 # delaytime 0.375 # delayfeedback 0.7
 d5 $ silence
-d7 $ silence
 
 -- amapiano glue kept: shakers, log drum (root-tracking), airy hats
-d8 $ s "psr*8" # n (irand 30) # gain "0.45 0.6"
-d9 $ s "tumba [~ tumba] ~ tumba [~ tumba] ~ tumba ~" # n "0 0 3 0 2 0" # speed (0.85 * "<1 0.79 1.19 0.89>") # cut 3 # gain 1.15
+d8 $ s "psr*8" # n (irand 30) # gain "0.35 0.5"
+d9 $ s "tumba [~ tumba] ~ tumba [~ tumba] ~ tumba ~" # n "0 0 3 0 2 0" # speed (0.85 * "<1 0.79 1.19 0.89>") # cut 3 # gain 1.1
 d10 $ s "~ oh ~ oh" # gain 0.7 # room 0.3
 
 -- rhodes dub keys still echoing
