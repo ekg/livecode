@@ -14,10 +14,13 @@ d1 $ s "bd ~ bd ~" # gain 1
 
 -- (carried over from 30, still live with their slow ramps)
 -- d5 lush pad:   Am9 -> Fmaj9 -> Cmaj9 -> G9, gain/lpf sine ramps, 32-cycle
--- d7 arp shimmer: same prog octave up, 40-cycle ramp
+-- d7 arp shimmer: pulled for the deep section; line to bring back:
+-- d7 $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain (slow 40 $ range 0.35 0.8 $ sine) # room 0.4 # lpf (slow 40 $ range 1800 3200 $ sine)
 
 -- the signature log drum bass (tumba pitched down, mono via cut)
-d9 $ s "tumba [~ tumba] ~ tumba [~ tumba] ~ tumba ~" # n "0 0 3 0 2 0" # speed 0.85 # cut 3 # gain 1.05
+-- take 2: melodic — speed tracks the chord roots per bar: Am=1.0, F=0.79, C=1.19, G=0.89
+-- (take 1 alternative: speed 0.85 constant)
+d9 $ s "tumba [~ tumba] ~ tumba [~ tumba] ~ tumba ~" # n "0 0 3 0 2 0" # speed (0.85 * "<1 0.79 1.19 0.89>") # cut 3 # gain 1.05
 
 -- amapiano shaker bed, rolling 16ths
 d8 $ s "psr*8" # n (irand 30) # gain "0.3 0.45"
