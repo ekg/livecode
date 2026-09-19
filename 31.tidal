@@ -1,0 +1,38 @@
+-- dubby amapiano · 113 bpm · drop from jam 30 via bridge
+--
+-- bridge (executed live over 30.tidal, in order):
+--   d2/d3/d4/d6 $ silence          -- strip hats, clap, bass, ticks
+--   setcps (113/60/4)              -- slow down 125 -> 113
+--   d1 swap to sparse amapiano kick
+--   d8 shakers, d9 log drum enter while d5/d7 piano ramps still swelling
+--   then: d10 airy hats, d11 dubby stabs, d12 dub perc
+
+setcps (113/60/4)
+
+-- sparse amapiano kick, beats 1 & 3
+d1 $ s "bd ~ bd ~" # gain 1
+
+-- (carried over from 30, still live with their slow ramps)
+-- d5 lush pad:   Am9 -> Fmaj9 -> Cmaj9 -> G9, gain/lpf sine ramps, 32-cycle
+-- d7 arp shimmer: same prog octave up, 40-cycle ramp
+
+-- the signature log drum bass (tumba pitched down, mono via cut)
+d9 $ s "tumba [~ tumba] ~ tumba [~ tumba] ~ tumba ~" # n "0 0 3 0 2 0" # speed 0.85 # cut 3 # gain 1.05
+
+-- amapiano shaker bed, rolling 16ths
+d8 $ s "psr*8" # n (irand 30) # gain "0.3 0.45"
+
+-- airy open hats
+d10 $ s "~ oh ~ oh" # gain 0.7 # room 0.3
+
+-- dubby chord stabs echoing into space
+d11 $ s "juno ~ ~ ~ ~ ~ juno ~" # n "<0 3 5 3>" # delay 0.5 # delaytime 0.25 # delayfeedback 0.75 # gain 0.55 # room 0.4 # lpf 1800
+
+-- sparse dub perc, dub-delayed
+d12 $ s "~ perc ~ ~ ~ perc ~ ~" # n (irand 30) # delay 0.35 # delaytime 0.375 # delayfeedback 0.6 # gain 0.6 # speed 1.1
+
+-- silenced from the 30 bridge (kept explicit so the file reflects live state)
+d2 $ silence
+d3 $ silence
+d4 $ silence
+d6 $ silence
