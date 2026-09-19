@@ -28,8 +28,9 @@ d8 $ s "psr*8" # n (irand 30) # gain "0.3 0.45"
 -- airy open hats
 d10 $ s "~ oh ~ oh" # gain 0.7 # room 0.3
 
--- dubby chord stabs echoing into space
-d11 $ s "juno ~ ~ ~ ~ ~ juno ~" # n "<0 3 5 3>" # delay 0.5 # delaytime 0.25 # delayfeedback 0.75 # gain 0.55 # room 0.4 # lpf 1800
+-- dubby keys echoing into space — take 2: Rhodes instead of juno stabs
+-- (take 1 alternative: s "juno" # n "<0 3 5 3>")
+d11 $ s "jrhodes ~ ~ ~ ~ ~ jrhodes ~" # n "<0 4 2 7>" # delay 0.5 # delaytime 0.25 # delayfeedback 0.75 # gain 0.65 # room 0.4 # lpf 2000
 
 -- sparse dub perc, dub-delayed
 d12 $ s "~ perc ~ ~ ~ perc ~ ~" # n (irand 30) # delay 0.35 # delaytime 0.375 # delayfeedback 0.6 # gain 0.6 # speed 1.1
