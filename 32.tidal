@@ -17,13 +17,13 @@ d1 $ s "bd*4" # gain 1.2
 d3 $ s "~ sn ~ sn" # gain 1.2 # speed 1.15
 
 -- distorted guitar chugs, straight 8ths
-d4 $ s "gtr*8" # n (irand 7) # gain 1.25 # distort 0.7 # lpf 8000
+d4 $ s "gtr*8" # n (irand 7) # gain 1.25 # distort 0.7 # lpf 8000 # sustain 0.15 # release 0.08
 
--- pianos out front: hot flat gains, filters wide
--- d5 pad:   Am9 -> Fmaj9 -> Cmaj9 -> G9
-d5 $ n "<a3'min9 f3'maj9 c4'maj9 g3'9>" # s "superpiano" # gain 0.9 # room 0.7 # sz 0.8 # lpf 3500
--- d7 arp shimmer, octave up
-d7 $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain 0.9 # room 0.5 # lpf 3500
+-- pianos silenced at user request (bring back for the breakdown):
+-- d5 $ n "<a3'min9 f3'maj9 c4'maj9 g3'9>" # s "superpiano" # gain 0.9 # room 0.7 # sz 0.8 # lpf 3500
+-- d7 $ arp "up" $ s "superpiano" # n "<a4'min9 f4'maj9 c5'maj9 g4'9>" # gain 0.9 # room 0.5 # lpf 3500
+d5 $ silence
+d7 $ silence
 
 -- amapiano glue kept: shakers, log drum (root-tracking), airy hats
 d8 $ s "psr*8" # n (irand 30) # gain "0.45 0.6"
