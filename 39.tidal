@@ -1,0 +1,31 @@
+-- fractal binary decomposition · one word, many scales
+-- THE IDEA: a single 16-bit word is the genome. Each voice renders it at a
+-- different temporal zoom, through a different effect. bite() slices the word
+-- itself and deals the slices to different voices — decomposition, not repetition.
+-- modulation notes:
+--   * bits: swap the 3 rotating words for new genomes; every voice changes at once
+--   * nested mask = AND-gate: mask (slow 2 bits) $ mask bits $ ... only sounds
+--     where the word AND its half-speed shadow are both 1 — self-similar sparseness
+--   * bite 8 "<0 3 5 6>" — deal slices of the word to this voice; change the
+--     index pattern to re-deal. bite 4 "0" = first quarter only
+--   * zoom = fast: fast "<1 2 4 2>" on a layer makes its timescale breathe
+--   * stut (1/32) at fast 4 = granular glitter; slow it to (1/8) for dub rolls
+
+let bits = "<1110111001101010 1011011011101101 1101110010110111>"
+
+-- zoom layer 1: word at 4x, granular stut — hats into glitter
+d16 $ fast "<1 2 4 2>" $ stut "<4 8>" 0.6 (1/32) $ mask bits $ s "hh27" # gain 0.35 # hpf 3000
+
+-- zoom layer 2: word sliced into 8, re-dealt — blips ping-pong through a drifting delay
+d17 $ fast 2 $ bite 8 "<0 3 5 6>" $ mask bits $ s "bleep" # note "<e6 g6 a6 d6>" # gain 0.3 # pan (slow 2 sine) # delay 0.6 # delaytime (slow 11 $ range (1/12) (1/2) sine) # delayfeedback 0.85 # cut 17
+
+-- zoom layer 3: word at half speed = the skeleton's ghost — sub hits, huge room
+d18 $ slow 2 $ mask bits $ s "moog" # note "<d1 a0 c1 g0>" # gain 0.7 # lpf 200 # room 0.8 # size 0.99 # cut 18
+
+-- zoom layer 4: AND-gate (word x half-speed word) — sparse clicks, almost silence
+d19 $ mask (slow 2 bits) $ mask bits $ s "click" # gain 0.5 # hpf 5000 # pan 0.8 # room 0.6 # cut 19
+
+-- d16 silence
+-- d17 silence
+-- d18 silence
+-- d19 silence
