@@ -25,6 +25,18 @@ d7 $ slow 2 $ mask bits $ s "moog" # note "<d1 a0 c1 g0>" # gain 0.7 # lpf 200 #
 -- zoom layer 4: AND-gate (word x half-speed word) — sparse clicks, almost silence  [d13 — retired juno stabs' slot]
 d13 $ mask (slow 2 bits) $ mask bits $ s "click" # gain 0.5 # hpf 5000 # pan 0.8 # room 0.6 # cut 13
 
+-- zoom layer 5: 8x — the word as granular sparkle, faster than rhythm becomes texture
+p 17 $ fast 8 $ mask bits $ s "tink" # gain 0.25 # hpf 6000 # pan (slow 4 sine) # delay 0.4 # delaytime (1/8) # delayfeedback 0.6 # cut 17
+
+-- zoom layer 6: 4x slow — the word as architecture: stomp hits land only where
+-- the stretched word allows — a heartbeat every few bars, self-similar to the hats
+-- modulation: lpf 600 = muffled giant; raise toward 3000 to bring the stomp forward
+p 4 $ slow 4 $ mask bits $ s "stomp" # gain 0.8 # lpf 600 # room 0.9 # size 0.99 # cut 4
+
+-- zoom layer 7: 16x — crushed buzz: the word compressed until rhythm = timbre
+-- (# crush 3 = 3-bit; raise for texture, lower for pure buzz)
+p 18 $ fast 16 $ mask bits $ s "blip" # crush 3 # gain 0.15 # hpf 8000 # cut 18
+
 -- NOTE: BootTidal only exports d1..d16. For streams beyond 16 use the generic
 -- p: p 17 $ ... (ID takes a number). d4/d7/d13 were piano/juno slots, now reused.
 
@@ -32,3 +44,6 @@ d13 $ mask (slow 2 bits) $ mask bits $ s "click" # gain 0.5 # hpf 5000 # pan 0.8
 -- d16 silence
 -- d7 silence
 -- d13 silence
+-- p 4 silence
+-- p 17 silence
+-- p 18 silence
