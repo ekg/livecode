@@ -1,0 +1,16 @@
+-- euclid percussion stack · layers over the 34.tidal foundation
+-- modulation notes:
+--   * swing is per-layer: swingBy (1/12) 2 — lower the second arg (2) to 1 for straight, or widen 1/12→1/6 for drunk
+--   * struct "t(5,16)" — 5 hits over 16: rotate the offset with e.g. t(<5 5 5 9>,16) or .rotL for slow migration
+--   * hpf 1500 keeps the shaker out of the sub; sweep it down when the breakdown hits
+--   * dub throws on the snare: delay 0.6 = echo amount, delaytime (1/3) = dotted feel,
+--     push delayfeedback 0.75 for self-oscillation, pull to 0.5 for tight
+
+d9 $ swingBy (1/12) 2 $ whenmod 8 5 (density 1.5) $ struct "t(5,16)" $ s "perc" # gain "0.35 0.55" # hpf 1500
+
+d10 $ swingBy (1/12) 2 $ struct "t(3,8)" $ s "clak" # gain 0.6 # pan 0.35 # room 0.2
+
+d2 $ swingBy (1/12) 2 $ every 4 (const $ s "~ ~ sn ~ ~ ~ sn sn ~" # delay 0.6 # delaytime (1/3) # delayfeedback 0.7) $ s "~ ~ sn ~ ~ ~ sn ~" # gain 0.85
+
+-- d9 silence
+-- d10 silence
