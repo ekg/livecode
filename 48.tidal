@@ -1,0 +1,31 @@
+-- 48.tidal — Thriller recreation (Michael Jackson, from tunepile GP corpus)
+-- Source: tabs-tidal/Jackson_Michael_-_Thriller.gp4 (120bpm, 4/4, key C minor)
+-- hush + reload this file. Tempo: 1 cycle = 1 bar (setcps 0.5).
+
+setcps (120/60/4)
+
+-- DRUMS ------------------------------------------------------------
+d1 $ s "bd ~ ~ ~ ~ ~ ~ ~ bd ~ ~ ~ ~ ~ ~ ~" # gain 0.95 # shape 0.2
+d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~" # gain 0.8
+d3 $ s "hh ~ hh ~ hh ~ hh ~ hh ~ hh ~ hh ~ hh ~ hh ~" # gain 0.55
+
+-- THE RIFF (bass, from tab track 2: C Bb C Eb F C) ------------------
+d4 $ s "moog" # n "36 34 ~ 36 ~ 39 ~ 41 ~ 36 ~ ~ ~ ~ ~ ~" # gain 0.95 # shape 0.3 # lpf 700 # cut 4
+
+-- FUNK GUITAR CHOPS (track 4: Ebmaj stab / Fm7 / Cm) ----------------
+-- arp "up" = strummed. Modulate: arp "updown", "random"; gain 0.8→0.9
+d5 $ arp "up" $ cat [note "51 55 58 62", note "51 55 58 62", note "53 56 60 63", note "57 60 63 66"] # s "cpluck" # gain 0.8 # legato 0.5 # room 0.4
+
+-- POLYSYNTH PAD (track 6: Cm9 / Am9, 1 chord per 2 bars) -------------
+d6 $ slow 2 $ arp "updown" $ cat [note "48 51 55 58 62", note "40 45 50 55 59"] # s "superpiano" # gain 0.7 # room 0.7 # size 0.9
+
+-- HORN STABS (track 10: descending diads, 2-bar phrase) --------------
+d7 $ slow 2 $ arp "up" $ cat [note "72 84", note "70 82", note "70 84", note "70 82", note "69 81", note "67 79"] # s "superpiano" # gain 0.85 # room 0.5 # cut 7
+
+-- HIGH PIANO GHOST (track 8: sparse 84/79) ---------------------------
+d8 $ slow 4 $ s "superpiano" # n "84 ~ ~ ~ 79 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~" # gain 0.8 # room 0.6
+
+-- MODULATION IDEAS ---------------------------------------------------
+-- panic: d3 $ stut 8 0.5 (1/16) ... ; riff octave up: d4 |+ n 12
+-- drop: d5 $ silence, bring back with xfadeIn 5 4
+-- faster: setcps (130/60/4)
