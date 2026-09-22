@@ -1,0 +1,32 @@
+-- folk-jungle-gypsy mashup · 138bpm · HARD BREAK rebuild
+-- three corpus voices that have never met:
+--   COUNTRY  Sailor's Hornpipe (trad., Em -> Dm), rotated with iter 3 so the
+--            phrase shifts against the harmony every cycle — the modulating feel
+--   GYPSY    "Gipsy Jazz" guitar line (Gm-ish, Eb-color arpeggios, chromatic
+--            Ab spice) — played AS-IS, deliberately untransposed, at iter 2
+--   FUNK     the human drum performance (velocity curve) + jungle chop
+-- gains: gain^4 curve, non-kick at 0.7-0.9 control (audible), kick 0.95
+-- modulation notes:
+--   * the phase rotation is the mashup engine: iter 3 / iter 2 displace the two
+--     melodies against each other and the chords — remove iter for them to align
+--   * chord bed Dm9 -> Gm9 (both tunes' home); swap the voicings to modulate
+--   * tempo ladder: 138/60/8 current; 122/60/8 chill; 160/60/8 full gypsy panic
+do
+  hush
+  setcps (138/60/8)
+  d1 $ s "bd*8" # gain 0.95 # lpf 900
+  d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ sn sn sn sn sn ~ ~ ~ ~ sn ~ ~ sn ~ sn ~ sn sn ~ ~ sn" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.34 0.36 0.61 0.57 0.56 ~ ~ ~ ~ 0.59 ~ ~ 0.57 ~ 0.47 ~ 0.40 0.60 ~ ~ 0.60"
+  d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ hh ~ ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.66 ~ ~ 0.44 0.61 0.42 0.53 0.52 0.56 0.63 0.55 0.53 0.55 0.50 0.55 0.51 0.61 0.64" # hpf 1200
+  d6 $ s "moog" # note "d1 ~ ~ ~ ~ ~ ~ ~ g1 ~ ~ ~ ~ ~ ~ ~" # gain 0.9 # lpf 500
+  d7 $ fast 2 $ cat [s "superpiano" # note "50 53 57 60 64", s "superpiano" # note "43 46 50 53 57"] # gain 0.8 # lpf 1500 # room 0.6 # size 0.9 # cut 7
+  d10 $ iter 3 $ slow 4 $ n "69 ~ ~ ~ [50,53,57,74] ~ ~ ~ 74 ~ ~ ~ 74 ~ 76 ~ 77 ~ 74 ~ [53,57,60,72] ~ ~ ~ 69 ~ ~ ~ 69 ~ ~ ~ 72 ~ 69 ~ [48,52,55,67] ~ 69 ~ 72 ~ 74 ~ 76 ~ 79 ~ 74 ~ 76 ~ [48,52,55,72] ~ ~ ~ 67 ~ ~ ~ 67 ~ ~ ~ 69 ~ 72 ~ [50,53,57,74] ~ ~ ~ 74 ~ 76 ~ 77 ~ ~ ~ 76 ~ 74 ~ [53,57,60,72] ~ 69 ~ 65 ~ 69 ~ 72 ~ ~ ~ 69 ~ 67 ~ [50,53,57,65] ~ 64 ~ 65 ~ 62 ~ [45,48,52,60] ~ 62 ~ 64 ~ 67 ~ [50,53,57,65] ~ ~ ~ 62 ~ ~ ~ 62 ~ ~ ~" # s "gtr" # gain 0.85 # room 0.4 # cut 10
+  d12 $ iter 2 $ sometimesBy 0.3 (fast 2) $ slow 4 $ n "~ ~ ~ ~ 63 ~ ~ ~ 66 ~ ~ ~ 69 ~ ~ ~ 72 ~ ~ ~ ~ ~ 71 72 71 ~ ~ ~ 69 ~ ~ ~ 68 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 62 ~ ~ ~ ~ ~ 62 ~ 62 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 61 ~ ~ ~ 64 ~ ~ ~ 67 ~ ~ ~ 71 ~ ~ ~ ~ ~ 69 71 69 ~ ~ ~ 67 ~ ~ ~ 66 ~ ~ ~ ~ ~ 66 ~ 66 ~ ~ ~ ~ ~ ~ ~ 60 ~ ~ ~ ~ ~ 60 ~ 60 ~ ~ ~ ~ ~ ~ ~" # s "cpluck" # gain 0.75 # room 0.5 # crush 6 # cut 12
+  d13 $ every 3 (stut 4 0.6 (1/16)) $ sometimesBy 0.15 rev $ loopAt 2 $ chop 16 $ s "breaks165" # gain 0.55 # hpf 150
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d6 silence
+  -- d7 silence
+  -- d10 silence
+  -- d12 silence
+  -- d13 silence
