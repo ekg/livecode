@@ -10,8 +10,9 @@
 --     Dm7 loop of 40.tidal — F# against Dm7 fights. bass roots d/g match bars 1-2.
 --   * d7: swap back to the lo-fi loop only if you also transpose the tune down 3.
 --   * d9: sometimesBy 0.25 (fast 2) adds drive; iter 3 / rev would make it weird again.
---   * mix: the kick was 0.95 and everything else 0.35-0.5, which buried the band.
---     Now kick 0.68, band 0.55-0.85, and everything but the bass has room >= 0.4.
+--   * mix (v3, halfway): kick 0.85, melody 0.6, chords 0.55. DRUMS ARE DRY — no
+--     room/size on d1-d5 at all; reverb lives on the melodic content only
+--     (d7 chords 0.6, d8 hoover 0.6, d9 melody 0.6). Bass stays nearly dry.
 --   * d1 "bd*8" is FOUR kicks per bar (a cycle is 2 bars) = real 4-on-the-floor.
 --     "bd*4" here is a half-time kick and reads as ~60bpm; that was the bug.
 --   * verb: room/size on d2-d5 and d7-d9 is the space. lower `dry` to push further back.
@@ -27,15 +28,15 @@
 do
   hush
   setcps (122/60/8)
-  d1 $ s "bd*8" # gain 0.68 # lpf 900
-  d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ sn sn sn sn sn ~ ~ ~ ~ sn ~ ~ sn ~ sn ~ sn sn ~ ~ sn" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.34 0.36 0.61 0.57 0.56 ~ ~ ~ ~ 0.59 ~ ~ 0.57 ~ 0.47 ~ 0.40 0.60 ~ ~ 0.60" # room 0.35 # size 0.7
-  d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ hh ~ ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.66 ~ ~ 0.44 0.61 0.42 0.53 0.52 0.56 0.63 0.55 0.53 0.55 0.50 0.55 0.51 0.61 0.64" # hpf 1200 # room 0.25
-  d4 $ s "~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~" # gain 0.55 # hpf 400 # room 0.4 # size 0.8
-  d5 $ sometimesBy 0.3 (# speed 1.5) $ s "~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~" # gain 0.7 # room 0.7 # size 0.9
+  d1 $ s "bd*8" # gain 0.85 # lpf 900
+  d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ sn sn sn sn sn ~ ~ ~ ~ sn ~ ~ sn ~ sn ~ sn sn ~ ~ sn" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.34 0.36 0.61 0.57 0.56 ~ ~ ~ ~ 0.59 ~ ~ 0.57 ~ 0.47 ~ 0.40 0.60 ~ ~ 0.60"
+  d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ hh ~ ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.66 ~ ~ 0.44 0.61 0.42 0.53 0.52 0.56 0.63 0.55 0.53 0.55 0.50 0.55 0.51 0.61 0.64" # hpf 1200
+  d4 $ s "~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~" # gain 0.55 # hpf 400
+  d5 $ sometimesBy 0.3 (# speed 1.5) $ s "~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~" # gain 0.7
   d6 $ s "moog" # note "~ ~ d1 ~ ~ ~ d1 ~ ~ ~ d1 ~ ~ ~ d1 ~ ~ ~ g0 ~ ~ ~ g0 ~ ~ ~ g0 ~ ~ ~ g0 ~" # gain 0.85 # lpf 260 # room 0.2 # cut 6
-  d7 $ fast 2 $ cat [s "superpiano" # note "38 50 54 57 61 64", s "superpiano" # note "43 55 59 62 66 69", s "superpiano" # note "45 57 61 64 67 71", s "superpiano" # note "38 50 54 57 61 64"] # gain 0.65 # lpf 1400 # room 0.85 # size 0.95 # cut 7
-  d8 $ sometimesBy 0.4 rev $ struct "t(3,16)" $ s "hoover" # note "<d3 a2>" # gain 0.5 # lpf 1800 # room 0.7 # size 0.9 # delay 0.5 # delaytime (1/3) # delayfeedback 0.65 # cut 8
-  d9 $ sometimesBy 0.25 (fast 2) $ n "66 ~ 62 ~ 67 ~ 62 ~ 66 ~ 62 ~ 62 ~ 62 ~ 66 ~ 62 ~ 67 ~ 62 ~ 66 ~ 62 ~ 62 ~ 62 ~" # s "cpluck" # gain 0.8 # room 0.8 # size 0.9 # delay 0.4 # delaytime (1/4) # delayfeedback 0.5 # cut 9
+  d7 $ fast 2 $ cat [s "superpiano" # note "38 50 54 57 61 64", s "superpiano" # note "43 55 59 62 66 69", s "superpiano" # note "45 57 61 64 67 71", s "superpiano" # note "38 50 54 57 61 64"] # gain 0.55 # lpf 1400 # room 0.6 # size 0.9 # cut 7
+  d8 $ sometimesBy 0.4 rev $ struct "t(3,16)" $ s "hoover" # note "<d3 a2>" # gain 0.45 # lpf 1800 # room 0.6 # size 0.85 # delay 0.45 # delaytime (1/3) # delayfeedback 0.6 # cut 8
+  d9 $ sometimesBy 0.25 (fast 2) $ n "66 ~ 62 ~ 67 ~ 62 ~ 66 ~ 62 ~ 62 ~ 62 ~ 66 ~ 62 ~ 67 ~ 62 ~ 66 ~ 62 ~ 62 ~ 62 ~" # s "cpluck" # gain 0.6 # room 0.6 # size 0.85 # delay 0.35 # delaytime (1/4) # delayfeedback 0.45 # cut 9
   -- d1 silence
   -- d2 silence
   -- d3 silence
