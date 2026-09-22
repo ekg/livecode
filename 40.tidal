@@ -1,0 +1,35 @@
+-- mashup take · human funk kit @80bpm + Chatagee Reel (G→D) + lo-fi Dm7-G7-Cmaj7-Am7
+-- built by tunepile: tools/mashup.py --drums funk --melody reel --chords lo-fi --key D --bars 2
+-- the basis:
+--   drums   midi/groove/groove/drummer1/session1/1_funk_80_beat_4-4.mid (16 bars, 4 voices)
+--   melody  abc/.../Chatagee_Reel...abc (G major, transposed -5 semitones onto D)
+--   chords  chords/progressions.txt -> lo-fi-loop-dm7-g7-cmaj7-am7, key D
+-- why it breathes: every gain is the drummer's own MIDI velocity (ghost snares at
+-- 0.06, accents at 0.5), so the kit has a human dynamic curve nothing generated has.
+-- modulation notes:
+--   * TEMPO is a known wart here: setcps (80/60/4) means 1 cycle == 1 bar, but this
+--     loop is 2 bars per cycle, so the material runs at 160bpm-equivalent. For the
+--     true 80bpm feel use  (80/60/8) . Try both — the fast one is the good one.
+--   * loop region: the drum source is 16 bars and the tune is 35 — only bars 1-2 are
+--     quoted. Retarget by re-running mashup with a different window, or hand-edit
+--     which tokens sit in the strings (this is the whole "vary the 2-bar region" idea).
+--   * d4 is the 808oh: drop it (or the comment line at the bottom) to dry the kit out.
+--   * kick/snare sit soft (0.24-0.5); raise the gain strings wholesale for a harder mix.
+--   * melody is onsets-only, so it is staccato — `slow 2` stretches the phrase, and
+--     |+ note 5 / (-5) moves it to another key.
+--   * chords: `fast 2` = one chord per bar; delete it for one chord per 2 bars.
+do
+  hush
+  setcps (80/60/4)
+  d1 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ bd ~ bd ~ ~ bd ~ ~ ~ ~ bd ~ ~ bd ~ ~" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.33 ~ 0.35 ~ ~ 0.34 ~ ~ ~ ~ 0.24 ~ ~ 0.31 ~ ~"
+  d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ sn sn sn sn sn ~ ~ ~ ~ sn ~ ~ sn ~ sn ~ sn sn ~ ~ sn" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.06 0.08 0.44 0.38 0.37 ~ ~ ~ ~ 0.42 ~ ~ 0.39 ~ 0.24 ~ 0.14 0.43 ~ ~ 0.43"
+  d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ hh ~ ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.51 ~ ~ 0.20 0.44 0.17 0.33 0.31 0.37 0.47 0.35 0.33 0.35 0.28 0.35 0.30 0.44 0.48"
+  d4 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 808oh ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+  d5 $ n "74 ~ 76 ~ 78 ~ ~ ~ 78 ~ 74 ~ 76 ~ ~ ~ 76 ~ 73 ~ 74 ~ 78 ~ 74 ~ 71 ~ 69 ~ ~ ~" # s "cpluck"
+  d6 $ fast 2 $ cat [s "superpiano" # note "40 52 55 59 62 66", s "superpiano" # note "45 57 61 64 67 71", s "superpiano" # note "38 50 54 57 61 64", s "superpiano" # note "47 59 62 66 69 73"] # gain 0.5 # lpf 1300 # room 0.5
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence

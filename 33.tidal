@@ -1,0 +1,42 @@
+-- deep house · full groove back up (wrap-safe)
+
+setcps (122/60/4)
+
+let swing = nudge (fast 8 "0 0.02")
+
+d1 $ swing
+  $ s "bd*4"
+  # gain 0.9 # lpf 800
+
+d2 $ swing $ every 2 (fast 2)
+  $ struct "t(3,8)" $ s "hh"
+  # gain 0.5 # room 0.1
+
+d3 $ swing
+  $ s "~ [cp ~] ~ cp"
+  # gain 0.6 # room 0.15
+
+d4 $ swing $ slow 2
+  $ note (scale "minor"
+    "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>")
+  # s "flbass" # legato 1
+  # gain 0.9 # lpf 500
+
+d5 $ slow 8
+  $ note (scale "minor"
+    "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>")
+  # s "jrhodes"
+  # room 0.7 # gain 0.65
+
+d6 $ swing $ sometimesBy 0.4 (# nudge 0.02)
+  $ s "hh*2"
+  # nudge "<0 0.25 0.25 0.25>"
+  # gain 0.4
+
+-- silenced
+-- d1 silence
+-- d2 silence
+-- d3 silence
+-- d4 silence
+-- d5 silence
+-- d6 silence

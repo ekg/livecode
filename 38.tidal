@@ -17,7 +17,7 @@ d1 $ swingBy (1/12) 2 $ mask "<1100100010100010 1010001010001010 110100101000101
 d9 $ swingBy (1/12) 2 $ stut "<2 4 8>" 0.7 (1/16) $ whenmod 8 5 (density 1.5) $ struct "t(5,16)" $ s "perc" # gain "0.35 0.55" # hpf 1500
 
 -- stabs pitch-rise into their own echoes
-d13 $ swingBy (1/12) 2 $ stutWith 4 (1/12) (|# speed 1.2) $ struct "t(5,16)" $ s "juno" # note "<c4 g3 e4 a3>" # gain 0.5 # lpf 1200 # delay 0.5 # delaytime (3/8) # delayfeedback 0.65 # pan 0.7 # cut 13
+d13 $ swingBy (1/12) 2 $ stutWith 4 (1/12) (\x -> x # speed 1.2) $ struct "t(5,16)" $ s "juno" # note "<c4 g3 e4 a3>" # gain 0.5 # lpf 1200 # delay 0.5 # delaytime (3/8) # delayfeedback 0.65 # pan 0.7 # cut 13
 
 -- binary blips: 3 rotating bit-words, delay length drifting on slow sine
 d15 $ mask "<1110111001101010 1011011011101101 1101110010110111>" $ s "bleep" # note "<e6 g6 a6 d6>" # gain 0.25 # pan (slow 3 sine) # room 0.4 # delay 0.5 # delaytime (slow 9 $ range (1/12) (1/2) sine) # delayfeedback 0.8 # cut 15
