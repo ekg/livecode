@@ -7,9 +7,9 @@
 -- why it breathes: every gain is the drummer's own MIDI velocity (ghost snares at
 -- 0.06, accents at 0.5), so the kit has a human dynamic curve nothing generated has.
 -- modulation notes:
---   * TEMPO is a known wart here: setcps (80/60/4) means 1 cycle == 1 bar, but this
---     loop is 2 bars per cycle, so the material runs at 160bpm-equivalent. For the
---     true 80bpm feel use  (80/60/8) . Try both — the fast one is the good one.
+--   * TEMPO: setcps is cycles/second, so the number depends on how many beats a
+--     cycle holds (here 2 bars = 8 beats). Ladder in the do block below: the take
+--     was (80/60/4); half-time (80/60/8); quarter-time (80/60/16).
 --   * loop region: the drum source is 16 bars and the tune is 35 — only bars 1-2 are
 --     quoted. Retarget by re-running mashup with a different window, or hand-edit
 --     which tokens sit in the strings (this is the whole "vary the 2-bar region" idea).
@@ -20,7 +20,11 @@
 --   * chords: `fast 2` = one chord per bar; delete it for one chord per 2 bars.
 do
   hush
-  setcps (80/60/4)
+  setcps (80/60/16)
+  -- tempo ladder — uncomment one line (each step is half the previous):
+  -- setcps (80/60/4)    -- 0.33333  the fast take ("happy accident")
+  -- setcps (80/60/8)    -- 0.16667  half time
+  -- setcps (80/60/16)   -- 0.08333  quarter time (current)
   d1 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ bd ~ bd ~ ~ bd ~ ~ ~ ~ bd ~ ~ bd ~ ~" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.33 ~ 0.35 ~ ~ 0.34 ~ ~ ~ ~ 0.24 ~ ~ 0.31 ~ ~"
   d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ sn sn sn sn sn ~ ~ ~ ~ sn ~ ~ sn ~ sn ~ sn sn ~ ~ sn" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.06 0.08 0.44 0.38 0.37 ~ ~ ~ ~ 0.42 ~ ~ 0.39 ~ 0.24 ~ 0.14 0.43 ~ ~ 0.43"
   d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ hh ~ ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh" # gain "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 0.51 ~ ~ 0.20 0.44 0.17 0.33 0.31 0.37 0.47 0.35 0.33 0.35 0.28 0.35 0.30 0.44 0.48"
