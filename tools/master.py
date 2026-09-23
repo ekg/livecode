@@ -47,11 +47,23 @@ PRESETS = {
     "reference": (-18.0, "none", False),
 }
 
+TP_MARGIN = 1.2   # dB below target TP for the sample-peak limiter
+
 RE_JSON = re.compile(r"\{[^{}]*\"input_i\"[^{}]*\}", re.S)
 
 
-def run(cmd: list[str]) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, capture_output=True, text=True)
+def run(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess:
+    """Run a command, raising with ffmpeg's own message when it fails.
+
+    Silently ignoring a failed encode is how a mastering pass "succeeds" while
+    producing nothing — the pipeline must fail loudly.
+    """
+    p = subprocess.run(cmd, capture_output=True, text=True)
+    if check and p.returncode != 0:
+        tail = (p.stderr or "").strip().splitlines()[-6:]
+        raise RuntimeError("command failed:\n  " + " ".join(cmd[:6]) + " ...\n  "
+                           + "\n  ".join(tail))
+    return p
 
 
 def measure(path: pathlib.Path, target: float, tp: float, lra: float,
@@ -119,13 +131,13 @@ def master_one(src: pathlib.Path, outdir: pathlib.Path, preset: str,
         chain = list(pre) + [f"volume={gain:+.2f}dB"]
         if softclip:
             chain.append("asoftclip=type=tanh:threshold=-3dB")
-        chain.append(f"alimiter=limit={10 ** ((tp - 0.3) / 20.0):.4f}:level=disabled")
+        chain.append(f"alimiter=limit={10 ** ((tp - TP_MARGIN) / 20.0):.4f}:level=disabled")
         outdir.mkdir(parents=True, exist_ok=True)
         flac = outdir / f"{src.stem}.flac"
         cmd = ["ffmpeg", "-y", "-hide_banner", "-v", "error", "-i", str(src),
                "-af", ",".join(chain)]
         if bits:
-            cmd += ["-sample_fmt", f"s{bits}"]
+            cmd += ["-sample_fmt", "s32" if bits == 24 else f"s{bits}"]
         cmd += ["-c:a", "flac", "-compression_level", "8", str(flac)]
         run(cmd)
         got = measure(flac, target, tp, lra)
@@ -164,12 +176,12 @@ def master_one(src: pathlib.Path, outdir: pathlib.Path, preset: str,
             chain.append(f"volume={trim:+.2f}dB")
         if softclip:
             chain.append("asoftclip=type=tanh:threshold=-3dB")
-        chain.append(f"alimiter=limit={10 ** ((tp - 0.3) / 20.0):.4f}:level=disabled")
+        chain.append(f"alimiter=limit={10 ** ((tp - TP_MARGIN) / 20.0):.4f}:level=disabled")
 
         cmd = ["ffmpeg", "-y", "-hide_banner", "-v", "error", "-i", str(src),
                "-af", ",".join(chain)]
         if bits:
-            cmd += ["-sample_fmt", f"s{bits}"]
+            cmd += ["-sample_fmt", "s32" if bits == 24 else f"s{bits}"]
         cmd += ["-c:a", "flac", "-compression_level", "8", str(flac)]
         run(cmd)
 
@@ -206,6 +218,76 @@ def master_one(src: pathlib.Path, outdir: pathlib.Path, preset: str,
           f"  trim {trim:+5.2f}{warn}")
 
 
+def master_continuous(src: pathlib.Path, outdir: pathlib.Path, preset: str,
+                     tp: float, lra: float, hpf: float, mp3: bool,
+                     bits: int | None, iterations: int = 3) -> dict:
+    """Master the whole recording as ONE program, then let the album be cut from it.
+
+    This is the correct treatment for a continuous live take: a single gain
+    derived from the whole programme means adjacent segments cannot step in
+    level, because the gain is identical everywhere. Per-track normalisation is
+    right for a compilation of separate songs, wrong for a performance.
+    """
+    target, comp, softclip = PRESETS[preset]
+    pre: list[str] = []
+    if hpf > 0:
+        pre.append(f"highpass=f={hpf}")
+    pre += comp_filter(comp)
+
+    stats = measure(src, target, tp, lra, pre)
+    outdir.mkdir(parents=True, exist_ok=True)
+    out = outdir / f"{src.stem}.master.flac"
+
+    trim = 0.0
+    got = None
+    for _ in range(iterations + 1):
+        chain = list(pre)
+        chain.append(
+            f"loudnorm=I={target}:TP={tp}:LRA={lra}:linear=true"
+            f":measured_I={stats['input_i']}:measured_TP={stats['input_tp']}"
+            f":measured_LRA={stats['input_lra']}:measured_thresh={stats['input_thresh']}"
+            f":offset={stats['target_offset']}")
+        if trim:
+            chain.append(f"volume={trim:+.2f}dB")
+        if softclip:
+            chain.append("asoftclip=type=tanh:threshold=-3dB")
+        chain.append(f"alimiter=limit={10 ** ((tp - TP_MARGIN) / 20.0):.4f}:level=disabled")
+
+        cmd = ["ffmpeg", "-y", "-hide_banner", "-v", "error", "-i", str(src),
+               "-af", ",".join(chain)]
+        if bits:
+            cmd += ["-sample_fmt", "s32" if bits == 24 else f"s{bits}"]
+        cmd += ["-c:a", "flac", "-compression_level", "8", str(out)]
+        run(cmd)
+
+        got = measure(out, target, tp, lra)
+        err = target - float(got["input_i"])
+        if abs(err) <= 0.3 or (err > 0 and float(got["input_tp"]) >= tp - 0.15):
+            break
+        trim += err
+
+    outs = [out]
+    if mp3:
+        mp3p = outdir / f"{src.stem}.master.mp3"
+        run(["ffmpeg", "-y", "-hide_banner", "-v", "error", "-i", str(out),
+             "-c:a", "libmp3lame", "-b:a", "320k",
+             "-metadata", f"album={src.stem}", str(mp3p)])
+        outs.append(mp3p)
+
+    row = {"file": src.name, "mode": "continuous",
+           "in_lufs": float(stats["input_i"]), "in_tp": float(stats["input_tp"]),
+           "in_lra": float(stats["input_lra"]), "out_lufs": float(got["input_i"]),
+           "out_tp": float(got["input_tp"]), "out_lra": float(got["input_lra"]),
+           "target": target, "gain_applied_lu": round(target - float(stats["input_i"]) + trim, 2),
+           "trim_lu": round(trim, 2),
+           "error_lu": round(float(got["input_i"]) - target, 2),
+           "outputs": [f.name for f in outs]}
+    print(f"{src.name:44s} {row['in_lufs']:7.2f} -> {row['out_lufs']:6.2f} LUFS"
+          f"  TP {row['out_tp']:5.2f}dB  LRA {row['out_lra']:5.2f}"
+          f"  gain {row['gain_applied_lu']:+5.2f} dB (one gain for the whole programme)")
+    return row
+
+
 def measure_only(files: list[pathlib.Path], target: float, tp: float, lra: float,
                  hpf: float = 0.0, comp: str = "none"):
     pre: list[str] = []
@@ -237,6 +319,9 @@ def main() -> int:
     ap.add_argument("--bits", type=int, choices=[16, 24], default=None,
                     help="force output bit depth")
     ap.add_argument("--measure-only", action="store_true")
+    ap.add_argument("--continuous", action="store_true",
+                    help="master the whole input as ONE programme (one gain), for "
+                         "continuous takes that will be sliced afterwards")
     ap.add_argument("--album-gain", action="store_true",
                     help="apply ONE gain to every track (from the loudest, set to "
                          "target) so the record keeps its internal dynamics")
@@ -257,6 +342,16 @@ def main() -> int:
 
     if a.comp:
         PRESETS[a.preset] = (PRESETS[a.preset][0], a.comp, PRESETS[a.preset][2])
+
+    if a.continuous:
+        outdir = pathlib.Path(a.out).expanduser() if a.out else files[0].parent / "mastered-continuous"
+        rows = [master_continuous(f, outdir, a.preset, a.tp, a.lra, a.hpf, a.mp3, a.bits)
+                for f in files]
+        (outdir / "master-report.json").write_text(json.dumps(
+            {"preset": a.preset, "mode": "continuous", "target_lufs": PRESETS[a.preset][0],
+             "tp": a.tp, "tracks": rows}, indent=1))
+        print(f"\n-> {outdir}  (slice this master with tools/make_album.py)")
+        return 0
 
     outdir = pathlib.Path(a.out).expanduser() if a.out else files[0].parent / "mastered"
     report: list = []

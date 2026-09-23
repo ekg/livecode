@@ -33,3 +33,25 @@ Two master passes are kept beside the album:
 Pipeline: `tools/master.py` (EBU R128 loudnorm, two-pass linear; `--preset
 share|quiet|loud|reference`, `--comp none|light|medium|heavy`, `--album-gain`,
 `--measure-only`). Reports in `master-report.json` / `loudness.json`.
+
+## Smooth master (the one to share)
+
+`mastered-smooth/` contains the correct treatment for a continuous take:
+`jam-20260923-1403.smooth.flac` is the **whole 36-minute programme** mastered once
+with a smoothly ridden gain curve — each movement gets its own level, but the
+gain is interpolated over 20 s across every join, so there are no steps.
+
+- whole programme: **-14.6 LUFS integrated**, true peak **-1.0 dBTP**, LRA 7.2 LU
+- section levels glide by at most 2.4 LU per join, delivered over ~20 s
+- `tracks/` holds the ten movements sliced from that single master, so every
+  file carries identical processing (unlike `mastered/`, where each track was
+  normalised separately and joins stepped by up to 6.7 dB)
+
+Chains, in every mode: `highpass 30 Hz` → glue compression (2:1 @ -18 dB light)
+→ loudness target → `alimiter` at 1.2 dB below the true-peak target (the margin
+is measured from this material: its intersample overshoot is ~1.1 dB).
+
+Tools: `tools/master.py` (per-track / album-gain / continuous / measure-only)
+and `tools/master_smooth.py` (smoothed continuous ride). Reports:
+`mastered/master-report.json`, `mastered-album/master-report.json`,
+`mastered-smooth/smooth-report.json`, `loudness.json`.

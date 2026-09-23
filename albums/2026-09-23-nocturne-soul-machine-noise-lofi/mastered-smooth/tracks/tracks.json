@@ -1,0 +1,118 @@
+{
+ "album": "Nocturne Soul -> Machine Noise -> Lo-Fi (smooth master)",
+ "artist": "erik + pi",
+ "source": "jam-20260923-1403.smooth.flac",
+ "duration": 2150.0,
+ "tracks": [
+  {
+   "track": 1,
+   "title": "Nocturne Soul",
+   "start": 0.0,
+   "end": 264.0,
+   "seconds": 264.0,
+   "files": {
+    "flac": "01 - Nocturne-Soul.flac",
+    "mp3": "01 - Nocturne-Soul.mp3"
+   }
+  },
+  {
+   "track": 2,
+   "title": "Warm Breakdown",
+   "start": 264.0,
+   "end": 510.1,
+   "seconds": 246.1,
+   "files": {
+    "flac": "02 - Warm-Breakdown.flac",
+    "mp3": "02 - Warm-Breakdown.mp3"
+   }
+  },
+  {
+   "track": 3,
+   "title": "Hector the Hero",
+   "start": 510.1,
+   "end": 655.2,
+   "seconds": 145.1,
+   "files": {
+    "flac": "03 - Hector-the-Hero.flac",
+    "mp3": "03 - Hector-the-Hero.mp3"
+   }
+  },
+  {
+   "track": 4,
+   "title": "Dub Interlude",
+   "start": 655.2,
+   "end": 788.0,
+   "seconds": 132.8,
+   "files": {
+    "flac": "04 - Dub-Interlude.flac",
+    "mp3": "04 - Dub-Interlude.mp3"
+   }
+  },
+  {
+   "track": 5,
+   "title": "Sax Over Boom Bap",
+   "start": 788.0,
+   "end": 1130.0,
+   "seconds": 342.0,
+   "files": {
+    "flac": "05 - Sax-Over-Boom-Bap.flac",
+    "mp3": "05 - Sax-Over-Boom-Bap.mp3"
+   }
+  },
+  {
+   "track": 6,
+   "title": "Machine Noise",
+   "start": 1130.0,
+   "end": 1513.4,
+   "seconds": 383.4,
+   "files": {
+    "flac": "06 - Machine-Noise.flac",
+    "mp3": "06 - Machine-Noise.mp3"
+   }
+  },
+  {
+   "track": 7,
+   "title": "Voices in the Factory",
+   "start": 1513.4,
+   "end": 1664.0,
+   "seconds": 150.6,
+   "files": {
+    "flac": "07 - Voices-in-the-Factory.flac",
+    "mp3": "07 - Voices-in-the-Factory.mp3"
+   }
+  },
+  {
+   "track": 8,
+   "title": "Tresillo Engines",
+   "start": 1664.0,
+   "end": 1876.3,
+   "seconds": 212.3,
+   "files": {
+    "flac": "08 - Tresillo-Engines.flac",
+    "mp3": "08 - Tresillo-Engines.mp3"
+   }
+  },
+  {
+   "track": 9,
+   "title": "Lo-Fi Harmonium",
+   "start": 1876.3,
+   "end": 2075.3,
+   "seconds": 199.0,
+   "files": {
+    "flac": "09 - Lo-Fi-Harmonium.flac",
+    "mp3": "09 - Lo-Fi-Harmonium.mp3"
+   }
+  },
+  {
+   "track": 10,
+   "title": "Dissolve",
+   "start": 2075.3,
+   "end": 2149.9,
+   "seconds": 74.6,
+   "files": {
+    "flac": "10 - Dissolve.flac",
+    "mp3": "10 - Dissolve.mp3"
+   }
+  }
+ ]
+}
