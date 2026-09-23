@@ -1,0 +1,118 @@
+{
+ "album": "Nocturne Soul -> Machine Noise -> Lo-Fi",
+ "artist": "erik + pi",
+ "source": "jam-20260923-1403.flac",
+ "duration": 2150.0,
+ "tracks": [
+  {
+   "track": 1,
+   "title": "C harp melody enters",
+   "start": 0.0,
+   "end": 264.0,
+   "seconds": 264.0,
+   "files": {
+    "flac": "01 - C-harp-melody-enters.flac",
+    "mp3": "01 - C-harp-melody-enters.mp3"
+   }
+  },
+  {
+   "track": 2,
+   "title": "E breakdown - warm",
+   "start": 264.0,
+   "end": 510.1,
+   "seconds": 246.1,
+   "files": {
+    "flac": "02 - E-breakdown-warm.flac",
+    "mp3": "02 - E-breakdown-warm.mp3"
+   }
+  },
+  {
+   "track": 3,
+   "title": "library melody - Hector the Hero",
+   "start": 510.1,
+   "end": 655.2,
+   "seconds": 145.1,
+   "files": {
+    "flac": "03 - library-melody-Hector-the-Hero.flac",
+    "mp3": "03 - library-melody-Hector-the-Hero.mp3"
+   }
+  },
+  {
+   "track": 4,
+   "title": "transition - dub breakdown + riser",
+   "start": 655.2,
+   "end": 788.0,
+   "seconds": 132.8,
+   "files": {
+    "flac": "04 - transition-dub-breakdown-riser.flac",
+    "mp3": "04 - transition-dub-breakdown-riser.mp3"
+   }
+  },
+  {
+   "track": 5,
+   "title": "rip sick - hiphop drums + harp + sax only",
+   "start": 788.0,
+   "end": 1130.0,
+   "seconds": 342.0,
+   "files": {
+    "flac": "05 - rip-sick-hiphop-drums-harp-sax-only.flac",
+    "mp3": "05 - rip-sick-hiphop-drums-harp-sax-only.mp3"
+   }
+  },
+  {
+   "track": 6,
+   "title": "wild stuts - casio/sitar/mouth, stut storms",
+   "start": 1130.0,
+   "end": 1513.4,
+   "seconds": 383.4,
+   "files": {
+    "flac": "06 - wild-stuts-casio-sitar-mouth-stut-storms.flac",
+    "mp3": "06 - wild-stuts-casio-sitar-mouth-stut-storms.mp3"
+   }
+  },
+  {
+   "track": 7,
+   "title": "human voices enter - speech/speakspell/speechless/yeah/hmm",
+   "start": 1513.4,
+   "end": 1664.0,
+   "seconds": 150.6,
+   "files": {
+    "flac": "07 - human-voices-enter-speech-speakspell-speechless-yeah-hmm.flac",
+    "mp3": "07 - human-voices-enter-speech-speakspell-speechless-yeah-hmm.mp3"
+   }
+  },
+  {
+   "track": 8,
+   "title": "back on core 3,8 - excursions only on snare/hats/perc/coins",
+   "start": 1664.0,
+   "end": 1876.3,
+   "seconds": 212.3,
+   "files": {
+    "flac": "08 - back-on-core-3-8-excursions-only-on-snare-hats-perc-coins.flac",
+    "mp3": "08 - back-on-core-3-8-excursions-only-on-snare-hats-perc-coins.mp3"
+   }
+  },
+  {
+   "track": 9,
+   "title": "amazing - lofi loops with half-time slap bass/kick on top",
+   "start": 1876.3,
+   "end": 2075.3,
+   "seconds": 199.0,
+   "files": {
+    "flac": "09 - amazing-lofi-loops-with-half-time-slap-bass-kick-on-top.flac",
+    "mp3": "09 - amazing-lofi-loops-with-half-time-slap-bass-kick-on-top.mp3"
+   }
+  },
+  {
+   "track": 10,
+   "title": "outro - everything dissolves",
+   "start": 2075.3,
+   "end": 2149.97,
+   "seconds": 74.7,
+   "files": {
+    "flac": "10 - outro-everything-dissolves.flac",
+    "mp3": "10 - outro-everything-dissolves.mp3"
+   }
+  }
+ ]
+}
