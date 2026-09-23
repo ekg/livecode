@@ -1,0 +1,20 @@
+-- 49.tidal — funk: Herbie Hancock "Chameleon" (from tunepile GP corpus)
+-- ALL pitches in note-NAME notation (true pitch; numbers = +60 on superdirt).
+-- Dry mix: room left at 0 everywhere. Tempo: 1 cycle = 1 bar at 95bpm.
+
+setcps (95/60/4)
+
+-- Chameleon bass riff, straight from the tab (true octaves, names notation)
+d4 $ s "moog" # note "g1 ~ ab1 ~ a1 ~ bb1 ~ ~ ab2 ~ ~ bb2 ~ ~ ~ c2 ~ db2 ~ d2 ~ eb2 ~ ~ bb2 ~ ~ cs3 ~ ~ ~" # gain 1.2 # cut 4
+
+-- drums: funky kick (1 + and-of-3), snare 2&4, 16th hats with one double
+d1 $ s "bd ~ ~ ~ ~ ~ ~ ~ ~ ~ bd ~ ~ ~ ~ ~" # gain 0.95
+d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~" # gain 0.8
+d3 $ s "hh ~ hh ~ hh ~ hh ~ hh ~ hh hh ~ hh ~ hh ~ hh ~ hh ~" # gain 0.5
+
+-- Bbm7 / Eb7 stabs (Chameleon's two-chord vamp), clav-ish pluck
+d5 $ slow 4 $ cat [note "bb'min7'3", note "bb'min7'3", note "eb'7'3", note "eb'7'3"] # s "cpluck" # gain 0.75 # legato 0.4
+
+-- MODULATION IDEAS ---------------------------------------------------
+-- wah: d5 $ (chop 8) ... ; octave-up riff: rewrite note names at octave 2
+-- hats panic: d3 $ stut 8 0.4 (1/16) ... ; break: d4 $ silence
