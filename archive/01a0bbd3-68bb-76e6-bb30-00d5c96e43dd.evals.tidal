@@ -1,0 +1,8 @@
+-- session 2026-09-19T22-39-49-436Z_01a0bbd3-68bb-76e6-bb30-00d5c96e43dd.jsonl
+-- 2 eval chunk(s), newest last
+
+-- [1] 2026-09-19T22:39:52.293Z
+d1 $ s "bd*4" # gain 1.2
+
+-- [2] 2026-09-19T22:40:01.724Z
+

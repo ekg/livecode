@@ -1,0 +1,31 @@
+-- 52.tidal — outro: everything dissolves (time-driven, no operator input)
+-- Load over 51.tidal. Every layer walks its own gain ramp to zero at a different
+-- rate, loops last, so the arrangement falls apart in slow motion over ~60s.
+
+setcps (72/60/4)
+
+-- kit goes first
+d9 $ slow 2 $ s "bd(3,8)" # gain (slow 5 $ range 1.0 0 saw) # lpf 6000 # shape 0.25
+d10 $ slow 2 $ struct "t(2,4,2)" $ s "clubkick" # gain (slow 4 $ range 0.75 0 saw) # lpf 4000
+d5 $ slow 2 $ s "~ ~ ~ ~ realclaps ~ ~ ~ ~ ~ ~ ~ realclaps ~ ~ ~" # gain (slow 4 $ range 0.8 0 saw) # lpf 4000
+d11 $ slow 2 $ s "hand(2,8,3)" # gain (slow 5 $ range 0.55 0 saw) # lpf 3500 # room 0.25
+
+-- bass sinks
+d4 $ slow 4 $ sometimesBy 0.3 (stut 2 0.35 (1/16)) $ note "a1 a2 ~ c2 e2 ~ a1 g1 ~ a1 c2 e2 ~ g1 ~ a1 d2 ~ f2 a2 ~ d2 c2 ~ d2 f2 ~ a2 ~ g1 a1" # s "jvbass" # gain (slow 7 $ range 0.85 0 saw) # lpf (slow 6 $ range 900 250 saw) # legato 0.45
+
+-- voices leave one by one
+p 29 $ struct "t(<2 3>,8,<0 3>)" $ s "yeah" # n "<0 2 4 6>" # gain (slow 8 $ range 0.35 0 saw) # lpf 2600 # room 0.3
+p 28 $ slow 8 $ struct (slow 6 "<t(2,16) t(3,16) t(1,16)>") $ s "<speech speakspell speechless>" # n "t(<3 5>,16,<0 4>)" # gain (slow 15 $ range 0.4 0 saw) # lpf (slow 12 $ range 2800 800 perlin) # vowel "<o u>" # room 0.6
+
+-- songs fade last, room opening as they go
+d6 $ slow 8 $ note "cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ d5 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ a4 ~ ~ ~ ~ ~ ~ ~" # s "psr" # gain (slow 13 $ range 0.55 0 saw) # lpf (slow 11 $ range 2000 700 saw) # room (slow 12 $ range 0.45 0.85 saw) # legato 0.8
+p 31 $ sometimesBy 0.3 (chop 8) $ slow 8 $ note "cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ d5 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ a4 ~ ~ ~ ~ ~ ~ ~" # s "<speech speakspell speechless>" # n "t(<3 5>,16,<0 4 8>)" # gain (slow 14 $ range 0.45 0 saw) # vowel "<o a u>" # lpf 2200 # room 0.6
+p 32 $ slow 6 $ note "a3 ~ [a3,db4] ~ ~ b3 a3 ~ [a3,gb4] ~ e4 ~ db4 ~ [db4,e4] ~ ~ ~ ~ ~ e4 ~ ~ ~ a3 ~ db4 ~ ~ b3 a3 ~ gb4 ~ e4 ~ db4 ~ [b3,db4] ~ ~ ~ ~ ~ b3 ~ ~ ~ a3 ~ db4 ~ ~ b3 a3 ~ gb4 ~ e4 ~ db4 ~ e4 ~ ~ ~ a3 ~ [a3,a4] ~ ~ ~ [a3,gb4] ~ e4 ~ a3 ~ db4 ~ [a3,b3,db4] ~ ~ ~ a3 ~ a3 ~ ~ ~ ~ ~ a3 ~ ~ ~" # s "mouth" # gain (slow 16 $ range 0.35 0 saw) # lpf (slow 12 $ range 1600 600 saw) # vowel "<o u>" # room 0.7
+
+-- loops go last, filters closing and time itself slowing
+d1 $ loopAt 2 $ s "lpmr" # n 0 # gain (slow 14 $ range 0.95 0 saw) # lpf (slow 12 $ range 7000 500 saw) # speed (slow 14 $ range 1 0.55 saw)
+d2 $ loopAt 1 $ s "lpviz" # n 66 # gain (slow 15 $ range 0.8 0 saw) # lpf (slow 13 $ range 6000 450 saw)
+d3 $ loopAt 1 $ s "lpviz" # n 58 # gain (slow 16 $ range 0.6 0 saw) # lpf (slow 14 $ range 6000 400 saw)
+
+-- vinyl hiss is the last thing audible
+d7 $ s "noise" # lpf (slow 10 $ range 2600 900 saw) # hpf 400 # gain (slow 18 $ range 0.12 0 saw)

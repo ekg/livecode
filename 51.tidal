@@ -1,0 +1,45 @@
+-- 51.tidal — "smoooooth": lo-fi loops + half-time slap groove, two library songs on top
+-- Final arrangement of the 36-minute take jam-20260923-1403 (35:53, 826MB WAV + FLAC).
+-- Everything here was found in the tunepile corpus / sample libraries.
+
+setcps (72/60/4)
+
+-- ============ LOOPS (sample libraries) ============
+-- ~/sounds/lpmr   n0 = "16 Note Phat 1 A 71.6bpm.wav"  <- same tempo as the jam
+-- ~/sounds/lpviz  n66 = "2020_DD_96_DrumLp2.wav", n58 = "2020_DD_136_GrooveLp5_Amin.wav"
+d1 $ loopAt 2 $ s "lpmr" # n 0 # gain 0.95 # lpf 7000
+d2 $ loopAt 1 $ s "lpviz" # n 66 # gain 0.8 # lpf 6000
+d3 $ loopAt 1 $ s "lpviz" # n 58 # gain 0.6 # lpf 6000
+
+-- ============ HALF-TIME KIT ON TOP ============
+d9 $ slow 2 $ s "bd(3,8)" # gain 1.0 # lpf 6000 # shape 0.25
+d10 $ slow 2 $ struct "t(2,4,2)" $ s "clubkick" # gain 0.75 # lpf 4000
+d5 $ slow 2 $ s "~ ~ ~ ~ realclaps ~ ~ ~ ~ ~ ~ ~ realclaps ~ ~ ~" # gain 0.8 # lpf 4000
+d11 $ slow 2 $ s "hand(2,8,3)" # gain 0.55 # lpf 3500 # room 0.25
+
+-- ============ SLAP BASS MELODY (Am - Dm - C - G) ============
+d4 $ slow 4 $ sometimesBy 0.3 (stut 2 0.35 (1/16)) $ note "a1 a2 ~ c2 e2 ~ a1 g1 ~ a1 c2 e2 ~ g1 ~ a1 d2 ~ f2 a2 ~ d2 c2 ~ d2 f2 ~ a2 ~ g1 a1" # s "jvbass" # gain 0.85 # lpf 900 # legato 0.45 # shape 0.2
+
+-- ============ THE SONGS ============
+-- "Music for a Found Harmonium" (Simon Jeffes / Penguin Cafe Orchestra), from the
+-- ABC corpus: abc/.../MontrealSession/reels/%144:MUSICFORAFOUNDHARMONIUM.abc
+-- Transposed D -> A (down a fifth) to sit with the jam. Keys:
+d6 $ slow 8 $ note "cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ d5 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ a4 ~ ~ ~ ~ ~ ~ ~" # s "psr" # gain 0.55 # lpf 2000 # room 0.45 # legato 0.8
+-- ...the same tune sung: vocal samples picked by a euclid, vowel-morphed, chopped
+p 31 $ sometimesBy 0.3 (chop 8) $ slow 8 $ note "cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ cs5 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ cs5 ~ a4 ~ g4 ~ a4 ~ d5 ~ a4 ~ b4 ~ a4 ~ gs4 ~ a4 ~ d5 ~ a4 ~ cs5 ~ a4 ~ a4 ~ a4 ~ a4 ~ ~ ~ ~ ~ ~ ~" # s "<speech speakspell speechless>" # n "t(<3 5>,16,<0 4 8>)" # gain 0.45 # vowel "<o a u>" # lpf 2200 # room 0.5
+-- "Hector the Hero" (J. Scott Skinner) as counter-melody, from the ABC corpus
+p 32 $ slow 6 $ note "a3 ~ [a3,db4] ~ ~ b3 a3 ~ [a3,gb4] ~ e4 ~ db4 ~ [db4,e4] ~ ~ ~ ~ ~ e4 ~ ~ ~ a3 ~ db4 ~ ~ b3 a3 ~ gb4 ~ e4 ~ db4 ~ [b3,db4] ~ ~ ~ ~ ~ b3 ~ ~ ~ a3 ~ db4 ~ ~ b3 a3 ~ gb4 ~ e4 ~ db4 ~ e4 ~ ~ ~ a3 ~ [a3,a4] ~ ~ ~ [a3,gb4] ~ e4 ~ a3 ~ db4 ~ [a3,b3,db4] ~ ~ ~ a3 ~ a3 ~ ~ ~ ~ ~ a3 ~ ~ ~" # s "mouth" # gain 0.35 # lpf 1600 # vowel "<o u>" # room 0.5
+
+-- ============ TEXTURE ============
+p 29 $ struct "t(<2 3>,8,<0 3>)" $ s "yeah" # n "<0 2 4 6>" # gain 0.35 # lpf 2600 # room 0.3
+d7 $ s "noise" # lpf 2600 # hpf 400 # gain 0.12
+
+-- Recording markers for this take (seconds into jam-20260923-1403):
+--   7 intro chords   50 drums+bass   130 harp   259 peak   264 warm breakdown
+--   414 "the middle"  464 melody  510 Hector  609 sax  727 amapiano marker
+--   746 hiphop beat  788 drums+harp+sax only  906 Found Harmonium  1025 deconstruction
+--   1095 HOUSE 124bpm  1130 wild stuts  1266 glitch polyrhythm  1313 walking wobble bass
+--   1363 glitch break  1395 straight house  1464 machine noise  1513 voices
+--   1566 bd(3,8)  1606 3,8 everywhere  1664 back to core  1789 -> lofi 72bpm
+--   1812 xfade re-entry  1834 slap bass  1876 half-time  1918 breakdown
+--   1949 build  1980 songs on top  2073 "smoooooth"  2075 outro

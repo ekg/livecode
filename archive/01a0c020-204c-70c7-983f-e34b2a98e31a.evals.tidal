@@ -1,0 +1,152 @@
+-- session 2026-09-20T18-42-06-029Z_01a0c020-204c-70c7-983f-e34b2a98e31a.jsonl
+-- 24 eval chunk(s), newest last
+
+-- [1] 2026-09-20T18:42:29.504Z
+
+
+-- [2] 2026-09-20T18:42:47.528Z
+do
+  hush
+  setcps (122/60/4)
+  let swing = nudge (fast 8 "0 0.02")
+  d1 $ swing $ s "bd*4" # gain 0.9 # lpf 800
+  d2 $ swing $ every 2 (fast 2) $ struct "t(3,8)" $ s "hh" # gain 0.5 # room 0.1
+  d3 $ swing $ s "~ [cp ~] ~ cp" # gain 0.6 # room 0.15
+  d4 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") # s "flbass" # legato 1 # gain 0.9 # lpf 500
+  d5 $ slow 8 $ note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>") # s "jrhodes" # room 0.7 # gain 0.65
+  d6 $ swing $ sometimesBy 0.4 (# nudge 0.02) $ s "hh*2" # nudge "<0 0.25 0.25 0.25>" # gain 0.4
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+
+-- [3] 2026-09-20T18:42:48.279Z
+
+
+-- [4] 2026-09-20T18:42:58.086Z
+d3 $ swing $ s "~ [cp ~] ~ cp" # gain 0.6 # room 0.15
+
+-- [5] 2026-09-20T18:43:02.943Z
+
+
+-- [6] 2026-09-20T18:43:17.695Z
+d1 $ swing $ s "bd*4" # gain 0.9 # lpf 800
+
+d2 $ swing $ every 2 (fast 2) $ struct "t(3,8)" $ s "hh" # gain 0.5 # room 0.1
+
+-- [7] 2026-09-20T18:43:20.526Z
+d4 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") # s "flbass" # legato 1 # gain 0.9 # lpf 500
+
+d5 $ slow 8 $ note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>") # s "jrhodes" # room 0.7 # gain 0.65
+
+d6 $ swing $ sometimesBy 0.4 (# nudge 0.02) $ s "hh*2" # nudge "<0 0.25 0.25 0.25>" # gain 0.4
+
+-- [8] 2026-09-20T18:43:41.486Z
+do
+  hush
+  setcps (122/60/4)
+  let swing = nudge (fast 8 "0 0.02")
+  d1 $ swing $ s "bd*4" # gain 0.9 # lpf 800
+  d2 $ swing $ every 2 (fast 2) $ struct "t(3,8)" $ s "hh" # gain 0.5 # room 0.1
+  d3 $ swing $ s "~ [cp ~] ~ cp" # gain 0.6 # room 0.15
+  d4 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") # s "flbass" # legato 1 # gain 0.9 # lpf 500
+  d5 $ slow 8 $ note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>") # s "jrhodes" # room 0.7 # gain 0.65
+  d6 $ swing $ sometimesBy 0.4 (# nudge 0.02) $ s "hh*2" # nudge "<0 0.25 0.25 0.25>" # gain 0.4
+  -- d1 silence
+  -- d2 silence
+  -- d3 silence
+  -- d4 silence
+  -- d5 silence
+  -- d6 silence
+
+-- [9] 2026-09-20T18:43:44.872Z
+d2 $ silence
+
+d3 $ silence
+
+d6 $ silence
+
+d1 $ swing $ s "bd*4" # gain 0.75 # lpf 400
+
+d4 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") # s "flbass" # legato 1 # gain 0.7 # lpf 350
+
+d5 $ slow 8 $ note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>") # s "jrhodes" # room 0.8 # gain 0.55 # lpf 1800
+
+-- [10] 2026-09-20T18:44:06.659Z
+d1 $ swing $ s "bd*4" # gain 0.75 # lpf 400
+
+-- [11] 2026-09-20T18:44:12.157Z
+
+
+-- [12] 2026-09-20T18:44:14.068Z
+d4 $ swing $ slow 2 $ note (scale "minor" "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>") # s "flbass" # legato 1 # gain 0.7 # lpf 350
+
+-- [13] 2026-09-20T18:44:15.893Z
+d5 $ slow 8 $ note (scale "minor" "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>") # s "jrhodes" # room 0.8 # gain 0.55 # lpf 1800
+
+-- [14] 2026-09-20T18:44:16.875Z
+d2 $ silence
+
+d3 $ silence
+
+d6 $ silence
+
+-- [15] 2026-09-20T18:44:58.319Z
+d1 $ swing
+  $ s "bd*4"
+  # gain 0.75
+  # lpf 400
+
+-- [16] 2026-09-20T18:44:59.769Z
+d4 $ swing $ slow 2
+  $ note (scale "minor"
+    "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>")
+  # s "flbass" # legato 1
+  # gain 0.7 # lpf 350
+
+-- [17] 2026-09-20T18:45:01.229Z
+d5 $ slow 8
+  $ note (scale "minor"
+    "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>")
+  # s "jrhodes"
+  # room 0.8 # gain 0.55 # lpf 1800
+
+-- [18] 2026-09-20T18:46:21.395Z
+setcps (122/60/4)
+
+-- [19] 2026-09-20T18:46:28.098Z
+d1 $ swing
+  $ s "bd*4"
+  # gain 0.9 # lpf 800
+
+-- [20] 2026-09-20T18:46:29.255Z
+d2 $ swing $ every 2 (fast 2)
+  $ struct "t(3,8)" $ s "hh"
+  # gain 0.5 # room 0.1
+
+-- [21] 2026-09-20T18:46:30.710Z
+d3 $ swing
+  $ s "~ [cp ~] ~ cp"
+  # gain 0.6 # room 0.15
+
+-- [22] 2026-09-20T18:46:37.183Z
+d4 $ swing $ slow 2
+  $ note (scale "minor"
+    "<0 [-3 0] -5 [-7 -5] -3 [0 2] 4 [2 0]>")
+  # s "flbass" # legato 1
+  # gain 0.9 # lpf 500
+
+-- [23] 2026-09-20T18:46:38.922Z
+d5 $ slow 8
+  $ note (scale "minor"
+    "<[0,3,7,10] [-3,0,4,7] [-5,-2,2,5] [-7,-4,0,3]>")
+  # s "jrhodes"
+  # room 0.7 # gain 0.65
+
+-- [24] 2026-09-20T18:46:44.367Z
+d6 $ swing $ sometimesBy 0.4 (# nudge 0.02)
+  $ s "hh*2"
+  # nudge "<0 0.25 0.25 0.25>"
+  # gain 0.4
