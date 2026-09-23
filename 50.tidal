@@ -1,0 +1,26 @@
+-- 50.tidal — "Nocturne Soul" — chill organ chords + human soul groove
+-- Both from the tunepile library:
+--   piano/harmony : tabs/Sublett, Ryan - I. Nocturne Prelude.gp3  (88bpm 6/4)
+--   drums         : midi/groove/.../drummer1/eval_session/3_soul-groove3_86_beat_4-4.mid
+-- Tempo: 86 bpm, 1 cycle = 2 bars of 4/4 (cps 0.179).
+-- Pitch note: names, middle C = c5 (see pi-tidal/docs/tidal-pitch-convention.md).
+
+setcps (86/60/8)
+
+-- SOUL GROOVE (real performance; gain strings = human velocity, scaled up for
+-- the superdirt gain^4 curve: bd x2.0, sn x1.8, hh x1.5)
+d1 $ s "bd ~ ~ bd ~ ~ ~ ~ ~ bd bd ~ ~ bd ~ ~ bd ~ ~ bd ~ ~ ~ ~ ~ bd bd ~ ~ bd ~ ~" # gain "0.94 ~ ~ 0.82 ~ ~ ~ ~ ~ 0.70 0.94 ~ ~ 0.88 ~ ~ 0.78 ~ ~ 0.90 ~ ~ ~ ~ ~ 0.70 0.92 ~ ~ 0.92 ~ ~"
+d2 $ s "sn ~ ~ ~ sn ~ ~ sn ~ sn ~ ~ sn sn ~ sn ~ sn sn ~ ~ ~ ~ sn ~ sn ~ ~ sn ~ ~ sn" # gain "0.22 ~ ~ ~ 1.00 ~ ~ 0.43 ~ 0.23 ~ ~ 1.00 0.07 ~ 0.54 ~ 0.36 0.43 ~ ~ ~ ~ 0.32 ~ 0.38 ~ ~ 1.00 ~ ~ 0.61"
+d3 $ s "hh hh ~ hh hh hh ~ hh hh hh hh hh hh hh hh hh hh hh hh hh hh hh ~ hh hh hh hh hh hh hh hh hh" # gain "0.38 0.21 ~ 0.29 0.54 0.33 ~ 0.32 0.46 0.46 0.33 0.42 0.75 0.46 0.58 0.45 0.45 0.45 0.65 0.43 0.58 0.46 ~ 0.63 0.46 0.58 0.46 0.54 0.68 0.42 0.54 0.46"
+
+-- CHILL CHORDS (C#m - A - E - B, one per bar, continuous)
+d10 $ slow 2 $ n "[cs3,gs3,cs4] [a2,e3,a3] [e3,gs3,b3] [b2,ds3,fs3]" # s "superhammond" # gain 0.7 # room 0.7 # size 0.9 # legato 1.1 # lpf 2200 # pan (slow 8 $ range 0.44 0.56 sine)
+
+-- RESERVE (jam material, not playing yet)
+-- bass roots:    d4 $ slow 2 $ n "cs2 a1 e2 b1" # s "moog" # gain 0.9 # lpf 800
+-- nocturne harp: d11 $ slow 3 $ n "cs5 ~ gs4 ~ cs4 ~ b4 ~ a4 ~ fs4 ~ cs5 ~ gs4 ~ cs4 ~ a4 ~ gs4 ~ e4 ~ b4 ~ e4 ~ a3 ~ a4 ~ e4 ~ a3 ~ gs4 ~ e4 ~ a3 ~ a4 ~ gs4 ~ e4 ~" # s "cpluck" # gain 0.75 # room 0.6
+-- melody (piano upper line, octave down, bars 9-12):
+--   d12 $ slow 6 $ n "gs4 ~ cs4 ~ b4 ~ a4 ~ fs4 ~ cs5 ~ gs4 ~ cs4 ~ a4 ~ gs4 ~ e4 ~" ...
+-- open the room:  d10 ... # lpf (slow 3 $ range 1200 3200 sine)
+-- drums fill:     sometimesBy 0.25 (stut 4 0.35 (1/16)) $ d3 ...
+-- rotate harp:    d11 $ iter 2 $ ...
