@@ -1,0 +1,62 @@
+[
+ {
+  "file": "01 - Nocturne-Soul.flac",
+  "lufs": -11.2,
+  "tp": 0.02,
+  "lra": 2.4
+ },
+ {
+  "file": "02 - Warm-Breakdown.flac",
+  "lufs": -12.71,
+  "tp": 0.01,
+  "lra": 18.9
+ },
+ {
+  "file": "03 - Hector-the-Hero.flac",
+  "lufs": -13.05,
+  "tp": 0.01,
+  "lra": 7.5
+ },
+ {
+  "file": "04 - Dub-Interlude.flac",
+  "lufs": -15.06,
+  "tp": 0.04,
+  "lra": 17.8
+ },
+ {
+  "file": "05 - Sax-Over-Boom-Bap.flac",
+  "lufs": -22.13,
+  "tp": -3.11,
+  "lra": 6.8
+ },
+ {
+  "file": "06 - Machine-Noise.flac",
+  "lufs": -23.23,
+  "tp": 0.01,
+  "lra": 5.4
+ },
+ {
+  "file": "07 - Voices-in-the-Factory.flac",
+  "lufs": -25.28,
+  "tp": -0.35,
+  "lra": 9.8
+ },
+ {
+  "file": "08 - Tresillo-Engines.flac",
+  "lufs": -26.26,
+  "tp": -3.95,
+  "lra": 9.4
+ },
+ {
+  "file": "09 - Lo-Fi-Harmonium.flac",
+  "lufs": -24.79,
+  "tp": -4.18,
+  "lra": 3.6
+ },
+ {
+  "file": "10 - Dissolve.flac",
+  "lufs": -29.45,
+  "tp": -5.33,
+  "lra": 21.4
+ }
+]

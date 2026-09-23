@@ -1,0 +1,190 @@
+{
+ "preset": "share",
+ "target_lufs": -14.0,
+ "tp": -1.0,
+ "lra": 11.0,
+ "hpf": 30.0,
+ "comp": "light",
+ "tracks": [
+  {
+   "file": "01 - Nocturne-Soul.flac",
+   "in_lufs": -15.47,
+   "in_tp": -4.35,
+   "in_lra": 1.5,
+   "out_lufs": -14.0,
+   "out_tp": -2.9,
+   "out_lra": 1.4,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": 0.0,
+   "outputs": [
+    "01 - Nocturne-Soul.flac",
+    "01 - Nocturne-Soul.mp3"
+   ]
+  },
+  {
+   "file": "02 - Warm-Breakdown.flac",
+   "in_lufs": -16.15,
+   "in_tp": -2.44,
+   "in_lra": 16.0,
+   "out_lufs": -14.68,
+   "out_tp": 0.09,
+   "out_lra": 16.0,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -0.68,
+   "outputs": [
+    "02 - Warm-Breakdown.flac",
+    "02 - Warm-Breakdown.mp3"
+   ]
+  },
+  {
+   "file": "03 - Hector-the-Hero.flac",
+   "in_lufs": -16.44,
+   "in_tp": -4.99,
+   "in_lra": 4.0,
+   "out_lufs": -14.97,
+   "out_tp": -3.53,
+   "out_lra": 4.0,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -0.97,
+   "outputs": [
+    "03 - Hector-the-Hero.flac",
+    "03 - Hector-the-Hero.mp3"
+   ]
+  },
+  {
+   "file": "04 - Dub-Interlude.flac",
+   "in_lufs": -18.68,
+   "in_tp": -4.39,
+   "in_lra": 13.8,
+   "out_lufs": -17.19,
+   "out_tp": -2.94,
+   "out_lra": 13.8,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -3.19,
+   "outputs": [
+    "04 - Dub-Interlude.flac",
+    "04 - Dub-Interlude.mp3"
+   ]
+  },
+  {
+   "file": "05 - Sax-Over-Boom-Bap.flac",
+   "in_lufs": -23.67,
+   "in_tp": -4.36,
+   "in_lra": 6.1,
+   "out_lufs": -22.21,
+   "out_tp": -2.92,
+   "out_lra": 6.1,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -8.21,
+   "outputs": [
+    "05 - Sax-Over-Boom-Bap.flac",
+    "05 - Sax-Over-Boom-Bap.mp3"
+   ]
+  },
+  {
+   "file": "06 - Machine-Noise.flac",
+   "in_lufs": -24.83,
+   "in_tp": -3.89,
+   "in_lra": 4.5,
+   "out_lufs": -23.36,
+   "out_tp": -2.44,
+   "out_lra": 4.5,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -9.36,
+   "outputs": [
+    "06 - Machine-Noise.flac",
+    "06 - Machine-Noise.mp3"
+   ]
+  },
+  {
+   "file": "07 - Voices-in-the-Factory.flac",
+   "in_lufs": -26.54,
+   "in_tp": -6.06,
+   "in_lra": 8.1,
+   "out_lufs": -25.08,
+   "out_tp": -4.62,
+   "out_lra": 8.1,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -11.08,
+   "outputs": [
+    "07 - Voices-in-the-Factory.flac",
+    "07 - Voices-in-the-Factory.mp3"
+   ]
+  },
+  {
+   "file": "08 - Tresillo-Engines.flac",
+   "in_lufs": -27.89,
+   "in_tp": -6.06,
+   "in_lra": 8.0,
+   "out_lufs": -26.42,
+   "out_tp": -4.62,
+   "out_lra": 7.9,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -12.42,
+   "outputs": [
+    "08 - Tresillo-Engines.flac",
+    "08 - Tresillo-Engines.mp3"
+   ]
+  },
+  {
+   "file": "09 - Lo-Fi-Harmonium.flac",
+   "in_lufs": -26.45,
+   "in_tp": -5.67,
+   "in_lra": 2.3,
+   "out_lufs": -24.98,
+   "out_tp": -4.23,
+   "out_lra": 2.3,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -10.98,
+   "outputs": [
+    "09 - Lo-Fi-Harmonium.flac",
+    "09 - Lo-Fi-Harmonium.mp3"
+   ]
+  },
+  {
+   "file": "10 - Dissolve.flac",
+   "in_lufs": -30.89,
+   "in_tp": -6.93,
+   "in_lra": 20.8,
+   "out_lufs": -29.45,
+   "out_tp": -5.49,
+   "out_lra": 20.8,
+   "target": -14.0,
+   "mode": "album-gain",
+   "gain_applied_lu": 1.47,
+   "trim_lu": 1.47,
+   "error_lu": -15.45,
+   "outputs": [
+    "10 - Dissolve.flac",
+    "10 - Dissolve.mp3"
+   ]
+  }
+ ]
+}
