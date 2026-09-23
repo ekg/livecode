@@ -6,112 +6,112 @@
  "tracks": [
   {
    "track": 1,
-   "title": "C harp melody enters",
+   "title": "Nocturne Soul",
    "start": 0.0,
    "end": 264.0,
    "seconds": 264.0,
    "files": {
-    "flac": "01 - C-harp-melody-enters.flac",
-    "mp3": "01 - C-harp-melody-enters.mp3"
+    "flac": "01 - Nocturne-Soul.flac",
+    "mp3": "01 - Nocturne-Soul.mp3"
    }
   },
   {
    "track": 2,
-   "title": "E breakdown - warm",
+   "title": "Warm Breakdown",
    "start": 264.0,
    "end": 510.1,
    "seconds": 246.1,
    "files": {
-    "flac": "02 - E-breakdown-warm.flac",
-    "mp3": "02 - E-breakdown-warm.mp3"
+    "flac": "02 - Warm-Breakdown.flac",
+    "mp3": "02 - Warm-Breakdown.mp3"
    }
   },
   {
    "track": 3,
-   "title": "library melody - Hector the Hero",
+   "title": "Hector the Hero",
    "start": 510.1,
    "end": 655.2,
    "seconds": 145.1,
    "files": {
-    "flac": "03 - library-melody-Hector-the-Hero.flac",
-    "mp3": "03 - library-melody-Hector-the-Hero.mp3"
+    "flac": "03 - Hector-the-Hero.flac",
+    "mp3": "03 - Hector-the-Hero.mp3"
    }
   },
   {
    "track": 4,
-   "title": "transition - dub breakdown + riser",
+   "title": "Dub Interlude",
    "start": 655.2,
    "end": 788.0,
    "seconds": 132.8,
    "files": {
-    "flac": "04 - transition-dub-breakdown-riser.flac",
-    "mp3": "04 - transition-dub-breakdown-riser.mp3"
+    "flac": "04 - Dub-Interlude.flac",
+    "mp3": "04 - Dub-Interlude.mp3"
    }
   },
   {
    "track": 5,
-   "title": "rip sick - hiphop drums + harp + sax only",
+   "title": "Sax Over Boom Bap",
    "start": 788.0,
    "end": 1130.0,
    "seconds": 342.0,
    "files": {
-    "flac": "05 - rip-sick-hiphop-drums-harp-sax-only.flac",
-    "mp3": "05 - rip-sick-hiphop-drums-harp-sax-only.mp3"
+    "flac": "05 - Sax-Over-Boom-Bap.flac",
+    "mp3": "05 - Sax-Over-Boom-Bap.mp3"
    }
   },
   {
    "track": 6,
-   "title": "wild stuts - casio/sitar/mouth, stut storms",
+   "title": "Machine Noise",
    "start": 1130.0,
    "end": 1513.4,
    "seconds": 383.4,
    "files": {
-    "flac": "06 - wild-stuts-casio-sitar-mouth-stut-storms.flac",
-    "mp3": "06 - wild-stuts-casio-sitar-mouth-stut-storms.mp3"
+    "flac": "06 - Machine-Noise.flac",
+    "mp3": "06 - Machine-Noise.mp3"
    }
   },
   {
    "track": 7,
-   "title": "human voices enter - speech/speakspell/speechless/yeah/hmm",
+   "title": "Voices in the Factory",
    "start": 1513.4,
    "end": 1664.0,
    "seconds": 150.6,
    "files": {
-    "flac": "07 - human-voices-enter-speech-speakspell-speechless-yeah-hmm.flac",
-    "mp3": "07 - human-voices-enter-speech-speakspell-speechless-yeah-hmm.mp3"
+    "flac": "07 - Voices-in-the-Factory.flac",
+    "mp3": "07 - Voices-in-the-Factory.mp3"
    }
   },
   {
    "track": 8,
-   "title": "back on core 3,8 - excursions only on snare/hats/perc/coins",
+   "title": "Tresillo Engines",
    "start": 1664.0,
    "end": 1876.3,
    "seconds": 212.3,
    "files": {
-    "flac": "08 - back-on-core-3-8-excursions-only-on-snare-hats-perc-coins.flac",
-    "mp3": "08 - back-on-core-3-8-excursions-only-on-snare-hats-perc-coins.mp3"
+    "flac": "08 - Tresillo-Engines.flac",
+    "mp3": "08 - Tresillo-Engines.mp3"
    }
   },
   {
    "track": 9,
-   "title": "amazing - lofi loops with half-time slap bass/kick on top",
+   "title": "Lo-Fi Harmonium",
    "start": 1876.3,
    "end": 2075.3,
    "seconds": 199.0,
    "files": {
-    "flac": "09 - amazing-lofi-loops-with-half-time-slap-bass-kick-on-top.flac",
-    "mp3": "09 - amazing-lofi-loops-with-half-time-slap-bass-kick-on-top.mp3"
+    "flac": "09 - Lo-Fi-Harmonium.flac",
+    "mp3": "09 - Lo-Fi-Harmonium.mp3"
    }
   },
   {
    "track": 10,
-   "title": "outro - everything dissolves",
+   "title": "Dissolve",
    "start": 2075.3,
-   "end": 2149.97,
-   "seconds": 74.7,
+   "end": 2149.9,
+   "seconds": 74.6,
    "files": {
-    "flac": "10 - outro-everything-dissolves.flac",
-    "mp3": "10 - outro-everything-dissolves.mp3"
+    "flac": "10 - Dissolve.flac",
+    "mp3": "10 - Dissolve.mp3"
    }
   }
  ]
