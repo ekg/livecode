@@ -1,0 +1,26 @@
+-- amapiano piano house v5 · 112bpm · CLEAN
+-- the gain4 lesson: SuperDirt applies amp = gain^4, so control 0.5 = 6% amplitude.
+-- everything non-kick now sits at 0.7-0.95 (audible), balance done inside that range.
+-- voicings are simple triads/7ths in octaves 3-5 — no 7-and-9 sparkle stacks.
+-- removed: dundh growl (was sitting on the bass stream), hoover, jungle break,
+-- shaker, clap — if it doesn't serve the piano, it's out.
+-- modulation notes:
+--   * non-kick layers live at 0.7-0.95 gain-control; the kick at 0.95 (0.81 amp)
+--   * d7 chord bed: Dm G C Am (D dorian), one chord per bar
+--   * d13 floating piano: same loop voiced 62-74, one chord per 2 bars = floating
+--   * d6 sub: one note per bar (d1/g1), long, dry — the smooth floor
+do
+  hush
+  setcps (112/60/8)
+  d1 $ s "bd*8" # gain 0.95 # lpf 900
+  d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~" # gain 0.7
+  d3 $ s "hh*16" # gain "0.75 0.45" # hpf 3000
+  d4 $ s "~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~ ~ ~ 808oh ~" # gain 0.8 # hpf 400
+  d6 $ s "moog" # note "d1 ~ ~ ~ ~ ~ ~ ~ g1 ~ ~ ~ ~ ~ ~ ~" # gain 0.9 # lpf 500
+  d7 $ fast 2 $ cat [s "superpiano" # note "50 53 57 60", s "superpiano" # note "43 47 50 53", s "superpiano" # note "48 52 55 59", s "superpiano" # note "45 48 52 55"] # gain 0.85 # lpf 1600 # room 0.6 # size 0.9 # cut 7
+  d13 $ cat [s "superpiano" # note "62 65 69", s "superpiano" # note "67 71 74", s "superpiano" # note "60 64 67", s "superpiano" # note "57 60 64"] # gain 0.9 # room 0.8 # size 0.95 # delay 0.35 # delaytime (1/2) # delayfeedback 0.55 # pan 0.6 # cut 13
+  -- d5 silence
+  -- d8 silence
+  -- d10 silence
+  -- d11 silence
+  -- d12 silence
