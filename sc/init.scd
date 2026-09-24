@@ -75,18 +75,15 @@ stage.("install orbit chains", {
 				[\verbSend, \room, \verbT60, \verbDamp, \size, \verbEarly,
 				 \verbHp, \verbPre, \verbLow, \verbHigh, \verbLowcut,
 				 \verbHighcut, \verbTone, \verbMod, \verbWidth]),
-			// alwaysRun: a GlobalDirtEffect synth is created PAUSED and only runs
-			// while its params are active. This one's only job is to write control
-			// values, so if it is paused it never writes them and the master
-			// controls appear dead even though the params arrive.
-			GlobalDirtEffect(\dirt_masterctl,
-				[\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth])
-				.alwaysRun_(true),
+			// NOTE: dirt_masterctl was removed. Its Tidal-side bridge (m* params ->
+			// control bus -> Ndef) did not reliably reach the chain; the master is
+			// configured in sc/dub_master.scd instead. Keep the DSP path honest:
+			// no dead effect sitting in the chain pretending to work.
 			GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
 		];
 		orbit.outBus = ~masterBus;
 	};
-	log.("     orbit fx: dubdelay -> dubverb -> masterctl -> monitor");
+	log.("     orbit fx: dubdelay -> dubverb -> monitor  (master set in dub_master.scd)");
 });
 
 // 4 ------------------------------------------------------------------- modules

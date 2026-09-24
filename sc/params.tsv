@@ -14,7 +14,6 @@
 
 dirt_dubdelay	ddSend ddLp ddHp ddDrive ddWow ddCross ddDuck delaytime delayfeedback delaySend lock:i cps
 dirt_dubverb	verbSend room verbT60 verbDamp size verbEarly verbHp verbPre verbLow verbHigh verbLowcut verbHighcut verbTone verbMod verbWidth
-dirt_masterctl	mGain mGlue mSat mCut mDuck mHpf mThresh mWidth
 dirt_tape	tape tapeWow tapeHf tapeHiss
 dirt_monitor	limitertype:i
 

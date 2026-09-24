@@ -31,7 +31,11 @@ var n = 2;
 // [0] gain [1] glue [2] saturation [3] tone cut [4] duck depth [5] hpf
 // [6] comp threshold [7] width
 ~masterCtlBus = Bus.control(s, 8);
-~masterCtlBus.set(1.0, 0.55, 0.3, 14000, 0.3, 25, 0.35, 1.0);
+// Master settings, sclang-side (see the note at the end of this file: the
+// Tidal-side m* control bridge does not reach the chain reliably, so the master
+// is configured here and the music is driven through the per-orbit sends).
+// [gain, glue, sat, tone, duck, hpf, thresh, width]
+~masterCtlBus.set(0.9, 0.6, 0.28, 13000, 0.3, 28, 0.4, 0.9);
 
 // ---------------------------------------------------------------- master bus
 ~masterBus = Bus.audio(s, n);
