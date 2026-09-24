@@ -47,16 +47,6 @@ let verbTone = pF "verbTone"
 let verbMod = pF "verbMod"
 let verbWidth = pF "verbWidth"
 
--- dirt_masterctl
-let mGain = pF "mGain"
-let mGlue = pF "mGlue"
-let mSat = pF "mSat"
-let mCut = pF "mCut"
-let mDuck = pF "mDuck"
-let mHpf = pF "mHpf"
-let mThresh = pF "mThresh"
-let mWidth = pF "mWidth"
-
 -- dirt_tape
 let tape = pF "tape"
 let tapeWow = pF "tapeWow"
@@ -76,6 +66,16 @@ let spread = pF "spread"
 let attack = pF "attack"
 let pitchEnv = pF "pitchEnv"
 let detune = pF "detune"
+
+-- master_inert
+let mGain = pF "mGain"
+let mGlue = pF "mGlue"
+let mSat = pF "mSat"
+let mCut = pF "mCut"
+let mDuck = pF "mDuck"
+let mHpf = pF "mHpf"
+let mThresh = pF "mThresh"
+let mWidth = pF "mWidth"
 
 -- END GENERATED PARAMS
 

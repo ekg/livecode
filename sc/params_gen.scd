@@ -9,6 +9,7 @@
 	['dirt_tape', [\tape \tapeWow \tapeHf \tapeHiss]],
 	['dirt_monitor', [\limitertype]],
 	['instrument', [\cutoff \fenv \res \drive \sub \spread \attack \pitchEnv \detune]],
+	['master_inert', [\mGain \mGlue \mSat \mCut \mDuck \mHpf \mThresh \mWidth]],
 ];
 "params_gen: % group(s) loaded".format(~dirtParamGroups.size).postln;
 )

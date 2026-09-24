@@ -58,3 +58,15 @@ REPL (`tidal_repl`). Do not assume an earlier `pkill` worked: the binary is
 and confirm it is gone with `ps -eo pid,comm | awk '$2 ~ /^ghc-/'` (this exact
 mistake — a `pkill -x ghci` that silently matched nothing — meant a REPL loaded
 on Sep 20 was still serving evals days later).
+
+## The `m*` master params are inert (by design)
+
+`mGain mGlue mSat mCut mDuck mHpf mThresh mWidth` are declared in Tidal (so any
+pattern or old chunk referencing them still compiles) but they do **not** reach
+the audio: the Tidal -> control-bus -> Ndef bridge was removed after it proved
+unreliable (see pi-tidal/docs/sc-effects-and-routing.md). The master chain is
+configured in `sc/dub_master.scd`.
+
+So: a pattern using `mGain` will run and simply not change the level. If master
+control from Tidal matters later, rebuild it as a plain `Synth` reading the bus
+that writes `Ndef` controls — do not bake the bus index into the Ndef's function.
