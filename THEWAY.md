@@ -313,3 +313,13 @@ restore 53.tidal after a hush — peak 0.388, 100% coverage). Consequences:
   A multi-line construct would break `:script` the same way it breaks a chunk.
 - so the rule is: edit the `.tidal` file, run `tools/check_tidal.py`, then
   `:script` it. `hush` first when you want to hear it arrive cleanly.
+
+## Probing the REPL
+
+Check that a binding exists with a type query, never a bare name:
+
+    :t ddSend        -- ok: prints the type, no Show instance needed
+    ddSend           -- error: "No instance for (Show (Pattern Double -> ControlPattern))"
+
+A bare name is evaluated and printed, and Tidal's controls are functions, so it
+fails — a spurious error that looks like a scope problem and is not one.
