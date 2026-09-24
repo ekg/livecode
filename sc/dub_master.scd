@@ -83,7 +83,7 @@ Ndef(\dubMaster, {
 
 	var ceil = \mCeil.kr(0.79, 0.2);      // ≈ -2.1 dBFS sample ceiling (our material
 	                                      // overshoots ~1.1 dB between samples)
-	var knee = \mKnee.kr(0.35, 0.2);      // 0 = hard, 1 = soft; soft rounds peaks
+	var knee = \mKnee.kr(0.55, 0.2);      // soft-clip knee (amplitude, not a ratio)
 	var sig = HPF.ar(dry, hpfF);
 	sig = Compander.ar(sig, sig,
 		thresh: thresh, slopeBelow: 1, slopeAbove: glue.max(0.05),
@@ -96,7 +96,10 @@ Ndef(\dubMaster, {
 	// ---- ceiling ------------------------------------------------------------
 	// soft knee first: transients get rounded rather than slammed, which is what
 	// makes a loud master sound open instead of squashed
-	sig = sig.softclip(knee);              // s-shaped saturation to ±knee(ish)
+	// tanh soft knee: linear below `knee`, saturating above it.
+	// NB: SC's `softclip` takes NO knee argument — `sig.softclip(0.35)` was parsed
+	// as a multiplier and quietly scaled the entire master by 0.35 (≈ -9 dB).
+	sig = (sig / knee).tanh * knee;
 	// look-ahead limiter: musical gain control (measured: it does NOT strictly
 	// bound — peaks of 0.865 passed a 0.79 "level", so it is a soft-ish limiter)
 	sig = Limiter.ar(sig, ceil, 0.01);
