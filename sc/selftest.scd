@@ -42,6 +42,30 @@ Notes learned the hard way:
 		results = results.add(nm.asString ++ "=" ++ peak.round(0.0001));
 	};
 
-	log.("     selftest peaks (0.0 = silent): " ++ results.join("  "));
+	log.("     selftest instrument peaks (0.0 = silent): " ++ results.join("  "));
+
+	// master chain pass-through: a tone into the master bus must come out of the
+	// hardware bus. Without this check, a broken master chain looks exactly like
+	// "no sound" and sends you hunting through the instruments (ask us how we know).
+	block { |break|
+		var meter, peak = 0.0, tone;
+		~masterBus.index.postln;
+		meter = Synth(\selftestMeter,
+			[\in, 0, \ctl, testCtl.index], addAction: \addToTail);   // listen to hardware out
+		s.sync;
+		tone = { |amp = 0.2|
+			Synth(\selftestTone, [\out, ~masterBus.index, \freq, 330, \amp, amp]);
+		};
+		SynthDef(\selftestTone, { |out, freq = 330, amp = 0.2|
+			var env = EnvGen.kr(Env.linen(0.01, 0.6, 0.2), doneAction: 2);
+			Out.ar(out, SinOsc.ar(freq) * env * amp);
+		}).add;
+		s.sync;
+		tone.();
+		10.do { testCtl.get { |v| peak = max(peak, v ? 0) }; 0.1.wait };
+		meter.free;
+		log.("     selftest master chain peak: " ++ peak.round(0.0001)
+			++ (if(peak > 0.01) { "  (chain OK)" } { "  <<< MASTER CHAIN IS SILENT" }));
+	};
 }
 )

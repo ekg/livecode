@@ -45,9 +45,10 @@ var n = 2;
 		mHpf = 25, mThresh = 0.35, mWidth = 1.0|
 		var sig = In.ar(effectBus, ch);
 		var ctl = ~masterCtlBus;
+		// keep a floor under the gain: a single stray event must not be able to
+		// mute the whole mix (silence with no error is the worst failure mode)
 		Out.kr(ctl.index,
-			[mGain, mGlue, mSat, mCut, mDuck, mHpf, mThresh, mWidth]
-				.collect { |v, i| if(v.isNil) { ctl.getSynchronous(i) } { v.lag(0.35) } });
+			[mGain.clip(0.25, 2), mGlue, mSat, mCut, mDuck, mHpf, mThresh, mWidth]);
 		ReplaceOut.ar(effectBus, sig);
 	}).add;
 };
@@ -55,7 +56,7 @@ var n = 2;
 // ---------------------------------------------------------------- master chain
 Ndef(\dubMaster, {
 	var ctl = ~masterCtlBus.index;
-	var gain = In.kr(ctl + 0, 1);
+	var gain = In.kr(ctl + 0, 1).clip(0.25, 2);
 	var glue = In.kr(ctl + 1, 1);
 	var sat = In.kr(ctl + 2, 1);
 	var cut = In.kr(ctl + 3, 1);
