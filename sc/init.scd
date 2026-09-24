@@ -35,7 +35,8 @@ var log = { |s|
 var stage = { |name, func|
 	try { func.value; log.("ok   " ++ name) } { |err|
 		log.("FAIL " ++ name ++ " -> " ++ err.errorString);
-		log.("      " ++ err.describeBacktrace.split($\n).keep(4).join(" | "));
+		log.("      " ++ err.class.asString ++ ": "
+			++ (err.respondsTo(\errorString).if({ err.errorString }, { err.asString })));
 	};
 };
 
@@ -47,6 +48,7 @@ stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
 // the parameter lists live in sc/params.tsv and arrive here generated, so a
 // param cannot be added to SuperCollider without also being declared in Tidal
 stage.("load param manifest", { this.executeFile(sc ++ "/params_gen.scd") });
+stage.("load routing", { this.executeFile(sc ++ "/routing.scd") });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;
@@ -94,6 +96,20 @@ stage.("register tape module", {
 			 out: ~out]);
 	}, { ~tape.notNil });
 });
+
+// 3b -------------------------------------------------- start the mixing layer
+// OPT-IN: the routing layer is not verified end to end yet (its start stage hung
+// the boot once). Set ~routingEnabled = true to try it — until then orbits stay
+// on the master bus, which is the verified path.
+~routingEnabled = false;
+if(~routingEnabled) { stage.("start routing", {
+	~startRouting.();
+	s.sync;
+	~route.assign.keysValuesDo { |orbitIdx, group| ~route.orbit(orbitIdx, group) };
+	~routingNodes.postln;
+	log.("     groups: " ++ ~groups.keys.asArray.join(" ")
+		++ "   auxes: " ++ ~aux.keys.asArray.join(" "));
+}) } { log.("     routing layer loaded but NOT started (~routingEnabled = false)") };
 
 // 4b ------------------------------------------------------- self-test the layer
 // a private bus, so the test measures the instruments themselves and not the
