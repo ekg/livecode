@@ -12,19 +12,11 @@ tidalInst <- mkTidal
 
 instance Tidally where tidal = tidalInst
 
--- ============================================================================
--- Project-local parameters for the SuperCollider DSP layer in livecode/sc/.
---
--- Tidal only sends params it knows about, so every custom SuperDirt parameter
--- has to be declared here (step 1 of SuperDirt's "adding effects" recipe).
--- See pi-tidal/docs/sc-effects-and-routing.md
---
--- NOTE: one binding per line. A multi-line `let` block does not survive being
--- loaded from a ghci script — the continuation lines are parsed as separate
--- commands, every binding after the first is silently dropped, and evals then
--- fail with "Variable not in scope: ddSend" while the REPL looks healthy.
--- ============================================================================
+-- BEGIN GENERATED PARAMS (tools/sc_params.py from sc/params.tsv)
+-- One binding per line: a multi-line `let` block is silently dropped
+-- when the file is loaded from a ghci script (-ghci-script).
 
+-- dirt_dubdelay
 let ddSend = pF "ddSend"
 let ddLp = pF "ddLp"
 let ddHp = pF "ddHp"
@@ -32,10 +24,18 @@ let ddDrive = pF "ddDrive"
 let ddWow = pF "ddWow"
 let ddCross = pF "ddCross"
 let ddDuck = pF "ddDuck"
+let delaytime = pF "delaytime"
+let delayfeedback = pF "delayfeedback"
+let delaySend = pF "delaySend"
+let lock = pI "lock"
+let cps = pF "cps"
 
+-- dirt_dubverb
 let verbSend = pF "verbSend"
+let room = pF "room"
 let verbT60 = pF "verbT60"
 let verbDamp = pF "verbDamp"
+let size = pF "size"
 let verbEarly = pF "verbEarly"
 let verbHp = pF "verbHp"
 let verbPre = pF "verbPre"
@@ -47,6 +47,7 @@ let verbTone = pF "verbTone"
 let verbMod = pF "verbMod"
 let verbWidth = pF "verbWidth"
 
+-- dirt_masterctl
 let mGain = pF "mGain"
 let mGlue = pF "mGlue"
 let mSat = pF "mSat"
@@ -56,11 +57,16 @@ let mHpf = pF "mHpf"
 let mThresh = pF "mThresh"
 let mWidth = pF "mWidth"
 
+-- dirt_tape
 let tape = pF "tape"
 let tapeWow = pF "tapeWow"
 let tapeHf = pF "tapeHf"
 let tapeHiss = pF "tapeHiss"
 
+-- dirt_monitor
+let limitertype = pI "limitertype"
+
+-- instrument
 let cutoff = pF "cutoff"
 let fenv = pF "fenv"
 let res = pF "res"
@@ -69,6 +75,9 @@ let sub = pF "sub"
 let spread = pF "spread"
 let attack = pF "attack"
 let pitchEnv = pF "pitchEnv"
+let detune = pF "detune"
+
+-- END GENERATED PARAMS
 
 :set prompt "tidal> "
 :set prompt-cont ""

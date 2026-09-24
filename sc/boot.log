@@ -1,16 +1,18 @@
-[3.64] dub FX install starting; server running: true
-[3.73] ok   define fx
-[3.74] ok   define master
-[3.77]      defs: dirt_dubdelay2 dirt_dubverb2 dirt_masterctl2 dirt_tape2 dubchord dubsub tapestab
-[3.77] ok   verify defs
-[3.77] ok   install orbit chains
-[3.77] ok   register tape module
-[7.11]      selftest instrument peaks (0.0 = silent): dubchord=0.2345  dubsub=0.7738  tapestab=0.3531  superpiano=0.4225
-[8.21]      selftest master chain peak: 0.224  (chain OK)
-[8.21] ok   instrument self-test
-[8.21] orbits -> master bus 108
-[8.21] per orbit: dubdelay -> dubverb -> masterctl -> monitor
-[8.21] master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter
-[8.21] instruments: dubchord dubsub tapestab;  module: tape
-[8.21] Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)
-[8.21] done
+[3.55] dub FX install starting; server running: true
+[3.63] ok   define fx
+[3.64] ok   define master
+[3.64] ok   load param manifest
+[3.67]      defs: dirt_dubdelay2 dirt_dubverb2 dirt_masterctl2 dirt_tape2 dubchord dubsub tapestab
+[3.67] ok   verify defs
+[3.67]      orbit fx: dubdelay -> dubverb -> masterctl -> monitor
+[3.67] ok   install orbit chains
+[3.67] ok   register tape module
+[7.02]      selftest instrument peaks (0.0 = silent): dubchord=0.2345  dubsub=0.7466  tapestab=0.3531  superpiano=0.4059
+[8.1]      selftest master chain peak: 0.224  (chain OK)
+[8.1] ok   instrument self-test
+[8.1] orbits -> master bus 108
+[8.1] per orbit: dubdelay -> dubverb -> masterctl -> monitor
+[8.1] master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter
+[8.1] instruments: dubchord dubsub tapestab;  module: tape
+[8.1] Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)
+[8.1] done

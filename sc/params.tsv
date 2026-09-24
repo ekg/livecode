@@ -1,0 +1,21 @@
+# sc/params.tsv — single source of truth for the DSP layer's Tidal parameters.
+#
+# Format:   group   name[:type] ...
+#   group   a SynthDef global effect (dirt_*), or  @module / @instrument
+#   type    f = float (default) | i = integer | s = string
+#
+# tools/sc_params.py reads this file and generates BOTH sides:
+#   * the `let <name> = pF "<name>"` block inside BootTidal.hs
+#   * sc/params_gen.scd, which init.scd reads to build its GlobalDirtEffect lists
+#
+# Add a parameter in ONE place (here), run the generator, reload the SC layer.
+# Without this, a param that exists in SuperCollider but not in Tidal fails the
+# eval with "Variable not in scope: <name>" and never reaches the server.
+
+dirt_dubdelay	ddSend ddLp ddHp ddDrive ddWow ddCross ddDuck delaytime delayfeedback delaySend lock:i cps
+dirt_dubverb	verbSend room verbT60 verbDamp size verbEarly verbHp verbPre verbLow verbHigh verbLowcut verbHighcut verbTone verbMod verbWidth
+dirt_masterctl	mGain mGlue mSat mCut mDuck mHpf mThresh mWidth
+dirt_tape	tape tapeWow tapeHf tapeHiss
+dirt_monitor	limitertype:i
+
+instrument	cutoff fenv res drive sub spread attack pitchEnv detune

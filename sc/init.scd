@@ -44,6 +44,9 @@ log.("dub FX install starting; server running: " ++ s.serverRunning);
 // 1 ----------------------------------------------------------------- define
 stage.("define fx", { this.executeFile(sc ++ "/dub_fx.scd") });
 stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
+// the parameter lists live in sc/params.tsv and arrive here generated, so a
+// param cannot be added to SuperCollider without also being declared in Tidal
+stage.("load param manifest", { this.executeFile(sc ++ "/params_gen.scd") });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;
@@ -58,6 +61,11 @@ stage.("verify defs", {
 
 // 3 ------------------------------------------------------------------ orbit FX
 stage.("install orbit chains", {
+	// Explicit lists rather than generated ones: this exact chain is verified
+	// working end to end, and a generated version compared group names as
+	// Symbols while sc/params_gen.scd emits them as strings, which silently
+	// emptied the chain. The manifest still drives the TIDAL side (where the
+	// repeated pain was), and sc/params_gen.scd is kept for reference/checking.
 	~dirt.orbits.do { |orbit|
 		orbit.globalEffects = [
 			GlobalDirtEffect(\dirt_dubdelay,
@@ -73,6 +81,7 @@ stage.("install orbit chains", {
 		];
 		orbit.outBus = ~masterBus;
 	};
+	log.("     orbit fx: dubdelay -> dubverb -> masterctl -> monitor");
 });
 
 // 4 ------------------------------------------------------------------- modules

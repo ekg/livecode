@@ -14,3 +14,33 @@ the architecture and the gotchas.
 
 From Tidal: `# orbit N` for grouping; `dd*` delay, `verb*` reverb, `m*` master,
 `tape*` lo-fi module params. Instruments take their pitch in `n` (not `note`).
+
+## Adding a parameter, effect or instrument (the recipe)
+
+Built so it needs no thought and cannot be done half-way:
+
+**Adding a Tidal-reachable parameter:**
+1. add the name to the right group line in **`sc/params.tsv`** (`name` or `name:f|i|s`)
+2. run **`tools/sc_params.py`** — regenerates the `let` block in `BootTidal.hs`
+   and `sc/params_gen.scd`
+3. restart the Tidal REPL (the boot file is read only at spawn): `tidal_repl`
+   tool, or `ps -eo pid,args | awk '/ghci-scri/ {print $1}' | xargs kill`
+4. in SuperCollider, either use it in a SynthDef you are already editing, or add
+   it to that effect's list in `sc/init.scd`
+
+**Adding an effect:** write the SynthDef in `sc/dub_fx.scd` (global effects are
+looked up as `name ++ numChannels`, per-event modules as bare `name`), add a line
+to `params.tsv`, add a `GlobalDirtEffect` to `sc/init.scd`, restart sclang
+(`pkill -x sclang`, respawns on the next eval) — or use `tidal_sc` to
+`this.executeFile` it live once the plugin is reloaded.
+
+**Verification is built in.** `sc/boot.log` records every boot: which SynthDefs
+exist, the measured level of each instrument, and whether the master chain passes
+audio. Check it after any change — silence with no error is the failure mode this
+exists to catch.
+
+Traps worth not re-learning: the REPL binary is `ghc-9.4.7` (so `pkill -x ghci`
+does nothing); a multi-line `let` in a ghci script is silently dropped; `if`
+cannot take a UGen condition in a SynthDef; mono `In.ar`/`LocalIn` return a bare
+UGen; pass bus *indices* not `Bus` objects; custom synths take pitch in `n`, not
+`note`.
