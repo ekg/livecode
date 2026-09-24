@@ -1,0 +1,33 @@
+-- 53.tidal — lo-fi dub house sketch (first pass on the new SuperCollider rig)
+-- Everything here uses the DSP layer in livecode/sc/ (dub delay + dub reverb per
+-- orbit, master chain, dubchord/dubsub instruments). See sc/README.md.
+
+setcps (118/60/4)   -- 118 bpm, 1 cycle = 1 bar
+
+-- ORBIT MAP:  0 drums (kick = master sidechain)  1 bass  2 chords  3 pads  4 voices/fx
+
+-- kick: tresillo, dry orbit so it can duck the master bus
+d1 $ s "bd(3,8)" # orbit 0 # gain 0.85 # shape 0.2
+
+-- sub: the dub weight, slightly overdriven with a pitch drop on the attack
+d2 $ s "dubsub" # n "c2" # sustain 1.1 # amp 0.55 # orbit 1 # drive 0.45 # pitchEnv 0.5
+
+-- hats: rotated tresillo so they do not sit on the kick
+d3 $ s "hh(3,8,4)" # orbit 0 # gain 0.35 # hpf 600
+
+-- chord stabs: offbeat, into the dub delay (darkening repeats, ducking under hits)
+-- and a short HPF'd reverb. Move `cutoff`/`fenv` for classic dub filter sweeps.
+d4 $ struct "~ t ~ t ~ t ~ t" $ slow 2 $ s "dubchord" # n "[c3,eb3,g3]" # sustain 0.22 # amp 0.5 # orbit 2 # cutoff 650 # fenv 3.5 # res 0.4 # drive 0.45 # ddSend 0.8 # delaytime 0.375 # delayfeedback 0.62 # ddLp 2000 # ddDuck 0.5 # verbSend 0.35 # verbT60 7 # verbLow 0.3 # verbHp 320
+
+-- pad: long chords, wide, slow reverb with the low band decaying fast (no mud)
+d5 $ slow 4 $ s "dubchord" # n "[c3,eb3,g3] [ab2,c3,eb3] [bb2,d3,f3] [g2,bb2,d3]" # sustain 2.2 # amp 0.3 # orbit 3 # cutoff 500 # fenv 0.6 # res 0.3 # drive 0.3 # verbSend 0.55 # verbT60 9 # verbLow 0.3 # verbDamp 0.6 # verbHp 400
+
+-- tape hiss: the lo-fi floor. `tape` is the per-event module (drive + HF loss + wow)
+d6 $ s "noise" # orbit 4 # gain 0.09 # lpf 4200 # hpf 350 # tape 0.25 # tapeHiss 0.02
+
+-- MODULATION IDEAS ---------------------------------------------------
+-- chord filter sweep (dub techno staple):  d4 ... # cutoff (slow 8 $ range 350 2400 sine)
+-- open the delay:                          # ddSend (slow 16 $ range 0.4 0.95 sine)
+-- reverb wash breakdown:                    d5 ... # verbSend 0.9 # verbT60 14
+-- drop the kick:                            d1 $ silence
+-- add the Found Harmonium hook on orbit 4 with heavy delay (library material)
