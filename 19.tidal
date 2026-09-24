@@ -4,11 +4,7 @@ do
   setcps (124/60/4)
   let swing = always (# nudge (fast 8 "0.02"))
   -- Core beat with fast hats
-  d1 $ swing $ stack [
-    s "bd:4*4" # gain 1.0,
-    s "~ cp ~ cp" # gain 0.9,
-    every 4 (fast 2) $ struct "t(11,16)" $ s "hh:2" 
-      # gain 0.7 # pan (range 0.2 0.8 $ fast 3 sine)]
+d1 $ swing $ stack [ s "bd:4*4" # gain 1.0, s "~ cp ~ cp" # gain 0.9, every 4 (fast 2) $ struct "t(11,16)" $ s "hh:2" # gain 0.7 # pan (range 0.2 0.8 $ fast 3 sine)]
   -- Bass with more variation
   d2 $ swing $ every 8 (jux rev) 
     $ note (scale "minor" "<0 [~ 0] -3 [2 ~] 4 [-3 2] -5 [0 4]>") 
@@ -41,11 +37,7 @@ do
   setcps (128/60/4)
   let swing = always (# nudge (fast 8 "0 0.02"))
   -- Solid beat foundation
-  d1 $ swing $ stack [
-    s "bd*4" # gain 2,
-    s "~ sn:2 ~ sn:2" # gain 0.85 
-      # room 0.3 # size 0.4,
-    s "hh:6*8" # gain 0.7 ]
+d1 $ swing $ stack [ s "bd*4" # gain 2, s "~ sn:2 ~ sn:2" # gain 0.85 # room 0.3 # size 0.4, s "hh:6*8" # gain 0.7 ]
       -- # pan (range 0.2 0.8 $ slow 3 sine)]
   -- Contemplative bass movement
   d2 $ swing $ slow 2 

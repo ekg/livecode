@@ -4,7 +4,7 @@ do
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Lofi hip-hop in 17/8 time signature
   -- Dusty drums with vinyl crackle
-  d1 $ swing $ stack [
+d1 $ swing $ stack [
     --s "808bd(<3 4>,17)" # gain 1.0 # lpf 2000,
     s "bd(3,17)" # gain 1.0 # lpf 2000,
     s "~ sd:1 ~ ~ ~ ~ ~ ~ ~ sd:1 ~ ~ ~ ~ ~ ~ ~" # gain 0.9 # room 0.2 # lpf 3500,

@@ -23,11 +23,6 @@ d13 $ swingBy (1/12) 2 $ stutWith 4 (1/12) (\x -> x # speed 1.2) $ struct "t(5,1
 d15 $ mask "<1110111001101010 1011011011101101 1101110010110111>" $ s "bleep" # note "<e6 g6 a6 d6>" # gain 0.25 # pan (slow 3 sine) # room 0.4 # delay 0.5 # delaytime (slow 9 $ range (1/12) (1/2) sine) # delayfeedback 0.8 # cut 15
 
 -- marimba delay goes tape: echo length breathes over 7 cycles
-d11 $ swingBy (1/12) 2 $ cat [
-  s "tok" # note "d5 . a5 . ~ . f5 . ~ a5 . d6 . ~ . c6 .",
-  s "tok" # note "~ . f5 . a5 . c6 . ~ . a5 . g5 . ~ .",
-  s "tok" # note "d5 . g5 . ~ . c6 . ~ a5 . f5 . d5 . ~ .",
-  s "tok" # note "a4 . c5 . e5 . g5 . ~ . a5 . ~ . g5 ."
-] # gain 0.65 # lpf 2500 # room 0.75 # size 0.9 # delay 0.55 # delaytime (slow 7 $ range (1/6) (1/2) saw) # delayfeedback 0.8 # cut 11
+d11 $ swingBy (1/12) 2 $ cat [ s "tok" # note "d5 . a5 . ~ . f5 . ~ a5 . d6 . ~ . c6 .", s "tok" # note "~ . f5 . a5 . c6 . ~ . a5 . g5 . ~ .", s "tok" # note "d5 . g5 . ~ . c6 . ~ a5 . f5 . d5 . ~ .", s "tok" # note "a4 . c5 . e5 . g5 . ~ . a5 . ~ . g5 ." ] # gain 0.65 # lpf 2500 # room 0.75 # size 0.9 # delay 0.55 # delaytime (slow 7 $ range (1/6) (1/2) saw) # delayfeedback 0.8 # cut 11
 
 -- d15 silence

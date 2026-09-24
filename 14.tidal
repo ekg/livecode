@@ -16,10 +16,7 @@ d2 $ every 4 (fast 2)
   # gain 1.5 # lpf 800
 
 -- Classic reggae drums
-d3 $ stack [
-  s "808bd(3,8,0)" # gain 1.2 # n 4,
-  fast 1 $ s "~ ~ cp ~" # gain 0.9,
-  s "hh(5,8)" # gain 0.8 ]
+d3 $ stack [ s "808bd(3,8,0)" # gain 1.2 # n 4, fast 1 $ s "~ ~ cp ~" # gain 0.9, s "hh(5,8)" # gain 0.8 ]
 
 -- Dubby texture layer
 d4 $ every 4 (# crush 8)
@@ -32,10 +29,7 @@ d4 $ every 4 (# crush 8)
 
 -- Melodic elements with heavy effects
 d5 $ every 4 (jux(rev))
-  $ note (cat ["c4 [~ e4] g4 [~ a4]",
-               "a3 [~ c4] e4 [~ g4]", 
-               "f4 [~ a4] c5 [~ e5]",
-               "g4 [~ b4] d5 [~ f5]"])
+$ note (cat ["c4 [~ e4] g4 [~ a4]", "a3 [~ c4] e4 [~ g4]", "f4 [~ a4] c5 [~ e5]", "g4 [~ b4] d5 [~ f5]"])
   # s "mars_synths_KawaiiDreams_Strings"
   # room 0.8 # size 0.9
   # start 2
@@ -52,10 +46,7 @@ do
   setcps (132/60/4)
   let complexity = "struct(t(2,8),t(3,8),t(5,8),t(7,8),t(11,16),t(13,16))"
   -- Main beat with binary pattern
-  d1 $ (whenmod 8 6 (struct "t(3,8)")) $ stack [
-    struct (binary 170) $ s "808bd" # n 3 # gain 1.2,
-    struct (binary 85) $ s "realclaps" # n 7 # room 0.3,
-    struct "t(11,16)" $ s "808oh" # n 2 # gain 0.8 ]
+d1 $ (whenmod 8 6 (struct "t(3,8)")) $ stack [ struct (binary 170) $ s "808bd" # n 3 # gain 1.2, struct (binary 85) $ s "realclaps" # n 7 # room 0.3, struct "t(11,16)" $ s "808oh" # n 2 # gain 0.8 ]
   -- Complex tom pattern
   d2 $ (whenmod 8 6 (struct "t(2,8)")) 
     $ struct "t(7,16,<0 2>)" 
@@ -113,11 +104,7 @@ do
     # gain 0.75
   -- Soaring melody layer
   d4 $ slow 4 
-    $ note (scale "minor" (cat [
-      "~ [7 ~] 5 3",
-      "[~ 8] 7 5 3",
-      "~ [10 ~] 8 7",
-      "[~ 12] 10 8 7"]))
+$ note (scale "minor" (cat [ "~ [7 ~] 5 3", "[~ 8] 7 5 3", "~ [10 ~] 8 7", "[~ 12] 10 8 7"]))
     # s "superpiano"
     # room 0.99 # size 0.99
     # delay 0.6 # delaytime (3/8) # delayfeedback 0.4
@@ -142,15 +129,7 @@ hush
 do
   setcps (126/60/4)
   -- Main beat
-  d1 $ stack [
-    s "bd(3,8)" # gain 1.2,
-    s "~ cp ~ cp" # room 0.6 # size 0.8
-      # speed (range 0.8 1.4 $ fast 2 $ sine)
-      # pan (range 0.2 0.8 $ fast 3 sine)
-      # lpf (range 1000 8000 $ fast 4 sine)
-      # distort (range 0.2 0.4 $ slow 8 sine)
-      # gain 0.95,
-    s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
+d1 $ stack [ s "bd(3,8)" # gain 1.2, s "~ cp ~ cp" # room 0.6 # size 0.8 # speed (range 0.8 1.4 $ fast 2 $ sine) # pan (range 0.2 0.8 $ fast 3 sine) # lpf (range 1000 8000 $ fast 4 sine) # distort (range 0.2 0.4 $ slow 8 sine) # gain 0.95, s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
   -- Rolling bass with more movement
   d2 $ every 4 (fast 2)
     $ note "c1(3,8,1) e1(3,8,2)" # s "bass3"
@@ -186,10 +165,7 @@ do
   hush
   setcps (126/60/4)
   -- Main beat
-  d1 $ stack [
-    s "bd(3,8)" # gain 1.2,
-    s "~ cp ~ cp" # room 0.3,
-    s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
+d1 $ stack [ s "bd(3,8)" # gain 1.2, s "~ cp ~ cp" # room 0.3, s "hh*8" # gain 0.8 # pan sine ] # shape 0.3
   -- Rolling bass
   d2 $ every 4 (fast 2)
     $ note "c1(3,8,1)" # s "bass3"

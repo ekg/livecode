@@ -1,45 +1,24 @@
 setcps(120/60/4)
 
 -- spacey reggae with loopAt control
-d1 $ stack [
-  s "808bd:3(2,8)" # gain "1.1", -- deep kick
-  s "~ realclaps:2" # gain "0.85" # room "0.9", -- natural clap with space
-  loopAt 2 $ s "wind:3(3,8)" # gain "0.7" # speed "0.7" # pan sine, -- atmospheric wind with 2-cycle loop
-  loopAt 1 $ s "~ gtr:2" # gain "0.35" # delay "0.7" # delaytime "0.33" # lpf (range 800 3000 $ slow 4 sine) # resonance "0.3" # shape "0.3", -- filtered guitar with sweeping lpf
-  every 6 (const $ loopAt 2 $ s "breaks157") $ -- clean version every 6 cycles
-  every 4 (const $ loopAt 2 $ slice 16 "0 8 4 12 14 2 10 6 15 3 11 7 13 1 9 5" $ s "breaks157") $ -- more chopped version every 4 cycles
-  loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "breaks157" # gain "0.8" # speed "0.8" # lpf "3000" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern
-] # room "0.9" # orbit 0
+d1 $ stack [ s "808bd:3(2,8)" # gain "1.1", -- deep kick s "~ realclaps:2" # gain "0.85" # room "0.9", -- natural clap with space loopAt 2 $ s "wind:3(3,8)" # gain "0.7" # speed "0.7" # pan sine, -- atmospheric wind with 2-cycle loop loopAt 1 $ s "~ gtr:2" # gain "0.35" # delay "0.7" # delaytime "0.33" # lpf (range 800 3000 $ slow 4 sine) # resonance "0.3" # shape "0.3", -- filtered guitar with sweeping lpf every 6 (const $ loopAt 2 $ s "breaks157") $ -- clean version every 6 cycles every 4 (const $ loopAt 2 $ slice 16 "0 8 4 12 14 2 10 6 15 3 11 7 13 1 9 5" $ s "breaks157") $ -- more chopped version every 4 cycles loopAt 2 $ slice 8 "0 4 2 6 7 3 1 5" $ s "breaks157" # gain "0.8" # speed "0.8" # lpf "3000" # pan (range 0.3 0.7 $ slow 3 sine) -- base chopped pattern ] # room "0.9" # orbit 0
 
 hush
 
 -- melodic piano progression
-d1 $ stack [
-  s "superpiano*8" # n (scale "minor" "<[0 4 7 11] [2 5 9 0] [-2 2 5 9] [-3 0 4 7]>" + "60") # gain "0.7" # sustain "2.0", -- piano chords
-  s "superpiano(5,8)" # n (scale "minor"  "<[0 4 7 11 14] [2 5 9 12 0]>" + "72") # gain "0.6" # sustain "1.0" # room "0.8", -- melodic line
-  s "jazz:4(3,8)" # gain "0.8", -- soft kick
-  s "jazz:1*2" # gain "0.6" # room "0.7", -- brushed snare
-  slow 4 $ s "pad:3" # gain "0.4" # lpf (range 800 2000 $ slow 8 sine) # resonance "0.2" -- atmospheric pad
-] # room "0.6" # orbit 1
+d1 $ stack [ s "superpiano*8" # n (scale "minor" "<[0 4 7 11] [2 5 9 0] [-2 2 5 9] [-3 0 4 7]>" + "60") # gain "0.7" # sustain "2.0", -- piano chords s "superpiano(5,8)" # n (scale "minor"  "<[0 4 7 11 14] [2 5 9 12 0]>" + "72") # gain "0.6" # sustain "1.0" # room "0.8", -- melodic line s "jazz:4(3,8)" # gain "0.8", -- soft kick s "jazz:1*2" # gain "0.6" # room "0.7", -- brushed snare slow 4 $ s "pad:3" # gain "0.4" # lpf (range 800 2000 $ slow 8 sine) # resonance "0.2" -- atmospheric pad ] # room "0.6" # orbit 1
 
 d1 silence
 
 panic
 
 -- heavy kick pattern
-d2 $ stack [
-  s "[808bd:1(3,8), ~ mars_kits_909_Clean:1*2]" # gain "1.2" # shape "0.3", -- layered kicks
-  s "mars_kits_MPC60_808:2(2,8)" # gain "1.1" # lpf "100" # resonance "0.2" # shape "0.4" -- sub kick
-] # orbit 2
+d2 $ stack [ s "[808bd:1(3,8), ~ mars_kits_909_Clean:1*2]" # gain "1.2" # shape "0.3", -- layered kicks s "mars_kits_MPC60_808:2(2,8)" # gain "1.1" # lpf "100" # resonance "0.2" # shape "0.4" -- sub kick ] # orbit 2
 
 d2 silence
 
 -- snare break pattern
-d3 $ stack [
-  s "~ snare:2" # gain "0.9", -- basic snare
-  every 4 (fast 2) $ s "~ [~ snare:4*2]" # gain "0.85" # room "0.6", -- double snare fill
-  every 6 (# speed "0.8") $ s "~ [~ snare:7*2]" # gain "0.75" # pan (range 0.3 0.7 rand) -- ghost notes
-] # orbit 3
+d3 $ stack [ s "~ snare:2" # gain "0.9", -- basic snare every 4 (fast 2) $ s "~ [~ snare:4*2]" # gain "0.85" # room "0.6", -- double snare fill every 6 (# speed "0.8") $ s "~ [~ snare:7*2]" # gain "0.75" # pan (range 0.3 0.7 rand) -- ghost notes ] # orbit 3
 
 d3 silence
 
@@ -113,11 +92,7 @@ d8 $ stack [
     # lpf (range 20000 20 $ slow 16 sine) # resonance "0.4" 
     # orbit "[0 1 2 3 4 5 6 7]",
   -- expanded melodic section
-  whenmod 16 15 (const $ stack [
-    s "superpiano(5,8)" # n (scale "minor" (scramble 8 "0 4 7 11 14 7 4 11") + "72") 
-      # gain "0.85" # room "0.95" # size "0.98",
-    s "mars_synths_KawaiiDreams_Air(3,8)" # n (scale "minor" "[0,4,7]" + "60") 
-      # gain "0.7" # room "0.9",
+whenmod 16 15 (const $ stack [ s "superpiano(5,8)" # n (scale "minor" (scramble 8 "0 4 7 11 14 7 4 11") + "72") # gain "0.85" # room "0.95" # size "0.98", s "mars_synths_KawaiiDreams_Air(3,8)" # n (scale "minor" "[0,4,7]" + "60") # gain "0.7" # room "0.9",
     -- additional textural layer
     slow 2 $ s "mars_synths_2600_Jackies33(3,8)" # n "0" 
       # gain "0.5" # room "0.8" # lpf (range 2000 4000 $ slow 8 sine)
@@ -129,12 +104,7 @@ d8 $ stack [
 -- ethereal piano composition
 d9 $ stack [
   -- main piano melody
-  slow 2 $ s "superpiano(7,8)" # note (scale "minor" (cat [
-    "7 11 14 11 7 4 0",
-    "9 12 16 12 9 5 2",
-    "7 11 14 11 7 4 0",
-    "5 9 12 9 5 2 -2"
-  ]) + "<0 7>") # gain "0.75" # sustain "3.0" # room "0.9" # size "0.95",
+slow 2 $ s "superpiano(7,8)" # note (scale "minor" (cat [ "7 11 14 11 7 4 0", "9 12 16 12 9 5 2", "7 11 14 11 7 4 0", "5 9 12 9 5 2 -2" ]) + "<0 7>") # gain "0.75" # sustain "3.0" # room "0.9" # size "0.95",
   -- gentle supporting chords
   slow 8 $ s "superpiano" # note (scale "minor" "<[0,4,7,11] [-3,0,4,7] [-5,2,5,9] [-7,0,4,7]>" + "48") 
     # gain "0.6" # sustain "6.0" # room "0.95" # size "0.98",

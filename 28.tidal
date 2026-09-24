@@ -6,10 +6,7 @@ do
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Unusual time signature: 17/8
   -- Core rhythm section with 17-step pattern
-  d1 $ swing $ stack [
-    s "bd(5,17)" # gain 1.1,
-    every 4 (stut 3 (3/17) 0.5) $ s "realclaps(2,17)" # n "<0 2 1 2>",
-    struct "t(7,17,2)" $ s "hh" # gain 0.8]
+d1 $ swing $ stack [ s "bd(5,17)" # gain 1.1, every 4 (stut 3 (3/17) 0.5) $ s "realclaps(2,17)" # n "<0 2 1 2>", struct "t(7,17,2)" $ s "hh" # gain 0.8]
   -- Percussion with complementary euclidean pattern
   d2 $ swing $ every 4 (jux rev) $ 
     whenmod 8 7 (# crush 8) $ 

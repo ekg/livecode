@@ -43,33 +43,17 @@ d2 $ every 4 (|+ note 2)
 hush
 
 -- Percussion layers with swing
-d3 $ stack [
-  s "~ tabla:3 ~ tabla:3" # gain 0.85,
-  fast 2 $ s "hand:4(3,8)" # gain 0.7 # pan rand,
-  s "~ ~ ~ industrial:12" # gain 0.9
-] # room 0.5 # nudge (fast 8 "0 0.02")
+d3 $ stack [ s "~ tabla:3 ~ tabla:3" # gain 0.85, fast 2 $ s "hand:4(3,8)" # gain 0.7 # pan rand, s "~ ~ ~ industrial:12" # gain 0.9 ] # room 0.5 # nudge (fast 8 "0 0.02")
 
 -- Space section with binary rhythms
-d4 $ stack [
-  struct (binary 170) $ s "space:3" # gain 0.8 # room 0.7,
-  struct (binary 85) $ s "industrial:15" # gain 0.7 # pan sine,
-  struct "t(5,8)" $ s "space:7" # gain 0.9 # lpf (range 400 3000 $ slow 4 sine)
-] # size 0.8 # orbit 1
+d4 $ stack [ struct (binary 170) $ s "space:3" # gain 0.8 # room 0.7, struct (binary 85) $ s "industrial:15" # gain 0.7 # pan sine, struct "t(5,8)" $ s "space:7" # gain 0.9 # lpf (range 400 3000 $ slow 4 sine) ] # size 0.8 # orbit 1
 
 -- Wide ambient texture with gentle movement
-d5 $ stack [
-  slow 8 $ s "notes:4(3,8)" # speed 0.5 # pan (range 0.2 0.8 sine) # gain 0.75,
-  slow 4 $ s "sprvibe:4(5,16)" # room 0.9 # size 0.95 # gain 0.7,
-  struct "t(3,8,2)" $ s "birds3:15" # speed "<0.7 0.8>" # pan (slow 4 sine)
-] # orbit 6 # lpf 2000
+d5 $ stack [ slow 8 $ s "notes:4(3,8)" # speed 0.5 # pan (range 0.2 0.8 sine) # gain 0.75, slow 4 $ s "sprvibe:4(5,16)" # room 0.9 # size 0.95 # gain 0.7, struct "t(3,8,2)" $ s "birds3:15" # speed "<0.7 0.8>" # pan (slow 4 sine) ] # orbit 6 # lpf 2000
 
 -- Weird space effects (16-bar cycle)
 d6 $ whenmod 16 15 (# gain 1)
-   $ stack [
-    slow 8 $ s "space:15(4,17)" # speed (range 0.5 2 sine) # begin rand,
-    stut 4 0.6 0.125 $ s "industrial:8(5,8)" # room 0.95,
-    chop 32 $ s "birds3:5" # speed "-0.75" # pan (slow 4 sine)
-   ] -- # cloudsblend 0.7 0.8 0.6 0.5 # gain 0
+$ stack [ slow 8 $ s "space:15(4,17)" # speed (range 0.5 2 sine) # begin rand, stut 4 0.6 0.125 $ s "industrial:8(5,8)" # room 0.95, chop 32 $ s "birds3:5" # speed "-0.75" # pan (slow 4 sine) ] -- # cloudsblend 0.7 0.8 0.6 0.5 # gain 0
 
 -- Fun polyrhythmic pattern with steady kick
 d1 $ stack [
@@ -83,20 +67,12 @@ d1 $ stack [
 ] # room 0.4 # orbit 2
 
 -- Melodic pattern with arpy and fm
-d2 $ stack [
-  every 4 (|+ note 2) $ note "c3(3,8)" # s "fm:4" # gain 0.85,
-  struct "t(7,16)" $ s "arpy:1" # note (scale "minor" "0 5 7") # pan sine,
-  slow 2 $ s "notes:4(3,8)" # speed 0.8 # room 0.6
-] # orbit 3
+d2 $ stack [ every 4 (|+ note 2) $ note "c3(3,8)" # s "fm:4" # gain 0.85, struct "t(7,16)" $ s "arpy:1" # note (scale "minor" "0 5 7") # pan sine, slow 2 $ s "notes:4(3,8)" # speed 0.8 # room 0.6 ] # orbit 3
 
 hush
 
 -- Rhythmic melodic pattern with stutter effects
-d3 $ every 4 (stut 3 0.5 0.125) $ stack [
-  struct "t(7,16)" $ s "arpy:2" # note (scale "minor" "0 3 7") # pan sine,
-  struct "t(5,8)" $ s "industrial:4*2" # gain 0.8 # speed 1.5,
-  slow 2 $ s "birds3:2(3,8)" # speed "-1" # room 0.7
-] # orbit 4
+d3 $ every 4 (stut 3 0.5 0.125) $ stack [ struct "t(7,16)" $ s "arpy:2" # note (scale "minor" "0 3 7") # pan sine, struct "t(5,8)" $ s "industrial:4*2" # gain 0.8 # speed 1.5, slow 2 $ s "birds3:2(3,8)" # speed "-1" # room 0.7 ] # orbit 4
 
 -- Amapiano piano pattern
 d4 $ stack [
@@ -131,35 +107,13 @@ d9 $ struct "t(2,8,4)" $ s "[realclaps:2, cp:3]" # gain 1.1
 hush
 
 -- Expressive piano melody with deep reverb
-d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [
-  slow 4 $ note "c4 e4 g4 a4 c5 g4 e4 d4" # s "superpiano" # gain 0.85 # room 0.9 # size 0.95,
-  slow 8 $ note "c5 g4 e5 c5" # s "superpiano" # gain 0.7 # pan (slow 4 sine),
-  whenmod 16 14 (|+ note 12) $ note "e4(3,8) a4(3,8)" # s "superpiano" # gain 0.75
-] # orbit 7 # lpf 4000 # resonance 0.3
+d7 $ stut 8 0.6 (1/7) $ slow 4 $ stack [ slow 4 $ note "c4 e4 g4 a4 c5 g4 e4 d4" # s "superpiano" # gain 0.85 # room 0.9 # size 0.95, slow 8 $ note "c5 g4 e5 c5" # s "superpiano" # gain 0.7 # pan (slow 4 sine), whenmod 16 14 (|+ note 12) $ note "e4(3,8) a4(3,8)" # s "superpiano" # gain 0.75 ] # orbit 7 # lpf 4000 # resonance 0.3
 
 -- Complex cut-up beat with binary patterns
-d8 $ every 8 (jux rev) $ stack [
-  loopAt "<2 4 3>" $ chop "<8 16 12>" $ 
-    struct (binary "<170 85 170 149>") $ 
-    s "lpviz:<15 18 22 25>" # gain 0.9 # cut 1,
-  loopAt "<4 3 2>" $ chop "<16 12 8>" $ 
-    struct (binary "<85 170 85 149>") $ 
-    s "lpviz:<18 22 25 15>" # pan sine # cut 1,
-  loopAt "<3 2 4>" $ chop "<12 8 16>" $ 
-    struct (binary "<42 85 170 85>") $ 
-    s "lpviz:<22 25 15 18>" # room 0.4 # cut 1,
-  whenmod 8 6 (fast 2) $ loopAt "<2 3 4>" $ chop "<6 12 8>" $ 
-    struct (binary 170) $ 
-    s "lpviz:<25 15 18 22>" # gain 0.85 # cut 1
-] # orbit 8 # shape 0.4
+d8 $ every 8 (jux rev) $ stack [ loopAt "<2 4 3>" $ chop "<8 16 12>" $ struct (binary "<170 85 170 149>") $ s "lpviz:<15 18 22 25>" # gain 0.9 # cut 1, loopAt "<4 3 2>" $ chop "<16 12 8>" $ struct (binary "<85 170 85 149>") $ s "lpviz:<18 22 25 15>" # pan sine # cut 1, loopAt "<3 2 4>" $ chop "<12 8 16>" $ struct (binary "<42 85 170 85>") $ s "lpviz:<22 25 15 18>" # room 0.4 # cut 1, whenmod 8 6 (fast 2) $ loopAt "<2 3 4>" $ chop "<6 12 8>" $ struct (binary 170) $ s "lpviz:<25 15 18 22>" # gain 0.85 # cut 1 ] # orbit 8 # shape 0.4
 
 -- Complex tabla drum pattern with industrial accents
-d2 $ every 4 (jux rev) $ stack [
-  s "909(5,8,2)" # gain 1.1 # lpf 400,
-  s "cp(<2 0 2 3>,8,1)" # gain 0.9 # pan sine,
-  fast 2 $ s "industrial:8(3,8)" # gain 0.8,
-  whenmod 8 6 (fast 2) $ s "tabla:4*2" # room 0.6
-  ]  
+d2 $ every 4 (jux rev) $ stack [ s "909(5,8,2)" # gain 1.1 # lpf 400, s "cp(<2 0 2 3>,8,1)" # gain 0.9 # pan sine, fast 2 $ s "industrial:8(3,8)" # gain 0.8, whenmod 8 6 (fast 2) $ s "tabla:4*2" # room 0.6 ]
 
 hush
 

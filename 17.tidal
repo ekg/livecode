@@ -4,10 +4,7 @@ do
   setcps (126/60/4)
   let swing = always (# nudge (fast 8 "0 0.02"))
   -- Core rhythm section
-  d1 $ swing $ stack [
-    s "bd(3,8)" # gain 1.1 # lpf 200,
-    every 4 (jux(rev)) $ s "~ cp ~ cp" # gain 0.9,
-    sometimesBy 0.3 (fast 2) $ s "hh(7,8)" # gain 0.85 # pan sine]
+d1 $ swing $ stack [ s "bd(3,8)" # gain 1.1 # lpf 200, every 4 (jux(rev)) $ s "~ cp ~ cp" # gain 0.9, sometimesBy 0.3 (fast 2) $ s "hh(7,8)" # gain 0.85 # pan sine]
   -- Driving bass pattern
   d2 $ every 4 (stut 4 (1/8) 0.5) $ swing $ note (scale "minor" "<[0 ~] [0 2] [~ 3] [0 ~]>")
     # s "flbass" # n 3
@@ -31,15 +28,5 @@ do
   -- d4 silence
 
   -- Hip-hop section with boom bap feel
-  d5 $ swing $ stack [
-    s "bd(3,8)" # gain 1.05 # lpf 100,
-    every 4 (rev) $ s "~ sn:2 ~ sn:2" # gain 0.9 # room 0.2,
-    sometimesBy 0.4 (fast 2) $ s "hh(7,8)" # gain 0.8,
-    loopAt 2 $ chop 16 $ s "breaks157:2" # gain 0.85,
-    slow 4 $ note (scale "minor" "<0 -3 -5 -7>") 
-      # s "flbass" # gain 1 # legato 1.2 
-      # lpf (range 300 800 $ slow 4 sine),
-    slow 8 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,~,-2] [-7,~,0]>") 
-      # s "mars_synths_S612_Rhodes" 
-      # gain 0.8 # room 0.6 # size 0.8]
+d5 $ swing $ stack [ s "bd(3,8)" # gain 1.05 # lpf 100, every 4 (rev) $ s "~ sn:2 ~ sn:2" # gain 0.9 # room 0.2, sometimesBy 0.4 (fast 2) $ s "hh(7,8)" # gain 0.8, loopAt 2 $ chop 16 $ s "breaks157:2" # gain 0.85, slow 4 $ note (scale "minor" "<0 -3 -5 -7>") # s "flbass" # gain 1 # legato 1.2 # lpf (range 300 800 $ slow 4 sine), slow 8 $ note (scale "minor" "<[0,3,7] [-3,0,4] [-5,~,-2] [-7,~,0]>") # s "mars_synths_S612_Rhodes" # gain 0.8 # room 0.6 # size 0.8]
   -- d5 silence

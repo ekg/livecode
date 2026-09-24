@@ -7,10 +7,7 @@ do
   --setcps (170/60/4)
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Core drum and bass rhythm section
-  d1 $ swing $ stack [
-    s "bd(3,8)" # gain 1.0 # lpf 300,
-    s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1,
-    every 8 (fast 2) $ s "hh(7,16)" # gain 0.75 # pan (range 0.4 0.6 $ slow 3 $ sine)]
+d1 $ swing $ stack [ s "bd(3,8)" # gain 1.0 # lpf 300, s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1, every 8 (fast 2) $ s "hh(7,16)" # gain 0.75 # pan (range 0.4 0.6 $ slow 3 $ sine)]
   -- Breakbeat layer with subtle variations
   d2 $ swing $ every 16 (jux rev) $ every 8 (# crush 4) 
     $ loopAt "<2 4>" $ chop 16 

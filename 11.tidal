@@ -2,10 +2,7 @@ do
   hush
   setcps (130/60/4)
   -- Basic techno beat
-  d1 $ stack [
-    s "bd(3,8)" # gain 1.2,
-    s "~ cp ~ cp" # room 0.3,
-    fast 2 $ s "hh*2" # gain 0.8 ]
+d1 $ stack [ s "bd(3,8)" # gain 1.2, s "~ cp ~ cp" # room 0.3, fast 2 $ s "hh*2" # gain 0.8 ]
   -- Atmospheric lpviz layer
   d2 $ every 4 (rev) 
     $ loopAt 2 
@@ -40,10 +37,7 @@ do
   hush
   setcps (128/60/4)
   -- Core rhythm section
-  d5 $ stack [
-    every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200,
-    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
-    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
+d5 $ stack [ every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200, every 4 (fast 2) $ s "~ realclaps:3" # room 0.4, fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
   -- Atmospheric pad with filter sweep
   d6 $ every 8 (rev) 
     $ loopAt 4 
@@ -86,12 +80,7 @@ do
 do
   hush
   -- Rhythmic base
-  d1 $ stack [
-    s "808bd:3(3,8)" # lpf 600 # crush 2,
-    fast 0.5 $ s "~ realclaps:0(3,8) ~ cp:0" # crush 8,
-    fast "<8 8 8 9 7>" $ s "hh(2,7)"
-      # n (fast "<11 12 11 13>" "0 0 0 3 7 0")
-      # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9") ]
+d1 $ stack [ s "808bd:3(3,8)" # lpf 600 # crush 2, fast 0.5 $ s "~ realclaps:0(3,8) ~ cp:0" # crush 8, fast "<8 8 8 9 7>" $ s "hh(2,7)" # n (fast "<11 12 11 13>" "0 0 0 3 7 0") # gain 0.8 # crush (fast 9 "9 3 2 8") # room (slow 8 "0 0.9") ]
   -- Spacey piano line  
   d2 $ slow 4 
     $ note (scale "minor" "0 3 5 7 3 0 -2 -4") 
@@ -108,9 +97,7 @@ do
 do
   hush
   -- Loop-based rhythm with breaks
-  d4 $ stack [
-    every 4 (rev) $ loopAt 2 $ chop 8 $ s "breaks125" # n 4 # gain 1.1 # hpf 500,
-    s "808bd(3,8)" # n 3 # gain 1.2 ]
+d4 $ stack [ every 4 (rev) $ loopAt 2 $ chop 8 $ s "breaks125" # n 4 # gain 1.1 # hpf 500, s "808bd(3,8)" # n 3 # gain 1.2 ]
     -- fast 2 $ s "~ realclaps" # n "[3,4]" # room 0.3 ]
   -- Long melodic line with direct note progression
   d2 $ slow 16
@@ -140,10 +127,7 @@ do
   hush
   setcps (130/60/4)
   -- Core rhythm section
-  d1 $ stack [
-    every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200,
-    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4,
-    fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
+d1 $ stack [ every 4 (fast "1 4") $ s "808bd(3,8)" # gain 2 # lpf 200, every 4 (fast 2) $ s "~ realclaps:3" # room 0.4, fast 2 $ s "hh*2" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine)]
   -- Atmospheric pad with filter sweep
   d2 $ every 8 (rev) 
     $ loopAt 4 
@@ -185,14 +169,7 @@ do
   hush
   setcps (90/60/4)  -- Classic blues tempo
   -- Complex rhythm section with varied drums and strong backbeat
-  d1 $ stack [
-    every 4 (fast 2) $ s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300,
-    every 3 (rev) $ s "~ [cpu2:3 cpu2:8] ~ cpu2:2" # room 0.4 # gain 0.9,
-    fast 2 $ s "[808oh*2, 808hc(3,8)]" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine),
-    sometimesBy 0.3 (# crush 4) $ s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85,
-    s "~ realclaps:3 ~ realclaps:3" # gain 1.1 # room 0.5,
-    every 2 (fast 2) $ s "~ sd:2 ~ [sd:2 sd:1]" # gain 0.9 # room 0.3,
-    fast 4 $ s "hh*2" # n (irand 4) # gain 0.75 # pan (rand) ]
+d1 $ stack [ every 4 (fast 2) $ s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300, every 3 (rev) $ s "~ [cpu2:3 cpu2:8] ~ cpu2:2" # room 0.4 # gain 0.9, fast 2 $ s "[808oh*2, 808hc(3,8)]" # gain 0.8 # pan (range 0.3 0.7 $ slow 4 sine), sometimesBy 0.3 (# crush 4) $ s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85, s "~ realclaps:3 ~ realclaps:3" # gain 1.1 # room 0.5, every 2 (fast 2) $ s "~ sd:2 ~ [sd:2 sd:1]" # gain 0.9 # room 0.3, fast 4 $ s "hh*2" # n (irand 4) # gain 0.75 # pan (rand) ]
   -- Walking bass line with chromatic runs and octave jumps
   d2 $ every 4 (stut 2 0.5 0.125)
     $ every 3 (fast 2)
@@ -214,12 +191,7 @@ do
   -- Lead blues line with bends and expressive phrasing
   d4 $ every 4 (fast 2)
     $ every 3 (rev)
-    $ note (cat [
-      scale "blues" "0 3 [2 3] 0",
-      scale "blues" "[5 ~] 3 [2 1] 0",
-      scale "blues" "[7 8] 5 3 [2 0]",
-      scale "blues" "[0 -2] 0 2 3"
-    ])
+$ note (cat [ scale "blues" "0 3 [2 3] 0", scale "blues" "[5 ~] 3 [2 1] 0", scale "blues" "[7 8] 5 3 [2 0]", scale "blues" "[0 -2] 0 2 3" ])
     # s "supersquare"
     # gain 0.75
     # room 0.5
@@ -238,11 +210,7 @@ do
   hush
   setcps (124/60/4)  -- Classic house tempo
   -- Deep house beat with 808 drums and real claps
-  d1 $ stack [
-    s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300,
-    every 4 (fast 2) $ s "~ realclaps:3" # room 0.4 # gain 0.9,
-    fast 2 $ s "808oh*2" # gain 0.7 # pan (range 0.3 0.7 $ slow 4 sine),
-    s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85 ]
+d1 $ stack [ s "808bd(3,8)" # n 3 # gain 1.2 # lpf 300, every 4 (fast 2) $ s "~ realclaps:3" # room 0.4 # gain 0.9, fast 2 $ s "808oh*2" # gain 0.7 # pan (range 0.3 0.7 $ slow 4 sine), s "808mt(5,8)" # speed "<1 0.8 1.2>" # gain 0.85 ]
   -- Deep house bass with filter movement
   d2 $ every 4 (stut 2 0.5 0.125)
     $ note (cat ["c2 [~ g2] e2 [~ a2]", "f2 [~ c3] g2 [~ e2]"])
@@ -278,23 +246,7 @@ do
 do
   setcps (117/60/4)
   let l = s "lpviz"
-  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310
-             , every 8 (stut 3 0.7 (3/8)) $ compress (1/4, 3/4)
-               $ every 16 (* note "0 7 -12 -5")
-               $ note (slow 2 "<0 3 0 7>") # l # n 281
-             , slow 4 $ every 3 (rev)
-               $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
-               # n "<491 492>"
-               # legato 1 # speed 0.98 # gain 0.9 # crush "<4 4 5 7 9>"
-             , s "808bd*4" # n 3
-             , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4, 7]" # room 0.1 # sz 0.8
-             , struct "t(3,7)"
-               $ s "808mt(<12 12 13>,14,11)"
-               # speed (cat ["1 0.5 0.7 0.66"
-                          , "1 1 1 1"
-                          , "0.5 0.6 0.66 0.7"
-                          , "1 1 1 1"])
-             ]
+d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310 , every 8 (stut 3 0.7 (3/8)) $ compress (1/4, 3/4) $ every 16 (* note "0 7 -12 -5") $ note (slow 2 "<0 3 0 7>") # l # n 281 , slow 4 $ every 3 (rev) $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l # n "<491 492>" # legato 1 # speed 0.98 # gain 0.9 # crush "<4 4 5 7 9>" , s "808bd*4" # n 3 , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4, 7]" # room 0.1 # sz 0.8 , struct "t(3,7)" $ s "808mt(<12 12 13>,14,11)" # speed (cat ["1 0.5 0.7 0.66" , "1 1 1 1" , "0.5 0.6 0.66 0.7" , "1 1 1 1"]) ]
   -- Melodic bass line with filter movement
   d2 $ every 4 (stut 2 0.5 0.125)
     $ note (scale "minor" $ cat ["0 [~ 3] -1 [~ 5]", "-2 [~ 0] 2 [~ 3]"])
@@ -325,23 +277,7 @@ do
 do
   setcps (117/60/4)
   let l = s "lpviz"
-  d1 $ stack [every 4 (rev) $ loopAt 4 $ chop 32 $ l # n 310 # room 0.8
-             , every 8 (stut 4 0.8 (3/8)) $ compress (1/4, 3/4)
-               $ every 16 (* note "0 5 -7 -12")
-               $ note (slow 4 "<-7 0 5 7>") # l # n 281 # delay 0.7 # delaytime (3/8) # delayfeedback 0.6
-             , slow 8 $ every 3 (rev)
-               $ slice 32 "16 19 0 7" $ loopAt 8 $ chop 16 $ l
-               # n "<491 492>"
-               # legato 1.2 # speed 0.5 # gain 0.85 # crush "<4 5 7 9>"
-             , s "808bd(3,8)" # n 3 # lpf 400
-             , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4]" # room 0.8 # sz 0.9
-             , struct "t(5,14)"
-               $ s "808mt(<8 12 7>,14,<0 2>)"
-               # speed (cat ["0.5 0.7 0.66"
-                          , "1 1 1"
-                          , "0.5 0.66 0.7"
-                          , "0.7 0.5 0.6"])
-               # room 0.6 ]
+d1 $ stack [every 4 (rev) $ loopAt 4 $ chop 32 $ l # n 310 # room 0.8 , every 8 (stut 4 0.8 (3/8)) $ compress (1/4, 3/4) $ every 16 (* note "0 5 -7 -12") $ note (slow 4 "<-7 0 5 7>") # l # n 281 # delay 0.7 # delaytime (3/8) # delayfeedback 0.6 , slow 8 $ every 3 (rev) $ slice 32 "16 19 0 7" $ loopAt 8 $ chop 16 $ l # n "<491 492>" # legato 1.2 # speed 0.5 # gain 0.85 # crush "<4 5 7 9>" , s "808bd(3,8)" # n 3 # lpf 400 , every 8 (# gain 0) $ fast 2 $ s "~ realclaps" # n "[3, 4]" # room 0.8 # sz 0.9 , struct "t(5,14)" $ s "808mt(<8 12 7>,14,<0 2>)" # speed (cat ["0.5 0.7 0.66" , "1 1 1" , "0.5 0.66 0.7" , "0.7 0.5 0.6"]) # room 0.6 ]
   -- Dubby bass line with filter movement
   d2 $ every 4 (stut 3 0.6 0.25)
     $ note (scale "minor" $ cat ["-7 [~ 0] -5 [~ 2]", "-12 [~ -7] 0 [~ -5]"])
@@ -376,23 +312,7 @@ do
 do
   setcps (128/60/4)
   let l = s "lpviz"
-  d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310 # room 0.6 # gain 1.1
-             , every 4 (stut 3 0.8 (1/4)) $ compress (1/4, 3/4)
-               $ every 8 (* note "0 5 -7 -12")
-               $ note (slow 2 "<-7 0 5 7>") # l # n "<278 288 399 193>" # delay 0.5 # delaytime (1/4) # delayfeedback 0.4
-             , slow 4 $ every 2 (rev)
-               $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l
-               # n "<491 492>"
-               # legato 1.2 # speed 0.8 # gain 0.95 # crush "<3 4 5>"
-             , s "808bd(4,8)" # n 3 # lpf 300 # gain 1.3
-             , every 4 (# gain 1.2) $ fast 2 $ s "~ realclaps" # n "[3, 4]" # room 0.4 # sz 0.8
-             , struct "t(7,8)"
-               $ s "808mt(8,8)"
-               # speed (cat ["1 0.8 0.7"
-                          , "1 1 1"
-                          , "0.8 0.7 0.6"
-                          , "1 0.8 0.7"])
-               # room 0.4 ]
+d1 $ stack [every 4 (rev) $ loopAt 2 $ chop 16 $ l # n 310 # room 0.6 # gain 1.1 , every 4 (stut 3 0.8 (1/4)) $ compress (1/4, 3/4) $ every 8 (* note "0 5 -7 -12") $ note (slow 2 "<-7 0 5 7>") # l # n "<278 288 399 193>" # delay 0.5 # delaytime (1/4) # delayfeedback 0.4 , slow 4 $ every 2 (rev) $ slice 32 "16 19 0 7" $ loopAt 4 $ chop 8 $ l # n "<491 492>" # legato 1.2 # speed 0.8 # gain 0.95 # crush "<3 4 5>" , s "808bd(4,8)" # n 3 # lpf 300 # gain 1.3 , every 4 (# gain 1.2) $ fast 2 $ s "~ realclaps" # n "[3, 4]" # room 0.4 # sz 0.8 , struct "t(7,8)" $ s "808mt(8,8)" # speed (cat ["1 0.8 0.7" , "1 1 1" , "0.8 0.7 0.6" , "1 0.8 0.7"]) # room 0.4 ]
   -- Hard bass line with aggressive filter
   d2 $ every 4 (stut 2 0.6 0.125)
     $ note (scale "minor" $ cat ["-7 0 -5 2", "-12 -7 0 -5"])

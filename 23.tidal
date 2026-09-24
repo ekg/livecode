@@ -6,15 +6,10 @@ do
   setcps (126/60/4)
   let swing = always (# nudge (fast 16 $ range 0 0.02 $ slow 4 $ sine))
   -- Core minimal techno kick and percussion
-  d1 $ swing $ stack [
-    s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3,
-    every 8 (# crush 8) $ s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1,
-    every 4 (jux (0.125 ~>)) $ s "hh(7,16)" # gain 0.75 # pan (range 0.3 0.7 $ slow 3 $ sine)]
+d1 $ swing $ stack [ s "bd(3,8)" # gain 1.1 # lpf 300 # shape 0.3, every 8 (# crush 8) $ s "~ cp ~ ~" # gain 0.85 # room 0.1 # size 0.1, every 4 (jux (0.125 ~>)) $ s "hh(7,16)" # gain 0.75 # pan (range 0.3 0.7 $ slow 3 $ sine)]
   -- Minimal percussion with subtle variations
   d2 $ swing $ every 8 (# crush 4) 
-    $ stack [
-      struct "t(5,16,<0 1>)" $ s "cpu2:3" # gain 0.8 # pan (range 0.4 0.6 $ slow 5 $ sine),
-      struct "t(3,16,<0 2>)" $ s "808oh" # gain 0.7 # pan (range 0.2 0.8 $ slow 4 $ sine)]
+$ stack [ struct "t(5,16,<0 1>)" $ s "cpu2:3" # gain 0.8 # pan (range 0.4 0.6 $ slow 5 $ sine), struct "t(3,16,<0 2>)" $ s "808oh" # gain 0.7 # pan (range 0.2 0.8 $ slow 4 $ sine)]
     # room 0.2 # size 0.2
   -- Hypnotic, subtle breakbeat - heavily processed
   d3 $ swing $ every 8 (# crush 4) 

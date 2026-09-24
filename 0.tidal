@@ -3,9 +3,7 @@
 d1 -- moistpeace remix
   $ jux (iter "2 <1 4>".rev)
   $ hurry "<0.5 2> 3 1*3 <1 -2>"
-  $ iter "<4 3>" $ chunk 2 (hurry "4 0.5 -0.9 -4"
-                            . (|*| room "0.8 0.1*10 0.5!3")
-                            . (# sz "<0.9 0.1 0 0.3>"))
+$ iter "<4 3>" $ chunk 2 (hurry "4 0.5 -0.9 -4" . (|*| room "0.8 0.1*10 0.5!3") . (# sz "<0.9 0.1 0 0.3>"))
   $ slow 2 $ rev $ striate "<4 3 7 8/2>"
   $ s "lpmr" # n (fast 9 $ "<382 381 380 388>") # legato 1
   # pan (rand) # shape 0.5
@@ -17,17 +15,13 @@ hush
 
 d1 -- $ every 4 (slow "<1 2 3>" . striate "4")
   $ iter (slow 3 "<4 9 7 11>") --
-  $ chunk 8 ((# speed "-0.5")
-             .(|*| room "0.4 0.1 0.2")
-             .(# sz "<0.9 0.1 0 0.3>"))
+$ chunk 8 ((# speed "-0.5") .(|*| room "0.4 0.1 0.2") .(# sz "<0.9 0.1 0 0.3>"))
   $ off (3/8) (iter "<8 7 <3 17>>" . rev)
   -- $ every 3 (jux rev)
   $ every 2 (off (3/8) (rev . slice 16 "15 2 8 3 2 9 1"))
   $ every 5 (slice 16 "0 8 9 7 1 8 2 9 1 3" . (# speed "-0.5"))
   $ n "<300 [301 303 304] <<303 109> <82 81 107>>>"
-  # stack [s "reggae" # n "<3 2 3 8 ~ ~ -3 ~ 7 ~ 8 -10 1 9 -3>"
-          , s "lpmr" # n "<1005 1004 1008 1050>" # lpf 200 # orbit 2 # att 1.0 # decay 0.9
-          ]
+# stack [s "reggae" # n "<3 2 3 8 ~ ~ -3 ~ 7 ~ 8 -10 1 9 -3>" , s "lpmr" # n "<1005 1004 1008 1050>" # lpf 200 # orbit 2 # att 1.0 # decay 0.9 ]
   # legato 1
   # lpfbus 1 (range "<5000 300 3777>" 1000 (square))
   # shapebus 2 (range 0.5 0.8 (slow 4 sine))
@@ -37,10 +31,7 @@ d1 -- $ every 4 (slow "<1 2 3>" . striate "4")
   # pan (rand)
 
 d2 $ every 4 (hurry "0 0 3") $ every 3 (hurry 2)
-  $ stack [struct "t(11,16,14)" $ s "hh"
-          ,struct "t(<2!3 3>,8)" $ stack [s "909"
-                                         ,s "cpu2"
-                                         ,s "bd" # n 3]]
+$ stack [struct "t(11,16,14)" $ s "hh" ,struct "t(<2!3 3>,8)" $ stack [s "909" ,s "cpu2" ,s "bd" # n 3]]
   # gain 0.85 # shape 0.3 # nudge (fast 8 "0 0.015")
   # pan (rand)
 
@@ -142,8 +133,7 @@ setcps (120/60/4)
 setcps (90/60/4)
 
 d1 $ every 8 (stut 4 "0.9 0.7 0.6" (1/8) . (hurry 2))
-  $ stack [n "0 ~ 0 ~" # s "cpu2" # begin 0.01
-          ,n "0 <~ 0 ~ ~> ~" # s "cpu" # begin 0.05] --  # distort (fast 7 "0.1 0.05")
+$ stack [n "0 ~ 0 ~" # s "cpu2" # begin 0.01 ,n "0 <~ 0 ~ ~> ~" # s "cpu" # begin 0.05] --  # distort (fast 7 "0.1 0.05")
 
 d2 $ every 4 (+ n 4)
   $ n "0(<11 10 11 12 9 8 7 13>,16,<4 3 2>)" # s "linnhats"
@@ -245,9 +235,7 @@ d2 $ n "~ [0, 3, 4] ~ [0, 1, 2]" # s "realclaps"
 d3 $ every 4 (fast 2)
   $ every 5 (# gain 0)
   $ (slow 8 "-0.125 -0.125 -0.25") <~
-  (every 3 (slow "2 3") $ note "<3 3 [3 . 4 5] ~> 0 <7 ~ 5>" + note "'min9'o 'maj7'i"
-    # stack [s "teclado"# gain 0.8, s "piano" # speed "0.5" # velocity 0.8]
-    # room 0.2 # sz 0.3 # gain 0.8 # lpf (range 3000 6000 (slow 16 saw)))
+(every 3 (slow "2 3") $ note "<3 3 [3 . 4 5] ~> 0 <7 ~ 5>" + note "'min9'o 'maj7'i" # stack [s "teclado"# gain 0.8, s "piano" # speed "0.5" # velocity 0.8] # room 0.2 # sz 0.3 # gain 0.8 # lpf (range 3000 6000 (slow 16 saw)))
 
 d4 $ every 4 (fast 2) $ fast 8 $ s "~ 808oh" # release (fast 11 "0.1 0.2")
   # nudge (fast 9 "0 0.02") # lpf (range 3000 4000 (slow 8 sine))
@@ -286,9 +274,7 @@ d4 $ every 4 (hurry 2)
 setcps (125/60/4)
 
 d1 $ off (0) (struct "t(11,16,14)" . (# gain (range 0 0.8 (slow 16 $ saw))))
-  $ stack [n "0 0",
-            fast 2 $ n "~ 4",
-            fast 4 $ n "~ <2 6 2 9 6 5 2>" # nudge 0.04]
+$ stack [n "0 0", fast 2 $ n "~ 4", fast 4 $ n "~ <2 6 2 9 6 5 2>" # nudge 0.04]
   # s "jazz" # gain 1.1
   # nudge (fast 8 "0 <0.03 0.02 0.05 -0.01>")
   # pan (rand)
@@ -321,9 +307,7 @@ d1 -- $ every "3 4 7" (slow 2) $ slow "<2 1.5 3>"
   $ note "<'maj'o ['min'oo/3, 'min7'i/2] 'maj9'i 'min9'oo>"
   + note "<0 7 0 0 -5 0 3 ~>"
   + note "ef <ef ~ c c> . bf/2 <bf f> f/4 . c c [c <ef c ~ ~> c]"
-  # stack [s "superpiano" # velocity 0.9,
-           s "gtr" # legato 5 # shape 0.5 # bpf 500,
-           s "uku" # n 3 # gain 1.5]
+# stack [s "superpiano" # velocity 0.9, s "gtr" # legato 5 # shape 0.5 # bpf 500, s "uku" # n 3 # gain 1.5]
   # lpf 2000 # room 0.9 # sz 0.99 # att (fast 7 "0.1 0 0.9 0.5") # release 0.3
   # leslie 0.99
 
@@ -340,11 +324,9 @@ d1 $ slice 11 "1 1 1 1" $ fast 4 $ note "<0!7 <0 3 [4 2] 7>>" # s "808bd:6" # ga
 
 d1 $ s "bd*2"
 
-d3 $ struct "t(9,16)" $ stack [s "feel:9" # bpf 2000
-                              ,s "808oh" # n (fast 7 "0 3 2 1") # release 0.2 # bpf 3000]
+d3 $ struct "t(9,16)" $ stack [s "feel:9" # bpf 2000 ,s "808oh" # n (fast 7 "0 3 2 1") # release 0.2 # bpf 3000]
 
-d4 $ struct "~ ~ 1 ~" $ stack [s "sd" # n "[3, 4]" # room 0.2 # sz 0.8 # orbit 11
-                              ,s "realclaps/4" # room 0.8 # sz 0.99 # orbit 13]
+d4 $ struct "~ ~ 1 ~" $ stack [s "sd" # n "[3, 4]" # room 0.2 # sz 0.8 # orbit 11 ,s "realclaps/4" # room 0.8 # sz 0.99 # orbit 13]
 
 d4 silence
 
@@ -459,9 +441,7 @@ d1 $ struct "t(<3 3 3 5>,8,2)" $ s "<mars_synths_S612_Rhodes mars_synths_Micro_F
 d1 $ n "[ 0*4, ~ 3/2]" # s "mars_kits_SP909_Lo_N_Dirty" # gain 1.2
 
 d2 $ every 8 (stut 2 0.8 (1/16))
-  $ stack [n "0*4",
-           n "~ [3, 7] ~ [3, <9 [~ 9]>] <~ 13> 3 ~ 3",
-           n "~ 8 ~ 9"]
+$ stack [n "0*4", n "~ [3, 7] ~ [3, <9 [~ 9]>] <~ 13> 3 ~ 3", n "~ 8 ~ 9"]
   # stack [s "mars_kits_DMX_612_Classic", s "mars_kits_MPC1_Buzzer_Beater"]
   # nudge (fast 8 "0 0.05")
 
@@ -509,8 +489,7 @@ do
     # swing
   d3 $ every' 16 3 (# lpf 1000)
     $ every' 4 3 (# lpf 100) $ every 8 (arpg) $ note "'min9" + note "<0 0 -1 0 0 0 3 7>"
-    # stack [s "mars_synths_S612_Rhodes" # n 2 # lpf 300 # legato 1 # gain 0.9,
-             s "superpiano" # lpf 900 # velocity 0.8]
+# stack [s "mars_synths_S612_Rhodes" # n 2 # lpf 300 # legato 1 # gain 0.9, s "superpiano" # lpf 900 # velocity 0.8]
     # room 0.2 # sz 0.9 # lpfbus 3 (fast "<1 2!2 3>" $ segment 4 "300 <500 600> 200 500")
   --d1 silence
   --d2 silence
@@ -553,11 +532,7 @@ do
 -- 10:50 10-Jan-22
 
 d1 $ note "'min"
-  + note (cat ["d a@2 e",
-                "a",
-                "d [d [d d5]] a . [b [e a]]",
-                "b",
-                "e"]) # s "[gtr,mars_synths_360_Vibes:2,mars_synths_360_Guitar]"
++ note (cat ["d a@2 e", "a", "d [d [d d5]] a . [b [e a]]", "b", "e"]) # s "[gtr,mars_synths_360_Vibes:2,mars_synths_360_Guitar]"
   # legato 1 # smear 0.5
   -- # room (slow 8 "0.2 0 0 0.8") # sz 0.86
 
@@ -612,8 +587,7 @@ do
   d3 $ every 7 (# speed "-0.75")
     $ n "<4 4 3 1>(5,17,2)" # s "techno"
   d4 $ every 7 (# speed "-0.75")
-    $ stack [n "0(3,17,3)" # s "808hc"
-            , n "0(<3 5 4>,17,1)" # s "808lc"]
+$ stack [n "0(3,17,3)" # s "808hc" , n "0(<3 5 4>,17,1)" # s "808lc"]
   d5 $ every 7 (# speed "-1")
     $ stut 3 0.7 (3/17)
     $ struct "t(<3 [9 11 13] 4 5 3 4>,17)"
@@ -725,16 +699,9 @@ do
     # s "[mars_kits_S612_Roomy, lpmr:388, lpmr:327]" # legato 1 # hpf 500 # gain 0.87
   d2 $ every 3 (jux rev)
     $ every 5 (# crush "16 7 4")
-    $ cat [loopAt 1 $ s "reggae" # n 44,
-            loopAt 1 $ s "reggae" # n 93,
-            loopAt 1 $ s "lpviz" # n 93,
-            loopAt 1 $ s "reggae" # n 39,
-            loopAt 2 $ s "reggae" # n 139,
-            loopAt 1 $ s "lpmr" # n 835]
+$ cat [loopAt 1 $ s "reggae" # n 44, loopAt 1 $ s "reggae" # n 93, loopAt 1 $ s "lpviz" # n 93, loopAt 1 $ s "reggae" # n 39, loopAt 2 $ s "reggae" # n 139, loopAt 1 $ s "lpmr" # n 835]
     -- # lpf 700 # gain 1.2
-  d3 $ stack [n "0(3,8)",
-              n "8(14,<16 17 16 15>,2)",
-              n "3(<2 3 4>,4,2)"]
+d3 $ stack [n "0(3,8)", n "8(14,<16 17 16 15>,2)", n "3(<2 3 4>,4,2)"]
     # s "cpu2"
   d4 $ every 4 (hurry 2) $ fast 2 $ s "~ cp"
   d5 $ stut 5 0.7 (3/8) $ arp "<up down>" $ note "<'min'o 'min7'oo 'min9'oo>"
@@ -880,8 +847,7 @@ d4 $ note "0 3 <3 3 4 7> 0"
 
 d5 $ every 3 (# amp 1)
   $ stut 3 0.8 (1/4) $ slow 2 $ note (slow 4 "<'min'oo 'maj'oo>") + note "0 3 <3 -2 4 7> 0"
-  # stack [s "mars_synths_S612_Rhodes" # n 5 # legato 1 # room 0.5 # sz 0.9,
-           s "piano" # n 0 # gain 1.5 # lpf 3000]
+# stack [s "mars_synths_S612_Rhodes" # n 5 # legato 1 # room 0.5 # sz 0.9, s "piano" # n 0 # gain 1.5 # lpf 3000]
             --s "mars_synths_SK1_Echo" # n 0 # gain 1.5 # lpf 3000]
 
 hush
