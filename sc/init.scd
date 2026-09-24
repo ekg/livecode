@@ -75,8 +75,13 @@ stage.("install orbit chains", {
 				[\verbSend, \room, \verbT60, \verbDamp, \size, \verbEarly,
 				 \verbHp, \verbPre, \verbLow, \verbHigh, \verbLowcut,
 				 \verbHighcut, \verbTone, \verbMod, \verbWidth]),
+			// alwaysRun: a GlobalDirtEffect synth is created PAUSED and only runs
+			// while its params are active. This one's only job is to write control
+			// values, so if it is paused it never writes them and the master
+			// controls appear dead even though the params arrive.
 			GlobalDirtEffect(\dirt_masterctl,
-				[\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth]),
+				[\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth])
+				.alwaysRun_(true),
 			GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
 		];
 		orbit.outBus = ~masterBus;
