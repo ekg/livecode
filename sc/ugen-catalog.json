@@ -1,0 +1,7906 @@
+[
+ {
+  "name": "AmplitudeMod",
+  "title": "AmplitudeMod",
+  "summary": "amplitude follower (deprecated)",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Amplitude"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "input signal.",
+    "default": ""
+   },
+   {
+    "name": "attackTime",
+    "desc": "60dB convergence time for following attacks.",
+    "default": ""
+   },
+   {
+    "name": "releaseTime",
+    "desc": "60dB convergence time for following decays.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BlackrainUGens/HelpSource/Classes/AmplitudeMod.schelp"
+ },
+ {
+  "name": "AnalyseEvents2",
+  "title": "AnalyseEvents2",
+  "summary": "event analyser (BBCut)",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "Audio input to track",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "A buffer within which results of the analysis are place",
+    "default": ""
+   },
+   {
+    "name": "threshold",
+    "desc": "A parameter acting as the onset detector threshold, default of 0.34 was determined as the best performing over a database of percussive onset, but you might want to change this to change the sensitivi",
+    "default": ""
+   },
+   {
+    "name": "triggerid",
+    "desc": "A trigger ID number used for communication from the UGen to the Lang to mark that a new event was received. Only passed for on-the-fly analysis.",
+    "default": ""
+   },
+   {
+    "name": "circular",
+    "desc": "A flag to note on-the-fly analysis assuming a circular buffer. If you only need a one-pass analysis on a file, you won't use this.",
+    "default": ""
+   },
+   {
+    "name": "pitch",
+    "desc": "Can take a .kr pitch detection UGen as input. Will take the median fundamental frequency over a note event from values recorded from this pitch input.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BBCut2UGens/HelpSource/Classes/AnalyseEvents2.schelp"
+ },
+ {
+  "name": "ArneodoCoulletTresser",
+  "title": "ArneodoCoulletTresser",
+  "summary": "2-species Predator-Prey model",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "update frequency, best set to Nyquist frequency. To modulate tonal qualities, use code::h::.",
+    "default": ""
+   },
+   {
+    "name": "alpha",
+    "desc": "meta parameter (shoud be between 0 and 2)",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "step size for the approximation",
+    "default": ""
+   },
+   {
+    "name": "xi",
+    "desc": "initial value for x, resets the UGen when changed",
+    "default": ""
+   },
+   {
+    "name": "yi",
+    "desc": "initial value for y, resets the UGen when changed",
+    "default": ""
+   },
+   {
+    "name": "zi",
+    "desc": "initial value for z, resets the UGen when changed",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/ChaosUGens/HelpSource/Classes/ArneodoCoulletTresser.schelp"
+ },
+ {
+  "name": "ArrayMax",
+  "title": "ArrayMax",
+  "summary": "detect the largest value (and its position) in an array of UGens",
+  "categories": [
+   "UGens",
+   "Multichannel, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "array",
+    "desc": "returns:: # val, index",
+    "default": ""
+   },
+   {
+    "name": "array",
+    "desc": "returns:: # val, index",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/ArrayMax.schelp"
+ },
+ {
+  "name": "ArrayMin",
+  "title": "ArrayMin",
+  "summary": "detect the smallest value (and its position) in an array of UGens",
+  "categories": [
+   "UGens",
+   "Multichannel, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "array",
+    "desc": "returns:: # val, index",
+    "default": ""
+   },
+   {
+    "name": "array",
+    "desc": "returns:: # val, index",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/ArrayMin.schelp"
+ },
+ {
+  "name": "AtsAmp",
+  "title": "AtsAmp",
+  "summary": "Use Amp data from a given partial",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsAmp.schelp"
+ },
+ {
+  "name": "AtsBand",
+  "title": "AtsBand",
+  "summary": "(put short description here)",
+  "categories": [
+   "Undocumented classes, Libraries",
+   "JoshUGens"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsBand.schelp"
+ },
+ {
+  "name": "AtsFile",
+  "title": "AtsFile",
+  "summary": "For working with ATS file data",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsFile.schelp"
+ },
+ {
+  "name": "AtsFreq",
+  "title": "AtsFreq",
+  "summary": "Use Freq data from a given partial",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsFreq.schelp"
+ },
+ {
+  "name": "AtsNoiSynth",
+  "title": "AtsNoiSynth",
+  "summary": "Resynthesize sine and noise data from an ATS analysis file",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsNoiSynth.schelp"
+ },
+ {
+  "name": "AtsParInfo",
+  "title": "AtsParInfo",
+  "summary": "One UGen to return both Amp and Freq info",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsParInfo.schelp"
+ },
+ {
+  "name": "AtsSynth",
+  "title": "AtsSynth",
+  "summary": "Resynthesize sine data from an ATS analysis file",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/AtsSynth.schelp"
+ },
+ {
+  "name": "AttackSlope",
+  "title": "AttackSlope",
+  "summary": "Detect onsets and assess the nature of the attack slope",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/AttackSlope.schelp"
+ },
+ {
+  "name": "AutoTrack",
+  "title": "AutoTrack",
+  "summary": "autocorrelation beat tracker",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "Audio input to track",
+    "default": ""
+   },
+   {
+    "name": "lock",
+    "desc": "If this argument is greater than 0.5, the tracker will lock at its current periodicity and continue from the current phase. Whilst it updates the model's phase and period, this is not reflected in the",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BBCut2UGens/HelpSource/Classes/AutoTrack.schelp"
+ },
+ {
+  "name": "AverageOutput",
+  "title": "AverageOutput",
+  "summary": "calculates mean average of audio or control rate signal",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal.",
+    "default": ""
+   },
+   {
+    "name": "trig",
+    "desc": "if changes from <= 0 to > 0, resets average and count to zero.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/RFWUGens/HelpSource/Classes/AverageOutput.schelp"
+ },
+ {
+  "name": "AY",
+  "title": "AY",
+  "summary": "Emulator of the AY (aka YM) soundchip, used in Spectrum/Atari",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AYUGens/HelpSource/Classes/AY.schelp"
+ },
+ {
+  "name": "Balance",
+  "title": "Balance",
+  "summary": "Balances two signals with each other",
+  "categories": [
+   "Libraries",
+   "JoshUGens"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/Balance.schelp"
+ },
+ {
+  "name": "BBlockerBuf",
+  "title": "BBlockerBuf",
+  "summary": "MultiOut BetaBlocker VChip",
+  "categories": [
+   "UGens"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "evaluation frequency",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "Pointer to the buffer where the heap is stored. Can be modulated at control-rate.",
+    "default": ""
+   },
+   {
+    "name": "startpoint",
+    "desc": "Initial position of the program counter.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BetablockerUGens/HelpSource/Classes/BBlockerBuf.schelp"
+ },
+ {
+  "name": "BBlockerProgram",
+  "title": "BBlockerProgram",
+  "summary": "Convenience class to create and store BetaBlocker programs",
+  "categories": [
+   "Convenience"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BetablockerUGens/HelpSource/Classes/BBlockerProgram.schelp"
+ },
+ {
+  "name": "BeatStatistics",
+  "title": "BeatStatistics",
+  "summary": "Extracts statistics on a beat histogram",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/BeatStatistics.schelp"
+ },
+ {
+  "name": "BFDecode1",
+  "title": "BFDecode1",
+  "summary": "3D Ambisonic decoder",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BFDecode1.schelp"
+ },
+ {
+  "name": "BFEncode1",
+  "title": "BFEncode1",
+  "summary": "Ambisonic B format encoder",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BFEncode1.schelp"
+ },
+ {
+  "name": "BFEncode2",
+  "title": "BFEncode2",
+  "summary": "Ambisonic B format encoder",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BFEncode2.schelp"
+ },
+ {
+  "name": "BFEncodeSter",
+  "title": "BFEncodeSter",
+  "summary": "Ambisonic B format encoder for stereo signals",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BFEncodeSter.schelp"
+ },
+ {
+  "name": "BFManipulate",
+  "title": "BFManipulate",
+  "summary": "BFormat sound manipulation",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BFManipulate.schelp"
+ },
+ {
+  "name": "BlitB3",
+  "title": "BlitB3",
+  "summary": "Band limited impulse generation",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/BlitB3.schelp"
+ },
+ {
+  "name": "BlitB3Saw",
+  "title": "BlitB3Saw",
+  "summary": "BLIT derived sawtooth",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Maximum frequency is a period of 4 samples, so a quarter of the sampling rate. You may start to hear aliasing over 5000 Hz or so, otherwise perceptually indistinguishable from an analog waveform.",
+    "default": ""
+   },
+   {
+    "name": "leak",
+    "desc": "leaky coefficient. 0 would give back the impulses, higher numbers (up to near 1.0) fill out the inter-impulse space, integrating the waveform.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/BlitB3Saw.schelp"
+ },
+ {
+  "name": "BlitB3Square",
+  "title": "BlitB3Square",
+  "summary": "Bipolar BLIT derived square waveform",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "You start to hear aliasing over 4000 Hz or so, otherwise perceptually indistinguishable from an analogue waveform.  Max frequency is half the sampling rate, but you'll hear aliasing well before that. ",
+    "default": ""
+   },
+   {
+    "name": "leak",
+    "desc": "leaky coefficient for integration. 0 would give back the impulses, higher numbers (up to near 1.0) fill out the inter-impulse space, integrating the waveform.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/BlitB3Square.schelp"
+ },
+ {
+  "name": "BlitB3Tri",
+  "title": "BlitB3Tri",
+  "summary": "Bipolar BLIT derived triangle",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "leak",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "leak2",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/BlitB3Tri.schelp"
+ },
+ {
+  "name": "BMoog",
+  "title": "BMoog",
+  "summary": "24db/oct rolloff - 4nd order resonant Low/High/Band Pass Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal to be processed",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "cutoff frequency",
+    "default": ""
+   },
+   {
+    "name": "q",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mode",
+    "desc": "filter mode:",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BlackrainUGens/HelpSource/Classes/BMoog.schelp"
+ },
+ {
+  "name": "Breakcore",
+  "title": "Breakcore",
+  "summary": "breakcore simulator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Breakcore.schelp"
+ },
+ {
+  "name": "Brusselator",
+  "title": "Brusselator",
+  "summary": "Prigogine oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "If > 0.0, restart with new initial conditions sampled from initx, inity",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "update rate for a sample step",
+    "default": ""
+   },
+   {
+    "name": "mu",
+    "desc": "equation constant. Set mu > (gamma**2 + 1.0) for the more fun limit cycle regions",
+    "default": ""
+   },
+   {
+    "name": "gamma",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Brusselator.schelp"
+ },
+ {
+  "name": "BufGrain",
+  "title": "BufGrain",
+  "summary": "Granular synthesis with sound sampled in a buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BufGrain.schelp"
+ },
+ {
+  "name": "BufGrainB",
+  "title": "BufGrainB",
+  "summary": "Granular synthesis with sound sampled in a buffer and user supplied envelope",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BufGrainB.schelp"
+ },
+ {
+  "name": "BufGrainI",
+  "title": "BufGrainI",
+  "summary": "Granular synthesis with sound sampled in a buffer and user supplied envelopes",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/BufGrainI.schelp"
+ },
+ {
+  "name": "BufMax",
+  "title": "BufMax",
+  "summary": "detect the largest value (and its position) in an array of UGens",
+  "categories": [
+   "UGens",
+   "Multichannel, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "You don't need to make use of the gate control: if you do use it, the calculation is only performed when gate>0. returns:: # val, index",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/BufMax.schelp"
+ },
+ {
+  "name": "BufMin",
+  "title": "BufMin",
+  "summary": "detect the largest value (and its position) in an array of UGens",
+  "categories": [
+   "UGens",
+   "Multichannel, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "You don't need to make use of the gate control: if you do use it, the calculation is only performed when gate>0. returns:: # val, index",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/BufMin.schelp"
+ },
+ {
+  "name": "Cepstrum",
+  "title": "Cepstrum",
+  "summary": "Quefrency analysis and liftering",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "cepbuf",
+    "desc": "a Buffer of half the size as the original FFT Buffer.",
+    "default": ""
+   },
+   {
+    "name": "fftchain",
+    "desc": "a standard FFT chain as produced by the FFT UGen or various PV_ UGens. returns::  a cepstral \"chain\" which can be treated in many regards like an FFT chain: you can apply PV_ transforms, for example.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Cepstrum.schelp"
+ },
+ {
+  "name": "Chromagram",
+  "title": "Chromagram",
+  "summary": "Octave chroma band based representation of energy in a signal; Chromagram for nTET tuning systems with any base reference",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "fft",
+    "desc": "input fft chain, that is, from an FFT UGen",
+    "default": ""
+   },
+   {
+    "name": "fftsize",
+    "desc": "FFT size, required for initialisation",
+    "default": ""
+   },
+   {
+    "name": "n",
+    "desc": "Equal divisions of an octave, e.g. n=12 is 12TET, 12 steps in an octave",
+    "default": ""
+   },
+   {
+    "name": "tuningbase",
+    "desc": "Base frequency or tuning; will correspong to index 0 in results (conventionally, this would be a 'C' in 12TET, but its an arbitrary reference)",
+    "default": ""
+   },
+   {
+    "name": "octaves",
+    "desc": "Number of octaves considered from tuning base up",
+    "default": ""
+   },
+   {
+    "name": "integrationflag",
+    "desc": "Whether to integrate from frame to frame, off by default",
+    "default": ""
+   },
+   {
+    "name": "coeff",
+    "desc": "Coefficient of integration",
+    "default": ""
+   },
+   {
+    "name": "octaveratio",
+    "desc": "Default of 2 is a 'normal' octave; other ratios are possible, e.g. Bohlen-Pierce scale uses 13 equal divisions over the ratio of 3 for a 'tritave'",
+    "default": ""
+   },
+   {
+    "name": "perframenormalize",
+    "desc": "Defaults to off, but if set to 1 will normalize each frame with respect to itself (as long as there is non-negligible power), potentially providing a more robust measure for comparison between frames ",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/Chromagram.schelp"
+ },
+ {
+  "name": "CircleRamp",
+  "title": "CircleRamp",
+  "summary": "circular linear lag",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The signal to be smoothed.",
+    "default": ""
+   },
+   {
+    "name": "lagTime",
+    "desc": "Lag time in seconds. The default is 0.1.",
+    "default": "0.1"
+   },
+   {
+    "name": "circmin",
+    "desc": "The lower wrap value. The default is -180.",
+    "default": "-180"
+   },
+   {
+    "name": "circmax",
+    "desc": "The upper wrap value. The default is 180.",
+    "default": "180"
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/VBAPUGens/HelpSource/Classes/CircleRamp.schelp"
+ },
+ {
+  "name": "ComplexRes",
+  "title": "ComplexRes",
+  "summary": "FM-modulable resonating filter",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "resonating frequency, can be modulated at audiorate.",
+    "default": ""
+   },
+   {
+    "name": "decay",
+    "desc": "decaytime in seconds",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/ComplexRes.schelp"
+ },
+ {
+  "name": "Concat",
+  "title": "Concat",
+  "summary": "Concatenative Cross-Synthesis on Live Streams",
+  "categories": [
+   "UGens",
+   "GranularSynthesis"
+  ],
+  "args": [
+   {
+    "name": "control",
+    "desc": "audio rate input, acts as control",
+    "default": ""
+   },
+   {
+    "name": "source",
+    "desc": "audio rate input, source for cross-synthesis",
+    "default": ""
+   },
+   {
+    "name": "storesize",
+    "desc": "size of source store sample buffer in seconds",
+    "default": ""
+   },
+   {
+    "name": "seektime",
+    "desc": "Time in seconds into the past to start searching for matches",
+    "default": ""
+   },
+   {
+    "name": "seekdur",
+    "desc": "Time in seconds from seektime towards the present to test matches",
+    "default": ""
+   },
+   {
+    "name": "matchlength",
+    "desc": "Match length in seconds (this will be rounded to the nearest FFT frame)",
+    "default": ""
+   },
+   {
+    "name": "freezestore",
+    "desc": "Stop collecting novel source input, keep store (database) fixed",
+    "default": ""
+   },
+   {
+    "name": "zcr",
+    "desc": "Weight for zero crossing rate feature",
+    "default": ""
+   },
+   {
+    "name": "lms",
+    "desc": "Weight for log mean square amplitude feature",
+    "default": ""
+   },
+   {
+    "name": "sc",
+    "desc": "Weight for spectral centroid feature",
+    "default": ""
+   },
+   {
+    "name": "st",
+    "desc": "Weight for spectral tilt feature",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/ConcatUGens/HelpSource/Classes/Concat.schelp"
+ },
+ {
+  "name": "Concat2",
+  "title": "Concat2",
+  "summary": "Concatenative Cross-Synthesis on Live Streams",
+  "categories": [
+   "UGens",
+   "GranularSynthesis"
+  ],
+  "args": [
+   {
+    "name": "control",
+    "desc": "audio rate input, acts as control",
+    "default": ""
+   },
+   {
+    "name": "source",
+    "desc": "audio rate input, source for cross-synthesis",
+    "default": ""
+   },
+   {
+    "name": "storesize",
+    "desc": "size of source store sample buffer in seconds",
+    "default": ""
+   },
+   {
+    "name": "seektime",
+    "desc": "Time in seconds into the past to start searching for matches",
+    "default": ""
+   },
+   {
+    "name": "seekdur",
+    "desc": "Time in seconds from seektime towards the present to test matches",
+    "default": ""
+   },
+   {
+    "name": "matchlength",
+    "desc": "Match length in seconds (this will be rounded to the nearest FFT frame)",
+    "default": ""
+   },
+   {
+    "name": "freezestore",
+    "desc": "Stop collecting novel source input, keep store (database) fixed",
+    "default": ""
+   },
+   {
+    "name": "zcr",
+    "desc": "Weight for zero crossing rate feature",
+    "default": ""
+   },
+   {
+    "name": "lms",
+    "desc": "Weight for log mean square amplitude feature",
+    "default": ""
+   },
+   {
+    "name": "sc",
+    "desc": "Weight for spectral centroid feature",
+    "default": ""
+   },
+   {
+    "name": "st",
+    "desc": "Weight for spectral tilt feature",
+    "default": ""
+   },
+   {
+    "name": "randscore",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "threshold",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/ConcatUGens/HelpSource/Classes/Concat2.schelp"
+ },
+ {
+  "name": "Coyote",
+  "title": "Coyote",
+  "summary": "an amplitude tracking based onset detector",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BatUGens/HelpSource/Classes/Coyote.schelp"
+ },
+ {
+  "name": "Crest",
+  "title": "Crest",
+  "summary": "Measure the temporal crest factor of a signal",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "the signal to analyse. Can be audio rate or control rate.",
+    "default": ""
+   },
+   {
+    "name": "numsamps",
+    "desc": "the number of samples over which to take the measurement. A buffer of this size is created internally (so be careful about specifying a massive number here). This value cannot be modulated.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "normally the statistic is calculated on every control block cycle. If you want it less often (eg to reduce CPU usage) you can modulate this - calculation only occurs if gate>0",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "returns:: crest factor, measured on a linear scale. Sometimes it is required in dB values, for which you can simply use link::Classes/AbstractFunction#ampdb#ampdb:: to convert the data. You may also w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Crest.schelp"
+ },
+ {
+  "name": "CrossoverDistortion",
+  "title": "CrossoverDistortion",
+  "summary": "class B/AB power amp distortion simulation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "Controls the point at which the output signal becomes linear.",
+    "default": ""
+   },
+   {
+    "name": "smooth",
+    "desc": "Controls degree of smoothing of the crossover point.",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DistortionUGens/HelpSource/Classes/CrossoverDistortion.schelp"
+ },
+ {
+  "name": "Dbrown2",
+  "title": "Dbrown2",
+  "summary": "demand rate brownian movement with Gendyn distributions",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [
+   {
+    "name": "lo",
+    "desc": "minimum value",
+    "default": ""
+   },
+   {
+    "name": "hi",
+    "desc": "maximum value",
+    "default": ""
+   },
+   {
+    "name": "step",
+    "desc": "maximum step for each new value",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "gendyn distribution (see link::Classes/Gendy1::)",
+    "default": ""
+   },
+   {
+    "name": "length",
+    "desc": "number of values to create",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Dbrown2.schelp"
+ },
+ {
+  "name": "DbufTag",
+  "title": "DbufTag",
+  "summary": "demand rate tag system on a buffer",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/TagSystemUGens/HelpSource/Classes/DbufTag.schelp"
+ },
+ {
+  "name": "Decimator",
+  "title": "Decimator",
+  "summary": "Samplerate and bitrate reduction",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "The sample rate that the signal will be resampled at.",
+    "default": ""
+   },
+   {
+    "name": "bits",
+    "desc": "The bit depth that the signal will be reduced to.",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DistortionUGens/HelpSource/Classes/Decimator.schelp"
+ },
+ {
+  "name": "DetaBlockerBuf",
+  "title": "DetaBlockerBuf",
+  "summary": "Demand version of the BetaBlocker VChip",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "the buffer number containing the Heap",
+    "default": ""
+   },
+   {
+    "name": "startpoint",
+    "desc": "the point to start evaluation",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BetablockerUGens/HelpSource/Classes/DetaBlockerBuf.schelp"
+ },
+ {
+  "name": "DFM1",
+  "title": "DFM1",
+  "summary": "Digitally modelled analog filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "cutoff frequency",
+    "default": ""
+   },
+   {
+    "name": "res",
+    "desc": "resonance",
+    "default": ""
+   },
+   {
+    "name": "inputgain",
+    "desc": "gain applied to the input signal",
+    "default": ""
+   },
+   {
+    "name": "type",
+    "desc": "set to 0.0 for low-pass or 1.0 for high-pass",
+    "default": ""
+   },
+   {
+    "name": "noiselevel",
+    "desc": "amplitude of noise added to the model",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/TJUGens/HelpSource/Classes/DFM1.schelp"
+ },
+ {
+  "name": "Dfsm",
+  "title": "Dfsm",
+  "summary": "demand rate finite state machine",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/TagSystemUGens/HelpSource/Classes/Dfsm.schelp"
+ },
+ {
+  "name": "DiodeRingMod",
+  "title": "DiodeRingMod",
+  "summary": "Ring modulation based on the physical model of a diode.",
+  "categories": [
+   "UGens",
+   "PhysicalModels, UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "car",
+    "desc": "The carrier",
+    "default": ""
+   },
+   {
+    "name": "mod",
+    "desc": "The modulator",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/DiodeRingMod.schelp"
+ },
+ {
+  "name": "Disintegrator",
+  "title": "Disintegrator",
+  "summary": "port of some ladspa plugins",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "probability",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "multiplier",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DistortionUGens/HelpSource/Classes/Disintegrator.schelp"
+ },
+ {
+  "name": "Dneuromodule",
+  "title": "Dneuromodule",
+  "summary": "discrete time neurodynamics",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/Neuromodules/HelpSource/Classes/Dneuromodule.schelp"
+ },
+ {
+  "name": "DNoiseRing",
+  "title": "DNoiseRing",
+  "summary": "Demand rate implementation of a Wiard noise ring",
+  "categories": [
+   "UGens",
+   "Demand, UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "change",
+    "desc": "The higher change, the greater the chance for a new value",
+    "default": ""
+   },
+   {
+    "name": "chance",
+    "desc": "The higher chance, the greater the chance the new value is HIGH",
+    "default": ""
+   },
+   {
+    "name": "shift",
+    "desc": "not yet implemented.",
+    "default": ""
+   },
+   {
+    "name": "numBits",
+    "desc": "not yet implemented.",
+    "default": ""
+   },
+   {
+    "name": "resetval",
+    "desc": "Initial value",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/ChaosUGens/HelpSource/Classes/DNoiseRing.schelp"
+ },
+ {
+  "name": "DoubleNestedAllpassC",
+  "title": "DoubleNestedAllpassC",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/DoubleNestedAllpassC.schelp"
+ },
+ {
+  "name": "DoubleNestedAllpassL",
+  "title": "DoubleNestedAllpassL",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/DoubleNestedAllpassL.schelp"
+ },
+ {
+  "name": "DoubleNestedAllpassN",
+  "title": "DoubleNestedAllpassN",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/DoubleNestedAllpassN.schelp"
+ },
+ {
+  "name": "DoubleWell",
+  "title": "DoubleWell",
+  "summary": "Forced DoubleWell Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "restart with new initial conditions sampled from initx, inity",
+    "default": ""
+   },
+   {
+    "name": "ratex",
+    "desc": "update rate for x",
+    "default": ""
+   },
+   {
+    "name": "ratey",
+    "desc": "update rate for y",
+    "default": ""
+   },
+   {
+    "name": "f",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "w",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "delta",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/DoubleWell.schelp"
+ },
+ {
+  "name": "DoubleWell2",
+  "title": "DoubleWell2",
+  "summary": "Forced DoubleWell Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "restart with new initial conditions sampled from initx, inity",
+    "default": ""
+   },
+   {
+    "name": "ratex",
+    "desc": "update rate for x",
+    "default": ""
+   },
+   {
+    "name": "ratey",
+    "desc": "update rate for y",
+    "default": ""
+   },
+   {
+    "name": "f",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "w",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "delta",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/DoubleWell2.schelp"
+ },
+ {
+  "name": "DoubleWell3",
+  "title": "DoubleWell3",
+  "summary": "Forced DoubleWell Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "restart with new initial conditions sampled from initx, inity",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "update rate for x and y",
+    "default": ""
+   },
+   {
+    "name": "f",
+    "desc": "forcing term, an arbitrary audio rate input",
+    "default": ""
+   },
+   {
+    "name": "delta",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/DoubleWell3.schelp"
+ },
+ {
+  "name": "DPW3Tri",
+  "title": "DPW3Tri",
+  "summary": "Triangle via 3rd order differerentiated polynomial waveform",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/DPW3Tri.schelp"
+ },
+ {
+  "name": "DPW4Saw",
+  "title": "DPW4Saw",
+  "summary": "Sawtooth via 4th order differerentiated polynomial waveform",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AntiAliasingOscillators/HelpSource/Classes/DPW4Saw.schelp"
+ },
+ {
+  "name": "DrumTrack",
+  "title": "DrumTrack",
+  "summary": "Crosscorrelation search and drum pattern matching beat tracker",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "Audio input to track",
+    "default": ""
+   },
+   {
+    "name": "lock",
+    "desc": "If this argument is greater than 0.5, the tracker will lock at its current periodicity and continue from the current phase. Whilst it updates the model's phase and period, this is not reflected in the",
+    "default": ""
+   },
+   {
+    "name": "dynleak",
+    "desc": "Coefficient of leaky integrator in causal dynamic programming routine",
+    "default": ""
+   },
+   {
+    "name": "tempowt",
+    "desc": "Weighting for tempo transition cost",
+    "default": ""
+   },
+   {
+    "name": "phasewt",
+    "desc": "Weighting for phase transition cost",
+    "default": ""
+   },
+   {
+    "name": "basswt",
+    "desc": "Weighting for low frequency evidence",
+    "default": ""
+   },
+   {
+    "name": "patternwt",
+    "desc": "Weighting for drum pattern evidence",
+    "default": ""
+   },
+   {
+    "name": "prior",
+    "desc": "If a nonnegative integer, denotes a 100 float Buffer where a weighting curve for tempi resides, from 90 bpm to 189 bpm in steps of 1.",
+    "default": ""
+   },
+   {
+    "name": "kicksensitivity",
+    "desc": "Multiplier for the kick drum detector's sensitivity. 1.0 is the default, increase for less senstive, decrease for more.",
+    "default": ""
+   },
+   {
+    "name": "snaresensitivity",
+    "desc": "Multiplier for the snare drum detector's sensitivity. 1.0 is the default, increase for less senstive, decrease for more.",
+    "default": ""
+   },
+   {
+    "name": "debugmode",
+    "desc": "0 for no debug information; 1 prints information on winning drum pattern matches and transitions to new phases/periods. 2 prints whenever a kick or snare is detected to help with fine tuning the kick ",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BBCut2UGens/HelpSource/Classes/DrumTrack.schelp"
+ },
+ {
+  "name": "Dtag",
+  "title": "Dtag",
+  "summary": "demand rate tag system",
+  "categories": [
+   "UGens",
+   "Demand"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/TagSystemUGens/HelpSource/Classes/Dtag.schelp"
+ },
+ {
+  "name": "DWGBowed",
+  "title": "DWGBowed",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "velb",
+    "desc": "Bow velocity.",
+    "default": ""
+   },
+   {
+    "name": "force",
+    "desc": "Bow normal force.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative bow position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   },
+   {
+    "name": "impZ",
+    "desc": "String impedance.",
+    "default": ""
+   },
+   {
+    "name": "fB",
+    "desc": "Inharmonicity factor.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGBowed.schelp"
+ },
+ {
+  "name": "DWGBowedSimple",
+  "title": "DWGBowedSimple",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "velb",
+    "desc": "Bow velocity.",
+    "default": ""
+   },
+   {
+    "name": "force",
+    "desc": "Bow normal force.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative bow position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGBowedSimple.schelp"
+ },
+ {
+  "name": "DWGBowedTor",
+  "title": "DWGBowedTor",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "velb",
+    "desc": "Bow velocity.",
+    "default": ""
+   },
+   {
+    "name": "force",
+    "desc": "Bow normal force.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative bow position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   },
+   {
+    "name": "impZ",
+    "desc": "String impedance.",
+    "default": ""
+   },
+   {
+    "name": "fB",
+    "desc": "Inharmonicity factor.",
+    "default": ""
+   },
+   {
+    "name": "mistune",
+    "desc": "The relative frequency of torsional waves.",
+    "default": ""
+   },
+   {
+    "name": "c1tor",
+    "desc": "Same as c1 for torsional waves.",
+    "default": ""
+   },
+   {
+    "name": "c3tor",
+    "desc": "Same as c3 for torsional waves.",
+    "default": ""
+   },
+   {
+    "name": "iZtor",
+    "desc": "Torsional waves string impedance.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGBowedTor.schelp"
+ },
+ {
+  "name": "DWGPlucked",
+  "title": "DWGPlucked",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "Key pulsation strenght. Betwen 0 and 1.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative pluck position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   },
+   {
+    "name": "inp",
+    "desc": "Plucking signal. Could be first part of plucked sample for doing conmuted synthesis.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGPlucked.schelp"
+ },
+ {
+  "name": "DWGPlucked2",
+  "title": "DWGPlucked2",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "Key pulsation strenght. Betwen 0 and 1.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative pluck position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   },
+   {
+    "name": "inp",
+    "desc": "Plucking signal. Could be first part of plucked sample for doing conmuted synthesis.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   },
+   {
+    "name": "mistune",
+    "desc": "Factor for detuning second string.",
+    "default": ""
+   },
+   {
+    "name": "mp",
+    "desc": "Exitation mixer. 1 is only first. 0 is only second string.",
+    "default": ""
+   },
+   {
+    "name": "gc",
+    "desc": "Coupling string factor.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGPlucked2.schelp"
+ },
+ {
+  "name": "DWGPluckedStiff",
+  "title": "DWGPluckedStiff",
+  "summary": "Plucked physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "Key pulsation strenght. Betwen 0 and 1.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Releases synth when value changes from >0 to 0.",
+    "default": ""
+   },
+   {
+    "name": "pos",
+    "desc": "Relative pluck position from 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "c1",
+    "desc": "Inverse of DC decay time.",
+    "default": ""
+   },
+   {
+    "name": "c3",
+    "desc": "Hight frequency loss factor.",
+    "default": ""
+   },
+   {
+    "name": "inp",
+    "desc": "Plucking signal. Could be first part of plucked sample for doing conmuted synthesis.",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "Release time in seconds.",
+    "default": ""
+   },
+   {
+    "name": "fB",
+    "desc": "Inharmonicity factor.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DWGUGens/HelpSource/Classes/DWGPluckedStiff.schelp"
+ },
+ {
+  "name": "EnvDetect",
+  "title": "EnvDetect",
+  "summary": "Envelope Follower Filter",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input",
+    "default": ""
+   },
+   {
+    "name": "attack",
+    "desc": "attack time in seconds",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "relase time in seconds",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/EnvDetect.schelp"
+ },
+ {
+  "name": "EnvFollow",
+  "title": "EnvFollow",
+  "summary": "Envelope Follower",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/EnvFollow.schelp"
+ },
+ {
+  "name": "FeatureSave",
+  "title": "FeatureSave",
+  "summary": "Storing feature data from UGens in NRT mode",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "features",
+    "desc": "input feature array for sampling on triggers",
+    "default": ""
+   },
+   {
+    "name": "trig",
+    "desc": "Trigger input, one stored feature vector at each trigger. Note that trig must be at least (-0.01) to trigger, to allow bufnums of 0 to act as a trigger when driving things from FFT analysis",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/FeatureSave.schelp"
+ },
+ {
+  "name": "FFTCrest",
+  "title": "FFTCrest",
+  "summary": "Spectral crest measure",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "FFT chain",
+    "default": ""
+   },
+   {
+    "name": "freqlo",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "freqhi",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTCrest.schelp"
+ },
+ {
+  "name": "FFTPeak",
+  "title": "FFTPeak",
+  "summary": "Find peak value in an FFT frame",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "freqlo",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "freqhi",
+    "desc": "returns:: # freq, mag.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTPeak.schelp"
+ },
+ {
+  "name": "FFTPower",
+  "title": "FFTPower",
+  "summary": "Instantaneous spectral power",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "square",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTPower.schelp"
+ },
+ {
+  "name": "FFTSlope",
+  "title": "FFTSlope",
+  "summary": "Spectral slope",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTSlope.schelp"
+ },
+ {
+  "name": "FFTSpread",
+  "title": "FFTSpread",
+  "summary": "Spectral spread",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "centroid",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTSpread.schelp"
+ },
+ {
+  "name": "FFTSubbandFlatness",
+  "title": "FFTSubbandFlatness",
+  "summary": "Spectral flatness, divided into subbands",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "cutfreqs",
+    "desc": "must be an array of frequencies. For example, to divide a 44100Hz signal into three subbands we might specify  [ 5512, 11025 ]  as the cutfreqs, giving subbands of 0-5512Hz, 5512-11025Hz, and 11025-22",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTSubbandFlatness.schelp"
+ },
+ {
+  "name": "FFTSubbandPower",
+  "title": "FFTSubbandPower",
+  "summary": "Spectral power, divided into subbands",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "cutfreqs",
+    "desc": "must be an array of frequencies. For example, to divide a 44100Hz signal into three subbands we might specify  [ 5512, 11025 ]  as the cutfreqs, giving subbands of 0-5512Hz, 5512-11025Hz, and 11025-22",
+    "default": ""
+   },
+   {
+    "name": "square",
+    "desc": "performs the same role as in FFTPower.",
+    "default": ""
+   },
+   {
+    "name": "scalemode",
+    "desc": "specifies how the band powers are scaled: Mode 1 (default) is to scale the same way as FFTPower does (according to the total number of bins in the FFT). This means that if you add up the power from th",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/FFTSubbandPower.schelp"
+ },
+ {
+  "name": "Fhn2DC",
+  "title": "Fhn2DC",
+  "summary": "FitzHughNagumo Neuron Firing Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "rateu",
+    "desc": "update rate for u",
+    "default": ""
+   },
+   {
+    "name": "ratew",
+    "desc": "update rate for w",
+    "default": ""
+   },
+   {
+    "name": "b0",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "b1",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "i",
+    "desc": "arbitrary external impulse; i.e. pulse wave, trigger, lfnoise, or nothing.",
+    "default": ""
+   },
+   {
+    "name": "initu",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "initw",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Fhn2DC.schelp"
+ },
+ {
+  "name": "Fhn2DL",
+  "title": "Fhn2DL",
+  "summary": "FitzHughNagumo Neuron Firing Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "rateu",
+    "desc": "update rate for u",
+    "default": ""
+   },
+   {
+    "name": "ratew",
+    "desc": "update rate for w",
+    "default": ""
+   },
+   {
+    "name": "b0",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "b1",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "i",
+    "desc": "arbitrary external impulse; i.e. pulse wave, trigger, lfnoise, or nothing.",
+    "default": ""
+   },
+   {
+    "name": "initu",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "initw",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Fhn2DL.schelp"
+ },
+ {
+  "name": "Fhn2DN",
+  "title": "Fhn2DN",
+  "summary": "FitzHughNagumo Neuron Firing Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "rateu",
+    "desc": "update rate for u",
+    "default": ""
+   },
+   {
+    "name": "ratew",
+    "desc": "update rate for w",
+    "default": ""
+   },
+   {
+    "name": "b0",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "b1",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "i",
+    "desc": "arbitrary external impulse; i.e. pulse wave, trigger, lfnoise, or nothing.",
+    "default": ""
+   },
+   {
+    "name": "initu",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "initw",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Fhn2DN.schelp"
+ },
+ {
+  "name": "FitzHughNagumo",
+  "title": "FitzHughNagumo",
+  "summary": "Neuron Firing Model Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "input",
+    "default": ""
+   },
+   {
+    "name": "rateu",
+    "desc": "update rate for u",
+    "default": ""
+   },
+   {
+    "name": "ratew",
+    "desc": "update rate for w",
+    "default": ""
+   },
+   {
+    "name": "b0",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "b1",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initu",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "initw",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/FitzHughNagumo.schelp"
+ },
+ {
+  "name": "FM7",
+  "title": "FM7",
+  "summary": "Phase modulation oscillator matrix.",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Deterministic"
+  ],
+  "args": [
+   {
+    "name": "ctlMatrix",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "modMatrix",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "algo",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "ctlMatrix",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "feedback",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SkUGens/HelpSource/Classes/FM7.schelp"
+ },
+ {
+  "name": "FMGrain",
+  "title": "FMGrain",
+  "summary": "Granular synthesis with FM grains",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMGrain.schelp"
+ },
+ {
+  "name": "FMGrainB",
+  "title": "FMGrainB",
+  "summary": "Granular synthesis with FM grains and user supplied envelope",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMGrainB.schelp"
+ },
+ {
+  "name": "FMGrainI",
+  "title": "FMGrainI",
+  "summary": "Granular synthesis with FM grains and user supplied envelopes",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMGrainI.schelp"
+ },
+ {
+  "name": "FMHDecode1",
+  "title": "FMHDecode1",
+  "summary": "Decode an FMH signal for a specific speaker",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMHDecode1.schelp"
+ },
+ {
+  "name": "FMHEncode1",
+  "title": "FMHEncode1",
+  "summary": "Second Order Ambisonic encoder",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMHEncode1.schelp"
+ },
+ {
+  "name": "FMHEncode2",
+  "title": "FMHEncode2",
+  "summary": "Second Order Ambisonic encoder",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Ambisonics"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/FMHEncode2.schelp"
+ },
+ {
+  "name": "FormantTable",
+  "title": "FormantTable",
+  "summary": "Lookup table for emulating vocal tracts",
+  "categories": [
+   "Collections"
+  ],
+  "args": [
+   {
+    "name": "preset",
+    "desc": "a link::Classes/Symbol::.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/LoopBufUGens/HelpSource/Classes/FormantTable.schelp"
+ },
+ {
+  "name": "FrameCompare",
+  "title": "FrameCompare",
+  "summary": "calculates spectral MSE distance of two fft chains",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BatUGens/HelpSource/Classes/FrameCompare.schelp"
+ },
+ {
+  "name": "Friction",
+  "title": "Friction",
+  "summary": "A physical model of a system with dry-friction. A chaotic filter.",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Friction.schelp"
+ },
+ {
+  "name": "Gammatone",
+  "title": "Gammatone",
+  "summary": "Single gammatone filter",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "input sound to filter.",
+    "default": ""
+   },
+   {
+    "name": "centrefrequency",
+    "desc": "Centre frequency. Default value is 440.0. Cannot be modulated.",
+    "default": ""
+   },
+   {
+    "name": "bandwidth",
+    "desc": "Bandwidth of filter. Default value is 200.0. Cannot be modulated.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AuditoryModeling/HelpSource/Classes/Gammatone.schelp"
+ },
+ {
+  "name": "GaussClass",
+  "title": "GaussClass",
+  "summary": "Gaussian classifier",
+  "categories": [
+   "UGens"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal, a multichannel signal specifying a co-ordinate in the space (i.e. a vector).",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "the buffer in which the shapes and weights of the gaussian components are specified.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "the classifier is only active when this is greater than 0 (otherwise, previous value is held constant). Its default value is 1.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/GaussClass.schelp"
+ },
+ {
+  "name": "GaussTrig",
+  "title": "GaussTrig",
+  "summary": "impulses around a certain frequency",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "mean frequency",
+    "default": ""
+   },
+   {
+    "name": "dev",
+    "desc": "random deviation from mean (0 <= dev < 1)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/GaussTrig.schelp"
+ },
+ {
+  "name": "Gbman2DC",
+  "title": "Gbman2DC",
+  "summary": "gingerbreadman map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Gbman2DC.schelp"
+ },
+ {
+  "name": "Gbman2DL",
+  "title": "Gbman2DL",
+  "summary": "gingerbreadman map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Gbman2DL.schelp"
+ },
+ {
+  "name": "Gbman2DN",
+  "title": "Gbman2DN",
+  "summary": "gingerbreadman map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Gbman2DN.schelp"
+ },
+ {
+  "name": "Gendy4",
+  "title": "Gendy4",
+  "summary": "Dynamic stochastic synthesis generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Gendy4.schelp"
+ },
+ {
+  "name": "Gendy5",
+  "title": "Gendy5",
+  "summary": "Dynamic stochastic synthesis generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Gendy5.schelp"
+ },
+ {
+  "name": "Getenv",
+  "title": "Getenv",
+  "summary": "Read (numeric) shell environment variables into a synth",
+  "categories": [
+   "UGens"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Getenv.schelp"
+ },
+ {
+  "name": "GlitchBPF",
+  "title": "GlitchBPF",
+  "summary": "backward compatibility",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear, UGens",
+   "Filters",
+   "GlitchUGens"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "Centre frequency in Hertz.",
+    "default": ""
+   },
+   {
+    "name": "rq",
+    "desc": "The reciprocal of Q. Q is conventionally defined as cutoffFreq / bandwidth, meaning rq = (bandwidth / cutoffFreq).",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/GlitchUGens/HelpSource/Classes/GlitchBPF.schelp"
+ },
+ {
+  "name": "GlitchBRF",
+  "title": "GlitchBRF",
+  "summary": "backward compatibility",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear, UGens",
+   "Filters",
+   "GlitchUGens"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "Cutoff frequency in Hertz.",
+    "default": ""
+   },
+   {
+    "name": "rq",
+    "desc": "The reciprocal of Q (bandwidth / cutoffFreq).",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/GlitchUGens/HelpSource/Classes/GlitchBRF.schelp"
+ },
+ {
+  "name": "GlitchHPF",
+  "title": "GlitchHPF",
+  "summary": "backward compatibility",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear, UGens",
+   "Filters",
+   "GlitchUGens"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "Cutoff frequency in Hertz.",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/GlitchUGens/HelpSource/Classes/GlitchHPF.schelp"
+ },
+ {
+  "name": "GlitchRHPF",
+  "title": "GlitchRHPF",
+  "summary": "backward compatibility",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Linear, UGens",
+   "Filters",
+   "GlitchUGens"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "Cutoff frequency in Hertz.",
+    "default": ""
+   },
+   {
+    "name": "rq",
+    "desc": "The reciprocal of Q (bandwidth / cutoffFreq).",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/GlitchUGens/HelpSource/Classes/GlitchRHPF.schelp"
+ },
+ {
+  "name": "Goertzel",
+  "title": "Goertzel",
+  "summary": "Calculate a single DFT bin, to detect presence of a frequency",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "bufsize",
+    "desc": "used in the same way as an FFT buffer size - the larger this value, the better the frequency resolution, but the worse the time resolution.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "target frequency. This can not be modulated.",
+    "default": ""
+   },
+   {
+    "name": "hop",
+    "desc": "same meaning as in the FFT UGen. Supply a value between zero and one, for the amount of overlap between Goertzel \"frames\". The default is a hop of 1 (meaning no overlap between frames). If you specify",
+    "default": "a hop of 1 (meaning no overlap between frames). If you specify 0.5 then the analysis value will be produced twice as often; 0.25, four times as often"
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Goertzel.schelp"
+ },
+ {
+  "name": "GravityGrid",
+  "title": "GravityGrid",
+  "summary": "dynamical system simulation (Newtonian gravitational force)",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "Restart the moving mass at a random position within the square (k-rate input)",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "amount of position update per sample (k-rate)",
+    "default": ""
+   },
+   {
+    "name": "newx",
+    "desc": "kr input to be sampled for new x positions for the moving mass on reset",
+    "default": ""
+   },
+   {
+    "name": "newy",
+    "desc": "kr input to be sampled for new y positions for the moving mass on reset",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "Bufnum for a buffer containing weights for the different outer masses indexed as 0-3 and 5-8 and central moving mass 4. Passing -1 means that the weights are not used (are flat).",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/GravityGrid.schelp"
+ },
+ {
+  "name": "GravityGrid2",
+  "title": "GravityGrid2",
+  "summary": "dynamical system simulation (Newtonian gravitational force)",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "Restart the moving mass at a random position within the square (k-rate input)",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "amount of position update per sample (k-rate)",
+    "default": ""
+   },
+   {
+    "name": "newx",
+    "desc": "kr input to be sampled for new x positions for the moving mass on reset",
+    "default": ""
+   },
+   {
+    "name": "newy",
+    "desc": "kr input to be sampled for new y positions for the moving mass on reset",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "Bufnum for a buffer containing weights and positions for the fixed influencing masses. In the format entry [0] is the number of masses, then 3 components (x, y, mass multiplier) for each mass in turn ",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/GravityGrid2.schelp"
+ },
+ {
+  "name": "Greyhole",
+  "title": "Greyhole",
+  "summary": "A complex echo-like effect",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "either an array of two audio signals (stereo), or a mono audiosignal.",
+    "default": ""
+   },
+   {
+    "name": "delayTime",
+    "desc": "approximate reverberation time in seconds code::(0.1..60 sec)::.",
+    "default": ""
+   },
+   {
+    "name": "damp",
+    "desc": "controls damping of high-frequencies as the reverb decays. 0 is no damping, 1 is very strong damping. Values should be between code::(0..1).",
+    "default": ""
+   },
+   {
+    "name": "size",
+    "desc": "scales size of delay-lines within the diffusion unit, producing the impression of a larger or smaller space. Values below 1 can sound metallic. Values should be between code::(0.5..5)::.",
+    "default": ""
+   },
+   {
+    "name": "diff",
+    "desc": "controls pattern of echoes produced by the diffuser. At very low values, the diffuser acts like a delay-line whose length is controlled by the 'size' parameter. Medium values produce a slow build-up o",
+    "default": ""
+   },
+   {
+    "name": "feedback",
+    "desc": "amount of feedback through the system. Sets the number of repeating echoes. A setting of 1.0 produces infinite sustain. Values should be in the range  code::(0..1)::.",
+    "default": ""
+   },
+   {
+    "name": "modDepth",
+    "desc": "depth code::(0..1):: of delay-line modulation. Use in combination with modFreq to produce chorus and pitch-variations in the echoes.",
+    "default": ""
+   },
+   {
+    "name": "modFreq",
+    "desc": "frequency code::(0..10 Hz):: of delay-line modulation. Use in combination with modDepth to produce chorus and pitch-variations in the echoes.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/Greyhole.schelp"
+ },
+ {
+  "name": "GreyholeRaw",
+  "title": "GreyholeRaw",
+  "summary": "algorithmic delay",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [
+   {
+    "name": "in1",
+    "desc": "Left channel",
+    "default": ""
+   },
+   {
+    "name": "in2",
+    "desc": "Right channel",
+    "default": ""
+   },
+   {
+    "name": "damping",
+    "desc": "Controls damping of high-frequencies as the delay decays. 0 is no damping, 1 is very strong damping (0..1)",
+    "default": ""
+   },
+   {
+    "name": "delaytime",
+    "desc": "Sets approximate delay time in seconds. (0.1..60)",
+    "default": ""
+   },
+   {
+    "name": "diffusion",
+    "desc": "Sets shape of the diffusion unit. Values greater than 0.707 produce smooth exponential decay. Lower values produce a slower build-up of echoes. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "feedback",
+    "desc": "amount of feedback for the delay line. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "moddepth",
+    "desc": "Sets depth of delay-line modulation in samples. Use in combination with mFreq to set amount of chorusing within the structure. (0..50)",
+    "default": ""
+   },
+   {
+    "name": "modfreq",
+    "desc": "Sets frequency of delay-line modulation. Use in combination with mDepth to set amount of chorusing within the structure. (0..10)",
+    "default": ""
+   },
+   {
+    "name": "size",
+    "desc": "Scales size of delay-lines within the diffusion unit, producing the impression of a larger or smaller space. Values below 1 can sound quite metallic. (0.5..5)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/GreyholeRaw.schelp"
+ },
+ {
+  "name": "HairCell",
+  "title": "HairCell",
+  "summary": "Simple cochlear hair cell model",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "input to be processed (essentially, basilar membrane motion at a particular point, pulling an inner hair cell's stereocilia)",
+    "default": ""
+   },
+   {
+    "name": "spontaneousrate",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "boostrate",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "restorerate",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AuditoryModeling/HelpSource/Classes/HairCell.schelp"
+ },
+ {
+  "name": "Henon2DC",
+  "title": "Henon2DC",
+  "summary": "henon map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Henon2DC.schelp"
+ },
+ {
+  "name": "Henon2DL",
+  "title": "Henon2DL",
+  "summary": "henon map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Henon2DL.schelp"
+ },
+ {
+  "name": "Henon2DN",
+  "title": "Henon2DN",
+  "summary": "henon map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Henon2DN.schelp"
+ },
+ {
+  "name": "ICepstrum",
+  "title": "ICepstrum",
+  "summary": "Transform a cepstrum back to a spectrum",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "cepchain",
+    "desc": "a cepstral chain, such as that produced by Cepstrum or any PV_ UGens that have operated on a cepstrum.",
+    "default": ""
+   },
+   {
+    "name": "fftbuf",
+    "desc": "The FFT buffer, typically the one that was the original source used for the forward transform. returns:: a standard FFT chain.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/ICepstrum.schelp"
+ },
+ {
+  "name": "IIRFilter",
+  "title": "IIRFilter",
+  "summary": "24db/oct rolloff, 4nd order resonant Low Pass Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input signal to be processed",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "cutoff frequency",
+    "default": ""
+   },
+   {
+    "name": "rq",
+    "desc": "the reciprocal of Q.  bandwidth / cutoffFreq",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BlackrainUGens/HelpSource/Classes/IIRFilter.schelp"
+ },
+ {
+  "name": "InsideOut",
+  "title": "InsideOut",
+  "summary": "Distortion by subtracting magnitude from 1",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/InsideOut.schelp"
+ },
+ {
+  "name": "Instruction",
+  "title": "Instruction",
+  "summary": "instruction synthesis (breakpoint set interpreter)",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "Number of buffer holding instructions on the server in the form of successive COMMAND/PARAM PAIRS",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Instruction.schelp"
+ },
+ {
+  "name": "JPverb",
+  "title": "JPverb",
+  "summary": "Algorithmic reverberator, designed to produce long and rich reverberant tails.",
+  "categories": [
+   "UGens",
+   "Reverbs"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input to the reverb. Either an array of two audio signals (stereo), or a mono audiosignal.",
+    "default": ""
+   },
+   {
+    "name": "t60",
+    "desc": "approximate reverberation time in seconds code::(0.1..60 sec):: (code::T60:: - the time for the reverb to decay by 60db when code::damp == 0:: ). Does not effect early reflections.",
+    "default": ""
+   },
+   {
+    "name": "damp",
+    "desc": "controls damping of high-frequencies as the reverb decays. 0 is no damping, 1 is very strong damping. Values should be between code::(0..1).",
+    "default": ""
+   },
+   {
+    "name": "size",
+    "desc": "scales size of delay-lines within the reverberator, producing the impression of a larger or smaller space. Values below 1 can sound metallic. Values should be between code::(0.5..5)::.",
+    "default": ""
+   },
+   {
+    "name": "earlyDiff",
+    "desc": "controls shape of early reflections. Values of 0.707 or more produce smooth exponential decay. Lower values produce a slower build-up of echoes. Values should be between code::(0..1)::.",
+    "default": ""
+   },
+   {
+    "name": "modDepth",
+    "desc": "depth code::(0..1):: of delay-line modulation. Use in combination with modFreq to set amount of chorusing within the structure.",
+    "default": ""
+   },
+   {
+    "name": "modFreq",
+    "desc": "frequency code::(0..10 Hz):: of delay-line modulation. Use in combination with modDepth to set amount of chorusing within the structure.",
+    "default": ""
+   },
+   {
+    "name": "low",
+    "desc": "multiplier code::(0..1):: for the reverberation time within the low band.",
+    "default": ""
+   },
+   {
+    "name": "mid",
+    "desc": "multiplier code::(0..1):: for the reverberation time within the mid band.",
+    "default": ""
+   },
+   {
+    "name": "high",
+    "desc": "multiplier code::(0..1):: for the reverberation time within the high band.",
+    "default": ""
+   },
+   {
+    "name": "lowcut",
+    "desc": "frequency code::(100..6000 Hz):: at which the crossover between the low and mid bands of the reverb occurs.",
+    "default": ""
+   },
+   {
+    "name": "highcut",
+    "desc": "frequency code::(1000..10000 Hz):: at which the crossover between the mid and high bands of the reverb occurs.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/JPverb.schelp"
+ },
+ {
+  "name": "JPverbRaw",
+  "title": "JPverbRaw",
+  "summary": "Raw version of the JPverb algorithmic reverberator, designed to produce long tails with chorusing",
+  "categories": [
+   "UGens",
+   "Reverbs"
+  ],
+  "args": [
+   {
+    "name": "in1",
+    "desc": "Left channel",
+    "default": ""
+   },
+   {
+    "name": "in2",
+    "desc": "Right channel",
+    "default": ""
+   },
+   {
+    "name": "damp",
+    "desc": "Controls damping of high-frequencies as the reverb decays. 0 is no damping, 1 is very strong damping (0..1)",
+    "default": ""
+   },
+   {
+    "name": "earlydiff",
+    "desc": "Sets shape of early reflections. Values of > 0.707 produce smooth exponential decay. Lower values produce a slower build-up of echoes. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "highband",
+    "desc": "Sets frequency at which the crossover between the mid and high bands of the reverb occurs. (1000..10000)",
+    "default": ""
+   },
+   {
+    "name": "highx",
+    "desc": "Sets multiplier for the reverberation time within the high band. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "lowband",
+    "desc": "Sets frequency at which the crossover between the low and mid bands of the reverb occurs. (100..6000)",
+    "default": ""
+   },
+   {
+    "name": "lowx",
+    "desc": "Sets multiplier for the reverberation time within the low band. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "midx",
+    "desc": "Sets multiplier for the reverberation time within the mid band. (0..1)",
+    "default": ""
+   },
+   {
+    "name": "mdepth",
+    "desc": "Sets depth of delay-line modulation in samples. Use in combination with mFreq to set amount of chorusing within the structure. (0..50)",
+    "default": ""
+   },
+   {
+    "name": "mfreq",
+    "desc": "Sets frequency of delay-line modulation. Use in combination with mDepth to set amount of chorusing within the structure. (0..10)",
+    "default": ""
+   },
+   {
+    "name": "size",
+    "desc": "Scales size of delay-lines within the reverberator, producing the impression of a larger or smaller space. Values below 1 can sound quite metallic. (0.5..5)",
+    "default": ""
+   },
+   {
+    "name": "t60",
+    "desc": "Sets approximate reverberation time in seconds (T60 - the time for the reverb to decay 60db). Does not effect early reflections. (0.1..60)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/JPverbRaw.schelp"
+ },
+ {
+  "name": "KeyClarity",
+  "title": "KeyClarity",
+  "summary": "Running score of maximum correlation of chromagram with key profiles",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Pitch"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "[fft] Audio input to track. This must have been pre-analysed by a 4096 size FFT. No other FFT sizes are valid except as noted below.",
+    "default": ""
+   },
+   {
+    "name": "keydecay",
+    "desc": "[sk] Number of seconds for the influence of a window on the final key decision to decay by 40dB (to 0.01 its original value).",
+    "default": ""
+   },
+   {
+    "name": "chromaleak",
+    "desc": "[sk] Each frame, the chroma values are set to the previous value multiplied by the chromadecay. 0.0 will start each frame afresh with no memory.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/KeyClarity.schelp"
+ },
+ {
+  "name": "KeyMode",
+  "title": "KeyMode",
+  "summary": "Find best correlated key mode with chromagram between major, minor and chromatic cluster",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Pitch"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "[fft] Audio input to track. This must have been pre-analysed by a 4096 size FFT. No other FFT sizes are valid except as noted below.",
+    "default": ""
+   },
+   {
+    "name": "keydecay",
+    "desc": "[sk] Number of seconds for the influence of a window on the final key decision to decay by 40dB (to 0.01 its original value).",
+    "default": ""
+   },
+   {
+    "name": "chromaleak",
+    "desc": "[sk] Each frame, the chroma values are set to the previous value multiplied by the chromadecay. 0.0 will start each frame afresh with no memory.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/KeyMode.schelp"
+ },
+ {
+  "name": "KMeansRT",
+  "title": "KMeansRT",
+  "summary": "k-means classification in real time",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "a Buffer with \"k\" frames and \"d + 1\" channels (where d is the number of dimensions of input data. Each frame of the Buffer will hold data for a centroid (the centroid location, plus the final channel ",
+    "default": ""
+   },
+   {
+    "name": "inputdata",
+    "desc": "An array representing the input point. Num channels must match the dimensionality of the points in the dataset.",
+    "default": ""
+   },
+   {
+    "name": "k",
+    "desc": "k is the number of centroids.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "The unit is active while gate > 0. While <=0, no search is performed and output is held steady",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "If reset is greater than 0, the \"flexibility\" of the centroids is reset back to initial values (as if no data had been received).",
+    "default": ""
+   },
+   {
+    "name": "learn",
+    "desc": "Controls whether the unit is learning from its input. If you set this to zero it will not learn, but will still output decisions. This is useful for applying a previously-learned clusterer without mod",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "the same buffer as is passed to .kr",
+    "default": ""
+   },
+   {
+    "name": "classif",
+    "desc": "the classification index, i.e. the output from .kr",
+    "default": ""
+   },
+   {
+    "name": "ndims",
+    "desc": "the number of dimensions (\"d\" in the above description) returns:: the \"d\"-dimensional current location of the centroid corresponding to index \"classif\".",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/KMeansRT.schelp"
+ },
+ {
+  "name": "KmeansToBPSet1",
+  "title": "KmeansToBPSet1",
+  "summary": "K-means Oscillator",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "frequency of oscillator",
+    "default": ""
+   },
+   {
+    "name": "numdatapoints",
+    "desc": "Initial number of data points",
+    "default": ""
+   },
+   {
+    "name": "maxnummeans",
+    "desc": "Maximum number of means allowed",
+    "default": ""
+   },
+   {
+    "name": "nummeans",
+    "desc": "current num means",
+    "default": ""
+   },
+   {
+    "name": "tnewdata",
+    "desc": "If a trigger is received, reset source data (k-rate)",
+    "default": ""
+   },
+   {
+    "name": "tnewmeans",
+    "desc": "If a trigger is received, reset means (k-rate)",
+    "default": ""
+   },
+   {
+    "name": "soft",
+    "desc": "Proportion to soften means update. If 1.0, immediate update, 0.0 no update, proportion inbetween amount to move from the old mean position to the new mean of the allocated cluster (ie soft k-means).",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "Number of a Buffer which contains positions for means and data points; see examples below",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/KmeansToBPSet1.schelp"
+ },
+ {
+  "name": "LADSPA",
+  "title": "LADSPA",
+  "summary": "Run any LADSPA plugin inside SuperCollider",
+  "categories": [
+   "UGens",
+   "Wrappers"
+  ],
+  "args": [
+   {
+    "name": "nChans",
+    "desc": "the number of output audio channels",
+    "default": ""
+   },
+   {
+    "name": "id",
+    "desc": "the UniqueID for the LADSPA ugen that should be used argument:: ... args",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/LadspaUGen/HelpSource/Classes/LADSPA.schelp"
+ },
+ {
+  "name": "Latoocarfian2DC",
+  "title": "Latoocarfian2DC",
+  "summary": "latoocarfian 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Latoocarfian2DC.schelp"
+ },
+ {
+  "name": "Latoocarfian2DL",
+  "title": "Latoocarfian2DL",
+  "summary": "latoocarfian 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Latoocarfian2DL.schelp"
+ },
+ {
+  "name": "Latoocarfian2DN",
+  "title": "Latoocarfian2DN",
+  "summary": "latoocarfian 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Latoocarfian2DN.schelp"
+ },
+ {
+  "name": "LFBrownNoise0",
+  "title": "LFBrownNoise0",
+  "summary": "random walk step",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "approximate rate at which to generate random values.",
+    "default": ""
+   },
+   {
+    "name": "dev",
+    "desc": "scale maximum step (0-1).",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "Gendyn distribution to use (0-5: see link::Classes/Gendy1:: for details).",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/LFBrownNoise0.schelp"
+ },
+ {
+  "name": "LFBrownNoise1",
+  "title": "LFBrownNoise1",
+  "summary": "random walk linear interp",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "approximate rate at which to generate random values.",
+    "default": ""
+   },
+   {
+    "name": "dev",
+    "desc": "scale maximum step (0-1).",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "Gendyn distribution to use (0-5: see link::Classes/Gendy1:: for details).",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/LFBrownNoise1.schelp"
+ },
+ {
+  "name": "LFBrownNoise2",
+  "title": "LFBrownNoise2",
+  "summary": "random walk cubic interp",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "approximate rate at which to generate random values.",
+    "default": ""
+   },
+   {
+    "name": "dev",
+    "desc": "scale maximum step (0-1).",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "Gendyn distribution to use (0-5: see link::Classes/Gendy1:: for details).",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/LFBrownNoise2.schelp"
+ },
+ {
+  "name": "ListTrig",
+  "title": "ListTrig",
+  "summary": "Emit a sequence of triggers at specified time offsets",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/ListTrig.schelp"
+ },
+ {
+  "name": "ListTrig2",
+  "title": "ListTrig2",
+  "summary": "Emit a sequence of triggers at specified time offsets",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/ListTrig2.schelp"
+ },
+ {
+  "name": "Logger",
+  "title": "Logger",
+  "summary": "Store values to a buffer, whenever triggered",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Logger.schelp"
+ },
+ {
+  "name": "LoopBuf",
+  "title": "LoopBuf",
+  "summary": "sample looping oscillator",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [
+   {
+    "name": "numChannels",
+    "desc": "number of channels that the buffer will be. this must be a fixed integer. The architecture of the SynthDef cannot change after it is compiled.",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "the index of the buffer to use",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "- 1.0 is normal, 2.0 is one octave up, 0.5 is one octave down. -1.0 is backwards normal rate ... etc.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "positive gate starts playback from startPos. negative gate plays rest of sample from current position",
+    "default": ""
+   },
+   {
+    "name": "startPos",
+    "desc": "sample frame to start playback",
+    "default": ""
+   },
+   {
+    "name": "startLoop",
+    "desc": "sample frame of start of loop",
+    "default": ""
+   },
+   {
+    "name": "endLoop",
+    "desc": "sample frame of end of loop",
+    "default": ""
+   },
+   {
+    "name": "interpolation",
+    "desc": "1 means no interpolation, 2 is linear, 4 is cubic interpolation",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/LoopBufUGens/HelpSource/Classes/LoopBuf.schelp"
+ },
+ {
+  "name": "Lorenz2DC",
+  "title": "Lorenz2DC",
+  "summary": "lorenz 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "minfreq",
+    "desc": "minimum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "maxfreq",
+    "desc": "maximum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "integration time step",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   },
+   {
+    "name": "z0",
+    "desc": "initial value of z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Lorenz2DC.schelp"
+ },
+ {
+  "name": "Lorenz2DL",
+  "title": "Lorenz2DL",
+  "summary": "lorenz 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "minfreq",
+    "desc": "minimum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "maxfreq",
+    "desc": "maximum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "integration time step",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   },
+   {
+    "name": "z0",
+    "desc": "initial value of z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Lorenz2DL.schelp"
+ },
+ {
+  "name": "Lorenz2DN",
+  "title": "Lorenz2DN",
+  "summary": "lorenz 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "minfreq",
+    "desc": "minimum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "maxfreq",
+    "desc": "maximum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "integration time step",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   },
+   {
+    "name": "z0",
+    "desc": "initial value of z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Lorenz2DN.schelp"
+ },
+ {
+  "name": "LorenzTrig",
+  "title": "LorenzTrig",
+  "summary": "lorenz chaotic trigger generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "minfreq",
+    "desc": "minimum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "maxfreq",
+    "desc": "maximum frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "integration time step",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   },
+   {
+    "name": "z0",
+    "desc": "initial value of z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/LorenzTrig.schelp"
+ },
+ {
+  "name": "LotkaVolterra",
+  "title": "LotkaVolterra",
+  "summary": "2-species Predator-Prey model",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "update frequency, best set to Nyquist frequency. To modulate tonal qualities, use code::h::.",
+    "default": ""
+   },
+   {
+    "name": "a",
+    "desc": "meta-parameter, useful between 0 and 5; must not be negative.",
+    "default": ""
+   },
+   {
+    "name": "b",
+    "desc": "meta-parameter, useful between 0 and 5; must not be negative.",
+    "default": ""
+   },
+   {
+    "name": "c",
+    "desc": "meta-parameter, useful between 0 and 5; must not be negative.",
+    "default": ""
+   },
+   {
+    "name": "d",
+    "desc": "meta-parameter, useful between 0 and 5; must not be negative.",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "step size for the approximation",
+    "default": ""
+   },
+   {
+    "name": "xi",
+    "desc": "initial value for x, resets the UGen when changed",
+    "default": ""
+   },
+   {
+    "name": "yi",
+    "desc": "initial value for y, resets the UGen when changed",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/ChaosUGens/HelpSource/Classes/LotkaVolterra.schelp"
+ },
+ {
+  "name": "LPCAnalyzer",
+  "title": "LPCAnalyzer",
+  "summary": "Live Linear Predictive Coding Analysis and Resynthesis",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Original signal to analyse with the LPC model",
+    "default": ""
+   },
+   {
+    "name": "source",
+    "desc": "Excitation to run through LPC derived filter",
+    "default": ""
+   },
+   {
+    "name": "n",
+    "desc": "Windowsize for analysis in samples; limits of 1<=n<=1024",
+    "default": ""
+   },
+   {
+    "name": "p",
+    "desc": "Number of poles used to model spectrum of input within one window",
+    "default": ""
+   },
+   {
+    "name": "testE",
+    "desc": "Whether to test for meeting of error condition, for variable number of poles solution up to p",
+    "default": ""
+   },
+   {
+    "name": "delta",
+    "desc": "Test value, close to but just below 1.",
+    "default": ""
+   },
+   {
+    "name": "windowtype",
+    "desc": "Windowing. 0 is rectangular window, abrupt swap of filter coefficients after every n samples. 1 is triangular window, and runs two LPCAnalyzers crossfading, for a smoother ride, at expense of double C",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/LPCAnalyzer.schelp"
+ },
+ {
+  "name": "LPCError",
+  "title": "LPCError",
+  "summary": "Linear Predictive Coding Gone Wrong",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "What do you think you put here?",
+    "default": ""
+   },
+   {
+    "name": "p",
+    "desc": "Number of filter coefficients with which to model the signal within 64 sample blocks, 1-64.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/LPCError.schelp"
+ },
+ {
+  "name": "LPCSynth",
+  "title": "LPCSynth",
+  "summary": "Utilize LPC data",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/LPCSynth.schelp"
+ },
+ {
+  "name": "LPCVals",
+  "title": "LPCVals",
+  "summary": "Utilize LPC data",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/LPCVals.schelp"
+ },
+ {
+  "name": "LTI",
+  "title": "LTI",
+  "summary": "Linear Time Invariant General Filter Equation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "What do you want to filter?",
+    "default": ""
+   },
+   {
+    "name": "bufnuma",
+    "desc": "Feedback filter coefficients, from previous outputs",
+    "default": ""
+   },
+   {
+    "name": "bufnumb",
+    "desc": "Feedforward filter coefficients, from previous inputs",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/LTI.schelp"
+ },
+ {
+  "name": "MarkovSynth",
+  "title": "MarkovSynth",
+  "summary": "First order Markov Chain implementation for audio signals",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BatUGens/HelpSource/Classes/MarkovSynth.schelp"
+ },
+ {
+  "name": "MatchingP",
+  "title": "MatchingP",
+  "summary": "Real time sparse representation",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "dict",
+    "desc": "The Buffer which holds the atoms. NOTE: in most use cases, the atoms should typically all be normalised so that they all have the same L2-norm (see examples below).",
+    "default": ""
+   },
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "dictsize",
+    "desc": "The number of atoms (channels) in the dict.",
+    "default": ""
+   },
+   {
+    "name": "ntofind",
+    "desc": "Specifies the number of activations to find in each frame - i.e. the number of atoms that are assumed to be \"on\" in each frame.",
+    "default": ""
+   },
+   {
+    "name": "hop",
+    "desc": "The amount of hop between frames, expressed as a proportion of the dict length (like in link::Classes/FFT::). Maximum is 1.",
+    "default": ""
+   },
+   {
+    "name": "method",
+    "desc": "Reserved. (Doesn't currently do anything.)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/MatchingP.schelp"
+ },
+ {
+  "name": "Max",
+  "title": "Max",
+  "summary": "maximum within last x samples",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input to sample (.ar rate)",
+    "default": ""
+   },
+   {
+    "name": "numsamp",
+    "desc": "take the maximum over this number of samples into the past (will be rounded to control periods)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Max.schelp"
+ },
+ {
+  "name": "Maxamp",
+  "title": "Maxamp",
+  "summary": "Tracks and prints amplitudes",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Analysis:Synthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/Maxamp.schelp"
+ },
+ {
+  "name": "MdaPiano",
+  "title": "MdaPiano",
+  "summary": "Piano synthesiser",
+  "categories": [
+   "UGens",
+   "Wrappers"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Frequency of the note",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "note-on occurs when gate goes from nonpositive to positive; note-off occurs when it goes from positive to nonpositive. Most of the other controls are only updated when a new note-on occurs.",
+    "default": ""
+   },
+   {
+    "name": "vel",
+    "desc": "velocity (range is 0 to 127, default 100)",
+    "default": ""
+   },
+   {
+    "name": "decay",
+    "desc": "The time for notes to decay after the initial strike (default 0.8)",
+    "default": ""
+   },
+   {
+    "name": "release",
+    "desc": "The time for notes to decay after the key is released (default 0.8)",
+    "default": ""
+   },
+   {
+    "name": "hard",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "velhard",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "muffle",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "velmuff",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "velcurve",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "stereo",
+    "desc": "Width of the stereo effect (which makes low notes sound towards the left, high notes towards the right). 0 to 1.",
+    "default": ""
+   },
+   {
+    "name": "tune",
+    "desc": "Overall tuning",
+    "default": ""
+   },
+   {
+    "name": "random",
+    "desc": "Randomness in note tuning (default 0.1)",
+    "default": ""
+   },
+   {
+    "name": "stretch",
+    "desc": "Stretches the tuning out (higher notes pushed higher)",
+    "default": ""
+   },
+   {
+    "name": "sustain",
+    "desc": "If positive, act as if the piano's sustain pedal is pressed.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MdaUGens/HelpSource/Classes/MdaPiano.schelp"
+ },
+ {
+  "name": "MeanTriggered",
+  "title": "MeanTriggered",
+  "summary": "Mean of recent values, triggered",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/MeanTriggered.schelp"
+ },
+ {
+  "name": "Meddis",
+  "title": "Meddis",
+  "summary": "Meddis cochlear hair cell model",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "input to be processed (essentially, basilar membrane motion at a particular point, affecting an inner hair cell's stereocilia)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/AuditoryModeling/HelpSource/Classes/Meddis.schelp"
+ },
+ {
+  "name": "MedianSeparation",
+  "title": "MedianSeparation",
+  "summary": "Separate harmonic and percussive parts of a signal",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "fft",
+    "desc": "Audio input to track, which has been pre-analysed by the link::Classes/FFT:: UGen; see examples below",
+    "default": ""
+   },
+   {
+    "name": "fftharmonic",
+    "desc": "Output FFT buffer for writing the harmonic part",
+    "default": ""
+   },
+   {
+    "name": "fftpercussive",
+    "desc": "Output FFT buffer for writing the percussive part",
+    "default": ""
+   },
+   {
+    "name": "fftsize",
+    "desc": "The algorithm needs to know the FFT size at constructor time, so pass it in here (all of the buffers for the previous three input arguments should have this size).",
+    "default": ""
+   },
+   {
+    "name": "mediansize",
+    "desc": "How many FFT frames and bands to take a median over. The median in the horizontal direction (strength of tonal consistency, harmonic element) is compared to that in the vertical (percussiveness) to de",
+    "default": ""
+   },
+   {
+    "name": "hardorsoft",
+    "desc": "A flag, 0 for hard, 1 for soft. Hard separation is an either/or for allocation; soft allows a blended sound based on the relative levels of horizontal versus vertical. Each may lead to artefacts, expe",
+    "default": ""
+   },
+   {
+    "name": "p",
+    "desc": "A factor from the paper for the soft assignment. Default of 2 is the paper default; 1 would be a linear proportional assignment.",
+    "default": ""
+   },
+   {
+    "name": "medianormax",
+    "desc": "Defaults to using median algorithm, but a lower CPU cost mean (average) can be used via this argument.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/MedianSeparation.schelp"
+ },
+ {
+  "name": "MedianTriggered",
+  "title": "MedianTriggered",
+  "summary": "Median of recent values, triggered",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/MedianTriggered.schelp"
+ },
+ {
+  "name": "MembraneCircle",
+  "title": "MembraneCircle",
+  "summary": "Waveguide mesh physical models of drum membranes",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Nonlinear, UGens",
+   "Generators",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "excitation",
+    "desc": "sound in",
+    "default": ""
+   },
+   {
+    "name": "tension",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MembraneUGens/HelpSource/Classes/MembraneCircle.schelp"
+ },
+ {
+  "name": "MembraneHexagon",
+  "title": "MembraneHexagon",
+  "summary": "Waveguide mesh physical models of drum membranes",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Nonlinear, UGens",
+   "Generators",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "excitation",
+    "desc": "sound in",
+    "default": ""
+   },
+   {
+    "name": "tension",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MembraneUGens/HelpSource/Classes/MembraneHexagon.schelp"
+ },
+ {
+  "name": "Metro",
+  "title": "Metro",
+  "summary": "Metronome",
+  "categories": [
+   "Libraries",
+   "JoshUGens, Utilities"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/Metro.schelp"
+ },
+ {
+  "name": "MonoGrain",
+  "title": "MonoGrain",
+  "summary": "Granulates real-time input",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/MonoGrain.schelp"
+ },
+ {
+  "name": "MonoGrainBF",
+  "title": "MonoGrainBF",
+  "summary": "Granulates real-time input with Ambisonic panning",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/MonoGrainBF.schelp"
+ },
+ {
+  "name": "MoogLadder",
+  "title": "MoogLadder",
+  "summary": "Moog Filter Emulation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "audio input",
+    "default": ""
+   },
+   {
+    "name": "ffreq",
+    "desc": "cutoff freq",
+    "default": ""
+   },
+   {
+    "name": "res",
+    "desc": "resonance (0-1)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/MoogLadder.schelp"
+ },
+ {
+  "name": "MoogVCF",
+  "title": "MoogVCF",
+  "summary": "Moog  filter emulation",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/MoogVCF.schelp"
+ },
+ {
+  "name": "NearestN",
+  "title": "NearestN",
+  "summary": "Find the nearest-neighbours in a set of points",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "treebuf",
+    "desc": "a Buffer containing data which MUST be in the special format created using the KDTree class and NearestN.makeBufferData",
+    "default": ""
+   },
+   {
+    "name": "in",
+    "desc": "An array representing the input point. Num channels must match the dimensionality of the points in the dataset",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "The unit is active while gate > 0. While <=0, no search is performed and output is held steady",
+    "default": ""
+   },
+   {
+    "name": "num",
+    "desc": "Number of points to retrieve. NOT modulatable.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/NearestN.schelp"
+ },
+ {
+  "name": "NestedAllpassC",
+  "title": "NestedAllpassC",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NestedAllpassC.schelp"
+ },
+ {
+  "name": "NestedAllpassL",
+  "title": "NestedAllpassL",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NestedAllpassL.schelp"
+ },
+ {
+  "name": "NestedAllpassN",
+  "title": "NestedAllpassN",
+  "summary": "Nested Allpass filters as proposed by Vercoe and Pluckett",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NestedAllpassN.schelp"
+ },
+ {
+  "name": "NL",
+  "title": "NL",
+  "summary": "Non Linear Filter Equation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "What do you want to filter?",
+    "default": ""
+   },
+   {
+    "name": "bufnuma",
+    "desc": "Feedback filter coefficients, from previous outputs, in triples of (index,coefficient, exponent) from lowest to highest index",
+    "default": ""
+   },
+   {
+    "name": "bufnumb",
+    "desc": "Feedforward filter coefficients, from previous inputs, in pairs of (index,coefficient, exponent) from lowest to highest index",
+    "default": ""
+   },
+   {
+    "name": "guard1",
+    "desc": "Watch out for blow-up and reset if necessary; this is the value of the maximum absolute output allowed.",
+    "default": ""
+   },
+   {
+    "name": "guard2",
+    "desc": "Watch out for blow-up and reset if necessary; this is the value of the maximum absolute change of output allowed.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/NL.schelp"
+ },
+ {
+  "name": "NL2",
+  "title": "NL2",
+  "summary": "Arbitrary Non Linear Filter Equation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "What do you want to filter?",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "A single buffer containing numcrossterms in the first index, then the specification of crossterms as (constant, num x terms, list of x index/exponent pairs, num y terms, list of y index/coefficient pa",
+    "default": ""
+   },
+   {
+    "name": "maxasize",
+    "desc": "Maximum index stored for previous outputs",
+    "default": ""
+   },
+   {
+    "name": "maxbsize",
+    "desc": "Maximum index stored for previous inputs",
+    "default": ""
+   },
+   {
+    "name": "guard1",
+    "desc": "Watch out for blow-up and reset if necessary; this is the value of the maximum absolute output allowed.",
+    "default": ""
+   },
+   {
+    "name": "guard2",
+    "desc": "Watch out for blow-up and reset if necessary; this is the value of the maximum absolute change of output allowed.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/NL2.schelp"
+ },
+ {
+  "name": "NLFiltC",
+  "title": "NLFiltC",
+  "summary": "Non-linear Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NLFiltC.schelp"
+ },
+ {
+  "name": "NLFiltL",
+  "title": "NLFiltL",
+  "summary": "Non-linear Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NLFiltL.schelp"
+ },
+ {
+  "name": "NLFiltN",
+  "title": "NLFiltN",
+  "summary": "Non-linear Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/NLFiltN.schelp"
+ },
+ {
+  "name": "NTube",
+  "title": "NTube",
+  "summary": "physical modeling simulation; N tubes",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Excitation to inject into the system",
+    "default": ""
+   },
+   {
+    "name": "lossarray",
+    "desc": "Amplitude loss factors in circulation, N+1 of them. If a single number rather than an array is given, the UGen uses this same loss factor duplicated N+1 times.",
+    "default": ""
+   },
+   {
+    "name": "karray",
+    "desc": "N-1 scattering coefficient for junctions of adjacent tubes, usually -1<=k<=1",
+    "default": ""
+   },
+   {
+    "name": "delaylengtharray",
+    "desc": "Length in seconds of each tube's paired delay line (i.e., each waveguide section, N of them). There must be at least 2 samples per length at the synthesis sampling rate.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/NTube.schelp"
+ },
+ {
+  "name": "OnsetStatistics",
+  "title": "OnsetStatistics",
+  "summary": "Extract basic statistics from a series of onset triggers",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/OnsetStatistics.schelp"
+ },
+ {
+  "name": "Oregonator",
+  "title": "Oregonator",
+  "summary": "Chemical reaction modelling Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "If > 0.0, restart with new initial conditions sampled from initx, inity, initz",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "update rate for a sample step",
+    "default": ""
+   },
+   {
+    "name": "epsilon",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "mu",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "q",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   },
+   {
+    "name": "initz",
+    "desc": "reset value for z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Oregonator.schelp"
+ },
+ {
+  "name": "OteyPiano",
+  "title": "OteyPiano",
+  "summary": "Piano physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "vel",
+    "desc": "Key pulsation velocity. Betwen 0 and 1.",
+    "default": ""
+   },
+   {
+    "name": "t_gate",
+    "desc": "Retriggers note, use a TriggerControl for not retriggering continuosly.",
+    "default": ""
+   },
+   {
+    "name": "rmin",
+    "desc": "minimum string radio",
+    "default": ""
+   },
+   {
+    "name": "rmax",
+    "desc": "maximun string radio",
+    "default": ""
+   },
+   {
+    "name": "rampl",
+    "desc": "radius left sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rampr",
+    "desc": "radius right sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rcore",
+    "desc": "cord nucleus radio.",
+    "default": ""
+   },
+   {
+    "name": "lmin",
+    "desc": "minimum string length.",
+    "default": ""
+   },
+   {
+    "name": "lmax",
+    "desc": "maximum string length.",
+    "default": ""
+   },
+   {
+    "name": "lampl",
+    "desc": "lenght left sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "lampr",
+    "desc": "lenght right sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rho",
+    "desc": "string density multiplier.",
+    "default": ""
+   },
+   {
+    "name": "e",
+    "desc": "young modulus multiplier.",
+    "default": ""
+   },
+   {
+    "name": "zb",
+    "desc": "bridge impedance multiplier.",
+    "default": ""
+   },
+   {
+    "name": "zh",
+    "desc": "hammer impedance multiplier.",
+    "default": ""
+   },
+   {
+    "name": "mh",
+    "desc": "mass hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "k",
+    "desc": "force hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "alpha",
+    "desc": "hysteresys hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "p",
+    "desc": "stiffness_exponent_hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "hpos",
+    "desc": "hammer position. (0 to 1)",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "string loss factor.",
+    "default": ""
+   },
+   {
+    "name": "detune",
+    "desc": "detuning among 3 strings.",
+    "default": ""
+   },
+   {
+    "name": "hammer_type",
+    "desc": "1 is Stulov model, 2 is Banks model.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/OteyPianoUGens/HelpSource/Classes/OteyPiano.schelp"
+ },
+ {
+  "name": "OteyPianoStrings",
+  "title": "OteyPianoStrings",
+  "summary": "Piano physical model.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "vel",
+    "desc": "Key pulsation velocity. Betwen 0 and 1.",
+    "default": ""
+   },
+   {
+    "name": "t_gate",
+    "desc": "Retriggers note, use a TriggerControl for not retriggering continuosly.",
+    "default": ""
+   },
+   {
+    "name": "rmin",
+    "desc": "minimum string radio",
+    "default": ""
+   },
+   {
+    "name": "rmax",
+    "desc": "maximun string radio",
+    "default": ""
+   },
+   {
+    "name": "rampl",
+    "desc": "radius left sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rampr",
+    "desc": "radius right sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rcore",
+    "desc": "cord nucleus radio.",
+    "default": ""
+   },
+   {
+    "name": "lmin",
+    "desc": "minimum string length.",
+    "default": ""
+   },
+   {
+    "name": "lmax",
+    "desc": "maximum string length.",
+    "default": ""
+   },
+   {
+    "name": "lampl",
+    "desc": "lenght left sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "lampr",
+    "desc": "lenght right sigmoidal shape.",
+    "default": ""
+   },
+   {
+    "name": "rho",
+    "desc": "string density multiplier.",
+    "default": ""
+   },
+   {
+    "name": "e",
+    "desc": "young modulus multiplier.",
+    "default": ""
+   },
+   {
+    "name": "zb",
+    "desc": "bridge impedance multiplier.",
+    "default": ""
+   },
+   {
+    "name": "zh",
+    "desc": "hammer impedance multiplier.",
+    "default": ""
+   },
+   {
+    "name": "mh",
+    "desc": "mass hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "k",
+    "desc": "force hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "alpha",
+    "desc": "hysteresys hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "p",
+    "desc": "stiffness_exponent_hammer multiplier.",
+    "default": ""
+   },
+   {
+    "name": "hpos",
+    "desc": "hammer position. (0 to 1)",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "string loss factor.",
+    "default": ""
+   },
+   {
+    "name": "detune",
+    "desc": "detuning among 3 strings.",
+    "default": ""
+   },
+   {
+    "name": "hammer_type",
+    "desc": "1 is Stulov model, 2 is Banks model.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/OteyPianoUGens/HelpSource/Classes/OteyPianoStrings.schelp"
+ },
+ {
+  "name": "PanX",
+  "title": "PanX",
+  "summary": "Equal power pan across an array of speakers",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "Multichannel",
+   "Panners"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PanX.schelp"
+ },
+ {
+  "name": "Perlin3",
+  "title": "Perlin3",
+  "summary": "3D Perlin Noise",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Perlin3.schelp"
+ },
+ {
+  "name": "PermMod",
+  "title": "PermMod",
+  "summary": "Sample permutation UGen.",
+  "categories": [
+   "Undocumented classes, UGens",
+   "Undocumented, UGens",
+   "Unclassified"
+  ],
+  "args": [
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PermMod.schelp"
+ },
+ {
+  "name": "PermModArray",
+  "title": "PermModArray",
+  "summary": "Sample permutation UGen with programmable pattern.",
+  "categories": [
+   "Undocumented classes, UGens",
+   "Undocumented, UGens",
+   "Unclassified"
+  ],
+  "args": [
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PermModArray.schelp"
+ },
+ {
+  "name": "PermModT",
+  "title": "PermModT",
+  "summary": "Sample permutation UGen with tail.",
+  "categories": [
+   "Undocumented classes, UGens",
+   "Undocumented, UGens",
+   "Unclassified"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PermModT.schelp"
+ },
+ {
+  "name": "PlaneTree",
+  "title": "PlaneTree",
+  "summary": "Tree classifier using (hyper)planes \u2013 UGen or language-side",
+  "categories": [
+   "UGens"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/PlaneTree.schelp"
+ },
+ {
+  "name": "Plorenz",
+  "title": "Plorenz",
+  "summary": "lorenz 3D chaotic pattern",
+  "categories": [
+   "Streams-Patterns-Events",
+   "Patterns",
+   "Random"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Plorenz.schelp"
+ },
+ {
+  "name": "PrintVal",
+  "title": "PrintVal",
+  "summary": "debug assistance",
+  "categories": [
+   "UGens",
+   "Unclassified"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "input to sample (.kr rate)",
+    "default": ""
+   },
+   {
+    "name": "numblocks",
+    "desc": "print the value after this number of control periods (44100/64 is about 689 per second)",
+    "default": ""
+   },
+   {
+    "name": "id",
+    "desc": "give a tag to the printing so that you can use more than one in a patch to test multiple things",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/PrintVal.schelp"
+ },
+ {
+  "name": "PulseDPW",
+  "title": "PulseDPW",
+  "summary": "super-efficient square-wave oscillator with low aliasing",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/PulseDPW.schelp"
+ },
+ {
+  "name": "PV_BinBufRd",
+  "title": "PV_BinBufRd",
+  "summary": "Plays FFT data to a memory buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_BinBufRd.schelp"
+ },
+ {
+  "name": "PV_BinDelay",
+  "title": "PV_BinDelay",
+  "summary": "Delay and Feedback on a bin by bin basis.",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_BinDelay.schelp"
+ },
+ {
+  "name": "PV_BinPlayBuf",
+  "title": "PV_BinPlayBuf",
+  "summary": "Plays FFT data to a memory buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_BinPlayBuf.schelp"
+ },
+ {
+  "name": "PV_BufRd",
+  "title": "PV_BufRd",
+  "summary": "Plays FFT data from a memory buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_BufRd.schelp"
+ },
+ {
+  "name": "PV_CommonMag",
+  "title": "PV_CommonMag",
+  "summary": "returns common magnitudes",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "tolerance",
+    "desc": "magnitudes within which test will pass",
+    "default": ""
+   },
+   {
+    "name": "remove",
+    "desc": "scale uncommon magnitudes",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_CommonMag.schelp"
+ },
+ {
+  "name": "PV_CommonMul",
+  "title": "PV_CommonMul",
+  "summary": "multiplies common magnitudes",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "tolerance",
+    "desc": "magnitudes within which test will pass",
+    "default": ""
+   },
+   {
+    "name": "remove",
+    "desc": "scale uncommon magnitudes",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_CommonMul.schelp"
+ },
+ {
+  "name": "PV_Compander",
+  "title": "PV_Compander",
+  "summary": "simple spectral compression/expansion",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "fft buffer",
+    "default": ""
+   },
+   {
+    "name": "thresh",
+    "desc": "mag thresh",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_Compander.schelp"
+ },
+ {
+  "name": "PV_Cutoff",
+  "title": "PV_Cutoff",
+  "summary": "zero bins with interpolation",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "fft buffer",
+    "default": ""
+   },
+   {
+    "name": "wipe",
+    "desc": "can range between -1 and +1. if wipe == 0 then there is no effect. if wipe > 0 then it acts like a high pass filter, clearing bins from the bottom up. if wipe < 0 then it acts like a low pass filter, ",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_Cutoff.schelp"
+ },
+ {
+  "name": "PV_EvenBin",
+  "title": "PV_EvenBin",
+  "summary": "Return the even numbered bins in an FFT buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_EvenBin.schelp"
+ },
+ {
+  "name": "PV_ExtractRepeat",
+  "title": "PV_ExtractRepeat",
+  "summary": "extract a repeating loop out from audio",
+  "categories": [
+   "UGens",
+   "FFT, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "array",
+    "desc": "The array of input signals.",
+    "default": ""
+   },
+   {
+    "name": "chain",
+    "desc": "an fft chain",
+    "default": ""
+   },
+   {
+    "name": "loopbuf",
+    "desc": "a buffer where data about the loop is calculated/stored. num frames should be enough to hold the loop (you'll get a warning if not), num channels should be (fftsize/2 + 1).",
+    "default": ""
+   },
+   {
+    "name": "loopdur",
+    "desc": "duration in seconds of the bit you want extracted. (You can change the loop duration on-the-fly but you'll get some unhelpful results while the unit settles in to the new loop duration.)",
+    "default": ""
+   },
+   {
+    "name": "memorytime",
+    "desc": "how quickly (in seconds) the recursive estimation converges",
+    "default": ""
+   },
+   {
+    "name": "which",
+    "desc": "set to 0 to extract the loop, set to 1 to extract everything else",
+    "default": ""
+   },
+   {
+    "name": "ffthop",
+    "desc": "this should match the hop size used in the FFT. typically 0.5.",
+    "default": ""
+   },
+   {
+    "name": "thresh",
+    "desc": "threshold for allocating bins to repeating/nonrepeating. Default is 1, and raising it means more gets allocated to the repeating part.",
+    "default": "1, and raising it means more gets allocated to the repeating part"
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/PV_ExtractRepeat.schelp"
+ },
+ {
+  "name": "PV_Freeze",
+  "title": "PV_Freeze",
+  "summary": "Freeze FFT frames",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_Freeze.schelp"
+ },
+ {
+  "name": "PV_FreqBuffer",
+  "title": "PV_FreqBuffer",
+  "summary": "Store FFT data in another buffer for other use",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_FreqBuffer.schelp"
+ },
+ {
+  "name": "PV_Invert",
+  "title": "PV_Invert",
+  "summary": "Invert FFT frames",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_Invert.schelp"
+ },
+ {
+  "name": "PV_MagBuffer",
+  "title": "PV_MagBuffer",
+  "summary": "Store FFT data in another buffer for other use",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_MagBuffer.schelp"
+ },
+ {
+  "name": "PV_MagGate",
+  "title": "PV_MagGate",
+  "summary": "reduces magnitudes above or below thresh",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "buffer",
+    "desc": "fft buffer",
+    "default": ""
+   },
+   {
+    "name": "thresh",
+    "desc": "if positive, scales magnitudes below thresh. if negative scales magnitudes above abs(thresh)",
+    "default": ""
+   },
+   {
+    "name": "remove",
+    "desc": "amount to scale magnitudes.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_MagGate.schelp"
+ },
+ {
+  "name": "PV_MagMap",
+  "title": "PV_MagMap",
+  "summary": "Remap magnitudes to a new mag curve",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_MagMap.schelp"
+ },
+ {
+  "name": "PV_MagMinus",
+  "title": "PV_MagMinus",
+  "summary": "subtract spectral energy",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "remove",
+    "desc": "scale the removal process.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_MagMinus.schelp"
+ },
+ {
+  "name": "PV_MagSmooth",
+  "title": "PV_MagSmooth",
+  "summary": "Smooth spectral magnitudes over time",
+  "categories": [
+   "UGens",
+   "FFT, UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "an fft chain",
+    "default": ""
+   },
+   {
+    "name": "factor",
+    "desc": "from 0 (no smoothing occurs) to 1 (\"infinite\" smoothing, magnitudes never change)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/PV_MagSmooth.schelp"
+ },
+ {
+  "name": "PV_MaxMagN",
+  "title": "PV_MaxMagN",
+  "summary": "Return the N strongest bins",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_MaxMagN.schelp"
+ },
+ {
+  "name": "PV_MinMagN",
+  "title": "PV_MinMagN",
+  "summary": "Return the N weakest bins",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_MinMagN.schelp"
+ },
+ {
+  "name": "PV_Morph",
+  "title": "PV_Morph",
+  "summary": "one kind of spectral morphing",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "morph",
+    "desc": "0-1",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_Morph.schelp"
+ },
+ {
+  "name": "PV_NoiseSynthF",
+  "title": "PV_NoiseSynthF",
+  "summary": "Return only bins that are unstable",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_NoiseSynthF.schelp"
+ },
+ {
+  "name": "PV_NoiseSynthP",
+  "title": "PV_NoiseSynthP",
+  "summary": "Return only bins that are unstable",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_NoiseSynthP.schelp"
+ },
+ {
+  "name": "PV_OddBin",
+  "title": "PV_OddBin",
+  "summary": "Return the odd numbered bins in an FFT buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_OddBin.schelp"
+ },
+ {
+  "name": "PV_PartialSynthF",
+  "title": "PV_PartialSynthF",
+  "summary": "Return only bins that are stable",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_PartialSynthF.schelp"
+ },
+ {
+  "name": "PV_PartialSynthP",
+  "title": "PV_PartialSynthP",
+  "summary": "Return only bins that are stable",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_PartialSynthP.schelp"
+ },
+ {
+  "name": "PV_PlayBuf",
+  "title": "PV_PlayBuf",
+  "summary": "Plays FFT data to a memory buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_PlayBuf.schelp"
+ },
+ {
+  "name": "PV_RecordBuf",
+  "title": "PV_RecordBuf",
+  "summary": "Records FFT data to a memory buffer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_RecordBuf.schelp"
+ },
+ {
+  "name": "PV_SoftWipe",
+  "title": "PV_SoftWipe",
+  "summary": "combine low and high bins from two inputs with interpolation",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "wipe",
+    "desc": "can range between -1 and +1. if wipe == 0 then the output is the same as inA. if wipe > 0 then it begins replacing with bins from inB from the bottom up. if wipe < 0 then it begins replacing with bins",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_SoftWipe.schelp"
+ },
+ {
+  "name": "PV_SpectralEnhance",
+  "title": "PV_SpectralEnhance",
+  "summary": "A harmonic enhancer",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_SpectralEnhance.schelp"
+ },
+ {
+  "name": "PV_SpectralMap",
+  "title": "PV_SpectralMap",
+  "summary": "Maps the spectral envelope of one FFT process onto another",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PV_SpectralMap.schelp"
+ },
+ {
+  "name": "PV_XFade",
+  "title": "PV_XFade",
+  "summary": "one kind of spectral morphing",
+  "categories": [
+   "UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "bufferA",
+    "desc": "fft buffer A.",
+    "default": ""
+   },
+   {
+    "name": "bufferB",
+    "desc": "fft buffer B.",
+    "default": ""
+   },
+   {
+    "name": "fade",
+    "desc": "0-1",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/PV_XFade.schelp"
+ },
+ {
+  "name": "PVInfo",
+  "title": "PVInfo",
+  "summary": "Return mag and freq data from a CSound pv",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PVInfo.schelp"
+ },
+ {
+  "name": "PVSynth",
+  "title": "PVSynth",
+  "summary": "Resynthesize Csound PV data",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "FFT"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/PVSynth.schelp"
+ },
+ {
+  "name": "Qitch",
+  "title": "Qitch",
+  "summary": "constant Q transform pitch follower",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Pitch"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "the audio rate input signal",
+    "default": ""
+   },
+   {
+    "name": "databufnum",
+    "desc": "you must provide the initialisation data required by Qitch. This in the form of a .wav file that must be loaded to a buffer (see examples below).  The data files should have come with this UGen.",
+    "default": ""
+   },
+   {
+    "name": "ampThreshold",
+    "desc": "Qitch outputs a 0 in strong::hasFreq:: if the input amplitude is below this threshold. Same as original link::Classes/Pitch::.",
+    "default": ""
+   },
+   {
+    "name": "algoflag",
+    "desc": "0 means use just the constant Q template pattern matcher. 1 flags the refinement based on the phase estimate.",
+    "default": ""
+   },
+   {
+    "name": "ampbufnum",
+    "desc": "you may provide an 11 component buffer with template amplitudes- see example below.",
+    "default": ""
+   },
+   {
+    "name": "minfreq",
+    "desc": "minimum output frequency in Hz",
+    "default": ""
+   },
+   {
+    "name": "maxfreq",
+    "desc": "maximum output frequency in Hz",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/PitchDetection/HelpSource/Classes/Qitch.schelp"
+ },
+ {
+  "name": "RLPFD",
+  "title": "RLPFD",
+  "summary": "TB303 Filter Emulation",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "audio input",
+    "default": ""
+   },
+   {
+    "name": "ffreq",
+    "desc": "cutoff freq",
+    "default": ""
+   },
+   {
+    "name": "res",
+    "desc": "resonance (0-1)",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "distortion (0-1). interacts with resonance",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/RLPFD.schelp"
+ },
+ {
+  "name": "RMS",
+  "title": "RMS",
+  "summary": "root mean square",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Amplitude"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "the input signal",
+    "default": ""
+   },
+   {
+    "name": "lpFreq",
+    "desc": "lowpass frequency",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DEINDUGens/HelpSource/Classes/RMS.schelp"
+ },
+ {
+  "name": "RosslerL",
+  "title": "RosslerL",
+  "summary": "Rossler chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "iteration frequency in Hertz",
+    "default": ""
+   },
+   {
+    "name": "h",
+    "desc": "integration time step",
+    "default": ""
+   },
+   {
+    "name": "xi",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "yi",
+    "desc": "initial value of y",
+    "default": ""
+   },
+   {
+    "name": "zi",
+    "desc": "initial value of z",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/RosslerL.schelp"
+ },
+ {
+  "name": "SawDPW",
+  "title": "SawDPW",
+  "summary": "super-efficient sawtooth oscillator with low aliasing",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/SawDPW.schelp"
+ },
+ {
+  "name": "SensoryDissonance",
+  "title": "SensoryDissonance",
+  "summary": "Perceptual feature modeling sensory dissonance",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "fft",
+    "desc": "input fft chain, that is, from an FFT UGen",
+    "default": ""
+   },
+   {
+    "name": "maxpeaks",
+    "desc": "Maximum number of spectral peaks detected; cannot be modulated, initialisation only.",
+    "default": ""
+   },
+   {
+    "name": "peakthreshold",
+    "desc": "Minimum spectral power detection threshold for a peak",
+    "default": ""
+   },
+   {
+    "name": "norm",
+    "desc": "Normalisation factor. Calculated for you in the UGen class if you don't provide one, but you can experiment here. In combination with the next argument and maxpeaks, allows you to have alternative ran",
+    "default": ""
+   },
+   {
+    "name": "clamp",
+    "desc": "Clamps very high dissonances, in default mode will end up with sensory dissonance measure in range 0.0 to 1.0",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/SensoryDissonance.schelp"
+ },
+ {
+  "name": "Sieve1",
+  "title": "Sieve1",
+  "summary": "Fuzzy sieve based synthesis",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/Sieve1.schelp"
+ },
+ {
+  "name": "SineShaper",
+  "title": "SineShaper",
+  "summary": "port of some ladspa plugins",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "limit",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DistortionUGens/HelpSource/Classes/SineShaper.schelp"
+ },
+ {
+  "name": "SinGrain",
+  "title": "SinGrain",
+  "summary": "Granular synthesis with sinusoidal grains",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrain.schelp"
+ },
+ {
+  "name": "SinGrainB",
+  "title": "SinGrainB",
+  "summary": "Granular synthesis with sinusoidal grains and user supplied envelope",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrainB.schelp"
+ },
+ {
+  "name": "SinGrainBBF",
+  "title": "SinGrainBBF",
+  "summary": "Granular synthesis with sinusoidal grains with Ambisonic panning and user supplied envelope",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrainBBF.schelp"
+ },
+ {
+  "name": "SinGrainBF",
+  "title": "SinGrainBF",
+  "summary": "Granular synthesis with sinusoidal grains with Ambisonic panning",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrainBF.schelp"
+ },
+ {
+  "name": "SinGrainI",
+  "title": "SinGrainI",
+  "summary": "Granular synthesis with sinusoidal grains and user supplied envelopes",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrainI.schelp"
+ },
+ {
+  "name": "SinGrainIBF",
+  "title": "SinGrainIBF",
+  "summary": "Granular synthesis with sinusoidal grains with Ambisonic panning and user supplied envelopes",
+  "categories": [
+   "Libraries",
+   "JoshUGens, UGens",
+   "GranularSynthesis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/SinGrainIBF.schelp"
+ },
+ {
+  "name": "SLOnset",
+  "title": "SLOnset",
+  "summary": "experimental time domain onset detector",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/SLOnset.schelp"
+ },
+ {
+  "name": "SmoothDecimator",
+  "title": "SmoothDecimator",
+  "summary": "Smooth samplerate and bitrate reduction",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "The input signal.",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "The rate at which the output signal will be resampled.",
+    "default": ""
+   },
+   {
+    "name": "smoothing",
+    "desc": "The amount of smoothing on the output signal.",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "Output will be multiplied by this value.",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "This value will be added to the output.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/DistortionUGens/HelpSource/Classes/SmoothDecimator.schelp"
+ },
+ {
+  "name": "SMS",
+  "title": "SMS",
+  "summary": "Spectral Modeling Synthesis",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Audio rate input to be analysed",
+    "default": ""
+   },
+   {
+    "name": "maxpeaks",
+    "desc": "Absolute maximum number of allowed peaks to be detected in the spectrum",
+    "default": ""
+   },
+   {
+    "name": "currentpeaks",
+    "desc": "Current number of allowed peaks to be detected in the spectrum",
+    "default": ""
+   },
+   {
+    "name": "tolerance",
+    "desc": "Search area for matching peaks; within tolerance spectral bins",
+    "default": ""
+   },
+   {
+    "name": "noisefloor",
+    "desc": "Minimum magnitude for a candidate peak (measured as spectral magnitude)",
+    "default": ""
+   },
+   {
+    "name": "freqmult",
+    "desc": "Resynthesis parameter to change frequency; currently causes a gross multiplication of frequency of all sinusoidal components",
+    "default": ""
+   },
+   {
+    "name": "freqadd",
+    "desc": "Resynthesis parameter to change frequency; currently causes a gross addition of a frequency to all sinusoidal components",
+    "default": ""
+   },
+   {
+    "name": "formantpreserve",
+    "desc": "Even if changing the frequencies of sinusoidal partial tracks, re-impose the original magnitude spectrum so as to keep the formants (spectral envelope preservation). 0 is off, otherwise on (there is a",
+    "default": ""
+   },
+   {
+    "name": "useifft",
+    "desc": "Use IFFT based resynthesis, which is lower quality, but substantially more efficient",
+    "default": ""
+   },
+   {
+    "name": "ampmult",
+    "desc": "amplitude multiplier for internal compensation for window power loss within algorithm. Usually leave as default of 1.0.",
+    "default": ""
+   },
+   {
+    "name": "graphicsbufnum",
+    "desc": "Will fill a user provided buffer with sines + noise data; the buffer must be size 1 + 513 + 5*(maxsines). The first entry will be the number of sines active for that polled frame. Default for this arg",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/SMS.schelp"
+ },
+ {
+  "name": "SOMRd",
+  "title": "SOMRd",
+  "summary": "Map an input using a Self-Organising Map",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "A reference to the buffer containing the SOM.",
+    "default": ""
+   },
+   {
+    "name": "inputdata",
+    "desc": "An Array of the input signals for the net to map.",
+    "default": ""
+   },
+   {
+    "name": "netsize",
+    "desc": "The size of the neural net along one dimension. Must match what you trained it with.",
+    "default": ""
+   },
+   {
+    "name": "numdims",
+    "desc": "The dimensionality of the neural net. Choose from 1, 2, 3, or 4. Must match what you trained it with.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "A simple on-or-off control. When off (gate<=0) the incoming data is ignored (output stays constant).",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/SOMRd.schelp"
+ },
+ {
+  "name": "SOMTrain",
+  "title": "SOMTrain",
+  "summary": "Create (train) a Self-Organising Map",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "A reference to the buffer where the map will be created. Initialising the map is up to you (see below).",
+    "default": ""
+   },
+   {
+    "name": "inputdata",
+    "desc": "An Array of the input signals for the net to learn.",
+    "default": ""
+   },
+   {
+    "name": "netsize",
+    "desc": "The size of the neural net along one dimension.",
+    "default": ""
+   },
+   {
+    "name": "numdims",
+    "desc": "The dimensionality of the neural net. Choose from 1, 2, 3, or 4.",
+    "default": ""
+   },
+   {
+    "name": "traindur",
+    "desc": "The length of the training period; the number of data frames that will come in before the net gradually \"freezes\" into its final state",
+    "default": ""
+   },
+   {
+    "name": "nhood",
+    "desc": "The initial size of the neighbourhood used in training. (The size always shrinks to zero as the training progresses.) The size is expressed as a fraction of netsize. Default is 0.5, and you probably d",
+    "default": "0.5, and you probably don't need to change it"
+   },
+   {
+    "name": "gate",
+    "desc": "A simple on-or-off control. When off (gate<=0) the incoming data is ignored.",
+    "default": ""
+   },
+   {
+    "name": "initweight",
+    "desc": "How heavily the algorithm weights the data points at first (the weighting always tails off to zero as the training progresses, in a reciprocal curve). Default is 1, and you usually don't need to chang",
+    "default": "1, and you usually don't need to change this"
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/SOMTrain.schelp"
+ },
+ {
+  "name": "SortBuf",
+  "title": "SortBuf",
+  "summary": "Karplus-Strong via a sorting algorithm",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "target buffer, will be overwritten by the procedure.",
+    "default": ""
+   },
+   {
+    "name": "sortrate",
+    "desc": "number of sorting iterations per play through of the buffer",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "restart the sorting procedure.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/SortBuf.schelp"
+ },
+ {
+  "name": "SpectralEntropy",
+  "title": "SpectralEntropy",
+  "summary": "Spectral feature extraction",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "fft",
+    "desc": "input fft chain, that is, from an FFT UGen",
+    "default": ""
+   },
+   {
+    "name": "fftsize",
+    "desc": "Size of FFT buffer must be known in advance for pre-calculation",
+    "default": ""
+   },
+   {
+    "name": "numbands",
+    "desc": "Number of sub-bands for entropy calculation; spectral bins are collected in sub-bands, and the number of outputs of the UGen is numbands",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SCMIRUGens/HelpSource/Classes/SpectralEntropy.schelp"
+ },
+ {
+  "name": "SpruceBudworm",
+  "title": "SpruceBudworm",
+  "summary": "Spruce bud worm model equations",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "reset",
+    "desc": "If > 0.0, restart with new initial conditions sampled from initx, inity",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "update rate for a sample step",
+    "default": ""
+   },
+   {
+    "name": "k1",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "k2",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "alpha",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "beta",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "mu",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "rho",
+    "desc": "equation constant",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for x",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/SpruceBudworm.schelp"
+ },
+ {
+  "name": "Squiz",
+  "title": "Squiz",
+  "summary": "Wave squeezer. Maybe a kind of pitch shifter.",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Nonlinear"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "pitchratio",
+    "desc": "the ratio by which pitch will be raised (e.g. pitchratio of 2 will raise by one octave). Only upwards pitch-shifts are possible so a value below 1 will have no effect.",
+    "default": ""
+   },
+   {
+    "name": "zcperchunk",
+    "desc": "indicates how many positive-going zero-crossings are used to delimit a chunk. (Only positive integer values make sense.)",
+    "default": ""
+   },
+   {
+    "name": "memlen",
+    "desc": "the amount (in seconds) of memory the unit allocates internally to remember each fragment, i.e. the longest a given fragment can become. The default should be fine for most signals. Raising it higher ",
+    "default": ""
+   },
+   {
+    "name": "in",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "pitchratio",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "zcperchunk",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "memlen",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/Squiz.schelp"
+ },
+ {
+  "name": "Standard2DC",
+  "title": "Standard2DC",
+  "summary": "standard map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "k",
+    "desc": "perturbation amount",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Standard2DC.schelp"
+ },
+ {
+  "name": "Standard2DL",
+  "title": "Standard2DL",
+  "summary": "standard map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "k",
+    "desc": "perturbation amount",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Standard2DL.schelp"
+ },
+ {
+  "name": "Standard2DN",
+  "title": "Standard2DN",
+  "summary": "standard map 2D chaotic generator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Stochastic"
+  ],
+  "args": [
+   {
+    "name": "k",
+    "desc": "perturbation amount",
+    "default": ""
+   },
+   {
+    "name": "x0",
+    "desc": "initial value of x",
+    "default": ""
+   },
+   {
+    "name": "y0",
+    "desc": "initial value of y",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Standard2DN.schelp"
+ },
+ {
+  "name": "Stk",
+  "title": "Stk",
+  "summary": "Wrapping Synthesis toolkit.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "name",
+    "desc": "The name of the instrument",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/StkInst/HelpSource/Classes/Stk.schelp"
+ },
+ {
+  "name": "StkGlobals",
+  "title": "StkGlobals",
+  "summary": "Wrapping Synthesis toolkit.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "showWarnings",
+    "desc": "Let Stk showWarnings, 0 for false 1 for true.",
+    "default": ""
+   },
+   {
+    "name": "printErrors",
+    "desc": "Let Stk printErrors, 0 for false 1 for true.",
+    "default": ""
+   },
+   {
+    "name": "rawfilepath",
+    "desc": "Tells Stk where to look for its audio files.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/StkInst/HelpSource/Classes/StkGlobals.schelp"
+ },
+ {
+  "name": "StkInst",
+  "title": "StkInst",
+  "summary": "Wrapping Synthesis toolkit.",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "instNumber",
+    "desc": "The number identifying which instrument is used (Can be setted with Stk Array)",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "Sound frequency.",
+    "default": ""
+   },
+   {
+    "name": "gate",
+    "desc": "Does noteOn on 0 to 1 changes and noteOff on 1 to 0 changes.",
+    "default": ""
+   },
+   {
+    "name": "onamp",
+    "desc": "Amplitude used on noteOn.",
+    "default": ""
+   },
+   {
+    "name": "offamp",
+    "desc": "Amplitude used on noteOff.",
+    "default": ""
+   },
+   {
+    "name": "args",
+    "desc": "Array of control numbers and control values (most of them 0-128) according to Stk.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/StkInst/HelpSource/Classes/StkInst.schelp"
+ },
+ {
+  "name": "Streson",
+  "title": "Streson",
+  "summary": "String resonance filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "audio input",
+    "default": ""
+   },
+   {
+    "name": "delayTime",
+    "desc": "delay (1/ffreq)",
+    "default": ""
+   },
+   {
+    "name": "res",
+    "desc": "resonance (0-1)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/Streson.schelp"
+ },
+ {
+  "name": "Summer",
+  "title": "Summer",
+  "summary": "Pulse counter with floating point steps",
+  "categories": [
+   "UGens",
+   "Triggers"
+  ],
+  "args": [
+   {
+    "name": "trig",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "step",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "resetval",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SummerUGens/HelpSource/Classes/Summer.schelp"
+ },
+ {
+  "name": "SVF",
+  "title": "SVF",
+  "summary": "12db/Oct State Variable Filter",
+  "categories": [
+   "UGens",
+   "Filters"
+  ],
+  "args": [
+   {
+    "name": "signal",
+    "desc": "audio in",
+    "default": ""
+   },
+   {
+    "name": "cutoff",
+    "desc": "cutoff frequency",
+    "default": ""
+   },
+   {
+    "name": "res",
+    "desc": "resonance. 0.0 - 1.0",
+    "default": ""
+   },
+   {
+    "name": "lowpass",
+    "desc": "lowpass filter output level. 0.0 - 1.0",
+    "default": ""
+   },
+   {
+    "name": "bandpass",
+    "desc": "bandpass filter output level. 0.0 - 1.0",
+    "default": ""
+   },
+   {
+    "name": "highpass",
+    "desc": "high filter output level. 0.0 - 1.0",
+    "default": ""
+   },
+   {
+    "name": "notch",
+    "desc": "notchfilter output level. 0.0 - 1.0",
+    "default": ""
+   },
+   {
+    "name": "peak",
+    "desc": "peak filter output level. 0.0 - 1.0",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BlackrainUGens/HelpSource/Classes/SVF.schelp"
+ },
+ {
+  "name": "SwitchDelay",
+  "title": "SwitchDelay",
+  "summary": "feedback delay line implementing switch-and-ramp buffer jumping",
+  "categories": [
+   "UGens",
+   "Delays"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "a signal to be filtered",
+    "default": ""
+   },
+   {
+    "name": "drylevel",
+    "desc": "level of dry signal (default: 1.0)",
+    "default": "1.0)"
+   },
+   {
+    "name": "wetlevel",
+    "desc": "level of delayed signal (default: 1.0)",
+    "default": "1.0)"
+   },
+   {
+    "name": "delaytime",
+    "desc": "seconds to delay signal (default: 1.0)",
+    "default": "1.0)"
+   },
+   {
+    "name": "delayfactor",
+    "desc": "multiplier for feedback level, affects the length of the feedback tail (default 0.7). limited slightly below 1.0 to avoid speaker damaging mistakes",
+    "default": ""
+   },
+   {
+    "name": "maxdelaytime",
+    "desc": "buffer size (default 20.0)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/RFWUGens/HelpSource/Classes/SwitchDelay.schelp"
+ },
+ {
+  "name": "Tartini",
+  "title": "Tartini",
+  "summary": "pitch tracker",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Pitch"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "the audio rate input signal",
+    "default": ""
+   },
+   {
+    "name": "threshold",
+    "desc": "In autocorrelation function peak picking, chooses first peak within this threshold of the maximum peak. Leave it at 0.93 by default.",
+    "default": ""
+   },
+   {
+    "name": "n",
+    "desc": "data window size (on OS X without fftw, only 2048, 1024 and 512 supported, and k must be n/2)",
+    "default": ""
+   },
+   {
+    "name": "k",
+    "desc": "autocorrelation lags, actual FFT size will be n+k (this may lead to nonstandard non-power of 2 FFTs, fftw copes, don't worry about it...). It is recommended by Phil McLeod that you keep k at n/2 (if y",
+    "default": ""
+   },
+   {
+    "name": "overlap",
+    "desc": "overlap size in samples (ie, 1024 window, 256 overlap means advance by 768 samples each time)",
+    "default": ""
+   },
+   {
+    "name": "smallCutoff",
+    "desc": "a parameter for determining when a peak is recorded in the autocorrelation function, advanced use only. Suggest you never put this too low, ie near zero, because then every possible lag in the autocor",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/PitchDetection/HelpSource/Classes/Tartini.schelp"
+ },
+ {
+  "name": "TBetaRand",
+  "title": "TBetaRand",
+  "summary": "triggered beta random distribution",
+  "categories": [
+   "UGens",
+   "Random, UGens",
+   "Triggers"
+  ],
+  "args": [
+   {
+    "name": "lo",
+    "desc": "minimum value",
+    "default": ""
+   },
+   {
+    "name": "hi",
+    "desc": "maximum value",
+    "default": ""
+   },
+   {
+    "name": "trig",
+    "desc": "trigger signal",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/TBetaRand.schelp"
+ },
+ {
+  "name": "TBrownRand",
+  "title": "TBrownRand",
+  "summary": "triggered random walk generator",
+  "categories": [
+   "UGens",
+   "Random, UGens",
+   "Triggers"
+  ],
+  "args": [
+   {
+    "name": "lo",
+    "desc": "minimum value",
+    "default": ""
+   },
+   {
+    "name": "hi",
+    "desc": "maximum value",
+    "default": ""
+   },
+   {
+    "name": "dev",
+    "desc": "maximum step (0-1)",
+    "default": ""
+   },
+   {
+    "name": "dist",
+    "desc": "Gendyn distribution (0-5: see link::Classes/Gendy1:: for details)",
+    "default": ""
+   },
+   {
+    "name": "trig",
+    "desc": "trigger signal",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/TBrownRand.schelp"
+ },
+ {
+  "name": "TermanWang",
+  "title": "TermanWang",
+  "summary": "Neural Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "audio rate input",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "restart",
+    "default": ""
+   },
+   {
+    "name": "ratex",
+    "desc": "update rate for x",
+    "default": ""
+   },
+   {
+    "name": "ratey",
+    "desc": "update rate for y",
+    "default": ""
+   },
+   {
+    "name": "alpha",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "beta",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "eta",
+    "desc": "Equation parameters",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/TermanWang.schelp"
+ },
+ {
+  "name": "TextVU",
+  "title": "TextVU",
+  "summary": "display level of a UGen as a textual meter",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/TextVU.schelp"
+ },
+ {
+  "name": "TGaussRand",
+  "title": "TGaussRand",
+  "summary": "triggered gaussian random distribution",
+  "categories": [
+   "UGens",
+   "Random, UGens",
+   "Triggers"
+  ],
+  "args": [
+   {
+    "name": "lo",
+    "desc": "minimum value",
+    "default": ""
+   },
+   {
+    "name": "hi",
+    "desc": "maximum value",
+    "default": ""
+   },
+   {
+    "name": "trig",
+    "desc": "trigger signal",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/TGaussRand.schelp"
+ },
+ {
+  "name": "TGrains2",
+  "title": "TGrains2",
+  "summary": "buffer granulator with linear att/dec",
+  "categories": [
+   "UGens",
+   "Buffer, UGens",
+   "Generators",
+   "Granular"
+  ],
+  "args": [
+   {
+    "name": "numChannels",
+    "desc": "number of output channels.",
+    "default": ""
+   },
+   {
+    "name": "trigger",
+    "desc": "at each trigger, the following arguments are sampled and used as the arguments of a new grain. A trigger occurs when a signal changes from <= 0 to > 0. If the trigger is audio rate then the grains wil",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "the index of the buffer to use. It must be a one channel (mono) buffer.",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "1.0 is normal, 2.0 is one octave up, 0.5 is one octave down. -1.0 is backwards normal rate ... etc. Unlike link::Classes/PlayBuf::, the rate is multiplied by BufRate, so you needn't do that yourself.",
+    "default": ""
+   },
+   {
+    "name": "centerPos",
+    "desc": "the position in the buffer in seconds at which the grain envelope will reach maximum amplitude.",
+    "default": ""
+   },
+   {
+    "name": "dur",
+    "desc": "duration of the grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "pan",
+    "desc": "determines where to pan the output.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "amplitude of the grain.",
+    "default": ""
+   },
+   {
+    "name": "att",
+    "desc": "attack time of grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "dec",
+    "desc": "decay time of grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "interp",
+    "desc": "1, 2, or 4. Determines whether the grain uses (1) no interpolation, (2) linear interpolation, or (4) cubic interpolation.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/TGrains2.schelp"
+ },
+ {
+  "name": "TGrains3",
+  "title": "TGrains3",
+  "summary": "buffer granulator with user envelope",
+  "categories": [
+   "UGens",
+   "Buffer, UGens",
+   "Generators",
+   "Granular"
+  ],
+  "args": [
+   {
+    "name": "numChannels",
+    "desc": "number of output channels.",
+    "default": ""
+   },
+   {
+    "name": "trigger",
+    "desc": "at each trigger, the following arguments are sampled and used as the arguments of a new grain. A trigger occurs when a signal changes from <= 0 to > 0. If the trigger is audio rate then the grains wil",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "the index of the buffer to use. It must be a one channel (mono) buffer.",
+    "default": ""
+   },
+   {
+    "name": "rate",
+    "desc": "1.0 is normal, 2.0 is one octave up, 0.5 is one octave down. -1.0 is backwards normal rate ... etc. Unlike link::Classes/PlayBuf::, the rate is multiplied by BufRate, so you needn't do that yourself.",
+    "default": ""
+   },
+   {
+    "name": "centerPos",
+    "desc": "the position in the buffer in seconds at which the grain envelope will reach maximum amplitude.",
+    "default": ""
+   },
+   {
+    "name": "dur",
+    "desc": "duration of the grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "pan",
+    "desc": "determines where to pan the output.",
+    "default": ""
+   },
+   {
+    "name": "amp",
+    "desc": "amplitude of the grain.",
+    "default": ""
+   },
+   {
+    "name": "att",
+    "desc": "attack time of grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "dec",
+    "desc": "decay time of grain in seconds.",
+    "default": ""
+   },
+   {
+    "name": "window",
+    "desc": "bufnum of rise/decay shape.",
+    "default": ""
+   },
+   {
+    "name": "interp",
+    "desc": "1, 2, or 4. Determines whether the grain uses (1) no interpolation, (2) linear interpolation, or (4) cubic interpolation.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BhobUGens/HelpSource/Classes/TGrains3.schelp"
+ },
+ {
+  "name": "TPV",
+  "title": "TPV",
+  "summary": "Tracking Phase Vocoder",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "FFT"
+  ],
+  "args": [
+   {
+    "name": "chain",
+    "desc": "[fft] - Audio input to track, which has been pre-analysed by the link::Classes/FFT:: UGen; see examples below for the expected FFT size",
+    "default": ""
+   },
+   {
+    "name": "windowsize",
+    "desc": "Window size used for FFT",
+    "default": ""
+   },
+   {
+    "name": "hopsize",
+    "desc": "hop size for FFT, typically half window size",
+    "default": ""
+   },
+   {
+    "name": "maxpeaks",
+    "desc": "Absolute maximum number of allowed peaks to be detected in the spectrum",
+    "default": ""
+   },
+   {
+    "name": "currentpeaks",
+    "desc": "Current number of allowed peaks to be detected in the spectrum",
+    "default": ""
+   },
+   {
+    "name": "freqmult",
+    "desc": "Resynthesis parameter to change frequency; currently causes a gross multiplication of frequency of all sinusoidal components, no envelope compensation",
+    "default": ""
+   },
+   {
+    "name": "tolerance",
+    "desc": "Search area for matching peaks; within tolerance spectral bins",
+    "default": ""
+   },
+   {
+    "name": "noisefloor",
+    "desc": "Minimum magnitude for a candidate peak",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/TPV.schelp"
+ },
+ {
+  "name": "TrigAvg",
+  "title": "TrigAvg",
+  "summary": "triggered signal averager",
+  "categories": [
+   "UGens",
+   "Analysis, UGens",
+   "Maths"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BatUGens/HelpSource/Classes/TrigAvg.schelp"
+ },
+ {
+  "name": "TwoTube",
+  "title": "TwoTube",
+  "summary": "physical modeling simulation; two tubes",
+  "categories": [
+   "UGens",
+   "PhysicalModels"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Excitation to inject into the system",
+    "default": ""
+   },
+   {
+    "name": "k",
+    "desc": "Scattering coefficient for junction of two tubes, usually -1<=k<=1",
+    "default": ""
+   },
+   {
+    "name": "loss",
+    "desc": "Amplitude loss factor in circulation",
+    "default": ""
+   },
+   {
+    "name": "d1length",
+    "desc": "Length in samples of first delay line",
+    "default": ""
+   },
+   {
+    "name": "d2length",
+    "desc": "Length in samples of second delay line (no interpolation implemented yet)",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/TwoTube.schelp"
+ },
+ {
+  "name": "VBAP",
+  "title": "VBAP",
+  "summary": "Vector Base Amplitude Panner",
+  "categories": [
+   "UGens",
+   "Multichannel",
+   "Panners"
+  ],
+  "args": [
+   {
+    "name": "numChans",
+    "desc": "The number of output channels.",
+    "default": ""
+   },
+   {
+    "name": "in",
+    "desc": "The signal to be panned.",
+    "default": ""
+   },
+   {
+    "name": "bufnum",
+    "desc": "A Buffer or its bufnum containing data calculated by an instance of VBAPSpeakerArray. Its number of channels must correspond to numChan above.",
+    "default": ""
+   },
+   {
+    "name": "azimuth",
+    "desc": "+/- 180 degrees from the median plane (i.e. straight ahead)",
+    "default": ""
+   },
+   {
+    "name": "elevation",
+    "desc": "+/- 90 degrees from the azimuth plane.",
+    "default": ""
+   },
+   {
+    "name": "spread",
+    "desc": "A value from 0-100. When 0, if the signal is panned exactly to a speaker location the signal is only on that speaker. At values higher than 0, the signal will always be on more than one speaker. This ",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/VBAPUGens/HelpSource/Classes/VBAP.schelp"
+ },
+ {
+  "name": "VBAPSpeaker",
+  "title": "VBAPSpeaker",
+  "summary": "Vector Base Amplitude Panning Speaker",
+  "categories": [
+   "UGens",
+   "Multichannel",
+   "Panners"
+  ],
+  "args": [
+   {
+    "name": "azi",
+    "desc": "This speaker's azimuth angle, +/- 180 degrees from the median plane (i.e. straight ahead)",
+    "default": ""
+   },
+   {
+    "name": "ele",
+    "desc": "This speaker's elevation angle, +/- 90 degrees from the azimuth plane.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/VBAPUGens/HelpSource/Classes/VBAPSpeaker.schelp"
+ },
+ {
+  "name": "VBAPSpeakerArray",
+  "title": "VBAPSpeakerArray",
+  "summary": "Vector Base Amplitude Panning Speaker Array",
+  "categories": [
+   "UGens",
+   "Multichannel",
+   "Panners"
+  ],
+  "args": [
+   {
+    "name": "dim",
+    "desc": "Number of dimensions in the array, either 2 (ring or partial ring), or 3 (partial or full dome or sphere).",
+    "default": ""
+   },
+   {
+    "name": "directions",
+    "desc": "An link::Classes/Array:: containing speaker locations in degrees. If dim is 2 this will be an array of azimuth angles, if dim is 3 this will be an array of arrays of [azimuth, elevation] angle pairs.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/VBAPUGens/HelpSource/Classes/VBAPSpeakerArray.schelp"
+ },
+ {
+  "name": "VMScan2D",
+  "title": "VMScan2D",
+  "summary": "2D scanning pattern virtual machine",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "Number of buffer holding instructions on the server in the form of successive COMMAND/PARAM PAIRS",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/VMScan2D.schelp"
+ },
+ {
+  "name": "VOSIM",
+  "title": "VOSIM",
+  "summary": "vosim pulse generator",
+  "categories": [
+   "UGens",
+   "Generators"
+  ],
+  "args": [
+   {
+    "name": "trig",
+    "desc": "[ar kr] starts a vosim pulse when a transition from non-positive to positive occurs and no other vosim  is still going. audio rate input will produce sample accurate triggering.",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "[ar kr] the frequency of the squared sinewave.",
+    "default": ""
+   },
+   {
+    "name": "nCycles",
+    "desc": "the number of squared sinewaves to use in one vosim pulse. nCycles gets checked when VOSIM receives a trigger.",
+    "default": ""
+   },
+   {
+    "name": "decay",
+    "desc": "the decay factor.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/VOSIMUGens/HelpSource/Classes/VOSIM.schelp"
+ },
+ {
+  "name": "WalshHadamard",
+  "title": "WalshHadamard",
+  "summary": "decomposition into square waves, and reconstruction",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Original signal to effect",
+    "default": ""
+   },
+   {
+    "name": "which",
+    "desc": "Basis elements whose Indices are below this number will be zeroed. The default 0 means the identity transform, all basis elements will be used in the reconstruction.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/WalshHadamard.schelp"
+ },
+ {
+  "name": "WAmp",
+  "title": "WAmp",
+  "summary": "windowed amplitude follower",
+  "categories": [
+   "UGens",
+   "Analysis",
+   "Amplitude"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/BatUGens/HelpSource/Classes/WAmp.schelp"
+ },
+ {
+  "name": "WarpOverlap",
+  "title": "WarpOverlap",
+  "summary": "Create a texture of Warps",
+  "categories": [
+   "Libraries",
+   "JoshUGens"
+  ],
+  "args": [
+   {
+    "name": "numChans",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "buffer",
+    "desc": "The buffer number of a mono soundfile.",
+    "default": ""
+   },
+   {
+    "name": "overlaps",
+    "desc": "The number of overlapping warps to create (should be equal to or greater then 3). This must be a fixed integer. The architechture of the SynthDef cannot change after it is compiled.",
+    "default": ""
+   },
+   {
+    "name": "starttime",
+    "desc": "An initial starttime for the warp pointer (in the total buffer)",
+    "default": ""
+   },
+   {
+    "name": "stretch",
+    "desc": "A stretch factor for the individual Warps.",
+    "default": ""
+   },
+   {
+    "name": "harm",
+    "desc": "A float, or an instance of a Ref. If a Ref is used, its values are sequentially distributed among the larger overlapping windows.",
+    "default": ""
+   },
+   {
+    "name": "windowsize",
+    "desc": "The windowsize in seconds of the larger overlapping windows.",
+    "default": ""
+   },
+   {
+    "name": "step",
+    "desc": "A control on the pointer increment. 1 keeps the pointer up with the current time, 0 will halt time.",
+    "default": ""
+   },
+   {
+    "name": "warpwindowsize",
+    "desc": "A float, or an instance of a Ref. The size of the individual warp windows.",
+    "default": ""
+   },
+   {
+    "name": "warpwindowoverlaps",
+    "desc": "A float, or an instance of a Ref. The number of window overlaps for each warp.",
+    "default": ""
+   },
+   {
+    "name": "warpwindowran",
+    "desc": "A float, or an instance of a Ref. The amount of randomness in each warp's windows.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/WarpOverlap.schelp"
+ },
+ {
+  "name": "WarpZ",
+  "title": "WarpZ",
+  "summary": "Warp a buffer with a time pointer",
+  "categories": [
+   "Libraries",
+   "JoshUGens"
+  ],
+  "args": [],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/JoshUGens/HelpSource/Classes/WarpZ.schelp"
+ },
+ {
+  "name": "WaveletDaub",
+  "title": "WaveletDaub",
+  "summary": "decomposition into Daub4 wavelets, and reconstruction",
+  "categories": [
+   "UGens",
+   "Analysis"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "Original signal to effect",
+    "default": ""
+   },
+   {
+    "name": "n",
+    "desc": "size of wavelet transform. Must be divisible by 64, the standard blocksize.",
+    "default": ""
+   },
+   {
+    "name": "which",
+    "desc": "Basis elements whose indices are below this number will be zeroed. The default 0 means the identity transform, all basis elements will be used in the reconstruction.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/NCAnalysisUGens/HelpSource/Classes/WaveletDaub.schelp"
+ },
+ {
+  "name": "WaveLoss",
+  "title": "WaveLoss",
+  "summary": "Lose bits of your waves",
+  "categories": [
+   "UGens",
+   "Filters",
+   "Nonlinear"
+  ],
+  "args": [
+   {
+    "name": "in",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "drop",
+    "desc": "number of waves to drop within each region of code::outof:: waves",
+    "default": ""
+   },
+   {
+    "name": "outof",
+    "desc": "number of waves within which code::drop:: numbers are silenced",
+    "default": ""
+   },
+   {
+    "name": "mode",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "mul",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "add",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/MCLDUGens/HelpSource/Classes/WaveLoss.schelp"
+ },
+ {
+  "name": "WaveTerrain",
+  "title": "WaveTerrain",
+  "summary": "wave terrain synthesis",
+  "categories": [
+   "UGens",
+   "Buffer"
+  ],
+  "args": [
+   {
+    "name": "bufnum",
+    "desc": "Your surface is a two dimensional array, but specified via a one dimensional buffer. The convention is exhibited below; note that you have to pass in the surface dimensions as well.",
+    "default": ""
+   },
+   {
+    "name": "x",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "y",
+    "desc": "audio rate scanning instructions. Both values must be in the range 0.0 to 1.0, or they are wrapped into this range.",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/WaveTerrain.schelp"
+ },
+ {
+  "name": "WeaklyNonlinear",
+  "title": "WeaklyNonlinear",
+  "summary": "Weakly Nonlinear Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "audio rate input, acts as external force",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "restart",
+    "default": ""
+   },
+   {
+    "name": "ratex",
+    "desc": "update rate for x",
+    "default": ""
+   },
+   {
+    "name": "ratey",
+    "desc": "update rate for y",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "The equation constant w0 (linear oscillator's frequency when alone * 2pi)",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/WeaklyNonlinear.schelp"
+ },
+ {
+  "name": "WeaklyNonlinear2",
+  "title": "WeaklyNonlinear2",
+  "summary": "Weakly Nonlinear Oscillator",
+  "categories": [
+   "UGens",
+   "Generators",
+   "Chaotic"
+  ],
+  "args": [
+   {
+    "name": "input",
+    "desc": "audio rate input, acts as external force",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "restart",
+    "default": ""
+   },
+   {
+    "name": "ratex",
+    "desc": "update rate for x",
+    "default": ""
+   },
+   {
+    "name": "ratey",
+    "desc": "update rate for y",
+    "default": ""
+   },
+   {
+    "name": "freq",
+    "desc": "The equation constant w0 (linear oscillator's frequency when alone * 2pi)",
+    "default": ""
+   },
+   {
+    "name": "initx",
+    "desc": "reset value for u",
+    "default": ""
+   },
+   {
+    "name": "inity",
+    "desc": "reset value for w",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SLUGens/HelpSource/Classes/WeaklyNonlinear2.schelp"
+ },
+ {
+  "name": "WrapSummer",
+  "title": "WrapSummer",
+  "summary": "Pulse counter with floating point steps",
+  "categories": [
+   "UGens",
+   "Triggers"
+  ],
+  "args": [
+   {
+    "name": "trig",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "step",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "min",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "max",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "reset",
+    "desc": "",
+    "default": ""
+   },
+   {
+    "name": "resetval",
+    "desc": "",
+    "default": ""
+   }
+  ],
+  "source": "/usr/share/SuperCollider/Extensions/SC3plugins/SummerUGens/HelpSource/Classes/WrapSummer.schelp"
+ }
+]

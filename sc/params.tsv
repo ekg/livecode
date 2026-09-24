@@ -17,7 +17,7 @@ dirt_dubverb	verbSend room verbT60 verbDamp size verbEarly verbHp verbPre verbLo
 dirt_tape	tape tapeWow tapeHf tapeHiss
 dirt_monitor	limitertype:i
 
-instrument	cutoff fenv res drive sub spread attack pitchEnv detune
+instrument	cutoff fenv res drive sub spread attack pitchEnv detune fmix wavemix
 
 # Inert: declared so patterns referencing them still compile, but they do NOT
 # reach the master chain (that bridge was removed — master is set in

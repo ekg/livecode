@@ -59,27 +59,30 @@ var n = 2;
 
 // ---------------------------------------------------------------- master chain
 Ndef(\dubMaster, {
-	var ctl = ~masterCtlBus.index;
-	var gain = In.kr(ctl + 0, 1).clip(0.25, 2);
-	var glue = In.kr(ctl + 1, 1);
-	var sat = In.kr(ctl + 2, 1);
-	var cut = In.kr(ctl + 3, 1);
-	var duckAmt = In.kr(ctl + 4, 1);
-	var hpfF = In.kr(ctl + 5, 1);
-	var thresh = In.kr(ctl + 6, 1);
-	var width = In.kr(ctl + 7, 1);
+	// Controls live ON the Ndef itself (\mGain.kr(...)), not behind a control bus
+	// that the Ndef reads. The bus version silently did nothing: writing the bus
+	// never changed the audio (measured: master bus gain 0.3 vs 1.0 made no
+	// difference), which is also why the Tidal m* params appeared dead.
+	var gain = \mGain.kr(0.9, 0.2);
+	var glue = \mGlue.kr(0.6, 0.2);
+	var sat = \mSat.kr(0.28, 0.2);
+	var cut = \mCut.kr(13000, 0.5);
+	var duckAmt = \mDuck.kr(0.3, 0.2);
+	var hpfF = \mHpf.kr(28, 0.5);
+	var thresh = \mThresh.kr(0.4, 0.2);
+	var width = \mWidth.kr(0.9, 0.2);
 
 	var dry = In.ar(~masterBus, n);
 	// sidechain: orbit 0 is the drum orbit by convention (d1's default orbit)
-	var kick = In.ar(~dirt.orbits[0].dryBus, n).sum;
+	var kick = In.ar(~dirt.orbits[0].dryBus, n).asArray.sum;
 	var duck = duckAmt * Amplitude.kr(kick, 0.004, 0.12).clip(0, 1);
 
-	var sig = HPF.ar(dry, hpfF.lag(0.5));
+	var sig = HPF.ar(dry, hpfF);
 	sig = Compander.ar(sig, sig,
 		thresh: thresh, slopeBelow: 1, slopeAbove: glue.max(0.05),
 		clampTime: 0.008, relaxTime: 0.22);
 	sig = (sig * (1 + (sat * 6))).tanh / (1 + (sat * 2));
-	sig = LPF.ar(sig, cut.lag(0.5));
+	sig = LPF.ar(sig, cut);
 	sig = sig * (1 - (duck * 0.85));
 	sig = sig * gain;
 	sig = Limiter.ar(sig, 0.96, 0.01);
@@ -87,6 +90,20 @@ Ndef(\dubMaster, {
 	// so do NOT also Out.ar here — that would double the mix.
 	Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
 }).play;
+
+// keep sclang-side access to the same values: this Event is the source of truth
+// for the surface, and Ndef.set is what actually reaches the audio
+~masterVals = (mGain: 0.9, mGlue: 0.6, mSat: 0.28, mCut: 13000,
+	mDuck: 0.3, mHpf: 28, mThresh: 0.4, mWidth: 0.9);
+~masterSet = { |key, value|
+	if(~masterVals[key].isNil) {
+		("master: no such control: " ++ key).warn;
+	} {
+		~masterVals[key] = value;
+		Ndef(\dubMaster).set(key, value);
+		"master % = %".format(key, value).postln;
+	};
+};
 
 "dub_master: chain running (hpf -> glue -> tape -> tone -> duck -> limiter)".postln;
 )

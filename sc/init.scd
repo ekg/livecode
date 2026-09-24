@@ -50,6 +50,11 @@ stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
 stage.("load param manifest", { this.executeFile(sc ++ "/params_gen.scd") });
 stage.("load routing", { this.executeFile(sc ++ "/routing.scd") });
 stage.("load surface", { this.executeFile(sc ++ "/surface.scd") });
+// the worked demo: an instrument defined here, sequenced from
+// livecode/54.tidal, tweakable from SC (~demo.cutoff/res/drive)
+stage.("load demo synth", { this.executeFile(sc ++ "/demo_synth.scd") });
+// if a saved SC state exists, it is part of the current "state" — apply it
+stage.("load saved SC state", { ~sc.load.value });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;

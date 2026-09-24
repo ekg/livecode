@@ -8,7 +8,7 @@
 	['dirt_dubverb', [\verbSend \room \verbT60 \verbDamp \size \verbEarly \verbHp \verbPre \verbLow \verbHigh \verbLowcut \verbHighcut \verbTone \verbMod \verbWidth]],
 	['dirt_tape', [\tape \tapeWow \tapeHf \tapeHiss]],
 	['dirt_monitor', [\limitertype]],
-	['instrument', [\cutoff \fenv \res \drive \sub \spread \attack \pitchEnv \detune]],
+	['instrument', [\cutoff \fenv \res \drive \sub \spread \attack \pitchEnv \detune \fmix \wavemix]],
 	['master_inert', [\mGain \mGlue \mSat \mCut \mDuck \mHpf \mThresh \mWidth]],
 ];
 "params_gen: % group(s) loaded".format(~dirtParamGroups.size).postln;
