@@ -10,28 +10,28 @@
 setcps (125/60/4)   -- 125 bpm, 1 cycle = 1 bar; these patterns are 16 bars, so slow 16
 
 -- kick: tresillo, with a fill every 4th bar so the pulse develops
-d1 $ every 4 (fast 2) $ s "bd(3,8)" # orbit 0 # gain 0.85 # shape 0.2
+d1 $ every 4 (fast 2) $ s "bd(3,8)" # orbit 0 # gain 0.6 # shape 0.2
 
 -- bass: the Model's bass rhythm, refilled with each chord's tones, an octave down
-d2 $ slow 16 $ s "dubsub" # n "a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~" # sustain 0.45 # amp 1.0 # orbit 1 # drive 0.4 # pitchEnv 0.35
+d2 $ slow 16 $ s "dubsub" # n "a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~" # sustain 0.45 # amp 0.5 # orbit 0 # drive 0.4 # pitchEnv 0.35
 
 -- hats: rotated tresillo, with a 5-in-16 flicker; quiet, off the kick
 d3 $ struct "t(<3 8>,16,<0 4>)" $ s "hh" # orbit 0 # gain 0.28 # hpf 700
 
 -- THE RIFF, now following the chords (Am7 G7 Fmaj7 Em7), PWM synth, dub delay,
 -- slow filter sweep. amp is deliberately low: it is a colour, not the whole piece
-d4 $ slow 16 $ s "superpwm" # n "a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~ a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~" # sustain 0.2 # amp 0.78 # orbit 2 # lpf (slow 8 $ range 1100 3800 sine) # ddSend 0.8 # delaytime 0.375 # delayfeedback 0.68 # ddLp 2000 # ddDuck 0.5 # verbSend 0.5 # verbT60 11 # verbLow 0.3 # verbHp 400
+d4 $ slow 16 $ s "dubchord" # cutoff 2600 # fenv 2.5 # res 0.5 # drive 0.35 # n "a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~ a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~" # sustain 0.2 # amp 0.38 # orbit 0 # lpf (slow 8 $ range 1100 3800 sine) # delay 0.3 # delaytime (3/8) # delayfeedback 0.5 # room 0.4 # size 0.8
 
 -- THE MELODY: the tab's Voice line enters halfway through the 16 bars, an octave up
 -- doubling via supervibe so it reads as a tune rather than another texture
-d5 $ slow 16 $ s "supervibe" # n "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ a4 ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~" # sustain 0.3 # amp 0.95 # orbit 3 # verbSend 0.6 # verbT60 12 # verbLow 0.3 # verbHp 380 # ddSend 0.3 # delaytime (3/8) # delayfeedback 0.5 # lpf (slow 12 $ range 1200 3600 sine)
+d5 $ slow 16 $ s "superpiano" # n "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ a4 ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~" # sustain 0.3 # amp 0.45 # orbit 0 # room 0.5 # size 0.85 # delay 0.2 # delaytime (3/8) # delayfeedback 0.45 # lpf (slow 12 $ range 1200 3600 sine)
 
 -- pad: the progression held long, breathing on a 16-cycle sine
-d6 $ slow 2 $ s "supertron" # n "[a3,e3,g4,c4] [g3,d3,f4,b4] [f3,c3,e4,a4] [e3,b3,d4,g4]" # sustain 2.4 # amp 0.34 # orbit 3 # verbSend 0.3 # verbT60 12 # verbLow 0.25 # verbDamp 0.7 # verbHp 350 # lpf (slow 10 $ range 800 2400 sine) # gain (slow 16 $ range 0.05 0.11 sine)
+d6 $ slow 2 $ s "dubchord" # cutoff 700 # fenv 0.4 # res 0.3 # drive 0.25 # n "[a3,e3,g4,c4] [g3,d3,f4,b4] [f3,c3,e4,a4] [e3,b3,d4,g4]" # sustain 2.4 # amp 0.16 # orbit 0 # verbSend 0.3 # verbT60 12 # verbLow 0.25 # verbDamp 0.7 # verbHp 350 # lpf (slow 10 $ range 800 2400 sine) # gain (slow 16 $ range 0.05 0.11 sine)
 
 -- texture and weirdness: tape hiss, plus crushed euclid clicks that drift in and out
-d7 $ s "noise" # orbit 4 # gain 0.06 # lpf 3400 # hpf 300 # tape 0.3 # tapeHiss 0.02
-d8 $ sometimesBy (slow 6 $ range 0.1 0.5 sine) (stut 4 0.4 (1/16)) $ struct "t(<5 7>,16,<0 3 6>)" $ s "click" # orbit 4 # crush (slow 9 $ range 1 9 sine) # gain (slow 5 $ range 0.1 0.35 sine) # room 0.4
+d7 $ s "noise" # orbit 0 # gain 0.06 # lpf 3400 # hpf 300 # tape 0.3 # tapeHiss 0.02
+d8 $ sometimesBy (slow 6 $ range 0.1 0.5 sine) (stut 4 0.4 (1/16)) $ struct "t(<5 7>,16,<0 3 6>)" $ s "click" # orbit 0 # crush (slow 9 $ range 1 9 sine) # gain (slow 5 $ range 0.1 0.35 sine) # room 0.4
 
 -- MODULATION --
 -- push the progression:  rewrite "prog" and regenerate this file

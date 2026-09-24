@@ -40,7 +40,16 @@ var stage = { |name, func|
 	};
 };
 
-log.("dub FX install starting; server running: " ++ s.serverRunning);
+// ---------------------------------------------------------------------------
+// ~dspEnabled = true   : replace each orbit's effects and route orbits -> master bus
+// ~dspEnabled = false  : SAFE MODE — touch nothing, use stock SuperDirt routing
+// Toggle here, or in sc/flags.scd (loaded if present) so the layer can be taken
+// out of the signal path without editing this file.
+// ---------------------------------------------------------------------------
+~dspEnabled = false;
+if(File.exists(sc ++ "/flags.scd")) { this.executeFile(sc ++ "/flags.scd") };
+log.("dub FX install starting; server running: " ++ s.serverRunning
+	++ "   dspEnabled: " ++ ~dspEnabled);
 
 // 1 ----------------------------------------------------------------- define
 stage.("define fx", { this.executeFile(sc ++ "/dub_fx.scd") });
@@ -68,7 +77,7 @@ stage.("verify defs", {
 });
 
 // 3 ------------------------------------------------------------------ orbit FX
-stage.("install orbit chains", {
+if(~dspEnabled) { stage.("install orbit chains", {
 	// Explicit lists rather than generated ones: this exact chain is verified
 	// working end to end, and a generated version compared group names as
 	// Symbols while sc/params_gen.scd emits them as strings, which silently
@@ -92,7 +101,7 @@ stage.("install orbit chains", {
 		orbit.outBus = ~masterBus;
 	};
 	log.("     orbit fx: dubdelay -> dubverb -> monitor  (master set in dub_master.scd)");
-});
+}) } { log.("     SAFE MODE: SuperDirt orbit chains left untouched (stock delay/reverb)") };
 
 // 4 ------------------------------------------------------------------- modules
 stage.("register tape module", {
