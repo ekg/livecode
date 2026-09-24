@@ -107,9 +107,11 @@ if __name__ == "__main__":
         boot_new = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END),
                           lambda m: text_block, boot_src, flags=re.S)
     else:
-        marker = ':set prompt "tidal> "'
-        boot_new = (boot_src.replace(marker, text_block + "\n\n" + marker, 1)
-                    if marker in boot_src else boot_src.rstrip() + "\n\n" + text_block + "\n")
+        # place the block directly after the Boot import: chunks evaluated while
+        # the script is still loading then find the params already defined
+        anchor = "import Sound.Tidal.Boot"
+        boot_new = (boot_src.replace(anchor, anchor + "\n\n" + text_block, 1)
+                    if anchor in boot_src else boot_src.rstrip() + "\n\n" + text_block + "\n")
 
     scd_new = scd_block(groups)
 
