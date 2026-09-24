@@ -6,3 +6,4 @@ recordings/
 albums/**/*.flac
 albums/**/*.mp3
 albums/**/*.opus
+sc/boot.log
