@@ -297,3 +297,19 @@ When providing live coding assistance, focus solely on delivering the code chang
 only the necessary code edits and nothing more.
 
 Extra bonus note: DO NOT PUT SPACES WITHIN `do ...` blocks! This makes it impossible to run them in one go.
+
+## Loading a saved state without retyping it
+
+    :script /home/erik/livecode/<NN>.tidal
+
+Verified: this loads every pattern line from the file and plays it (used it to
+restore 53.tidal after a hush — peak 0.388, 100% coverage). Consequences:
+
+- **never hand-type a pattern into an eval again.** Tidal files are the source of
+  truth; the REPL reads them. This removes the transcription-slip class of bug
+  (a stray character in a long `# param ... # param` chain is a parse error).
+- it works because every state file is now **one stream per line** — enforced by
+  `tools/check_tidal.py` (`--fix` joins multi-line `cat [`/`stack [` constructs).
+  A multi-line construct would break `:script` the same way it breaks a chunk.
+- so the rule is: edit the `.tidal` file, run `tools/check_tidal.py`, then
+  `:script` it. `hush` first when you want to hear it arrive cleanly.
