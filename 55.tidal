@@ -1,0 +1,41 @@
+-- 55.tidal — ambient techno on Kraftwerk's "The Model" (tunepile)
+-- Material: tabs/Kraftwerk - The Model.gp4, part 1 (Synth 1 riff) and part 4
+-- (Synth bass), retuned by tools/retune.py into c4:c6 and c2:e3. The riff is
+-- A minor pentatonic; the pads below stay inside it.
+--
+-- SuperCollider side: the DSP layer in livecode/sc/ (dub delay + dub reverb per
+-- orbit, master chain, instruments). Load with:  :script livecode/55.tidal
+
+setcps (125/60/4)   -- 125 bpm, 1 cycle = 1 bar
+
+-- ORBIT MAP: 0 drums  1 bass  2 hook  3 pads  4 texture
+-- kick: tresillo, dry; it also ducks the master bus (orbit 0 sidechain)
+d1 $ s "bd(3,8)" # orbit 0 # gain 0.9 # shape 0.2
+
+-- sub bass: the Model's bass line, an octave below the riff
+d2 $ s "dubsub" # n "a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~" # sustain 0.5 # amp 0.6 # orbit 1 # drive 0.4 # pitchEnv 0.4
+
+-- hats: rotated tresillo so they miss the kick, plus a 5-in-16 flicker
+d3 $ struct "t(<3 8>,16,<0 4>)" $ s "hh" # orbit 0 # gain 0.3 # hpf 700
+
+-- THE HOOK: Kraftwerk's synth riff on a PWM synth (very 80s), through the
+-- dub delay and reverb, with a slow filter sweep so it opens and closes
+d4 $ s "superpwm" # n "a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~" # sustain 0.22 # amp 0.42 # orbit 2 # lpf (slow 8 $ range 900 4200 sine) # ddSend 0.65 # delaytime 0.4 # delayfeedback 0.62 # ddLp 2200 # ddDuck 0.5 # verbSend 0.3 # verbT60 9 # verbLow 0.3 # verbHp 400
+
+-- pad: A minor voicings held long, wide reverb, gain breathing on a slow sine
+d5 $ slow 2 $ s "supertron" # n "[a3,e4,c5] [g3,d4,bb4] [f3,c4,a4] [e3,b3,g4]" # sustain 3.5 # amp 0.3 # orbit 3 # verbSend 0.6 # verbT60 12 # verbLow 0.25 # verbDamp 0.7 # verbHp 350 # lpf (slow 12 $ range 700 2600 sine)
+
+-- texture: tape hiss and wow, the lo-fi floor under everything
+d6 $ s "noise" # orbit 4 # gain 0.06 # lpf 3600 # hpf 300 # tape 0.3 # tapeHiss 0.02
+
+-- weirdness: crushed euclid clicks that appear and disappear on their own
+d7 $ sometimesBy (slow 6 $ range 0.15 0.55 sine) (stut 4 0.4 (1/16)) $ struct "t(<5 7>,16,<0 3 6>)" $ s "click" # orbit 4 # crush (slow 9 $ range 1 9 sine) # gain (slow 5 $ range 0.12 0.4 sine) # room 0.4
+
+-- MODULATION IDEAS --
+-- open the space:        d4 ... # ddSend (slow 16 $ range 0.3 0.9 sine)
+-- drop the kick:         d1 $ silence   (let the delay carry it)
+-- filter the riff down:  # lpf 600      (then open it back up)
+-- 4-floor passage:       d1 $ s "bd*4" # orbit 0
+-- pad up an octave:      rewrite the n list at octave 4
+
+-- Companion SC state: livecode/sc/state.scd (master gain/glue/sat, demo offsets).
