@@ -1,10 +1,6 @@
-/* saved SuperCollider state for the current .tidal file.
-   Written by ~sc.save in SuperCollider; applied at stack boot by init.scd
-   (delete the file to fall back to the boot defaults).
-   masterGain 0.35 = obvious on purpose, so the mechanism is verifiable. */
+/* saved SC state (see sc/README.md). Deliberately obvious values so the
+   mechanism is verifiable: mGain 0.1 vs boot default 0.9. */
 ~scLoadedState = (
-	demoCutoff: 400,
-	demoDrive: 0.05,
-	mGain: 0.35,
+	mGain: 0.1,
 );
-~scLoadedState.keysValuesDo { |k, v| ~sc.set(k, v) };
+~scLoadedState.keysValuesDo { |k, v| ~scSet.value(k, v) };

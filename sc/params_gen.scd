@@ -4,12 +4,12 @@
    parameter list, so a param cannot be added to one side only. */
 (
 ~dirtParamGroups = [
-	['dirt_dubdelay', [\ddSend \ddLp \ddHp \ddDrive \ddWow \ddCross \ddDuck \delaytime \delayfeedback \delaySend \lock \cps]],
-	['dirt_dubverb', [\verbSend \room \verbT60 \verbDamp \size \verbEarly \verbHp \verbPre \verbLow \verbHigh \verbLowcut \verbHighcut \verbTone \verbMod \verbWidth]],
-	['dirt_tape', [\tape \tapeWow \tapeHf \tapeHiss]],
+	['dirt_dubdelay', [\ddSend, \ddLp, \ddHp, \ddDrive, \ddWow, \ddCross, \ddDuck, \delaytime, \delayfeedback, \delaySend, \lock, \cps]],
+	['dirt_dubverb', [\verbSend, \room, \verbT60, \verbDamp, \size, \verbEarly, \verbHp, \verbPre, \verbLow, \verbHigh, \verbLowcut, \verbHighcut, \verbTone, \verbMod, \verbWidth]],
+	['dirt_tape', [\tape, \tapeWow, \tapeHf, \tapeHiss]],
 	['dirt_monitor', [\limitertype]],
-	['instrument', [\cutoff \fenv \res \drive \sub \spread \attack \pitchEnv \detune \fmix \wavemix]],
-	['master_inert', [\mGain \mGlue \mSat \mCut \mDuck \mHpf \mThresh \mWidth]],
+	['instrument', [\cutoff, \fenv, \res, \drive, \sub, \spread, \attack, \pitchEnv, \detune, \fmix, \wavemix]],
+	['master_inert', [\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth]],
 ];
 "params_gen: % group(s) loaded".format(~dirtParamGroups.size).postln;
 )

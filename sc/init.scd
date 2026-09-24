@@ -54,7 +54,7 @@ stage.("load surface", { this.executeFile(sc ++ "/surface.scd") });
 // livecode/54.tidal, tweakable from SC (~demo.cutoff/res/drive)
 stage.("load demo synth", { this.executeFile(sc ++ "/demo_synth.scd") });
 // if a saved SC state exists, it is part of the current "state" — apply it
-stage.("load saved SC state", { ~sc.load.value });
+stage.("load saved SC state", { ~scLoad.value });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;
@@ -134,8 +134,8 @@ log.("master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter");
 log.("instruments: dubchord dubsub tapestab;  module: tape");
 log.("Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)");
 log.("--- graph state at boot ---");
-~sc.state.value;
-~sc.state.value.postln;
+~scState.value;
+~scState.value.postln;
 log.("slots: " ++ ~scSlots.keys.asArray.sort.join(" "));
 log.("done");
 logFile.close;

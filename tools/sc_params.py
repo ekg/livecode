@@ -82,7 +82,9 @@ def scd_block(groups) -> str:
            "(",
            "~dirtParamGroups = ["]
     for group, params in groups:
-        syms = " ".join(f"\\{n}" for n, _ in params)
+        # COMMAS are required: in [\a \b] SuperCollider parses \b as a binary
+        # operator ("unexpected SYMBOL, expecting ']'")
+        syms = ", ".join(f"\\{n}" for n, _ in params)
         out.append(f"\t['{group}', [{syms}]],")
     out += ["];",
             '"params_gen: % group(s) loaded".format(~dirtParamGroups.size).postln;',
