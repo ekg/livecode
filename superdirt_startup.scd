@@ -29,6 +29,10 @@ This is an example startup file. You can load it from your startup file
         ~dirt.loadSoundFiles("/home/erik/sounds/mars_symlinks/*");
 		// s.sync; // optionally: wait for samples to be read
 		~dirt.start(57120, 0 ! 12);   // start listening on port 57120, create two busses each sending audio to channel 0
+		// our DSP layer: dub delay + dub reverb per orbit, master chain, extra
+		// instruments. Defined here (not in the pi-tidal plugin) because sclang
+		// runs this file on every boot — see sc/init.scd for the architecture.
+		this.executeFile(Platform.userHomeDir ++ "/livecode/sc/init.scd");
 		SuperDirt.default = ~dirt; // make this instance available in sclang (optional)
 
 		// optional, needed for convenient access from sclang:

@@ -1,0 +1,105 @@
+/*
+init.scd — install the dub FX layer into a running SuperDirt.
+
+Called from superdirt_startup.scd right after ~dirt.start, i.e. sclang runs this
+every time the stack boots. It writes every step (and any error, with a stack
+trace) to sc/boot.log, because sclang's stdout is not readable from outside the
+pi-tidal plugin — a silent failure here would otherwise look like "no sound".
+
+What it does
+------------
+1. defines the SynthDefs (dub_fx.scd) and the master chain (dub_master.scd)
+2. waits for the SynthDefs to reach the server (they are sent asynchronously —
+   playing an effect before its def arrives is the "SynthDef not found" failure)
+3. replaces the stock per-orbit effects with ours:
+      dirt_delay  -> dirt_dubdelay   (filtered repeats that darken, ducking)
+      dirt_reverb -> dirt_dubverb    (HPF'd send, pre-delay, damped low band)
+   drops dirt_leslie (unused), inserts dirt_masterctl, keeps dirt_monitor last
+4. routes every orbit into the master bus (their monitors write there)
+5. registers the per-event `tape` module
+
+Orbit convention from Tidal (`# orbit N`):
+   0 drums (dry; the kick is the master sidechain source)
+   1 bass (dry)      2 chords (delay + short reverb)
+   3 pads (long reverb, wide)       4 voices (heavy delay)
+*/
+(
+var sc = Platform.userHomeDir ++ "/livecode/sc";
+var logFile = File(sc ++ "/boot.log", "w");
+var log = { |s|
+	var line = "[" ++ Main.elapsedTime.round(0.01) ++ "] " ++ s;
+	logFile.write(line ++ "\n");
+	logFile.flush;
+	line.postln;
+};
+var stage = { |name, func|
+	try { func.value; log.("ok   " ++ name) } { |err|
+		log.("FAIL " ++ name ++ " -> " ++ err.errorString);
+		log.("      " ++ err.describeBacktrace.split($\n).keep(4).join(" | "));
+	};
+};
+
+log.("dub FX install starting; server running: " ++ s.serverRunning);
+
+// 1 ----------------------------------------------------------------- define
+stage.("define fx", { this.executeFile(sc ++ "/dub_fx.scd") });
+stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
+
+// 2 ------------------------------------------- make sure the defs are on the server
+s.sync;
+stage.("verify defs", {
+	var want = ["dirt_dubdelay2", "dirt_dubverb2", "dirt_masterctl2",
+		"dirt_tape2", "dubchord", "dubsub", "tapestab"];
+	var have = SynthDescLib.global.synthDescs.keys.collect(_.asString);
+	var missing = want.reject { |w| have.includes(w) };
+	log.("     defs: " ++ want.collect { |w| w ++ (if(have.includes(w)) { "" } { "!!MISSING" }) }.join(" "));
+	if(missing.notEmpty) { log.("     MISSING: " ++ missing.join(" ")) };
+});
+
+// 3 ------------------------------------------------------------------ orbit FX
+stage.("install orbit chains", {
+	~dirt.orbits.do { |orbit|
+		orbit.globalEffects = [
+			GlobalDirtEffect(\dirt_dubdelay,
+				[\ddSend, \ddLp, \ddHp, \ddDrive, \ddWow, \ddCross, \ddDuck,
+				 \delaytime, \delayfeedback, \delaySend, \lock, \cps]),
+			GlobalDirtEffect(\dirt_dubverb,
+				[\verbSend, \room, \verbT60, \verbDamp, \size, \verbEarly,
+				 \verbHp, \verbPre, \verbLow, \verbHigh, \verbLowcut,
+				 \verbHighcut, \verbTone, \verbMod, \verbWidth]),
+			GlobalDirtEffect(\dirt_masterctl,
+				[\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth]),
+			GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
+		];
+		orbit.outBus = ~masterBus;
+	};
+});
+
+// 4 ------------------------------------------------------------------- modules
+stage.("register tape module", {
+	~dirt.addModule(\tape, { |dirtEvent|
+		dirtEvent.sendSynth('dirt_tape' ++ ~dirt.numChannels,
+			[tape: ~tape, tapeHf: ~tapeHf, tapeHiss: ~tapeHiss, tapeWow: ~tapeWow,
+			 out: ~out]);
+	}, { ~tape.notNil });
+});
+
+// 4b ------------------------------------------------------- self-test the layer
+// a private bus, so the test measures the instruments themselves and not the
+// master chain (which is verified separately by hearing anything at all)
+stage.("instrument self-test", {
+	~testBus = Bus.audio(s, 2);
+	~testCtl = Bus.control(s, 1);
+	this.executeFile(sc ++ "/selftest.scd");
+	~selftest.(log, ~testBus, ~testCtl);
+});
+
+// 5 -------------------------------------------------------------------- report
+log.("orbits -> master bus " ++ ~masterBus.index);
+log.("per orbit: dubdelay -> dubverb -> masterctl -> monitor");
+log.("master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter");
+log.("instruments: dubchord dubsub tapestab;  module: tape");
+log.("Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)");
+log.("done");
+logFile.close;
+)
