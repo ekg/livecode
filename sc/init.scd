@@ -49,6 +49,7 @@ stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
 // param cannot be added to SuperCollider without also being declared in Tidal
 stage.("load param manifest", { this.executeFile(sc ++ "/params_gen.scd") });
 stage.("load routing", { this.executeFile(sc ++ "/routing.scd") });
+stage.("load surface", { this.executeFile(sc ++ "/surface.scd") });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;
@@ -127,6 +128,10 @@ log.("per orbit: dubdelay -> dubverb -> masterctl -> monitor");
 log.("master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter");
 log.("instruments: dubchord dubsub tapestab;  module: tape");
 log.("Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)");
+log.("--- graph state at boot ---");
+~sc.state.value;
+~sc.state.value.postln;
+log.("slots: " ++ ~scSlots.keys.asArray.sort.join(" "));
 log.("done");
 logFile.close;
 )
