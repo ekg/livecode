@@ -44,3 +44,17 @@ does nothing); a multi-line `let` in a ghci script is silently dropped; `if`
 cannot take a UGen condition in a SynthDef; mono `In.ar`/`LocalIn` return a bare
 UGen; pass bus *indices* not `Bus` objects; custom synths take pitch in `n`, not
 `note`.
+
+### If a parameter is "not in scope" again
+
+The running REPL is long-lived and holds whatever `BootTidal.hs` contained when
+it was spawned. If only *some* params are missing, the REPL predates the current
+file — declare them live (`tidal_param`, or `let x = pF "x"`), or restart the
+REPL (`tidal_repl`). Do not assume an earlier `pkill` worked: the binary is
+`ghc-9.4.7`, so match the boot file on the command line:
+
+    ps -eo pid,args | awk '/ghci-scri/ {print $1}' | xargs -r kill
+
+and confirm it is gone with `ps -eo pid,comm | awk '$2 ~ /^ghc-/'` (this exact
+mistake — a `pkill -x ghci` that silently matched nothing — meant a REPL loaded
+on Sep 20 was still serving evals days later).
