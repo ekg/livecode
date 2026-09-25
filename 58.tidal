@@ -1,0 +1,30 @@
+-- 58.tidal — lo-fi hiphop, global FX + modulation
+-- 80 bpm (1 cycle = 1 bar). All sample voices: `note` is a SEMITONE OFFSET
+-- from the sample's own pitch (c5 = 0), and `n` picks the file in the bank.
+-- Global FX via the SC layer's per-orbit chains: dd* = dub delay, verb* = dub
+-- reverb (HPF'd send, pre-delay, fast low-band decay), tape = lo-fi module.
+
+setcps (80/60/4)
+
+-- drums: dusty, with tape wobble and hf loss
+d1 $ sometimesBy 0.12 (stut 3 0.4 (1/32)) $ s "bd ~ ~ bd ~ ~ bd ~ ~ ~ bd ~ ~ ~ ~ ~" # gain 0.8 # tape 0.22 # lpf 4000
+d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~" # gain 0.7 # tape 0.25 # lpf 5000
+d3 $ sometimesBy 0.3 (stut 4 0.4 (1/32)) $ s "hh(5,8)" # gain 0.5 # hpf 900 # tape 0.15
+d4 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cp ~" # gain 0.55 # room 0.3
+
+-- bass: moog sample, offsets 0 = its own pitch; riff sits under the chords
+d5 $ s "jvbass" # note "0 ~ ~ ~ -2 ~ ~ -5 ~ ~ -3 ~ ~ 0 ~ ~" # amp 0.55 # cut 5 # lpf 600
+
+-- chords: Rhodes, chord brackets in mininotation, dub-delay swell on a slow sine
+d6 $ slow 2 $ s "jrhodes" # n 30 # note "[0,3,7,10] [-2,2,5,9] [-4,0,3,7] [-5,-1,2,6]" # amp 0.34 # cut 6 # legato 1.1 # ddSend (slow 16 $ range 0.15 0.4 sine) # delaytime 0.375 # delayfeedback 0.34 # ddLp 1500 # ddDuck 0.5 # verbSend 0.3 # verbT60 8 # verbLow 0.3 # verbHp 400 # lpf (slow 8 $ range 1200 2600 sine)
+
+-- melody: sparse vibes, dotted delay, filter opening over a long arc
+d7 $ slow 4 $ sometimesBy 0.2 (stut 2 0.35 (1/16)) $ s "sprvibe" # note "0 ~ 3 ~ 7 ~ 10 ~ 7 ~ 3 ~ 0 ~ -2 ~" # amp 0.3 # cut 7 # ddSend 0.55 # delaytime (3/8) # delayfeedback 0.32 # ddLp 2000 # ddDuck 0.45 # verbSend 0.4 # lpf (slow 16 $ range 900 3400 sine)
+
+-- vinyl hiss: the lo-fi floor, hiss breathing on a 12-cycle sine
+d8 $ s "noise" # gain (slow 12 $ range 0.04 0.1 sine) # lpf 3200 # hpf 300 # tape 0.35 # tapeHiss 0.025
+
+-- MODULATION LEVERS --
+-- more glue:      d6 # ddSend 0.9   |  drier: # verbSend 0.2
+-- break:          d1 $ silence      (let the delay carry it)
+-- fill:           d3 $ every 4 (ply 2) $ ...

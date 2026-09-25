@@ -8,7 +8,7 @@
 
    Tuned for live performance: make-up gain up, glue gentle, peaks caught early,
    hard ceiling just under -2 dBFS. */
-~scSet.value(\mGain,   1.3);   // make-up gain
+~scSet.value(\mGain,   0.85);   // make-up gain
 ~scSet.value(\mGlue,   0.5);   // compressor slope above threshold (smaller = more)
 ~scSet.value(\mSat,    0.3);   // tape saturation
 ~scSet.value(\mDuck,   0.3);   // kick ducking depth
