@@ -203,7 +203,17 @@ stage.("start master chain", {
 	if(Ndef(\dubMaster).isPlaying.not) {
 		Error("Ndef dubMaster is not playing").throw
 	};
-	log.("     master chain after the strips: %".format(Ndef(\dubMaster).group));
+	// FORCE the node order, whoever created the proxy's group earlier: the
+	// synth group must execute AFTER the strips (the writers of the master
+	// bus) or it reads a bus zeroed at cycle start — the "master chain dead"
+	// failure with everything green except hardware.
+	if(~routingEnabled and: { ~routingNodes.notNil and: { ~routingNodes.size > 0 } }) {
+		s.sendMsg("/g_after", Ndef(\dubMaster).group.nodeID,
+			~routingNodes.last.nodeID);
+	};
+	s.sync;
+	log.("     master chain: group % after strips"
+		.format(Ndef(\dubMaster).group));
 });
 
 // 5 ------------------------------------------------------------------ modules
