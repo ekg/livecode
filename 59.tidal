@@ -1,0 +1,23 @@
+-- 59.tidal — lo-fi hiphop, BASELINE: stock SuperDirt only, no custom layer
+-- 80 bpm (1 cycle = 1 bar). Samples only; `note` is a semitone OFFSET (c5 = 0).
+-- Space uses stock SuperDirt params (room / size / delay / delaytime / delayfeedback).
+
+setcps (80/60/4)
+
+-- drums
+d1 $ s "bd ~ ~ bd ~ ~ bd ~ ~ ~ bd ~ ~ ~ ~ ~" # gain 0.9
+d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~" # gain 0.75
+d3 $ sometimesBy 0.3 (stut 4 0.4 (1/32)) $ s "hh(5,8)" # gain 0.5 # hpf 900
+d4 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cp ~" # gain 0.6 # room 0.3
+
+-- bass: moog sample, offsets only
+d5 $ s "moog" # note "0 ~ ~ ~ -2 ~ ~ -5 ~ ~ -3 ~ ~ 0 ~ ~" # amp 0.7
+
+-- chords: Rhodes, chord brackets = simultaneous offsets, stock delay + reverb
+d6 $ slow 2 $ s "jrhodes" # note "[0,3,7,10] [-2,2,5,9] [-4,0,3,7] [-5,-1,2,6]" # amp 0.5 # room 0.55 # size 0.85 # delay 0.3 # delaytime (3/8) # delayfeedback 0.45
+
+-- melody: sparse vibes, same offsets idea
+d7 $ slow 4 $ s "sprvibe" # note "0 ~ 3 ~ 7 ~ 10 ~ 7 ~ 3 ~ 0 ~ -2 ~" # amp 0.45 # room 0.4
+
+-- vinyl hiss
+d8 $ s "noise" # gain 0.08 # lpf 3200 # hpf 300
