@@ -68,4 +68,5 @@ Notes learned the hard way:
 			++ (if(peak > 0.01) { "  (chain OK)" } { "  <<< MASTER CHAIN IS SILENT" }));
 	};
 }
+~scLoadedSelftest = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )

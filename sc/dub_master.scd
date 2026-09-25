@@ -84,6 +84,12 @@ Ndef(\dubMaster, {
 	var ceil = \mCeil.kr(0.79, 0.2);      // ≈ -2.1 dBFS sample ceiling (our material
 	                                      // overshoots ~1.1 dB between samples)
 	var knee = \mKnee.kr(0.55, 0.2);      // soft-clip knee (amplitude, not a ratio)
+	// NB: var declarations MUST come before every other statement in a function
+	// body. "var rms" below once sat after the `sig = ...` assignments, which is a
+	// parse error — and a parse error in a file run through executeFile is
+	// SILENT: no error is thrown, executeFile returns nil, and the whole file is
+	// a no-op. That single line killed this file on every boot for a whole day.
+	var rms, lvl;
 	var sig = HPF.ar(dry, hpfF);
 	sig = Compander.ar(sig, sig,
 		thresh: thresh, slopeBelow: 1, slopeAbove: glue.max(0.05),
@@ -111,8 +117,8 @@ Ndef(\dubMaster, {
 	//    the meter appeared "pinned at the ceiling" and told us nothing)
 	//  * slot 1 = envelope with fast attack / 150 ms release (a level reading)
 	//  * slot 2 = that level as a fraction of the ceiling
-	var rms = (sig.asArray.collect { |c| c * c }.sum / sig.asArray.size).lag(0.25).sqrt;
-	var lvl = Amplitude.kr(sig.asArray.sum / sig.asArray.size, 0.002, 0.15);
+	rms = (sig.asArray.collect { |c| c * c }.sum / sig.asArray.size).lag(0.25).sqrt;
+	lvl = Amplitude.kr(sig.asArray.sum / sig.asArray.size, 0.002, 0.15);
 	Out.kr(~meterBus.index + 0, rms);
 	Out.kr(~meterBus.index + 1, lvl);
 	Out.kr(~meterBus.index + 2, (lvl / ceil.max(0.001)).clip(0, 2));
@@ -152,4 +158,5 @@ if(~meterRoutine.notNil) { ~meterRoutine.stop };
 }).play(AppClock);
 "dub_master: chain running (hpf -> glue -> tape -> tone -> duck -> knee -> limiter)".postln;
 "dub_master: ceiling meter -> %  (every 2s)".format(~meterLog).postln;
+~scLoadedMaster = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )

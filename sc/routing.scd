@@ -160,7 +160,11 @@ var n = 2;
 // ---------------------------------------------------------------- API
 // orbit -> group (explicit map: `this` inside a Function is NOT the enclosing
 // Event, which is what made the first version hang the boot)
-~orbitGroupMap = (0: \drums, 1: \bass, 2: \music, 3: \music, 4: \fx);
+// all 12 orbits assigned: kit (0-3) drums, bass (4), keys/voices (5-7) music,
+// extras (8-11) fx. Full coverage avoids the two-tier mix where unmapped
+// orbits bypass the group processing entirely.
+~orbitGroupMap = (0: \drums, 1: \drums, 2: \drums, 3: \drums, 4: \bass,
+	5: \music, 6: \music, 7: \music, 8: \fx, 9: \fx, 10: \fx, 11: \fx);
 
 ~route = (
 	assign: ~orbitGroupMap,
@@ -177,9 +181,15 @@ var n = 2;
 	send: { |group, aux, level = 0.3|
 		var ctl = ~groupCtl[group];
 		var slot = (delay: 1, verb: 2, shimmer: 3)[aux];
-		if(ctl.isNil or: { slot.isNil }) { "bad group/aux".warn; ^this };
-		ctl.setAt(slot, level);
-		("% -> % send = %".format(group, aux, level)).postln;
+		// NB: no `^this` here — a caret returns from the enclosing METHOD, and in
+		// interpreted code that is at best a runtime error (it once hung a boot).
+		// Branch explicitly instead.
+		if(ctl.isNil or: { slot.isNil }) {
+			"bad group/aux".warn;
+		} {
+			ctl.setAt(slot, level);
+			("% -> % send = %".format(group, aux, level)).postln;
+		};
 	},
 	level: { |group, gain| ~groupCtl[group].setAt(0, gain) },
 	ret: { |aux, level| ~auxCtl[aux].setAt(0, level) },
@@ -200,4 +210,5 @@ var n = 2;
 );
 
 "routing: groups %, aux %".format(~groups.keys.asArray, ~aux.keys.asArray).postln;
+~scLoadedRouting = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )

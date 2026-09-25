@@ -80,4 +80,5 @@ if(~scSlots.notNil) {
 };
 
 "demo_synth: instrument 'demoVoice' defined; ~demo.cutoff/res/drive/state to tweak".postln;
+~scLoadedDemo = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )

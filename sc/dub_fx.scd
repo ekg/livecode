@@ -133,4 +133,5 @@ var build = { |n, sfx|
 [1, 2].do { |n| build.(n, n) };   // dirt_dubverb1/2, dubchord1/2, ...
 build.(2, "");                     // dubchord, dubsub, tapestab (stereo, unsuffixed)
 "dub_fx: dubverb, dubdelay, tape, dubchord, dubsub, tapestab defined".postln;
+~scLoadedFx = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )

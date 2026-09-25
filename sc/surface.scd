@@ -238,4 +238,5 @@ if(~route.notNil and: { ~groups.notNil }) {
 };
 
 "surface: % slot(s) available".format(~scSlots.size).postln;
+~scLoadedSurface = true;  // sentinel: init.scd verifies this to catch a silent parse no-op
 )
