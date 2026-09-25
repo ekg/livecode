@@ -251,7 +251,7 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
 		0.7.wait;
 		~dirt.orbits.do { |orbit, i|
-		var levelD, levelG, levelM;
+			var levelD, levelG, levelM;
 			// three points per orbit: dry bus (event -> chain input), the bus
 			// the chain writes to (group bus, or master if unmapped), and
 			// master. This localizes any silent link by name in the boot log.
@@ -260,8 +260,7 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			synthM !? { synthM.free };
 			synthD = Synth(\bootPeak, [\in, orbit.dryBus.index, \out, ctlD.index],
 				s, \addToTail);
-			grp = orbit.outBus.index;
-			synthG = Synth(\bootPeak, [\in, grp, \out, ctlG.index],
+			synthG = Synth(\bootPeak, [\in, orbit.outBus.index, \out, ctlG.index],
 				s, \addToTail);
 			synthM = Synth(\bootPeak, [\in, ~masterBus.index, \out, ctlM.index],
 				s, \addToTail);
