@@ -118,7 +118,13 @@ if(~route.notNil and: { ~groups.notNil }) {
 	} {
 		var old = slot[0].value;
 		slot[1].value(value);
-		~scHistory = ~scHistory.keep(~scPos) + [ [name, old] ];
+		// Defensive history push: an earlier `keep(pos) + [[name, old]]` form raised
+		// "Message '+' not understood" on the second set, silently aborting ~scLoad.
+		~scHistory = if(~scPos >= ~scHistory.size) {
+			~scHistory.add([name, old])
+		} {
+			~scHistory.keep(~scPos).add([name, old])
+		};
 		~scPos = ~scHistory.size;
 		"set % = %  (was %)".format(name, value, old ? "n/a").postln;
 	};

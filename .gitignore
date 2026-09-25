@@ -3,7 +3,7 @@
 .env
 recordings/
 .pi/git/
-albums/**/*.flac
-albums/**/*.mp3
-albums/**/*.opus
 sc/boot.log
+sc/ctl.log
+sc/master-meter.log
+tests/reports/

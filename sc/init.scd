@@ -110,8 +110,12 @@ if(~dspOrbitFx) { stage.("install orbit chains", {
 // writing to the hardware bus. So it is done explicitly, then counted, then logged.
 if(~dspEnabled) {
 	stage.("route orbits to master bus", {
+		// NB: `var` must be the FIRST statement in a block in SuperCollider —
+		// declaring it after ~dirt.orbits.do threw "unexpected VAR, expecting '}'",
+		// which aborted the boot before 'done' and left the layer half-loaded.
+		var routed;
 		~dirt.orbits.do { |orbit| orbit.outBus = ~masterBus };
-		var routed = ~dirt.orbits.count { |o|
+		routed = ~dirt.orbits.count { |o|
 			(o.outBus == ~masterBus) or: { o.outBus == ~masterBus.index }
 		};
 		log.("     routing: %/% orbits -> master bus %".format(

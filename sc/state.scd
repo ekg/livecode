@@ -1,14 +1,17 @@
-/* SuperCollider state (loaded at every boot). Tuned for live performance:
-   the master should hold a steady level with clear headroom, not pin on peaks.
-   mGain 1.3 lifts the whole mix; mGlue 0.5 = gentle glue (smaller = more squash);
-   mThresh 0.3 catches peaks early; ceiling 0.79 ≈ -2 dBFS. */
-~scLoadedState = (
-	mGain:   1.3,
-	mGlue:   0.5,
-	mSat:    0.3,
-	mDuck:   0.3,
-	mThresh: 0.3,
-	mCeil:   0.79,
-	mKnee:   0.55,
-);
-~scLoadedState.keysDo { |k| ~scSet.value(k, ~scLoadedState[k]) };
+/* SuperCollider state, applied at every boot by init.scd (~scLoad).
+   Written by ~scSave; edit here for the next boot, or use ~scSet.value(\mGain, 0.9)
+   live once SC eval is available.
+
+   Kept as EXPLICIT calls: an earlier version iterated an Event with keysDo and
+   raised "Message '+' not understood", which silently left the master at the
+   file defaults. No loops here, so a failure is visible in sc/boot.log.
+
+   Tuned for live performance: make-up gain up, glue gentle, peaks caught early,
+   hard ceiling just under -2 dBFS. */
+~scSet.value(\mGain,   1.3);   // make-up gain
+~scSet.value(\mGlue,   0.5);   // compressor slope above threshold (smaller = more)
+~scSet.value(\mSat,    0.3);   // tape saturation
+~scSet.value(\mDuck,   0.3);   // kick ducking depth
+~scSet.value(\mThresh, 0.3);   // compressor threshold
+~scSet.value(\mCeil,   0.79);  // ceiling: limiter + hard clip
+~scSet.value(\mKnee,   0.55);  // soft-clip knee
