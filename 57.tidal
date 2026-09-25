@@ -1,0 +1,43 @@
+-- 57.tidal — ambient techno with harmonic movement, SAMPLE VOICES ONLY
+-- (fork of 56: Tidal-driven synth instruments produce no audio in this setup —
+--  sample events do. Same music, voiced with pitched samples: moog / psr /
+--  padlong / jrhodes. For samples: note = pitch, n = which sample in the bank.)
+-- Original: 56.tidal — ambient techno with harmonic movement, on Kraftwerk's "The Model"
+-- (tunepile: tabs/Kraftwerk - The Model.gp4)
+--
+-- What changed from 55: the riff no longer sits on A minor forever. The tab's
+-- rhythm and contour are kept, but its four tones are refilled from a descending
+-- progression  Am7 - G7 - Fmaj7 - Em7  (bass a-g-f-e), and the tab's actual Voice
+-- melody (a4 ... c5 b4 a4 b4 ... g4 e4) enters in the second half. Sixteen bars
+-- per cycle, so the loop is long enough not to register as a loop.
+
+setcps (125/60/4)   -- 125 bpm, 1 cycle = 1 bar; these patterns are 16 bars, so slow 16
+
+-- kick: tresillo, with a fill every 4th bar so the pulse develops
+d1 $ every 4 (fast 2) $ s "bd(3,8)" # orbit 0 # gain 0.8 # shape 0.2
+
+-- bass: the Model's bass rhythm, refilled with each chord's tones, an octave down
+d2 $ slow 16 $ s "moog" # n 0 # note "a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b4 ~ ~ ~ ~ ~ b4 ~ d4 ~ b4 ~ d4 ~ ~ ~ a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b4 ~ ~ ~ ~ ~ b4 ~ d4 ~ b4 ~ d4 ~ ~ ~" # legato 0.45 # amp 0.7 # orbit 0 # drive 0.4 # pitchEnv 0.35
+
+-- hats: rotated tresillo, with a 5-in-16 flicker; quiet, off the kick
+d3 $ struct "t(<3 8>,16,<0 4>)" $ s "hh" # orbit 0 # gain 0.55 # hpf 700
+
+-- THE RIFF, now following the chords (Am7 G7 Fmaj7 Em7), PWM synth, dub delay,
+-- slow filter sweep. amp is deliberately low: it is a colour, not the whole piece
+d4 $ slow 16 $ s "psr" # n 0 # note "a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~ a4 ~ ~ ~ ~ ~ a4 ~ c5 ~ a4 ~ c5 ~ a4 ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ ~ ~ g4 ~ ~ ~ ~ ~ g4 ~ b4 ~ g4 ~ b4 ~ g4 ~ d4 ~ ~ ~ ~ ~ d4 ~ f4 ~ d4 ~ f4 ~ ~ ~ f4 ~ ~ ~ ~ ~ f4 ~ a4 ~ f4 ~ a4 ~ f4 ~ c4 ~ ~ ~ ~ ~ c4 ~ e4 ~ c4 ~ e4 ~ ~ ~ e4 ~ ~ ~ ~ ~ e4 ~ g4 ~ e4 ~ g4 ~ e4 ~ b3 ~ ~ ~ ~ ~ b3 ~ d4 ~ b3 ~ d4 ~ ~ ~" # legato 0.2 # amp 0.5 # orbit 0 # lpf (slow 8 $ range 1100 3800 sine) # delay 0.3 # delaytime (3/8) # delayfeedback 0.5 # room 0.4 # size 0.8
+
+-- THE MELODY: the tab's Voice line enters halfway through the 16 bars, an octave up
+-- doubling via supervibe so it reads as a tune rather than another texture
+d5 $ slow 16 $ s "jrhodes" # n 0 # note "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ ~ ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~ a4 ~ ~ ~ a4 ~ a4 ~ a4 ~ c5 ~ b4 ~ a4 ~ b4 ~ ~ ~ ~ ~ g4 ~ e4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ e4 ~" # legato 0.3 # amp 0.62 # orbit 0 # room 0.5 # size 0.85 # delay 0.2 # delaytime (3/8) # delayfeedback 0.45 # lpf (slow 12 $ range 1200 3600 sine)
+
+-- pad: the progression held long, breathing on a 16-cycle sine
+d6 $ slow 2 $ s "padlong" # n 0 # note "[a4,e4,g5,c5] [g4,d4,f5,b5] [f4,c4,e5,a5] [e4,b4,d5,g5]" # legato 2.4 # amp 0.26 # orbit 0 # verbSend 0.3 # verbT60 12 # verbLow 0.25 # verbDamp 0.7 # verbHp 350 # lpf (slow 10 $ range 800 2400 sine) # gain (slow 16 $ range 0.05 0.11 sine)
+
+-- texture and weirdness: tape hiss, plus crushed euclid clicks that drift in and out
+d7 $ s "noise" # orbit 0 # gain 0.06 # lpf 3400 # hpf 300 # tape 0.3 # tapeHiss 0.02
+d8 $ sometimesBy (slow 6 $ range 0.1 0.5 sine) (stut 4 0.4 (1/16)) $ struct "t(<5 7>,16,<0 3 6>)" $ s "click" # orbit 0 # crush (slow 9 $ range 1 9 sine) # gain (slow 5 $ range 0.1 0.35 sine) # room 0.4
+
+-- MODULATION --
+-- push the progression:  rewrite "prog" and regenerate this file
+-- breakdown:             d1 $ silence  (the delay and reverb carry it)
+-- open the space:        d4 ... # ddSend (slow 16 $ range 0.3 0.9 sine)
