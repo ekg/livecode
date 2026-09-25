@@ -125,10 +125,11 @@ Ndef(\dubMaster, {
 	Out.kr(~meterBus.index + 0, rms);
 	Out.kr(~meterBus.index + 1, lvl);
 	Out.kr(~meterBus.index + 2, (lvl / ceil.max(0.001)).clip(0, 2));
-	// Ndef writes the returned signal to its own output bus (0/1 = hardware),
-	// so do NOT also Out.ar here — that would double the mix.
-	Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
-}).play;
+	// NB: defined here, but NOT played here — init.scd plays it AFTER the routing
+	// strips exist (node order matters: scsynth zeroes internal buses at the
+	// start of each control cycle, so the master reader must run after the
+	// writers). Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
+});
 
 // keep sclang-side access to the same values: this Event is the source of truth
 // for the surface, and Ndef.set is what actually reaches the audio

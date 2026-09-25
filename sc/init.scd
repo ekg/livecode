@@ -150,15 +150,14 @@ stage.("rebuild orbit chains", {
 			if(~groups[grp].notNil) { ~dirt.orbits[idx].outBus = ~groups[grp] };
 		};
 	};
-	// now the rebuild: kill every stale chain, recreate with final properties.
-	// NB: orbit.group is an INTEGER node id (see DirtOrbit.initNodeTree), not a
-	// Group object — so free contents by OSC, and do NOT free the group itself
-	// (initNodeTree re-g_news the same id).
-	~dirt.orbits.do { |orbit| s.sendMsg("/g_freeAll", orbit.group) };
+	// now the real rebuild. The outBus_ SETTER itself calls initNodeTree (see
+	// DirtOrbit.outBus_), so the property loop above already stacked chains —
+	// freeSynths is the sanctioned primitive: /n_free the whole orbit group
+	// (killing every stacked set inside), then initNodeTree rebuilds ONE clean
+	// set with the final properties.
+	~dirt.orbits.do { |orbit| orbit.freeSynths };
 	s.sync;
-	~dirt.orbits.do { |orbit| orbit.initNodeTree };
-	s.sync;
-	log.("     % orbits rebuilt; 0->%  5->%  8->%".format(~dirt.orbits.size,
+	log.("     % orbits rebuilt via freeSynths; 0->%  5->%  8->%".format(~dirt.orbits.size,
 		~dirt.orbits[0].outBus.index, ~dirt.orbits[5].outBus.index,
 		~dirt.orbits[8].outBus.index));
 });
@@ -190,6 +189,23 @@ if(~routingEnabled) { stage.("start routing layer", {
 	};
 }) } { log.("     routing layer NOT started (~routingEnabled = false)") };
 
+// 4b ------------------------------------------------- start the master chain
+// The Ndef is DEFINED in dub_master.scd but NOT played there: scsynth zeroes
+// internal audio buses at the start of every control cycle, so a node that
+// reads the master bus must execute AFTER the strips that write it. Playing
+// the Ndef here (after the strips exist) puts its group at the root tail,
+// after the writers — the previous order (Ndef before strips) had it read a
+// forever-zero bus: “master chain dead” with meters and hardware at zero.
+stage.("start master chain", {
+	Ndef(\dubMaster).play;
+	0.3.wait;
+	s.sync;
+	if(Ndef(\dubMaster).isPlaying.not) {
+		Error("Ndef dubMaster is not playing").throw
+	};
+	log.("     master chain after the strips: %".format(Ndef(\dubMaster).group));
+});
+
 // 5 ------------------------------------------------------------------ modules
 stage.("register tape module", {
 	~dirt.addModule(\tape, { |dirtEvent|
@@ -220,6 +236,12 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			Out.kr(out, PeakFollower.ar(In.ar(in, 2).sum, 1.0));
 		}).add;
 		s.sync;
+		// warm-up event: with lazy sample loading (doNotReadYet), the FIRST bd
+		// request on a fresh server can be swallowed while the bank reads from
+		// disk — it would otherwise be sacrificed as “orbit 0: no audio”
+		net.sendMsg("/dirt/play", "s", "bd", "n", 0, "orbit", 11,
+			"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
+		0.7.wait;
 		~dirt.orbits.do { |orbit, i|
 			var levelD, levelG, levelM, levelH;
 			// three points per orbit: dry bus (event -> chain input), the bus
