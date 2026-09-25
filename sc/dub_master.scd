@@ -76,9 +76,12 @@ Ndef(\dubMaster, {
 	var thresh = \mThresh.kr(0.28, 0.2);  // was 0.4: compress earlier
 	var width = \mWidth.kr(0.9, 0.2);
 
-	var dry = In.ar(~masterBus, n);
+	// NB: bus INDICES, not Bus objects — In.ar(Bus, n) builds a broken synth
+	// that compiles fine and passes nothing (the whole-evening "master chain
+	// dead" failure: Ndef playing, meter zero, hardware silent)
+	var dry = In.ar(~masterBus.index, n);
 	// sidechain: orbit 0 is the drum orbit by convention (d1's default orbit)
-	var kick = In.ar(~dirt.orbits[0].dryBus, n).asArray.sum;
+	var kick = In.ar(~dirt.orbits[0].dryBus.index, n).asArray.sum;
 	var duck = duckAmt * Amplitude.kr(kick, 0.004, 0.12).clip(0, 1);
 
 	var ceil = \mCeil.kr(0.79, 0.2);      // ≈ -2.1 dBFS sample ceiling (our material

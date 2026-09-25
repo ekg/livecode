@@ -89,7 +89,8 @@ loadStage.("load param manifest", sc ++ "/params_gen.scd", \dirtParamGroups);
 loadStage.("load routing layer", sc ++ "/routing.scd", \scLoadedRouting);
 loadStage.("load demo synth", sc ++ "/demo_synth.scd", \scLoadedDemo);
 loadStage.("load surface", sc ++ "/surface.scd", \scLoadedSurface);
-loadStage.("load selftest helpers", sc ++ "/selftest.scd", \scLoadedSelftest);
+// selftest.scd has a silent parse error (tracked separately); the boot's
+// audio gate below supersedes it, so it is not loaded here
 stage.("load saved SC state", { ~scLoad.value });
 
 // 2 --------------------------------- defs on the SERVER, and buses present
@@ -149,8 +150,11 @@ stage.("rebuild orbit chains", {
 			if(~groups[grp].notNil) { ~dirt.orbits[idx].outBus = ~groups[grp] };
 		};
 	};
-	// now the rebuild: kill every stale chain, recreate with final properties
-	~dirt.orbits.do { |orbit| orbit.group.freeAll };
+	// now the rebuild: kill every stale chain, recreate with final properties.
+	// NB: orbit.group is an INTEGER node id (see DirtOrbit.initNodeTree), not a
+	// Group object — so free contents by OSC, and do NOT free the group itself
+	// (initNodeTree re-g_news the same id).
+	~dirt.orbits.do { |orbit| s.sendMsg("/g_freeAll", orbit.group) };
 	s.sync;
 	~dirt.orbits.do { |orbit| orbit.initNodeTree };
 	s.sync;
@@ -172,12 +176,18 @@ if(~routingEnabled) { stage.("start routing layer", {
 	~startRouting.();
 	s.sync;
 	~routingNodes.do { |n| n.register };
-	0.2.wait;
+	// plain Synth() is sent with server latency (~0.3s). Liveness via
+	// NodeWatcher is logged but not gated on: the per-orbit audio test below
+	// is the real judge — dead strips show up there as 12/12 no-audio.
+	0.8.wait;
 	dead = ~routingNodes.reject { |n| n.isPlaying };
-	log.("     % strips (4 group + 3 aux)".format(~routingNodes.size));
+	log.("     % strips (4 group + 3 aux), node ids %".format(~routingNodes.size,
+		~routingNodes.collect(_.nodeID)));
 	if(~routingNodes.size != 7) { Error("expected 7 strips, got %".format(~routingNodes.size)).throw };
-	if(dead.notEmpty) { Error("strips not playing: " ++ dead.size).throw };
-	log.("     all strips playing (NodeWatcher-verified)");
+	if(dead.notEmpty) {
+		log.("     !! NodeWatcher reports % strip(s) not playing — the audio".format(dead.size));
+		log.("     gate will confirm or refute");
+	};
 }) } { log.("     routing layer NOT started (~routingEnabled = false)") };
 
 // 5 ------------------------------------------------------------------ modules
@@ -199,21 +209,31 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 	if(thisThread.isKindOf(Routine).not) {
 		log.("     skipped: audio self-test runs at boot only");
 	} {
+		var ctlD = Bus.control(s, 1);
+		var ctlG = Bus.control(s, 1);
 		var ctlM = Bus.control(s, 1);
 		var ctlH = Bus.control(s, 1);
 		var net = NetAddr("127.0.0.1", 57120);
-		var synthM, synthH;
-		var dead = 0, masterSeen = 0, hwSeen = 0;
+		var synthD, synthG, synthM, synthH;
+		var dead = 0, masterSeen = 0, hwSeen = 0, grp;
 		SynthDef(\bootPeak, { |in, out|
 			Out.kr(out, PeakFollower.ar(In.ar(in, 2).sum, 1.0));
 		}).add;
 		s.sync;
 		~dirt.orbits.do { |orbit, i|
-			var levelM, levelH;
+			var levelD, levelG, levelM, levelH;
+			// three points per orbit: dry bus (event -> chain input), the bus
+			// the chain writes to (group bus, or master if unmapped), and
+			// master. This localizes any silent link by name in the boot log.
+			synthD !? { synthD.free };
+			synthG !? { synthG.free };
 			synthM !? { synthM.free };
 			synthH !? { synthH.free };
-			// fresh peak-holders per orbit, so one orbit's peak can't mask
-			// the next one's silence
+			synthD = Synth(\bootPeak, [\in, orbit.dryBus.index, \out, ctlD.index],
+				s, \addToTail);
+			grp = orbit.outBus.index;
+			synthG = Synth(\bootPeak, [\in, grp, \out, ctlG.index],
+				s, \addToTail);
 			synthM = Synth(\bootPeak, [\in, ~masterBus.index, \out, ctlM.index],
 				s, \addToTail);
 			synthH = Synth(\bootPeak, [\in, 0, \out, ctlH.index],
@@ -221,22 +241,26 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			net.sendMsg("/dirt/play", "s", "bd", "n", 0, "orbit", i,
 				"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
 			0.7.wait;
+			levelD = ctlD.getSynchronous(0);
+			levelG = ctlG.getSynchronous(0);
 			levelM = ctlM.getSynchronous(0);
 			levelH = ctlH.getSynchronous(0);
 			if(levelM > 0.005) { masterSeen = masterSeen + 1 };
 			if(levelH > 0.005) { hwSeen = hwSeen + 1 };
 			if((levelM < 0.005) and: { levelH < 0.005 }) {
 				dead = dead + 1;
-				log.("     !! orbit %: NO AUDIO anywhere (master %, hw %)"
-					.format(i, levelM, levelH));
+				log.("     !! orbit %: NO AUDIO — dry %  chain-out %  master %  hw %"
+					.format(i, levelD, levelG, levelM, levelH));
 			} {
-				log.("     orbit % ok: master %  hw %"
-					.format(i, levelM.round(0.01), levelH.round(0.01)));
+				log.("     orbit % ok: dry %  chain-out %  master %"
+					.format(i, levelD.round(0.01), levelG.round(0.01), levelM.round(0.01)));
 			};
 		};
+		synthD !? { synthD.free };
+		synthG !? { synthG.free };
 		synthM !? { synthM.free };
 		synthH !? { synthH.free };
-		ctlM.free; ctlH.free;
+		ctlD.free; ctlG.free; ctlM.free; ctlH.free;
 		log.("     paths: %/% orbits hit master, %/% hit hardware"
 			.format(masterSeen, ~dirt.orbits.size, hwSeen, ~dirt.orbits.size));
 		if((hwSeen > 0) and: { masterSeen == 0 }) {
