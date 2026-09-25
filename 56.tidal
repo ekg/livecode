@@ -10,10 +10,10 @@
 setcps (125/60/4)   -- 125 bpm, 1 cycle = 1 bar; these patterns are 16 bars, so slow 16
 
 -- kick: tresillo, with a fill every 4th bar so the pulse develops
-d1 $ every 4 (fast 2) $ s "bd(3,8)" # orbit 0 # gain 0.6 # shape 0.2
+d1 $ every 4 (fast 2) $ s "bd(3,8)" # orbit 0 # gain 0.42 # shape 0.2
 
 -- bass: the Model's bass rhythm, refilled with each chord's tones, an octave down
-d2 $ slow 16 $ s "dubsub" # n "a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~" # sustain 0.45 # amp 0.5 # orbit 0 # drive 0.4 # pitchEnv 0.35
+d2 $ slow 16 $ s "dubsub" # n "a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~ a2 ~ ~ ~ ~ ~ a2 ~ c3 ~ a2 ~ c3 ~ a2 ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ ~ ~ g2 ~ ~ ~ ~ ~ g2 ~ b2 ~ g2 ~ b2 ~ g2 ~ d2 ~ ~ ~ ~ ~ d2 ~ f2 ~ d2 ~ f2 ~ ~ ~ f2 ~ ~ ~ ~ ~ f2 ~ a2 ~ f2 ~ a2 ~ f2 ~ c2 ~ ~ ~ ~ ~ c2 ~ e2 ~ c2 ~ e2 ~ ~ ~ e2 ~ ~ ~ ~ ~ e2 ~ g2 ~ e2 ~ g2 ~ e2 ~ b2 ~ ~ ~ ~ ~ b2 ~ d2 ~ b2 ~ d2 ~ ~ ~" # sustain 0.45 # amp 0.42 # orbit 0 # drive 0.4 # pitchEnv 0.35
 
 -- hats: rotated tresillo, with a 5-in-16 flicker; quiet, off the kick
 d3 $ struct "t(<3 8>,16,<0 4>)" $ s "hh" # orbit 0 # gain 0.28 # hpf 700
