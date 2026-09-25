@@ -7,3 +7,6 @@ sc/boot.log
 sc/ctl.log
 sc/master-meter.log
 tests/reports/
+albums/**/*.flac
+albums/**/*.mp3
+albums/**/*.opus
