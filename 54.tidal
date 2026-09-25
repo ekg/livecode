@@ -1,0 +1,28 @@
+-- 54.tidal — demo: sequencing a synth that was defined live in SuperCollider
+--
+-- The instrument 'demoVoice' comes from livecode/sc/demo_synth.scd. Its ARGUMENTS
+-- are the modulation surface: every parameter below is sent to SuperCollider with
+-- the event, so these lines are literally "Tidal modulating SuperCollider".
+--
+-- Companion state: livecode/sc/state.scd holds SuperCollider-side values
+-- (master gain, the demo's global cutoff/res/drive offsets). Save it with
+-- ~sc.save inside SuperCollider; it is applied at stack boot.
+--
+--   Tidal side (per event)          SuperCollider side (global offsets)
+--   # cutoff 900                    ~demo.cutoff(600)     -> 1500 Hz
+--   # res 0.3                       ~demo.res(0.1)        -> 0.4
+--   # drive 0.4                     ~demo.drive(0.1)      -> 0.5
+
+setcps (118/60/4)
+
+-- the dub house bed (same as 53.tidal, minus the stabs that used to carry the tune)
+d1 $ s "bd(3,8)" # orbit 0 # gain 0.85 # shape 0.2
+
+d2 $ s "dubsub" # n "c2" # sustain 1.1 # amp 0.55 # orbit 1 # drive 0.45 # pitchEnv 0.5
+
+d3 $ s "hh(3,8,4)" # orbit 0 # gain 0.32 # hpf 600
+
+-- the live-defined voice, sequenced from here, through the dub delay + reverb
+d7 $ s "demoVoice" # n "<c4 eb4 g4 bb4>" # sustain 0.28 # amp 0.42 # orbit 2 # cutoff 900 # res 0.3 # drive 0.3 # fmix 0.35 # wavemix 0.5 # ddSend 0.55 # delaytime 0.375 # delayfeedback 0.6 # ddLp 1800 # ddDuck 0.45 # verbSend 0.3 # verbT60 8 # verbLow 0.3 # verbHp 350
+
+d6 $ s "noise" # orbit 4 # gain 0.07 # lpf 3800 # hpf 350 # tape 0.25 # tapeHiss 0.015

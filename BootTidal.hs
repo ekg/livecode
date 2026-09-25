@@ -66,6 +66,8 @@ let spread = pF "spread"
 let attack = pF "attack"
 let pitchEnv = pF "pitchEnv"
 let detune = pF "detune"
+let fmix = pF "fmix"
+let wavemix = pF "wavemix"
 
 -- master_inert
 let mGain = pF "mGain"
