@@ -5,18 +5,22 @@
 setcps (80/60/4)
 
 -- kit: gain^4 means these need real numbers (hh 0.7 = 0.24 amp)
+
 d1 $ s "bd ~ ~ bd ~ ~ bd ~ ~ ~ bd ~ ~ ~ ~ ~" # gain 1.0
 d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ ~ ~" # gain 0.85
 d3 $ sometimesBy 0.3 (stut 4 0.4 (1/32)) $ s "hh(5,8)" # gain 0.65 # hpf 900
 d4 $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cp ~" # gain 0.75 # room 0.3
 
 -- bass: up = semitones from the sample's own pitch; cut keeps hits discrete
+
 d5 $ s "moog" # up "0 ~ ~ ~ -2 ~ ~ -5 ~ ~ -3 ~ ~ 0 ~ ~" # amp 0.6 # legato 0.35 # cut 5 # lpf 600 # tape 0.2
 
 -- chords: simultaneous offsets with up, short, cut so they breathe
+
 d6 $ slow 2 $ s "jrhodes" # up "[0,3,7,10] [-2,2,5,9] [-4,0,3,7] [-5,-1,2,6]" # amp 0.34 # legato 0.4 # cut 6 # ddSend (slow 16 $ range 0.2 0.5 sine) # delaytime (3/8) # delayfeedback 0.38 # ddLp 1600 # ddDuck 0.5 # verbSend 0.35 # verbT60 9 # verbLow 0.3 # verbHp 400 # lpf (slow 8 $ range 1300 2600 sine)
 
 -- melody: stepped, so you can hear it move
+
 d7 $ s "sprvibe" # up "0 ~ 3 ~ 7 ~ 10 ~ 7 ~ 3 ~ 0 ~ -5 ~" # amp 0.42 # legato 0.3 # cut 7 # ddSend 0.5 # delaytime (5/16) # delayfeedback 0.45 # ddLp 2000 # ddDuck 0.45 # verbSend 0.3 # verbT60 8 # lpf (slow 12 $ range 1000 3200 sine)
 
 d8 $ s "noise" # gain (slow 12 $ range 0.04 0.09 sine) # lpf 3200 # hpf 300 # tape 0.35 # tapeHiss 0.02
