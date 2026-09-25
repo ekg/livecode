@@ -105,11 +105,17 @@ Ndef(\dubMaster, {
 	sig = Limiter.ar(sig, ceil, 0.01);
 	// GUARANTEED ceiling, so nothing can exceed it whatever the limiter does
 	sig = sig.clip2(ceil);
-	// metering, written channel by channel (a single Out.kr with an array wrote
-	// the same value into all slots)
-	Out.kr(~meterBus.index + 0, PeakFollower.kr(sig, 0.05));
-	Out.kr(~meterBus.index + 1, Amplitude.kr(sig, 0.01, 0.3));
-	Out.kr(~meterBus.index + 2, PeakFollower.kr(sig, 0.05) / ceil.max(0.001));
+	// Metering that can actually be trusted:
+	//  * slot 0 = true RMS over a ~250 ms window  ((sig^2) smoothed, then sqrt —
+	//    PeakFollower with a slow decay only ever holds the maximum, which is why
+	//    the meter appeared "pinned at the ceiling" and told us nothing)
+	//  * slot 1 = envelope with fast attack / 150 ms release (a level reading)
+	//  * slot 2 = that level as a fraction of the ceiling
+	var rms = (sig.asArray.collect { |c| c * c }.sum / sig.asArray.size).lag(0.25).sqrt;
+	var lvl = Amplitude.kr(sig.asArray.sum / sig.asArray.size, 0.002, 0.15);
+	Out.kr(~meterBus.index + 0, rms);
+	Out.kr(~meterBus.index + 1, lvl);
+	Out.kr(~meterBus.index + 2, (lvl / ceil.max(0.001)).clip(0, 2));
 	// Ndef writes the returned signal to its own output bus (0/1 = hardware),
 	// so do NOT also Out.ar here — that would double the mix.
 	Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
