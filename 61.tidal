@@ -1,0 +1,49 @@
+-- 61.tidal — tunepile mashup: lo-fi hiphop with an 8-bar form
+-- Sources from the tunepile index (134k items):
+--   * kind=progression, "ii-V-I in Eb" (Fm9 -> Bb13 -> Ebmaj9): quoted as the
+--     verbatim interval SHAPES of its voicings (transposed to the samples key,
+--     so every layer shares one tonal center)
+--   * kind=rhythm euclid bank: E(5,16) hats, E(7,16) rim, E(3,16) clap fill
+-- 80 bpm; 1 cycle = 1 bar. The form: 8-bar loop — chords change every 2 bars,
+-- bass roots per bar with a ii-V turnaround in bars 7-8, fills every 8.
+
+setcps (80/60/4)
+
+-- kit: kick varies its last 16th per bar; snare backbeat with a bar-8 double
+
+d1 $ s "bd ~ ~ ~ bd ~ ~ ~ bd ~ ~ ~ bd ~ ~ <~ bd>" # gain 1.0
+
+d2 $ s "~ ~ ~ ~ sn ~ ~ ~ ~ ~ ~ ~ sn ~ ~ <~ sn*2>" # gain 0.85
+
+d3 $ s "hh(5,16)" # gain 0.55 # hpf 900
+
+-- clap on the 3 of every 2nd bar; corpus-euclid fill at the turnaround
+
+d4 $ s "~ ~ ~ ~ ~ ~ ~ ~ cp ~ ~ ~ ~ ~ ~ ~" # gain 0.75 # room 0.3
+
+d9 $ every 8 (stut 3 0.4 (1/16)) $ s "cp(3,16)" # gain 0.6 # room 0.4
+
+-- rim: corpus euclid E(7,16), reversed every 4 bars so it never sits still
+
+d11 $ every 4 rev $ s "rim(7,16)" # gain 0.4 # hpf 2000
+
+-- bass: one root per bar, 8-bar form F F Bb Bb Eb Eb | F Bb (turnaround)
+
+d5 $ slow 8 $ s "moog" # up "0 0 5 5 10 10 0 5" # amp 0.6 # legato 0.9 # cut 5 # lpf 600 # tape 0.2
+
+-- chords: the corpus ii-V-I shapes on rhodes, 2 bars each (Fm7 Bb7 Ebmaj7)
+
+d6 $ slow 2 $ s "jrhodes" # up "[0 3 7 10] [5 9 12 15] [-2 2 5 9] [-2 2 5 9]" # amp 0.34 # legato 0.4 # cut 6 # ddSend (slow 16 $ range 0.2 0.5 sine) # delaytime (3/8) # delayfeedback 0.38 # ddLp 1600 # ddDuck 0.5 # verbSend 0.35 # verbT60 9 # verbLow 0.3 # verbHp 400 # lpf (slow 8 $ range 1300 2600 sine)
+
+-- melody: an arc per 2 bars from chord tones + 9ths, breathing over the form
+
+d7 $ slow 2 $ s "sprvibe" # up "[0 ~ 3 ~ ~ ~ 7 ~] [5 ~ ~ ~ 9 ~ 7 ~] [-2 ~ 2 ~ 5 ~ ~ ~] [~ 0 ~ ~ ~ 3 ~ ~]" # amp 0.42 # legato 0.3 # cut 7 # ddSend 0.5 # delaytime (5/16) # delayfeedback 0.45 # ddLp 2000 # ddDuck 0.45 # verbSend 0.3 # verbT60 8 # lpf (slow 12 $ range 1000 3200 sine)
+
+-- the corpus quote itself: the ii-V-I arpeggio figure (Fm9 Bb13 Ebmaj9 x2),
+-- verbatim interval shapes, dreamlike under the drums
+
+d10 $ slow 2 $ s "superpiano" # up "[0 12 15 19 22 26] [0 12 16 19 22 26] [0 12 16 19 23 26] [0 12 16 19 23 26]" # gain 0.32 # lpf 1300 # room 0.5 # verbSend 0.4 # verbT60 10 # cut 10
+
+-- vinyl hiss, tape-worn
+
+d8 $ s "noise" # gain (slow 12 $ range 0.04 0.09 sine) # lpf 3200 # hpf 300 # tape 0.35 # tapeHiss 0.02
