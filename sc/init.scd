@@ -104,6 +104,27 @@ if(~dspOrbitFx) { stage.("install orbit chains", {
 	log.("     orbit fx: dubdelay -> dubverb -> monitor  (master set in dub_master.scd)");
 }) } { log.("     SAFE MODE: SuperDirt orbit chains left untouched (stock delay/reverb)") };
 
+// 3b ------------------------------------------------ route orbits -> master bus
+// This is the step whose absence is SILENT: effects can be installed on the orbit
+// and still never reach the master chain, because the orbit's monitor keeps
+// writing to the hardware bus. So it is done explicitly, then counted, then logged.
+if(~dspEnabled) {
+	stage.("route orbits to master bus", {
+		~dirt.orbits.do { |orbit| orbit.outBus = ~masterBus };
+		var routed = ~dirt.orbits.count { |o|
+			(o.outBus == ~masterBus) or: { o.outBus == ~masterBus.index }
+		};
+		log.("     routing: %/% orbits -> master bus %".format(
+			routed, ~dirt.orbits.size, ~masterBus.index));
+		if(routed < ~dirt.orbits.size) {
+			log.("     !! ROUTING INCOMPLETE — % orbit(s) still write to hardware"
+				.format(~dirt.orbits.size - routed));
+		};
+	});
+} {
+	log.("     ~dspEnabled false: orbits keep writing straight to hardware");
+};
+
 // 4 ------------------------------------------------------------------- modules
 stage.("register tape module", {
 	~dirt.addModule(\tape, { |dirtEvent|
