@@ -197,23 +197,22 @@ if(~routingEnabled) { stage.("start routing layer", {
 // after the writers — the previous order (Ndef before strips) had it read a
 // forever-zero bus: “master chain dead” with meters and hardware at zero.
 stage.("start master chain", {
+	// All of SuperDirt's orbit groups AND our strips live inside group 1 (the
+	// dirt group); the Ndef's synth group is created EARLY by something in the
+	// loadStage chain, so it executes BEFORE the strips and reads the master
+	// bus before the writers — a forever-zero read (scsynth zeroes internal
+	// buses at the start of every control cycle). /g_after does not exist in
+	// this server build, so move the group with /g_tail to the END of group 1
+	// (after the strips), and only THEN .play — the monitors get created at
+	// the tail too, i.e. after the synth group, which they need to be.
+	s.sendMsg("/g_tail", 1, Ndef(\dubMaster).group.nodeID);
 	Ndef(\dubMaster).play;
 	0.3.wait;
 	s.sync;
 	if(Ndef(\dubMaster).isPlaying.not) {
 		Error("Ndef dubMaster is not playing").throw
 	};
-	// FORCE the node order, whoever created the proxy's group earlier: the
-	// synth group must execute AFTER the strips (the writers of the master
-	// bus) or it reads a bus zeroed at cycle start — the "master chain dead"
-	// failure with everything green except hardware.
-	if(~routingEnabled and: { ~routingNodes.notNil and: { ~routingNodes.size > 0 } }) {
-		s.sendMsg("/g_after", Ndef(\dubMaster).group.nodeID,
-			~routingNodes.last.nodeID);
-	};
-	s.sync;
-	log.("     master chain: group % after strips"
-		.format(Ndef(\dubMaster).group));
+	log.("     master chain: group moved after the strips, playing");
 });
 
 // 5 ------------------------------------------------------------------ modules
@@ -238,10 +237,9 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 		var ctlD = Bus.control(s, 1);
 		var ctlG = Bus.control(s, 1);
 		var ctlM = Bus.control(s, 1);
-		var ctlH = Bus.control(s, 1);
 		var net = NetAddr("127.0.0.1", 57120);
-		var synthD, synthG, synthM, synthH;
-		var dead = 0, masterSeen = 0, hwSeen = 0, grp;
+		var synthD, synthG, synthM;
+		var dead = 0, masterSeen = 0, ndefLvl = 0;
 		SynthDef(\bootPeak, { |in, out|
 			Out.kr(out, PeakFollower.ar(In.ar(in, 2).sum, 1.0));
 		}).add;
@@ -253,14 +251,13 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
 		0.7.wait;
 		~dirt.orbits.do { |orbit, i|
-			var levelD, levelG, levelM, levelH;
+		var levelD, levelG, levelM;
 			// three points per orbit: dry bus (event -> chain input), the bus
 			// the chain writes to (group bus, or master if unmapped), and
 			// master. This localizes any silent link by name in the boot log.
 			synthD !? { synthD.free };
 			synthG !? { synthG.free };
 			synthM !? { synthM.free };
-			synthH !? { synthH.free };
 			synthD = Synth(\bootPeak, [\in, orbit.dryBus.index, \out, ctlD.index],
 				s, \addToTail);
 			grp = orbit.outBus.index;
@@ -268,21 +265,21 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 				s, \addToTail);
 			synthM = Synth(\bootPeak, [\in, ~masterBus.index, \out, ctlM.index],
 				s, \addToTail);
-			synthH = Synth(\bootPeak, [\in, 0, \out, ctlH.index],
-				s, \addToTail);
 			net.sendMsg("/dirt/play", "s", "bd", "n", 0, "orbit", i,
 				"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
 			0.7.wait;
 			levelD = ctlD.getSynchronous(0);
 			levelG = ctlG.getSynchronous(0);
 			levelM = ctlM.getSynchronous(0);
-			levelH = ctlH.getSynchronous(0);
+			// the Ndef's own output meter (lag 0.25 env) — the honest end-of-
+			// chain reading, unlike In.ar on the hardware bus which this
+			// backend may not loop back
+			ndefLvl = max(ndefLvl, ~meterBus.getSynchronous(1));
 			if(levelM > 0.005) { masterSeen = masterSeen + 1 };
-			if(levelH > 0.005) { hwSeen = hwSeen + 1 };
-			if((levelM < 0.005) and: { levelH < 0.005 }) {
+			if((levelD < 0.005) or: { levelG < 0.005 } or: { levelM < 0.005 }) {
 				dead = dead + 1;
-				log.("     !! orbit %: NO AUDIO — dry %  chain-out %  master %  hw %"
-					.format(i, levelD, levelG, levelM, levelH));
+				log.("     !! orbit %: dry %  chain-out %  master %"
+					.format(i, levelD, levelG, levelM));
 			} {
 				log.("     orbit % ok: dry %  chain-out %  master %"
 					.format(i, levelD.round(0.01), levelG.round(0.01), levelM.round(0.01)));
@@ -291,18 +288,12 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 		synthD !? { synthD.free };
 		synthG !? { synthG.free };
 		synthM !? { synthM.free };
-		synthH !? { synthH.free };
-		ctlD.free; ctlG.free; ctlM.free; ctlH.free;
-		log.("     paths: %/% orbits hit master, %/% hit hardware"
-			.format(masterSeen, ~dirt.orbits.size, hwSeen, ~dirt.orbits.size));
-		if((hwSeen > 0) and: { masterSeen == 0 }) {
-			log.("     !! BYPASS: audio reaches hardware but never the master");
-			log.("     bus — stale chains are writing straight to hardware");
-			dead = dead + 1;
-		};
-		if((masterSeen > 0) and: { hwSeen == 0 }) {
-			log.("     !! MASTER CHAIN DEAD: master bus has signal, hardware");
-			log.("     does not — the Ndef/master chain is not passing audio");
+		ctlD.free; ctlG.free; ctlM.free;
+		log.("     paths: %/% orbits hit master; Ndef end-of-chain level %"
+			.format(masterSeen, ~dirt.orbits.size, ndefLvl.round(0.01)));
+		if((masterSeen > 0) and: { ndefLvl < 0.005 }) {
+			log.("     !! MASTER CHAIN DEAD: master bus has signal but the Ndef");
+			log.("     output meter reads zero — node order or Ndef graph broken");
 			dead = dead + 1;
 		};
 		if(dead > 0) { Error("audio self-test: % problem(s) — see above".format(dead)).throw };
