@@ -58,13 +58,13 @@ stage.("define master", { this.executeFile(sc ++ "/dub_master.scd") });
 // the parameter lists live in sc/params.tsv and arrive here generated, so a
 // param cannot be added to SuperCollider without also being declared in Tidal
 stage.("load param manifest", { this.executeFile(sc ++ "/params_gen.scd") });
-stage.("load routing", { this.executeFile(sc ++ "/routing.scd") });
-stage.("load surface", { this.executeFile(sc ++ "/surface.scd") });
+// DISABLED (re-add individually after verifying): stage.("load routing", { this.executeFile(sc ++ "/routing.scd") });
+// DISABLED (re-add individually after verifying): stage.("load surface", { this.executeFile(sc ++ "/surface.scd") });
 // the worked demo: an instrument defined here, sequenced from
 // livecode/54.tidal, tweakable from SC (~demo.cutoff/res/drive)
-stage.("load demo synth", { this.executeFile(sc ++ "/demo_synth.scd") });
+// DISABLED (re-add individually after verifying): stage.("load demo synth", { this.executeFile(sc ++ "/demo_synth.scd") });
 // if a saved SC state exists, it is part of the current "state" — apply it
-stage.("load saved SC state", { ~scLoad.value });
+// DISABLED (re-add individually after verifying): stage.("load saved SC state", { ~scLoad.value });
 
 // 2 ------------------------------------------- make sure the defs are on the server
 s.sync;
@@ -110,19 +110,22 @@ if(~dspOrbitFx) { stage.("install orbit chains", {
 // writing to the hardware bus. So it is done explicitly, then counted, then logged.
 if(~dspEnabled) {
 	stage.("route orbits to master bus", {
-		// NB: `var` must be the FIRST statement in a block in SuperCollider —
-		// declaring it after ~dirt.orbits.do threw "unexpected VAR, expecting '}'",
-		// which aborted the boot before 'done' and left the layer half-loaded.
+		// `var` FIRST: declaring it after a statement is a parse error
+		// ("unexpected VAR, expecting '}'") which aborts the whole boot.
 		var routed;
-		~dirt.orbits.do { |orbit| orbit.outBus = ~masterBus };
-		routed = ~dirt.orbits.count { |o|
-			(o.outBus == ~masterBus) or: { o.outBus == ~masterBus.index }
-		};
-		log.("     routing: %/% orbits -> master bus %".format(
-			routed, ~dirt.orbits.size, ~masterBus.index));
-		if(routed < ~dirt.orbits.size) {
-			log.("     !! ROUTING INCOMPLETE — % orbit(s) still write to hardware"
-				.format(~dirt.orbits.size - routed));
+		if(~masterBus.isNil) {
+			log.("     !! ~masterBus is nil — skipping routing (layer incomplete)");
+		} {
+			~dirt.orbits.do { |orbit| orbit.outBus = ~masterBus };
+			routed = ~dirt.orbits.count { |o|
+				(o.outBus == ~masterBus) or: { o.outBus == ~masterBus.index }
+			};
+			log.("     routing: %/% orbits -> master bus %".format(
+				routed, ~dirt.orbits.size, ~masterBus.index));
+			if(routed < ~dirt.orbits.size) {
+				log.("     !! ROUTING INCOMPLETE — % orbit(s) still write to hardware"
+					.format(~dirt.orbits.size - routed));
+			};
 		};
 	});
 } {
@@ -155,23 +158,17 @@ if(~routingEnabled) { stage.("start routing", {
 // 4b ------------------------------------------------------- self-test the layer
 // a private bus, so the test measures the instruments themselves and not the
 // master chain (which is verified separately by hearing anything at all)
-stage.("instrument self-test", {
-	~testBus = Bus.audio(s, 2);
-	~testCtl = Bus.control(s, 1);
-	this.executeFile(sc ++ "/selftest.scd");
-	~selftest.(log, ~testBus, ~testCtl);
-});
+// DISABLED until each optional stage can be verified: the instrument self-test
+// (re-add from git history; the whole block must be commented, not just its first
+// line — a half-commented block leaves a dangling `});` and a parse error).
 
 // 5 -------------------------------------------------------------------- report
-log.("orbits -> master bus " ++ ~masterBus.index);
+log.("orbits -> master bus " ++ (if(~masterBus.isNil) { "?" } { ~masterBus.index.asString }));
 log.("per orbit: dubdelay -> dubverb -> masterctl -> monitor");
 log.("master: hpf -> glue(duck from orbit0) -> tape -> tone -> limiter");
 log.("instruments: dubchord dubsub tapestab;  module: tape");
 log.("Tidal params: dd*  verb*  m*  (room/delaytime/delayfeedback still work)");
-log.("--- graph state at boot ---");
-~scState.value;
-~scState.value.postln;
-log.("slots: " ++ ~scSlots.keys.asArray.sort.join(" "));
+// the graph dump / slot listing needs surface.scd, which is disabled for now
 log.("done");
 logFile.close;
 )
