@@ -10,7 +10,18 @@ Tidal builtins and sample names are excluded.
 import re, sys
 from pathlib import Path
 
-BUILTIN = set()
+def declared_params():
+    """Names declared in sc/params.tsv are legal controls, not missing bindings."""
+    names = set()
+    for line in Path(__file__).resolve().parents[1].joinpath('sc/params.tsv').read_text().splitlines():
+        line = line.split('#', 1)[0].strip()
+        if not line or line.startswith('\t'):
+            continue
+        for tok in line.split()[1:]:
+            names.add(tok.split(':', 1)[0])
+    return names
+
+PARAMS = declared_params()
 SAMPLES = re.compile(r'^p\d|^k808|^s808|^h808|^c808|^cb808|^cn808|^cy808|^sh808|^t808|^h2o|^808|^d\d+$')
 CUSTOM = re.compile(r'\b([a-z][a-zA-Z]*_?[a-zA-Z]*\d+[a-zA-Z0-9]*|[a-z]+_[a-z]+)\b')
 
@@ -31,7 +42,7 @@ for name in sys.argv[1:]:
     defined = defined_names(text)
     refs = referenced_names(text)
     missing = sorted(r for r in refs
-                     if r not in defined and not SAMPLES.match(r))
+                     if r not in defined and r not in PARAMS and not SAMPLES.match(r))
     if missing:
         bad += 1
         print(f'{name}: references undefined -> {", ".join(missing)}')
