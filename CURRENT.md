@@ -1,15 +1,16 @@
 # Current jam state — LIVE / RECORDING
 
-**Scene: `98.tidal` (LONG EFFECTIVE LOOP), 104 BPM, D major.**
+**Scene: `100.tidal` (AMP PATTERNS), 104 BPM, D major. — LISTENER-APPROVED**
 Recording: `recordings/jam-20260926-1342.wav`, still open at last check (~1300 s).
-Committed state: `f7b2a93`. Do not auto-restart playback from this file.
+Committed state: `240aef5`. Marker "100 AMP PATTERNS approved" at 1380.1 s of the take.
+Do not auto-restart playback from this file.
 
 ## Recall
 
 1. `tidal_sc` → `sc/samples94.scd` (chains 85 → 80 → 76 → 70 aliases, adds `p94brkA-D`).
 2. `tidal_sc` → `sc/groove71.scd` (base mixer).
 3. `tidal_sc` → `sc/drums90.scd` (drum bus 1.7–2.0).
-4. Evaluate `98.tidal` in order.
+4. Evaluate `100.tidal` in order.
 
 Live mixer is above the files: master `mGain 1.45`, `mThresh 0.36`, `mGlue 0.62`;
 groups drums 2.0 / bass 1.35 / music 1.6 / FX 1.2. Peak measured 0.145.
@@ -18,20 +19,20 @@ groups drums 2.0 / bass 1.35 / music 1.6 / FX 1.2. Peak measured 0.145.
 
 | Stream | Source | Treatment |
 |---|---|---|
-| d1 | `p94brkA` (one-bar break, producer_essentials) | `slice 16` reshaped by a **16-bar** rotating order; `every 32 (slow 2)` screw |
+| d1 | `p94brkA` (one-bar break, producer_essentials) | `slice 16` on a **16-bar** rotating order; `every 32 (slow 2)`; 8-step gain, never fully off |
 | d2/d3/d4 | samba performance, Groove MIDI drummer5 @110 | kick / snare (degraded 55%) / hats, real timing |
 | d5 | Tears For Fears "Everybody Wants To Rule The World" bass | syncopated D pedal, fingered bass sample, already in D |
-| d6 | `p93arp` (one-bar arp) | `slice 8` on a **16-bar** rotating order; `every 32 (# speed 0.75)` screw |
+| d6 | `p93arp` (one-bar arp) | granular `chop 8` bursts; `every 13 (# speed 1.25)` screw |
 | d7 | — | silent (piano dropped by listener request) |
-| d8 | `p93str` string sweep | `chop 8`, `every 32 rev` |
-| d9 | TFF D/G chord theme | supermandolin, 16-bar phrase |
-| d10 | `p93perc` ghatam | `every 8 (chop 12)` fill |
+| d8 | `p93str` string sweep | no chop; `every 21 rev`, `every 7 (# hpf 900)`, slow 0.7/1 swell |
+| d9 | TFF D/G chord theme | supermandolin, 16-bar phrase, holes on steps 3/5/8/10/12/16 |
+| d10 | `p93perc` ghatam | `struct "t(7,16)"`, `every 11 (hurry 2)` |
 | d11/d12 | — | silent |
 
-**The occasional events** the listener singled out are, in order of likelihood:
-the slice-order reshapes landing at bars 3, 6, 8, 11, 13 and 15 of the 16-bar d1
-cycle (`evod`, `rot 4`, `swap`, `rev`, `evod`, `quart`); and the screw, which
-drops d1 to half speed and d6 to 0.75 speed once every 32 bars (~74 s at 104 BPM).
+**The occasional events**: d1's slice-order reshapes land at bars 3, 6, 8, 11, 13 and 15
+of its 16-bar cycle (`evod`, `rot 4`, `swap`, `rev`, `evod`, `quart`); d1 slows to half
+speed every 32 bars; d6 speeds to 1.25 every 13; d8 reverses every 21; d10 doubles up
+every 11. All four now use DIFFERENT prime intervals so they never coincide.
 
 ## Key lesson from this session
 
@@ -41,6 +42,10 @@ approach is **one source per stream, reshaped in place by a long rotating
 slice-order**, which yields a 16-bar effective loop from 1 bar of audio. The
 audio never changes; only the order does, and mostly it stays identity so the
 groove rides.
+
+**Do not put every stream on `every N` with the same N.** d1/d6/d8 were all on
+`every 32`, so their variations fired simultaneously and read as a global stutter on
+the whole mix. Use distinct prime intervals per stream.
 
 **`striate` was the repeating stutter.** Every `striate n` was removed in 94 and
 the "4x repeat on everything" stopped.
@@ -89,6 +94,8 @@ different loop material is in `~/samples/loopmaster_producer_essentials`
 | 94 | striate removed; real one-bar breakbeats |
 | 95 | approved REBUILD: TFF 80s bass + D/G chord theme |
 | 96–97 | stable single-source loops; three-and-one |
-| 98 | **long effective loop — current** |
+| 98 | long effective loop: one source, 16-bar rotating slice-order |
+| 99 | per-stream prime-interval treatments (no more coincident variation) |
+| 100 | **amp patterns for space — current, approved** |
 
 Enjoy the ride, don't flatten it.
