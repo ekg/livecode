@@ -18,6 +18,9 @@ REPO = Path(__file__).resolve().parents[1]
 
 # Sample aliases never need a `let` binding.
 SAMPLES = re.compile(r'^(p\d|k808|s808|h808|c808|cb808|cn808|cy808|sh808|t808|h2o|808)')
+
+# d1..d12 are Tidal stream functions, not bindings.
+STREAMS = re.compile(r'^d\d+$')
 CUSTOM = re.compile(r'\b([a-z][a-zA-Z]*_?[a-zA-Z]*\d+[a-zA-Z0-9]*|[a-z]+_[a-z]+)\b')
 
 
@@ -57,6 +60,7 @@ def main(paths):
         missing = sorted(r for r in referenced_names(text)
                          if r not in defined_names(text)
                          and r not in PARAMS
+                         and not STREAMS.match(r)
                          and not SAMPLES.match(r))
         if missing:
             bad += 1
