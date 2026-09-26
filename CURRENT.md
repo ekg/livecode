@@ -1,9 +1,15 @@
-# Current jam state — PAUSED
+# Current jam state — PLAYING / RECORDING
 
-**Resume scene: `80.tidal` (SKYWARD), 104 BPM, D major.**
-Patterns were hushed and recording stopped at the listener's request.
-Post-hush master readback: RMS 0; envelope approximately 3.3e-37 (silent).
+**Live scene: `80.tidal` (SKYWARD), 104 BPM, D major.**
+Resumed at the listener's request, from source A with cycles reset; composition
+and mixer unchanged from `ad1b499`. Recording: `recordings/jam-20260926-1242.wav`.
+Fresh check confirmed 52 incoming events in three seconds, expected loop/piano/
+bass sounds, and nonzero master RMS. The previously paused take remains saved.
 Do not automatically restart playback merely by reading this file.
+
+Direction: bright melodic house with a grounded groove, the fixed chop over a
+four-loop chain, expressive piano/pluck answers and walking bass. Develop one
+layer at a time, keeping the approved `78.tidal` CHOICE groove as a return point.
 
 ## Resume
 
@@ -27,7 +33,7 @@ if starting at source A is desired; hush did not freeze the transport clock.
 | 76 | Walking quarter-note bass added | d5; requires sc/samples76.scd |
 | 77 | Historical intermediate: octave lift, faster bass, human hats, backbeat | d3/d4/d5; d1 slice grouping corrected next |
 | 78 | **Approved “CHOICE”**: ringing melody and periodic delay throws | best C-minor full-groove return point |
-| 80 | New song/key: four-loop D-major chain; Kate Bush/Daft Punk call-and-response | current paused performance |
+| 80 | New song/key: four-loop D-major chain; Kate Bush/Daft Punk call-and-response | current live performance |
 
 The base mixer for these recent states is `sc/groove71.scd`: drum group 1.25,
 music 1.1, FX 0.8; master low-pass 18k, saturation 0.1, gain 0.8, compressor
