@@ -237,9 +237,20 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 		var ctlD = Bus.control(s, 1);
 		var ctlG = Bus.control(s, 1);
 		var ctlM = Bus.control(s, 1);
+		var ctlH = Bus.control(s, 1);
+		// OSC replies measure the running server, without shared-memory ambiguity.
+		var readBus = { |bus|
+			var value, attempts = 0;
+			bus.get { |v| value = v };
+			while { value.isNil and: { attempts < 100 } } {
+				0.01.wait; attempts = attempts + 1;
+			};
+			if(value.isNil) { Error("meter /c_get timed out").throw };
+			value;
+		};
 		var net = NetAddr("127.0.0.1", 57120);
-		var synthD, synthG, synthM;
-		var dead = 0, masterSeen = 0, ndefLvl = 0;
+		var synthD, synthG, synthM, synthH;
+		var dead = 0, masterSeen = 0, hardwareSeen = 0;
 		SynthDef(\bootPeak, { |in, out|
 			Out.kr(out, PeakFollower.ar(In.ar(in, 2).sum, 1.0));
 		}).add;
@@ -248,53 +259,51 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 		// request on a fresh server can be swallowed while the bank reads from
 		// disk — it would otherwise be sacrificed as “orbit 0: no audio”
 		net.sendMsg("/dirt/play", "s", "bd", "n", 0, "orbit", 11,
-			"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
+			"gain", 0.65, "cps", 0.333, "cycle", 0, "delta", 1);
 		0.7.wait;
 		~dirt.orbits.do { |orbit, i|
-			var levelD, levelG, levelM;
+			var levelD, levelG, levelM, levelH;
 			// three points per orbit: dry bus (event -> chain input), the bus
 			// the chain writes to (group bus, or master if unmapped), and
 			// master. This localizes any silent link by name in the boot log.
 			synthD !? { synthD.free };
 			synthG !? { synthG.free };
 			synthM !? { synthM.free };
+			synthH !? { synthH.free };
 			synthD = Synth(\bootPeak, [\in, orbit.dryBus.index, \out, ctlD.index],
 				s, \addToTail);
 			synthG = Synth(\bootPeak, [\in, orbit.outBus.index, \out, ctlG.index],
 				s, \addToTail);
 			synthM = Synth(\bootPeak, [\in, ~masterBus.index, \out, ctlM.index],
 				s, \addToTail);
+			synthH = Synth(\bootPeak, [\in, 0, \out, ctlH.index],
+				s, \addToTail);
+			s.sync;
 			net.sendMsg("/dirt/play", "s", "bd", "n", 0, "orbit", i,
-				"gain", 1.0, "cps", 0.333, "cycle", 0, "delta", 1);
+				"gain", 0.65, "cps", 0.333, "cycle", 0, "delta", 1);
 			0.7.wait;
-			levelD = ctlD.getSynchronous(0);
-			levelG = ctlG.getSynchronous(0);
-			levelM = ctlM.getSynchronous(0);
-			// the Ndef's own output meter (lag 0.25 env) — the honest end-of-
-			// chain reading, unlike In.ar on the hardware bus which this
-			// backend may not loop back
-			ndefLvl = max(ndefLvl, ~meterBus.getSynchronous(1));
-			if(levelM > 0.005) { masterSeen = masterSeen + 1 };
-			if((levelD < 0.005) or: { levelG < 0.005 } or: { levelM < 0.005 }) {
+			levelD = readBus.(ctlD);
+			levelG = readBus.(ctlG);
+			levelM = readBus.(ctlM);
+			levelH = readBus.(ctlH);
+			if(levelM > 0.001) { masterSeen = masterSeen + 1 };
+			if(levelH > 0.001) { hardwareSeen = hardwareSeen + 1 };
+			if((levelD < 0.001) or: { levelG < 0.001 } or: { levelM < 0.001 } or: { levelH < 0.001 }) {
 				dead = dead + 1;
-				log.("     !! orbit %: dry %  chain-out %  master %"
-					.format(i, levelD, levelG, levelM));
+				log.("     !! orbit %: dry %  chain-out %  master %  hardware %"
+					.format(i, levelD, levelG, levelM, levelH));
 			} {
-				log.("     orbit % ok: dry %  chain-out %  master %"
-					.format(i, levelD.round(0.01), levelG.round(0.01), levelM.round(0.01)));
+				log.("     orbit % ok: dry %  chain-out %  master %  hardware %"
+					.format(i, levelD.round(0.001), levelG.round(0.001), levelM.round(0.001), levelH.round(0.001)));
 			};
 		};
 		synthD !? { synthD.free };
 		synthG !? { synthG.free };
 		synthM !? { synthM.free };
-		ctlD.free; ctlG.free; ctlM.free;
-		log.("     paths: %/% orbits hit master; Ndef end-of-chain level %"
-			.format(masterSeen, ~dirt.orbits.size, ndefLvl.round(0.01)));
-		if((masterSeen > 0) and: { ndefLvl < 0.005 }) {
-			log.("     !! MASTER CHAIN DEAD: master bus has signal but the Ndef");
-			log.("     output meter reads zero — node order or Ndef graph broken");
-			dead = dead + 1;
-		};
+		synthH !? { synthH.free };
+		ctlD.free; ctlG.free; ctlM.free; ctlH.free;
+		log.("     paths: %/% orbits hit master; %/% hit hardware output"
+			.format(masterSeen, ~dirt.orbits.size, hardwareSeen, ~dirt.orbits.size));
 		if(dead > 0) { Error("audio self-test: % problem(s) — see above".format(dead)).throw };
 	};
 }) } { log.("     audio self-test skipped (~selftestEnabled = false)") };
@@ -303,7 +312,7 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 try {
 	var orbitReport;
 	log.("orbits -> " ++ if(~routingEnabled and: { ~orbitGroupMap.notNil }) {
-		orbitReport = ~orbitGroupMap.keys.collect { |k| k ++ ":" ++ ~orbitGroupMap[k] }.join(" ");
+		orbitReport = ~orbitGroupMap.keys.asArray.sort.collect { |k| k.asString ++ ":" ++ ~orbitGroupMap[k].asString }.join(" ");
 		"group buses: " ++ orbitReport
 	} {
 		"master bus " ++ ~masterBus.index

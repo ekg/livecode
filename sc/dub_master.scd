@@ -128,7 +128,8 @@ Ndef(\dubMaster, {
 	// NB: defined here, but NOT played here — init.scd plays it AFTER the routing
 	// strips exist (node order matters: scsynth zeroes internal buses at the
 	// start of each control cycle, so the master reader must run after the
-	// writers). Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
+	// writers). Return AUDIO, not the preceding meter's Out.kr UGen.
+	Splay.ar(sig.asArray, width.clip(0, 1).linlin(0, 1, 0.2, 1.0));
 });
 
 // keep sclang-side access to the same values: this Event is the source of truth
@@ -150,9 +151,10 @@ if(~meterRoutine.notNil) { ~meterRoutine.stop };
 ~meterRoutine = Routine({
 	var f = File(~meterLog, "w");
 	loop {
-		var peak = ~meterBus.getSynchronous(0);
-		var rms = ~meterBus.getSynchronous(1);
-		var use = ~meterBus.getSynchronous(2);
+		var values = ~meterBus.getnSynchronous(3);
+		var rms = values[0];
+		var peak = values[1];
+		var use = values[2];
 		var line = "%  peak %  rms %  ceiling-used %%%".format(
 			Date.getDate.stamp, peak.round(0.001), rms.round(0.001),
 			(use * 100).round(1));

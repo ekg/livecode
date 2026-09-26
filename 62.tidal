@@ -1,0 +1,7 @@
+-- Recovery baseline: only a quiet kick, no microphone or loopback routing.
+
+hush
+
+setcps (100/240)
+
+d1 $ s "bd(4,4)" # gain 0.65
