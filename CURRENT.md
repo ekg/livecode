@@ -1,108 +1,94 @@
-# Current jam state — PAUSED / RECORDING STOPPED
+# Current jam state — LIVE / RECORDING
 
-**Saved scene: `82.tidal` (LET THE NEW ONE RIDE), 104 BPM, D major.**
-Hushed and recording stopped at the listener's request. Mixer: `sc/groove71.scd`.
-Finalized take: `recordings/jam-20260926-1258.wav` plus FLAC and markers.
-Verified FLAC: 240.085333 seconds (4:00.085), 34,895,425 bytes.
-Before hush, this was the restored 82 scene; hardware output had been verified.
-`83.tidal` is an undelivered piano-rewrite draft, NOT the last played scene.
-Do not automatically restart playback merely by reading this file.
+**Scene: `98.tidal` (LONG EFFECTIVE LOOP), 104 BPM, D major.**
+Recording: `recordings/jam-20260926-1342.wav`, still open at last check (~1300 s).
+Committed state: `f7b2a93`. Do not auto-restart playback from this file.
 
-Direction: let the newer drum/melodic loops ride; do not cycle back to the older,
-played-out sources. Three-, five- and seven-bar parts interlock around the groove.
-Keep the approved `78.tidal` CHOICE groove as an independent return point.
+## Recall
 
-## Resume
+1. `tidal_sc` → `sc/samples94.scd` (chains 85 → 80 → 76 → 70 aliases, adds `p94brkA-D`).
+2. `tidal_sc` → `sc/groove71.scd` (base mixer).
+3. `tidal_sc` → `sc/drums90.scd` (drum bus 1.7–2.0).
+4. Evaluate `98.tidal` in order.
 
-With the normal project stack running:
+Live mixer is above the files: master `mGain 1.45`, `mThresh 0.36`, `mGlue 0.62`;
+groups drums 2.0 / bass 1.35 / music 1.6 / FX 1.2. Peak measured 0.145.
 
-1. Execute `sc/samples80.scd` through `tidal_sc`.
-2. Execute `sc/groove71.scd` through `tidal_sc`.
-3. Evaluate `82.tidal` in order when the listener requests playback.
+## What is playing
 
-The file includes its own Haskell definitions. `psrate` is declared locally with
-`pF` for the existing SuperDirt pitch-shift effect. Reset cycles before evaluation
-if starting the new phrases together is desired; hush does not freeze the clock.
-
-## Recombine these saved states
-
-| Scene | Character / change | Main controls to borrow |
+| Stream | Source | Treatment |
 |---|---|---|
-| 73 | Original approved LPViz playground: “SICK” | d1/d2 rhythm, d6/d8 loop interplay |
-| 74 | “Slick Muffin” checkpoint; octave-down short plucks | d6 articulation/register |
-| 75 | Original octave restored; eight-bar breakdown | d1 chop/reorder arc, d6 pluck |
-| 76 | Walking quarter-note bass added | d5; requires sc/samples76.scd |
-| 77 | Historical intermediate: octave lift, faster bass, human hats, backbeat | d3/d4/d5; d1 slice grouping corrected next |
-| 78 | **Approved “CHOICE”**: ringing melody and periodic delay throws | best C-minor full-groove return point |
-| 80 | Four-loop D-major chain; Kate Bush/Daft Punk call-and-response | previous key-lift scene |
-| 81 | Chopped rotating drum bed plus 3/5/7-bar Rhodes/body-percussion/mandolin parts | saved growth stage |
-| 82 | Hold newer drum B and melodic source D; no return to played-out loops | **last played / paused recall point** |
-| 83 | Eleven-bar broken-piano rewrite, saved after failed dispatch | **unperformed draft**, audition separately |
+| d1 | `p94brkA` (one-bar break, producer_essentials) | `slice 16` reshaped by a **16-bar** rotating order; `every 32 (slow 2)` screw |
+| d2/d3/d4 | samba performance, Groove MIDI drummer5 @110 | kick / snare (degraded 55%) / hats, real timing |
+| d5 | Tears For Fears "Everybody Wants To Rule The World" bass | syncopated D pedal, fingered bass sample, already in D |
+| d6 | `p93arp` (one-bar arp) | `slice 8` on a **16-bar** rotating order; `every 32 (# speed 0.75)` screw |
+| d7 | — | silent (piano dropped by listener request) |
+| d8 | `p93str` string sweep | `chop 8`, `every 32 rev` |
+| d9 | TFF D/G chord theme | supermandolin, 16-bar phrase |
+| d10 | `p93perc` ghatam | `every 8 (chop 12)` fill |
+| d11/d12 | — | silent |
 
-The base mixer for these recent states is `sc/groove71.scd`: drum group 1.25,
-music 1.1, FX 0.8; master low-pass 18k, saturation 0.1, gain 0.8, compressor
-slope 0.8 / threshold 0.5, ceiling 0.79. The proposed additional compression
-experiment was **not applied** before the listener requested a new song.
+**The occasional events** the listener singled out are, in order of likelihood:
+the slice-order reshapes landing at bars 3, 6, 8, 11, 13 and 15 of the 16-bar d1
+cycle (`evod`, `rot 4`, `swap`, `rev`, `evod`, `quart`); and the screw, which
+drops d1 to half speed and d6 to 0.75 speed once every 32 bars (~74 s at 104 BPM).
 
-These are separate historical snapshots, not an instruction to layer every
-scene simultaneously. Each full .tidal scene owns all twelve streams. To remix
-one axis, bring over only its stream(s) and necessary definitions/aliases.
+## Key lesson from this session
 
-## 80's new material
+**Stop swapping loop sources.** Rotating samples per bar (d1 across four breaks)
+and `interlace`-ing two loops per bar was described as maddening. The working
+approach is **one source per stream, reshaped in place by a long rotating
+slice-order**, which yields a 16-bar effective loop from 1 bar of audio. The
+audio never changes; only the order does, and mostly it stays identity so the
+groove rides.
 
-Four one-bar LPViz synth loops, eight bars each, chained for 32 bars. A fixed
-`chop 8` plus `bite 8 "0 1 3 2 4 6 5 7"` sits above the chain; its order/density
-is not modulated as the source changes.
+**`striate` was the repeating stutter.** Every `striate n` was removed in 94 and
+the "4x repeat on everything" stopped.
 
-- 117 BPM D-major source: pitch-shift compensation 117/104.
-- 124 BPM D-major source: compensation 124/104.
-- 120 BPM A-major source: compensation plus five semitones into D.
-- 122 BPM E-major source: compensation minus two semitones into D.
+**`timeCat` duration is a span, not a fit.** `(n, fast n p)` multiplies density
+rather than fitting `p` into `n` cycles. Use `(n, p)` with a one-event-per-cycle
+`p`, or a flat mini-notation pattern under `slow n`.
 
-All four durations were checked as one bar. Keys/tempos come from filenames;
-pitch compensation is calculated, not a claim of independent pitch analysis.
-Exact source paths and aliases are in `sc/samples80.scd`.
+**Mini-notation string literals need `:: Pattern Int`** when the expected type is
+ambiguous, or the binding silently fails and the name is out of scope later.
 
-Piano: top voice of the opening two transcribed bars from Kate Bush's
-`Bush_Kate_-_Wuthering_Heights.gp4-1ae31033.tidal`, transposed down seven
-semitones from A to D and stretched to a four-bar phrase. This is the piano
-introduction, not a claim of quoting the vocal chorus.
+**`~sounds/lpviz` is the loopmaster_2020_vision pack** — the same files. Genuinely
+different loop material is in `~/samples/loopmaster_producer_essentials`
+(one-bar loops), `~/samples/breaklots` and `~/samples/300 breaks` (full tracks,
+19–50 s — do NOT `loopAt 8` these, it smears them into noise).
 
-Answer: the first 32 keyboard cells from Daft Punk's
-`Daft_Punk_-_Digital_Love.gp4-cb2f3cde.tidal`, played through the C4 cpluck sample
-in D major. The two phrases take turns over eight bars. The sampled bass walks
-in the new key. Drum/percussion sources from the preceding groove are preserved
-and reworked; the human hat part retains its Groove MIDI timing/velocity.
+## Open issues
 
-## Recording receipt
+- **Slow voice leak:** synth count drifted from 130 to ~180–230 across the
+  session and does not fully return. Not yet cleaned; `freeSynths` would fix it
+  but would interrupt a sound the listener has approved.
+- **Piano is off.** `dubchord` and the `superpiano` air arpeggio are parked in
+  `92.tidal` / `93.tidal`.
+- **SCLOrk synths are loaded but barely used.** `FMRhodes1` and `sosBell` are
+  registered via `~dirt.soundLibrary.addSynth` and available by name;
+  ~109 more definitions sit in `~/synth-libraries/SCLOrkSynths/SynthDefs/`.
+  MI UGens installed but never integrated.
+- **`master_inert` Tidal params still do not reach the master**; use `~masterSet`.
+- The loaded Pi extension still has the stale `stopOwnedProcessTree` helper bug;
+  the disk fix is committed but not activated.
 
-Finalized local take:
+## Version index (all committed and pushed)
 
-- `recordings/jam-20260926-1146.wav`
-- `recordings/jam-20260926-1146.flac`
-- `recordings/jam-20260926-1146.markers.jsonl`
+| Scene | Character |
+|---|---|
+| 73–74 | approved LPViz loop playground; "Slick Muffin" pluck checkpoint |
+| 75–78 | eight-bar chop breakdown, walking bass, ringing melody, approved **CHOICE** |
+| 80 | SKYWARD: C-minor → D-major lift, four-loop chain |
+| 81–83 | 3/5/7-bar prime interplay; broken piano |
+| 84 | coprime swells, turnaround variation, filter opening, cadence throw |
+| 85–86 | 16-bar drum arc, 64-bar gates; seven-bar walking bass |
+| 87 | total transition: Air arpeggio + human ijexa, LPViz loops dissolve |
+| 88–90 | breakdown; build back; approved FULL BUILD (samba + rhumba) |
+| 91–92 | thinned drums; sewn/striated LPViz weave |
+| 93 | every loop swapped to breaklots/300breaks/producer_essentials |
+| 94 | striate removed; real one-bar breakbeats |
+| 95 | approved REBUILD: TFF 80s bass + D/G chord theme |
+| 96–97 | stable single-source loops; three-and-one |
+| 98 | **long effective loop — current** |
 
-Verified FLAC duration: **1666.666667 seconds (27:46.667)**.
-Verified FLAC size: **249,068,111 bytes**. This contains the recovered session,
-loop playground, Slick Muffin/CHOICE evolution and the new-key transition.
-A CHOICE marker at 1441.8 seconds identifies the pre-transition groove and
-commit `b905e1e`. No separate short export was made; the full take is preserved.
-Audio stays local (gitignored); composition, mixer recalls, provenance and
-listener comments are committed.
-
-Additional finalized take: `recordings/jam-20260926-1242.flac`, verified
-619.861333 seconds / 94,633,885 bytes. Plugin wall-clock recording state reported
-857.2 seconds, but the server had already exited: actual captured duration is
-shorter. WAV and markers are also retained. Do not call the missing time audio.
-
-Recovery at 12:58: re-verified that stranded roots 727372 (sclang wrapper) and
-727514 (GHCi) belonged to this Pi process; stopped only those owned trees with
-the on-disk PID/start-time-checked helper. `tidal_status` then booted the managed
-stack. Recalled samples80 + groove71 and evaluated 82. No competing manual stack
-or global process-name kill. Cause of scsynth's exit is still unknown. The loaded
-extension still has the stale-helper recovery problem; the committed Pi reload
-fix has not yet been activated. Scene checkpoints 81/82/83 are in `a6f3d85`.
-
-Earlier finalized take: `recordings/jam-20260926-1117.flac`, 1356.458667 seconds.
-See `sc/RECOVERY-2026-09-26-1146.md` for the earlier audio-server exit and stale
-plugin-helper caveat. Do not confuse that failure with an intentional hush.
+Enjoy the ride, don't flatten it.
