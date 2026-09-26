@@ -30,13 +30,13 @@ d4 $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.42 0.32 0.38 0.34" # hpf 2200
 
 d5 $ silence
 
-d6 $ sometimesBy 0.15 (rev) $ slice 8 "0 1 2 3 4 5 6 7" $ loopAt 1 $ s vox114 # speed "<1 0.75 1.12 1.19 1.12 1 0.94 0.89> <1 1.12 1.19 1.26 1.19 1.12 1 0.84> <1.19 1.26 1.5 1.68 1.5 1.26 1.19 1.12> <1 0.89 1 1.12 1.19 1.12 1 0.94>" # gain "<0.72(5,8) 0.66(7,8) 0.62(3,8,2) 0.68(6,8,1)>" # hpf 350 # lpf 9000 # pan "<0.35 0.68 0.5 0.62>" # cut 4 # ddSend 0.18 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.34 # ddWow 0 # ddCross 1 # verbSend 0.24
+d6 $ sometimesBy 0.12 (rev) $ slice 8 "0 0 0 0 0 0 0 0" $ loopAt 1 $ s "vxA" # speed "<1 1 ~ 1.19 1.5 ~ 1.19 1> <1 1 ~ 1.19 1.12 ~ 1 0.89> <1.5 1.5 ~ 1.19 1 ~ 0.89 1> <1 ~ 1.19 1.5 ~ 1.19 1 ~>" # gain "0.75 0 0.68 0 0.72 0 0 0.66" # hpf 330 # lpf 9500 # pan "<0.45 0.6 0.38 0.55>" # cut 4 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.38 # ddWow 0 # ddCross 1 # verbSend 0.28
 
 d7 $ silence
 
 d8 $ silence
 
-d9 $ jux rev $ slow 8 (n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>") # s "sweetChords" # amp 0.6 # cutoff 3400 # release 2.2 # detune 0.006 # fmIndex 0.5 # drive 1.1 # gain "0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5" # pan 0.42 # hpf 220 # lpf 8000 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.26
+d9 $ jux rev $ slow 4 (n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>") # s "sweetChords" # amp 0.6 # cutoff 3400 # release 1.8 # detune 0.006 # fmIndex 0.5 # drive 1.1 # gain "0.5 0.5" # pan 0.42 # hpf 220 # lpf 8000 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.26
 
 d10 $ struct "t(5,16)" $ s "<t808H t808M t808Lo cb808>" # gain 0.38 # hpf 700 # lpf 14000 # pan "0.3 0.7" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
 

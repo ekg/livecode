@@ -1,0 +1,30 @@
+-- 115: LOOPED + HARD-CHOPPED BEAT, DOUBLE-DENSITY CHORDS.
+-- The 808 kit is gone as the beat. It is now two chopped loops:
+--   d2  p94brkA  slice 16 reshaped by a 16-BAR rotating order, chop 8 bursts 20% (mostly identity,
+--       so it rides and only occasionally rearranges), 64-bar LPF sweep 6k-18k
+--   d3  p93drumB chop 16 sometimes 30%, sparse gain, its own 2-bar order rotation
+--   d10 p93perc  slice 8, chop 12 bursts 25%, every 11 (hurry 2), moving pan/filter
+--   d4  kept a thin h808C hat layer for pulse, pan orbiting over 24 bars
+-- d9 chords are at DOUBLE density: fast 2 on top of slow 4 (verified 768 -> 1536
+-- events over 128 cycles). Angle-bracket groups are one value PER CYCLE, so slow/fast
+-- multiply the cycle length, not the within-cycle event count.
+-- NOTE: chop N on top of slice N MULTIPLIES (16x32 = 512 events/bar, verified).
+-- Use one or the other, or gate the chop behind sometimesBy.
+-- d6 is the vxA vocal riff. Needs sc/samples111.scd.
+
+let vox114 = "<vxA vxB vxC vxA vxD vxB>"
+
+setcps (128/240)
+
+d1 $ silence
+d2 $ sometimesBy 0.15 (chop 4) $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <4 5 6 7 8 9 10 11 12 13 14 15 0 1 2 3> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <1 0 3 2 5 4 7 6 9 8 11 10 13 12 15 14> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 1 2 3 15 14 13 12 8 9 10 11 12 13 14 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>" $ loopAt 1 $ s "p94brkA" # gain "0.85 0.72 0.8 0.68" # hpf 35 # lpf (slow 64 $ range 6000 18000 sine) # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d3 $ sometimesBy 0.3 (chop 16) $ slice 8 "<0 3 6 1 5 2 7 4> <2 5 0 7 3 6 1 4>" $ loopAt 1 $ s "p93drumB" # gain ("0.5 0 0.62 0 0.44 0 0 0.56" * slow 32 "<0.6 0.8 1 1>") # hpf 300 # lpf 13000 # pan 0.45 # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.26 # ddWow 0 # ddCross 1 # verbSend 0.14
+d4 $ sometimesBy 0.25 (striate 2) $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.34 0.26 0.3 0.28" # hpf 2400 # lpf 18000 # pan (slow 24 $ range 0.4 0.75 sine) # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d5 $ silence
+d6 $ sometimesBy 0.12 (rev) $ slice 8 "0 0 0 0 0 0 0 0" $ loopAt 1 $ s "vxA" # speed "<1 1 ~ 1.19 1.5 ~ 1.19 1> <1 1 ~ 1.19 1.12 ~ 1 0.89> <1.5 1.5 ~ 1.19 1 ~ 0.89 1> <1 ~ 1.19 1.5 ~ 1.19 1 ~>" # gain "0.75 0 0.68 0 0.72 0 0 0.66" # hpf 330 # lpf 9500 # pan "<0.45 0.6 0.38 0.55>" # cut 4 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.38 # ddWow 0 # ddCross 1 # verbSend 0.28
+d7 $ silence
+d8 $ silence
+d9 $ jux rev $ fast 2 $ slow 4 (n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>") # s "sweetChords" # amp 0.6 # cutoff 3400 # release 1.6 # detune 0.006 # fmIndex 0.5 # drive 1.1 # gain "0.5 0.5" # pan 0.42 # hpf 220 # lpf 8000 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.26
+d10 $ every 11 (hurry 2) $ sometimesBy 0.25 (chop 12) $ slice 8 "<0 1 2 3 4 5 6 7> <0 4 2 6 1 5 3 7>" $ loopAt 1 $ s "p93perc" # gain ("0.4 0 0 0.32 0 0 0.36 0" * slow 32 "<0.5 0.75 1 1>") # hpf 700 # lpf 15000 # pan (slow 32 $ range 0.25 0.75 sine) # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+d11 $ silence
+d12 $ silence
