@@ -1,0 +1,70 @@
+-- 64: CHANNEL SURF / AFTER THE MALL. 98 BPM; 64-bar repeating two-scene mashup.
+-- 0-23 neon vapor-pop; 24-31 dub dissolve/crossfade; 32-55 dark halftime collage;
+-- 56-63 suspended return. Source excerpts/transforms: sc/mashup64-sources.md.
+-- Mixer setup: sc/mashup64.scd. No new UGens or routing changes required.
+
+-- Sections use only built-in slow/timeCat/fast: no external arrangement helper.
+
+let neonBass = n "fs3 cs3 e3 fs3 e3 cs3 b2 cs3" # s "dubsub" # gain 0.65 # legato 0.32 # lpf 650
+
+let neonChords = n "<[d4,fs4,a4,cs5,e5] [b3,d4,fs4,a4,cs5] [g3,b3,d4,fs4,a4] [a3,cs4,e4,g4,b4]>" # s "supersaw" # gain 0.46 # legato 0.85 # lpf (slow 16 $ range 900 2200 sine) # verbSend 0.2 # verbHp 450 # verbT60 5
+
+let neonTears = every 8 rev $ n "fs5 ~ a5 ~ fs5 ~ b5 ~ fs5 ~ a5 ~ fs5 ~ a5 ~" # s "supervibe" # gain 0.6 # legato 0.65 # pan (slow 8 $ range 0.25 0.75 sine) # ddSend 0.3 # lock 1 # delaytime (3/16) # delayfeedback 0.48 # ddLp 2600 # verbSend 0.12
+
+let neonDigital = slow 2 $ n "d5 ~ d5 ~ ~ ~ cs5 ~ ~ ~ fs5 ~ ~ ~ d5 ~ g4 ~ [e4,g4] [fs4,g4] [g4,a4] ~ ~ ~ b4 cs5 a4 fs4 a4 b4 a4 ~" # s "superpwm" # gain 0.43 # legato 0.45 # lpf (slow 8 $ range 800 2400 sine) # ddSend 0.22 # lock 1 # delaytime (5/16) # delayfeedback 0.45 # ddLp 1700
+
+let darkBass = slow 2 $ n "c3 ~ ~ c3 as2 ~ ~ as2 a2 ~ ~ a2 gs2 ~ ~ gs2" # s "dubsub" # gain 0.72 # legato 0.55 # lpf 500
+
+let darkChords = n "<[c4,ds4,g4,as4] [as3,f4,as4,c5] [a3,e4,g4,c5] [gs3,ds4,g4,as4]>" # s "dubchord" # gain 0.55 # cutoff (slow 8 $ range 650 1500 sine) # res 0.35 # legato 0.3 # ddSend 0.42 # lock 1 # delaytime (3/16) # delayfeedback 0.58 # ddLp 1700 # verbSend 0.18 # verbHp 450
+
+let darkTears = slow 2 $ n "c5 c5 g5 c5 f5 c5 f5 g5" # s "supermandolin" # gain 0.62 # legato 0.7 # lpf 2600 # pan (slow 4 $ range 0.2 0.8 sine) # ddSend 0.35 # lock 1 # delaytime (5/16) # delayfeedback 0.52 # ddLp 2200
+
+let darkBritney = every 4 rev $ n "c4 ds4 g4 ds4 c5 g4 ds4 g4" # s "superfm" # gain 0.45 # legato 0.24 # lpf (slow 8 $ range 900 3400 sine) # crush 11 # ddSend 0.18 # lock 1 # delaytime (3/16) # delayfeedback 0.4
+
+hush
+
+setcps (98/240)
+
+resetCycles
+
+-- A is four-to-the-floor; B is a lurching halftime pocket. Eight-bar drum exit.
+
+d1 $ (slow 64 $ timeCat [(24, fast 24 $ s "bd*4"), (4, silence), (4, fast 4 $ s "bd ~ ~ bd"), (24, fast 24 $ s "bd ~ ~ ~ ~ ~ bd ~ ~ ~ bd ~ ~ ~ [~ bd] ~"), (8, silence)]) # gain 0.83
+
+-- Snare backbeat becomes halftime; bar-8 fill leaves space for echo.
+
+d2 $ (slow 64 $ timeCat [(24, fast 24 $ s "~ sn ~ sn"), (8, silence), (24, fast 24 $ every 8 (stut 3 0.35 (1/16)) $ s "~ ~ sn ~"), (8, silence)]) # gain 0.62 # hpf 180 # ddSend 0.08 # lock 1 # delaytime (3/16) # delayfeedback 0.38
+
+-- Original contemporary drum treatment rather than an attributed recent-song quote.
+
+d3 $ (slow 64 $ timeCat [(24, fast 24 $ s "hh*8"), (8, fast 8 $ degradeBy 0.45 $ s "hh(5,16)"), (24, fast 24 $ every 4 (fast 2) $ s "hh(11,16)"), (8, fast 8 $ s "hh(3,16)")]) # gain "0.32 0.44 0.29 0.39" # hpf 1600 # pan "0.4 0.6"
+
+-- Offbeat clap/rim chatter; dub throws become more conspicuous in the break.
+
+d4 $ (slow 64 $ timeCat [(24, fast 24 $ s "~ cp ~ [~ cp]"), (8, fast 8 $ s "rim ~ ~ ~"), (24, fast 24 $ s "rim(5,16)"), (8, fast 8 $ s "~ ~ cp ~")]) # gain 0.42 # hpf 800 # ddSend 0.4 # lock 1 # delaytime (3/16) # delayfeedback 0.56 # ddLp 2000
+
+-- Billie Jean interval/rhythm shape -> Glory Box chromatic descent, transposed to C.
+
+d5 $ slow 64 $ timeCat [(24, fast 24 neonBass), (8, silence), (24, fast 24 darkBass), (8, silence)]
+
+-- Wide synthetic harmony gives way to short, filtered dub stabs.
+
+d6 $ slow 64 $ timeCat [(24, fast 24 neonChords), (8, fast 8 $ neonChords # gain (slow 8 $ range 0.46 0 saw) # lpf 750), (24, fast 24 darkChords), (8, fast 8 $ darkChords # gain (slow 8 $ range 0.45 0 saw) # ddSend 0.58)]
+
+-- The two principal source motifs genuinely overlap for an eight-bar crossfade.
+
+d7 $ slow 64 $ timeCat [(24, fast 24 neonTears), (8, fast 8 $ neonTears # gain (slow 8 $ range 0.6 0 saw) # ddSend 0.58 # delayfeedback 0.65), (24, fast 24 darkTears), (8, fast 8 $ neonTears # gain (slow 8 $ range 0 0.6 saw) # lpf 1800)]
+
+-- Daft Punk phrase fragments meet a minor-key Britney arpeggio; space between them.
+
+d8 $ slow 64 $ timeCat [(24, fast 24 $ every 8 (degradeBy 0.35) neonDigital), (8, fast 8 $ darkTears # gain (slow 8 $ range 0 0.5 saw) # lpf 1300), (24, fast 24 $ every 8 (fast 2) darkBritney), (8, fast 8 $ neonDigital # gain (slow 8 $ range 0 0.43 saw) # ddSend 0.45)]
+
+-- High, sparse FM reflections; first appear in the dissolve, never a constant wash.
+
+d9 $ (slow 64 $ timeCat [(24, silence), (8, fast 8 $ n "~ c6 ~ g5" # s "superfm"), (24, fast 24 $ n "~ ~ ~ <g5 as5>" # s "supervibe"), (8, fast 8 $ n "~ fs5 ~ a5" # s "supervibe")]) # gain 0.35 # legato 0.2 # hpf 650 # lpf 3000 # ddSend 0.5 # lock 1 # delaytime (7/16) # delayfeedback 0.6 # ddLp 1900 # verbSend 0.2
+
+d10 $ silence
+
+d11 $ silence
+
+d12 $ silence
