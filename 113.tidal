@@ -1,0 +1,29 @@
+-- 113: LONG SPACE MODULATION ON DRUMS + TARGETED SPLICE/CHOP.
+-- Long-form movement (all much longer than the 1-bar drum cycle):
+--   d2 kick  64-bar LPF sweep 2k-9k, 32-bar gain swell, 32-bar pan orbit
+--   d3 snare 48-bar LPF sweep, 32-bar gain swell, chop 6 ONLY every 16th bar
+--   d4 hats  48-bar HPF sweep 1.4k-3k, 24-bar pan orbit, stutter on isolated hits
+--   d10 toms 64-bar LPF sweep, 32-bar pan orbit, 32-bar VERB SWELL 0.08-0.4
+-- Targeted splice/chop (not whole-pattern effects):
+--   d2 slice 4 "1 2 3" 20% of the time -> plays a LATER slice of the one-shot,
+--      i.e. the tail instead of the transient
+--   d10 splice 6 "<0 0 0 3 0 0>" -> splices selected notes only
+--   d4 striate 2 on 25% of hits only
+-- Vocal chops on d6 unchanged. Needs sc/samples111.scd.
+
+let vox112 = "<vxA vxB vxC vxD vxE vxF vxG vxH>"
+
+setcps (128/240)
+
+d1 $ silence
+d2 $ sometimesBy 0.2 (slice 4 "1 2 3") $ struct "t(3,8)" $ s "k808L" # gain ("1.0 0.85 0.92" * slow 32 "<0.7 0.85 1 1>") # hpf 40 # lpf (slow 64 $ range 2000 9000 sine) # pan (slow 32 $ range 0.35 0.65 sine) # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d3 $ every 16 (chop 6) $ s "~ ~ ~ ~ s808a ~ ~ ~ ~ ~ ~ ~ c808 ~ ~ ~" # gain ("0.85 0.7" * slow 32 "<0.6 0.75 0.9 1>") # hpf 300 # lpf (slow 48 $ range 6000 14000 sine) # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.05
+d4 $ sometimesBy 0.25 (striate 2) $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain ("0.44 0.34 0.4 0.36" * slow 32 "<0.75 0.9 1 1>") # hpf (slow 48 $ range 1400 3000 sine) # lpf 18000 # pan (slow 24 $ range 0.35 0.78 sine) # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d5 $ silence
+d6 $ sometimesBy 0.25 (rev) $ sometimesBy 0.3 (|+ up "<0 3 -2 7 12 -5>") $ slice 8 "<0 2 5 3 6 1 4 7> <3 1 6 0 7 4 2 5>" $ loopAt 1 $ s vox112 # gain ("0.78 0 0.6 0 0.68 0 0 0.56" * slow 8 "<0 0.6 0.85 1 1 1 1 1>") # hpf 380 # lpf 10000 # pan "<0.35 0.68 0.5 0.62>" # cut 4 # ddSend 0.18 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.34 # ddWow 0 # ddCross 1 # verbSend 0.24
+d7 $ silence
+d8 $ silence
+d9 $ silence
+d10 $ sometimesBy 0.3 (splice 6 "<0 0 0 3 0 0> <0 0 4 0 0 0>") $ struct "t(5,16)" $ s "<t808H t808M t808Lo cb808>" # gain (0.4 * slow 32 "<0.5 0.7 0.9 1>") # hpf 700 # lpf (slow 64 $ range 5000 15000 sine) # pan (slow 32 $ range 0.25 0.75 sine) # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend (slow 32 $ range 0.08 0.4 sine)
+d11 $ silence
+d12 $ silence

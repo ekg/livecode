@@ -1,0 +1,45 @@
+-- 114: WARM AND UPBEAT. 128 BPM, four-on-the-floor 808, warm chords, singing vocal chops.
+--
+-- This is the morph away from the "scary" texture. What makes it warm:
+--   - sweetChords at fmIndex 0.5 (was 1.2), cutoff 3400 (was 5200+), release 2.2, drive 1.1
+--   - LPF 8000 on the chord bus, not 11k
+--   - vocals low-passed at 9000 and held to a 0.44-0.5 gain range
+--   - four-on-the-floor kick instead of t(3,8), so the pulse is steady and up
+--
+-- VOCALS SING (d6): the melody is carried by `speed`, NOT `up`.
+-- IMPORTANT: `up` does NOT reach SuperDirt for plain samples - speed stayed at 1.0 for
+-- every chop until this was switched to an explicit `speed` ratio pattern. Semitone n is
+-- 2 ** (n/12): 0 -> 1.0, +3 -> 1.19, +5 -> 1.26, +7 -> 1.5, +9 -> 1.68, -2 -> 0.89.
+-- Rhythm is Euclidean and rotating: gain "<0.5(5,8) 0.46(7,8) 0.44(3,8,2) 0.48(6,8,1)>".
+-- NOTE: speed 0 is NOT a rest - it stalls the sample. Use a low ratio like 0.75 instead.
+--
+-- Drums: k808L*4 kick, s808b snare + c808 clap on 2 and 4, h808C offbeat hats,
+-- rotating t808H/M/Lo + cb808 on t(5,16). Needs sc/samples111.scd.
+
+let vox114 = "<vxA vxB vxC vxA vxD vxB>"
+
+setcps (128/240)
+
+d1 $ silence
+
+d2 $ s "k808L*4" # gain "0.95 0.78 0.88 0.78" # hpf 40 # lpf 7000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "~ ~ ~ ~ s808b ~ ~ ~ ~ ~ ~ ~ c808 ~ ~ ~" # gain "0.8 0.66" # hpf 300 # lpf 13000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.06
+
+d4 $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.42 0.32 0.38 0.34" # hpf 2200 # lpf 18000 # pan "<0.62 0.5 0.7 0.45>" # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ silence
+
+d6 $ sometimesBy 0.15 (rev) $ slice 8 "0 1 2 3 4 5 6 7" $ loopAt 1 $ s vox114 # speed "<1 0.75 1.12 1.19 1.12 1 0.94 0.89> <1 1.12 1.19 1.26 1.19 1.12 1 0.84> <1.19 1.26 1.5 1.68 1.5 1.26 1.19 1.12> <1 0.89 1 1.12 1.19 1.12 1 0.94>" # gain "<0.72(5,8) 0.66(7,8) 0.62(3,8,2) 0.68(6,8,1)>" # hpf 350 # lpf 9000 # pan "<0.35 0.68 0.5 0.62>" # cut 4 # ddSend 0.18 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.34 # ddWow 0 # ddCross 1 # verbSend 0.24
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ jux rev $ slow 8 (n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>") # s "sweetChords" # amp 0.6 # cutoff 3400 # release 2.2 # detune 0.006 # fmIndex 0.5 # drive 1.1 # gain "0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5" # pan 0.42 # hpf 220 # lpf 8000 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.26
+
+d10 $ struct "t(5,16)" $ s "<t808H t808M t808Lo cb808>" # gain 0.38 # hpf 700 # lpf 14000 # pan "0.3 0.7" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d11 $ silence
+
+d12 $ silence
