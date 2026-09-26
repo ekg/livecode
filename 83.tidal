@@ -1,6 +1,6 @@
--- 83: DRAFT / BROKEN PIANO. Saved but NOT delivered live: scsynth had exited.
--- Last working scene is 82.tidal. Only d7 changes here.
--- Recall sc/samples80.scd and sc/groove71.scd before auditioning.
+-- 83: BROKEN PIANO. Eleven-bar low-chord/fragment/roll piano replaces the old riff.
+-- Played live 2026-09-26 13:42 after output verification (66 events, both channels).
+-- Only d7 differs from 82.tidal. Recall sc/samples80.scd + sc/groove71.scd first.
 
 
 let human70_0_1 = slow 8 $ timeCat [(461, silence), (113, (s "p70snare" # gain 0.5700)), (866, (s "p70soft" # gain 0.1431)), (69, (s "p70snare" # gain 0.5700)), (46, (s "p70soft" # gain 0.2676)), (830, (s "p70soft" # gain 0.1599)), (945, (s "p70snare" # gain 0.5700)), (981, (s "p70snare" # gain 0.5700)), (107, (s "p70snare" # gain 0.5700)), (30, (s "p70soft" # gain 0.1599)), (458, (s "p70soft" # gain 0.1338)), (353, (s "p70soft" # gain 0.2426)), (105, (s "p70snare" # gain 0.5700)), (858, (s "p70soft" # gain 0.1893)), (611, (s "p70snare" # gain 0.5700)), (334, (s "p70soft" # gain 0.2628)), (64, (s "p70snare" # gain 0.5700)), (911, (s "p70soft" # gain 0.2906)), (392, (s "p70snare" # gain 0.5700)), (219, (s "p70soft" # gain 0.2676)), (343, (s "p70soft" # gain 0.2816)), (967, (s "p70snare" # gain 0.5700)), (593, (s "p70snare" # gain 0.5700)), (355, (s "p70soft" # gain 0.1824)), (392, (s "p70snare" # gain 0.5700)), (570, (s "p70soft" # gain 0.1599)), (397, (s "p70snare" # gain 0.5700)), (240, (s "p70soft" # gain 0.1338)), (335, (s "p70soft" # gain 0.1431)), (974, (s "p70snare" # gain 0.5700)), (601, (s "p70snare" # gain 0.5700)), (346, (s "p70soft" # gain 0.2529)), (494, (s "p70snare" # gain 0.5700))]
