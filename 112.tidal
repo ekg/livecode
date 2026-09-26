@@ -1,0 +1,41 @@
+-- 112: VOCAL CHOP LAYER. 128 BPM, h2o808 kit, no melodic voice at all.
+--
+-- d6 is the new feature: fragments from ~/sounds/humanip (15 loaded in sc/samples111.scd),
+-- slice 8 with two rotating orders, so each bar is cut into 8 short vocal pieces. Made to
+-- read as FEELING rather than words:
+--   - reverse sometimes 25%
+--   - pitch shift sometimes 30%, stepping through <0 3 -2 7 12 -5>
+--   - gain holes so the fragments land in gaps, not a continuous wall
+--   - cut 6, delay 3/16 with 0.34 feedback, verb 0.24
+--
+-- d11 melody (MiPlaits) is OUT at listener request. d9 chords, d5 bass, d7, d8, d12 silent.
+-- Drums: k808L kick, s808a snare + c808 clap, h808C hats, rotating t808H/M/Lo + cb808.
+-- Needs sc/samples111.scd (loads 110 -> 94 -> 85 -> 80 -> 76 -> 70 in turn).
+
+let vox112 = "<vxA vxB vxC vxD vxE vxF vxG vxH>"
+
+setcps (128/240)
+
+d1 $ silence
+
+d2 $ struct "t(3,8)" $ s "k808L" # gain "1.0 0.85 0.92" # hpf 40 # lpf 7000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "~ ~ ~ ~ s808a ~ ~ ~ ~ ~ ~ ~ c808 ~ ~ ~" # gain "0.85 0.7" # hpf 300 # lpf 13000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.05
+
+d4 $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.44 0.34 0.4 0.36" # hpf 2200 # lpf 18000 # pan "<0.62 0.5 0.7 0.45>" # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ silence
+
+d6 $ sometimesBy 0.25 (rev) $ sometimesBy 0.3 (|+ up "<0 3 -2 7 12 -5>") $ slice 8 "<0 2 5 3 6 1 4 7> <3 1 6 0 7 4 2 5>" $ loopAt 1 $ s vox112 # gain ("0.78 0 0.6 0 0.68 0 0 0.56" * slow 8 "<0 0.6 0.85 1 1 1 1 1>") # hpf 380 # lpf 10000 # pan "<0.35 0.68 0.5 0.62>" # cut 4 # ddSend 0.18 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.34 # ddWow 0 # ddCross 1 # verbSend 0.24
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ struct "t(5,16)" $ s "<t808H t808M t808Lo cb808>" # gain 0.4 # hpf 700 # lpf 14000 # pan "0.3 0.7" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d11 $ silence
+
+d12 $ silence
