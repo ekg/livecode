@@ -1,0 +1,35 @@
+-- 77: SLICK MUFFIN / LIFT. Historical intermediate live state.
+-- Recall sc/samples76.scd and sc/groove71.scd.
+-- The angle-bracket slice list in d1 was subsequently corrected in 78.
+
+let human70_0_2 = slow 8 $ timeCat [(235, (s "p70hat" # gain 0.3090)), (233, (s "p70hat" # gain 0.1423)), (259, (s "p70hat" # gain 0.2690)), (243, (s "p70hat" # gain 0.2690)), (236, (s "p70hat" # gain 0.2725)), (235, (s "p70hat" # gain 0.2465)), (236, (s "p70hat" # gain 0.2863)), (247, (s "p70hat" # gain 0.2829)), (232, (s "p70hat" # gain 0.2812)), (238, (s "p70hat" # gain 0.2913)), (240, (s "p70hat" # gain 0.3152)), (225, (s "p70hat" # gain 0.2406)), (227, (s "p70hat" # gain 0.2152)), (250, (s "p70hat" # gain 0.2240)), (251, (s "p70hat" # gain 0.2760)), (232, (s "p70hat" # gain 0.2598)), (239, (s "p70hat" # gain 0.2598)), (256, (s "p70hat" # gain 0.2897)), (250, (s "p70hat" # gain 0.2829)), (221, (s "p70hat" # gain 0.2345)), (226, (s "p70hat" # gain 0.2426)), (252, (s "p70hat" # gain 0.2386)), (239, (s "p70hat" # gain 0.2946)), (247, (s "p70hat" # gain 0.2725)), (237, (s "p70hat" # gain 0.2598)), (249, (s "p70hat" # gain 0.2863)), (234, (s "p70hat" # gain 0.3167)), (221, (s "p70hat" # gain 0.2708)), (238, (s "p70hat" # gain 0.2345)), (247, (s "p70hat" # gain 0.2708)), (244, (s "p70hat" # gain 0.3316)), (253, (s "p70hat" # gain 0.2778)), (232, (s "p70hat" # gain 0.2261)), (256, (s "p70hat" # gain 0.2963)), (236, (s "p70hat" # gain 0.3152)), (227, (s "p70hat" # gain 0.2635)), (231, (s "p70hat" # gain 0.2426)), (246, (s "p70hat" # gain 0.2523)), (237, (s "p70hat" # gain 0.2946)), (238, (s "p70hat" # gain 0.2812)), (248, (s "p70hat" # gain 0.2795)), (252, (s "p70hat" # gain 0.2795)), (238, (s "p70hat" # gain 0.3228)), (222, (s "p70hat" # gain 0.1989)), (218, (s "p70hat" # gain 0.2129)), (260, (s "p70hat" # gain 0.2386)), (244, (s "p70hat" # gain 0.3500)), (248, (s "p70hat" # gain 0.3242)), (227, (s "p70hat" # gain 0.2485)), (250, (s "p70hat" # gain 0.2708)), (253, (s "p70hat" # gain 0.3075)), (233, (s "p70hat" # gain 0.2617)), (235, (s "p70hat" # gain 0.2106)), (246, (s "p70hat" # gain 0.2445)), (249, (s "p70hat" # gain 0.2863)), (235, (s "p70hat" # gain 0.2690)), (233, (s "p70hat" # gain 0.2485)), (259, (s "p70hat" # gain 0.2846)), (238, (s "p70hat" # gain 0.2880)), (237, (s "p70hat" # gain 0.2708)), (228, (s "p70hat" # gain 0.2303)), (238, (s "p70hat" # gain 0.2406)), (243, (s "p70hat" # gain 0.2672)), (241, (s "p70hat" # gain 0.2963)), (10, (s "p70hat" # gain 0.2561))]
+
+
+let pocket76 = loopAt 1 $ s "p70drumA"
+
+
+setcps (99/240)
+
+d1 $ (slow 8 $ timeCat [(4, fast 4 pocket76), (2, fast 2 $ slice 8 "<0 1 2 3 4 5 6 7 0 1 2 3 4 7 6 5>" pocket76), (1, slice 16 "0 1 2 3 4 5 7 6 8 9 10 11 12 13 15 14" pocket76), (1, chop 8 pocket76)]) # gain "0.73 0.64 0.7 0.64" # lpf 18000 # hpf 30 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d2 $ every 4 rev $ struct "<t(5,8) t(7,8) t(3,8) t(5,8,2)>" $ chop 8 $ loopAt 2 $ s "p70drumB" # gain 0.41 # hpf 500 # lpf 18000 # cut 2 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ (human70_0_2 |* gain 0.8) # hpf 1800 # lpf 18000 # pan 0.6 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d4 $ s "~ cp ~ cp" # gain 0.4 # hpf 650 # lpf 16000 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d5 $ (slow 4 $ up "0 3 7 10 12 10 7 3 -4 0 3 7 5 3 0 -2 5 -4 0 3 5 3 0 -3 -5 -1 2 5 7 5 2 -1") # s "p76bass" # gain "0.65 0.46 0.58 0.48" # attack 0.003 # hold 0.025 # release 0.14 # hpf 35 # lpf 3500 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d6 $ chop 8 $ loopAt 2 $ s "<p70synthA p70synthA p70synthB p70synthB>" # up 12 # gain "0.54 0.43 0.5 0.46" # attack 0.006 # hold 0.03 # release 0.3 # hpf 130 # lpf 18000 # cut 6 # ddSend 0.1 # delaySend 1 # delayfeedback 0.22 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d7 $ silence
+
+d8 $ every 4 rev $ struct "<t f t f f t f f>" $ chop 8 $ loopAt 2 $ s "p70synthB" # gain 0.39 # hpf 500 # lpf 14000 # cut 8 # pan 0.65 # ddSend 0.1 # delaySend 1 # delayfeedback 0.2 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d9 $ silence
+
+d10 $ slow (5/4) $ struct "t(5,8)" $ chop 8 $ loopAt 1 $ s "p70perc" # gain 0.28 # hpf 800 # lpf 16000 # cut 10 # pan 0.3 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d11 $ silence
+
+d12 $ silence

@@ -1,0 +1,31 @@
+-- 75: SLICK MUFFIN / EIGHT-BAR BREAKDOWN. Original melodic octave; pluck retained.
+-- Recall sc/samples70.scd and sc/groove71.scd. Parent 74; d1 and d6 changed.
+
+let pocket76 = loopAt 1 $ s "p70drumA"
+
+
+setcps (99/240)
+
+d1 $ (slow 8 $ timeCat [(1, chop 8 pocket76), (1, slice 8 "0 1 2 3 4 7 6 5" pocket76), (1, slice 8 "0 1 2 [3 1] 4 5 6 ~" pocket76), (1, slice 8 "0 3 2 1 4 [5 7] 6 ~" pocket76), (1, slice 16 "0 1 2 3 4 5 7 6 8 9 10 11 12 13 15 14" pocket76), (1, slice 16 "0 1 ~ 3 4 5 [6 7] ~ 8 9 ~ 11 12 13 [14 15] ~" pocket76), (1, slice 16 "0 1 [2 3] ~ 4 5 6 7 8 [9 10] 11 ~ 12 13 [14 14] 15" pocket76), (1, slice 8 "0 1 2 ~ 4 ~ 6 ~" pocket76)]) # gain "0.73 0.64 0.7 0.64" # lpf 18000 # hpf 30 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d2 $ every 4 rev $ struct "<t(5,8) t(7,8) t(3,8) t(5,8,2)>" $ chop 8 $ loopAt 2 $ s "p70drumB" # gain 0.41 # hpf 500 # lpf 18000 # cut 2 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "icshaker(7,16)" # n "<0 1 4 2>" # gain "0.22 0.3 0.19 0.34" # pan 0.62 # lpf 18000 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d4 $ silence
+
+d5 $ silence
+
+d6 $ chop 8 $ loopAt 2 $ s "<p70synthA p70synthA p70synthB p70synthB>" # up 0 # gain "0.52 0.4 0.48 0.43" # attack 0.004 # hold 0.015 # release 0.16 # hpf 90 # lpf 18000 # cut 6 # ddSend 0.08 # delaySend 1 # delayfeedback 0.2 # ddWow 0 # ddCross 1 # verbSend 0.1
+
+d7 $ silence
+
+d8 $ every 4 rev $ struct "<t f t f f t f f>" $ chop 8 $ loopAt 2 $ s "p70synthB" # gain 0.39 # hpf 500 # lpf 14000 # cut 8 # pan 0.65 # ddSend 0.1 # delaySend 1 # delayfeedback 0.2 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d9 $ silence
+
+d10 $ slow (5/4) $ struct "t(5,8)" $ chop 8 $ loopAt 1 $ s "p70perc" # gain 0.28 # hpf 800 # lpf 16000 # cut 10 # pan 0.3 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d11 $ silence
+
+d12 $ silence
