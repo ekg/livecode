@@ -8,7 +8,7 @@
 // NOTE: the FM index parameter is called `fmIndex`, NOT `index` - `index` is a Tidal
 // function and `# index 1.1` fails to compile as a control setting.
 (
-SynthDef(\sweetChords, { |out = 0, freq = 220, sustain = 1, pan = 0, amp = 0.9,
+SynthDef(\sweetChords, { |out = 0, freq = 220, sustain = 1, pan = 0, amp = 0.63,
     cutoff = 5200, detune = 0.008, attack = 0.012, release = 1.6, ratio = 2,
     fmIndex = 1.1, drive = 1.4, sub = 0.4, width = 0.7|
 
@@ -24,6 +24,6 @@ SynthDef(\sweetChords, { |out = 0, freq = 220, sustain = 1, pan = 0, amp = 0.9,
     Out.ar(out, DirtPan.ar(sig, ~dirt.numChannels, pan));
 }).add;
 
-~dirt.soundLibrary.addSynth(\sweetChords, (instrument: \sweetChords, release: 1.6, amp: 0.9));
+~dirt.soundLibrary.addSynth(\sweetChords, (instrument: \sweetChords, release: 1.6, amp: 0.63));
 "sc/chords.scd loaded: sweetChords registered (param is fmIndex, not index)".postln;
 )
