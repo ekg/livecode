@@ -3,7 +3,7 @@
 -- 56-63 suspended return. Source excerpts/transforms: sc/mashup64-sources.md.
 -- Mixer setup: sc/mashup64.scd. No new UGens or routing changes required.
 
--- Sections use only built-in slow/timeCat/fast: no external arrangement helper.
+-- Validated on Tidal 1.10.1: built-in slow/timeCat/fast only; no helper binding needed.
 
 let neonBass = n "fs3 cs3 e3 fs3 e3 cs3 b2 cs3" # s "dubsub" # gain 0.65 # legato 0.32 # lpf 650
 
