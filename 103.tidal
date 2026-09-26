@@ -1,0 +1,40 @@
+-- 103: BREAKDOWN -> REBUILD. Everything is out except the Sir Duke bass, which is joined
+-- by a drum groove written to match it (Stevie Wonder funk: kick on 1 / 2-and / 3-and,
+-- snare on 2 and 4, 16th hats with accents). No loops, no synth chords, no bell.
+-- Parent 102.tidal. Needs sc/samples94.scd.
+
+let psrate = pF "psrate"
+
+let samba_kick = loopAt 1 $ s "p70kick"
+
+let samba_snare = loopAt 1 $ s "p70snare"
+
+let samba_hat = loopAt 1 $ s "p70hat"
+
+let sd102 = slow 16 $ up "14 ~ ~ ~ 18 ~ ~ ~ 21 ~ ~ 26 ~ ~ ~ ~ 11 ~ 11 ~ 14 13 14 ~ 18 17 18 23 ~ ~ ~ ~ 10 ~ 10 ~ 14 ~ 14 ~ 17 16 17 ~ 22 ~ ~ 21 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 14 ~ ~ ~ 18 ~ ~ ~ 21 ~ ~ 26 ~ ~ ~ ~ 11 ~ 11 ~ 14 13 14 ~ 18 17 18 23 ~ ~ ~ ~ 10 ~ 10 ~ 14 ~ 14 ~ 17 16 17 ~ 22 ~ ~ 21 ~ ~ ~ 21 18 21 ~ ~"
+
+setcps (104/240)
+
+d1 $ silence
+
+d2 $ s "p70kick ~ ~ ~ ~ ~ p70kick ~ ~ ~ p70kick ~ ~ ~ ~ ~" # gain "1 0.9 0.95" # hpf 55 # lpf 6000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "~ ~ ~ ~ p70snare ~ ~ ~ ~ ~ ~ ~ p70snare ~ ~ ~" # gain "0.85 0.72" # hpf 260 # lpf 12000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.06
+
+d4 $ s "p70hat*16" # gain "0.5 0.3 0.42 0.3 0.48 0.3 0.42 0.3 0.5 0.3 0.42 0.3 0.48 0.3 0.42 0.34" # hpf 1700 # lpf 18000 # pan 0.62 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ sd102 # s "p76bass" # gain "0.78 0.55 0.68 0.5" # attack 0.003 # hold 0.03 # release 0.15 # hpf 45 # lpf 3000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d6 $ silence
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ silence
+
+d11 $ silence
+
+d12 $ silence
