@@ -1,0 +1,35 @@
+-- 80: SKYWARD. C-minor -> D-major lift; 104 BPM. Paused resume checkpoint.
+-- Recall sc/samples80.scd and sc/groove71.scd before evaluating this file.
+-- Four LPViz sources in series, fixed eight-slice chop; Kate Bush / Daft Punk answers.
+
+let human70_0_2 = slow 8 $ timeCat [(235, (s "p70hat" # gain 0.3090)), (233, (s "p70hat" # gain 0.1423)), (259, (s "p70hat" # gain 0.2690)), (243, (s "p70hat" # gain 0.2690)), (236, (s "p70hat" # gain 0.2725)), (235, (s "p70hat" # gain 0.2465)), (236, (s "p70hat" # gain 0.2863)), (247, (s "p70hat" # gain 0.2829)), (232, (s "p70hat" # gain 0.2812)), (238, (s "p70hat" # gain 0.2913)), (240, (s "p70hat" # gain 0.3152)), (225, (s "p70hat" # gain 0.2406)), (227, (s "p70hat" # gain 0.2152)), (250, (s "p70hat" # gain 0.2240)), (251, (s "p70hat" # gain 0.2760)), (232, (s "p70hat" # gain 0.2598)), (239, (s "p70hat" # gain 0.2598)), (256, (s "p70hat" # gain 0.2897)), (250, (s "p70hat" # gain 0.2829)), (221, (s "p70hat" # gain 0.2345)), (226, (s "p70hat" # gain 0.2426)), (252, (s "p70hat" # gain 0.2386)), (239, (s "p70hat" # gain 0.2946)), (247, (s "p70hat" # gain 0.2725)), (237, (s "p70hat" # gain 0.2598)), (249, (s "p70hat" # gain 0.2863)), (234, (s "p70hat" # gain 0.3167)), (221, (s "p70hat" # gain 0.2708)), (238, (s "p70hat" # gain 0.2345)), (247, (s "p70hat" # gain 0.2708)), (244, (s "p70hat" # gain 0.3316)), (253, (s "p70hat" # gain 0.2778)), (232, (s "p70hat" # gain 0.2261)), (256, (s "p70hat" # gain 0.2963)), (236, (s "p70hat" # gain 0.3152)), (227, (s "p70hat" # gain 0.2635)), (231, (s "p70hat" # gain 0.2426)), (246, (s "p70hat" # gain 0.2523)), (237, (s "p70hat" # gain 0.2946)), (238, (s "p70hat" # gain 0.2812)), (248, (s "p70hat" # gain 0.2795)), (252, (s "p70hat" # gain 0.2795)), (238, (s "p70hat" # gain 0.3228)), (222, (s "p70hat" # gain 0.1989)), (218, (s "p70hat" # gain 0.2129)), (260, (s "p70hat" # gain 0.2386)), (244, (s "p70hat" # gain 0.3500)), (248, (s "p70hat" # gain 0.3242)), (227, (s "p70hat" # gain 0.2485)), (250, (s "p70hat" # gain 0.2708)), (253, (s "p70hat" # gain 0.3075)), (233, (s "p70hat" # gain 0.2617)), (235, (s "p70hat" # gain 0.2106)), (246, (s "p70hat" # gain 0.2445)), (249, (s "p70hat" # gain 0.2863)), (235, (s "p70hat" # gain 0.2690)), (233, (s "p70hat" # gain 0.2485)), (259, (s "p70hat" # gain 0.2846)), (238, (s "p70hat" # gain 0.2880)), (237, (s "p70hat" # gain 0.2708)), (228, (s "p70hat" # gain 0.2303)), (238, (s "p70hat" # gain 0.2406)), (243, (s "p70hat" # gain 0.2672)), (241, (s "p70hat" # gain 0.2963)), (10, (s "p70hat" # gain 0.2561))]
+
+let psrate = pF "psrate"
+
+let four80 = slow 32 $ timeCat [(8, fast 8 $ loopAt 1 $ s "p80a" # psrate 1.125), (8, fast 8 $ loopAt 1 $ s "p80b" # psrate (124/104)), (8, fast 8 $ loopAt 1 $ s "p80c" # psrate (pure ((120/104) * (2 ** (5/12))))), (8, fast 8 $ loopAt 1 $ s "p80d" # psrate (pure ((122/104) * (2 ** (-2/12)))))]
+
+setcps (104/240)
+
+d1 $ every 8 (chop 16) $ loopAt 1 $ s "p70drumA" # gain 0.72 # hpf 30 # lpf 18000 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d2 $ struct "t(5,8)" $ chop 8 $ loopAt 2 $ s "p70drumB" # gain 0.29 # hpf 650 # lpf 18000 # cut 2 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ (human70_0_2 |* gain 0.8) # hpf 1800 # lpf 18000 # pan 0.6 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d4 $ s "~ cp ~ cp" # gain 0.35 # hpf 650 # lpf 16000 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ (slow 4 $ up "2 6 9 6 2 1 -1 1 -1 2 6 9 11 9 6 2 -5 -1 2 6 7 6 2 -1 -3 1 4 7 9 7 4 1") # s "p76bass" # gain "0.62 0.45 0.58 0.47" # attack 0.003 # hold 0.025 # release 0.14 # hpf 35 # lpf 3500 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d6 $ bite 8 "0 1 3 2 4 6 5 7" $ chop 8 four80 # up 0 # gain "0.5 0.43 0.47 0.42" # attack 0.006 # hold 0.04 # release 0.18 # hpf 200 # lpf 16000 # cut 6 # ddSend "<0.08 0.08 0.08 0.2>" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.25 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d7 $ (slow 8 $ timeCat [(4, fast 4 $ slow 4 $ n "a5 fs5 e5 a5 fs5 e5 a5 fs5 a5 fs5 d5 ~ a5 ~ ~ ~ a6 fs6 e6 a6 fs6 e6 a6 fs6 a6 fs6 d6 ~ a6 ~ ~ ~"), (4, silence)]) # s "superpiano" # gain "0.65 0.5 0.56 0.48 0.61 0.5 0.55 0.45" # legato 0.95 # hpf 180 # lpf 12000 # pan 0.42 # ddSend "<0.1 0.1 0.1 0.25>" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # ddWow 0 # ddCross 1 # verbSend 0.16
+
+d8 $ (slow 8 $ timeCat [(4, silence), (4, fast 4 $ slow 2 $ up "2 ~ 2 ~ ~ ~ 1 ~ ~ ~ 6 ~ ~ ~ 2 ~ -5 ~ [-8,-5] [-6,-5] [-5,-3] ~ ~ ~ -1 1 -3 -6 -3 -1 -3 ~")]) # s "p80pluck" # gain "0.53 0.43 0.49 0.4" # attack 0.004 # hold 0.025 # release 0.27 # hpf 200 # lpf 13000 # pan 0.62 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.25 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d9 $ silence
+
+d10 $ slow (5/4) $ struct "t(5,8)" $ chop 8 $ loopAt 1 $ s "p70perc" # gain 0.24 # hpf 800 # lpf 16000 # cut 10 # pan 0.3 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d11 $ silence
+
+d12 $ silence
