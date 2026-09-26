@@ -1,0 +1,44 @@
+-- 116: DANCE TRACK FROM THE BROKEN BEAT. 128 BPM.
+--
+-- FOUNDATION
+--   d2 kick   k808L on struct t(3,8) - hits on 1, 2-and, 4
+--   d5 bass   p76bass (fingered), driving 8th-note pattern in D via speed ratios
+--             alternating between D and A / F# / G / C# per bar. NOTE: pitch via `speed`,
+--             not `up` - `up` does not reach SuperDirt for plain samples.
+--
+-- BEAT (chopped loops)
+--   d2/d3/d4 come from p94brkA and p93drumB sliced hard; d10 p93perc with chop bursts.
+--
+-- MELODY
+--   d7  supermandolin - melodic line in D, octave-up pops 20%
+--   d11 cp4/cb4 plucked+bowed strings, 2-bar phrase in speed ratios
+--   d8  stock SuperDirt pluck:0 accents
+--
+-- OUT: d6 vocal chops (listener asked), d9 chords, d1, d12.
+-- Needs sc/samples115.scd (strings), sc/samples111.scd (vocals), sc/samples110.scd (808).
+
+setcps (128/240)
+
+d1 $ silence
+
+d2 $ struct "t(3,8)" $ s "k808L" # gain "1.0 0.88 0.95" # hpf 38 # lpf 7000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ sometimesBy 0.3 (chop 16) $ slice 8 "<0 3 6 1 5 2 7 4> <2 5 0 7 3 6 1 4>" $ loopAt 1 $ s "p93drumB" # gain ("0.5 0 0.62 0 0.44 0 0 0.56" * slow 32 "<0.6 0.8 1 1>") # hpf 300 # lpf 13000 # pan 0.45 # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.26 # ddWow 0 # ddCross 1 # verbSend 0.14
+
+d4 $ sometimesBy 0.25 (striate 2) $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.34 0.26 0.3 0.28" # hpf 2400 # lpf 18000 # pan (slow 24 $ range 0.4 0.75 sine) # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ s "p76bass" # speed "<[1.1225 ~ 1.1225 ~ 1.1225 ~ 1.6818] [1.1225 ~ 1.1225 ~ 1.1225 ~ 1.4142] [1.1225 ~ 1.1225 ~ 1.4983 ~ 1.1225] [1.1225 ~ 1.1225 ~ 1.1225 ~ 1.0595]>" # gain "0.9 0.72 0.84 0.7" # attack 0.003 # hold 0.035 # release 0.16 # hpf 40 # lpf 3000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d6 $ silence
+
+d7 $ sometimesBy 0.2 (|+ note 12) $ n "d5 ~ fs5 a5 ~ g5 fs5 e5 ~ d5 ~ fs5 a5 ~ b5 a5 ~" # s "supermandolin" # gain ("0.62 0.46 0.56 0.44" * slow 32 "<0.6 0.8 1 1>") # legato 0.6 # attack 0.004 # hold 0.04 # release 0.4 # hpf 320 # lpf 9500 # pan 0.42 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 1 # verbSend 0.2
+
+d8 $ sometimesBy 0.3 (|+ speed 0.5) $ s "pluck:0" # speed "<[1 1.1225 1.2599] [1.4142 1.4983 1.6818]>" # gain "0.4 0 0.32 0 0.38 0 0 0" # hpf 500 # lpf 11000 # pan "<0.3 0.7>" # cut 4 # ddSend 0.14 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.3 # ddWow 0 # ddCross 1 # verbSend 0.2
+
+d9 $ silence
+
+d10 $ every 11 (hurry 2) $ sometimesBy 0.25 (chop 12) $ slice 8 "<0 1 2 3 4 5 6 7> <0 4 2 6 1 5 3 7>" $ loopAt 1 $ s "p93perc" # gain ("0.4 0 0 0.32 0 0 0.36 0" * slow 32 "<0.5 0.75 1 1>") # hpf 700 # lpf 15000 # pan (slow 32 $ range 0.25 0.75 sine) # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d11 $ s "<cp4 cp4 cp4 cb4>" # speed "<[1.1225 ~ 1.2599 1.4142 ~ 1.6818 ~ 1.4983] [1.4142 ~ 1.2599 ~ 1.1225 ~ ~ ~]>" # gain "0.78 0 0.66 0.72 0 0.6 0 0.64" # attack 0.002 # hold 0.03 # release 0.5 # hpf 260 # lpf 9000 # pan "<0.55 0.4 0.62 0.45>" # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.36 # ddWow 0 # ddCross 1 # verbSend 0.24
+
+d12 $ silence
