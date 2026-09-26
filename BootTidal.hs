@@ -69,6 +69,13 @@ let detune = pF "detune"
 let fmix = pF "fmix"
 let wavemix = pF "wavemix"
 
+-- sweetChords
+let fmIndex = pF "fmIndex"
+let ratio = pF "ratio"
+let drive = pF "drive"
+let sub = pF "sub"
+let width = pF "width"
+
 -- master_inert
 let mGain = pF "mGain"
 let mGlue = pF "mGlue"

@@ -19,6 +19,8 @@ dirt_monitor	limitertype:i
 
 instrument	cutoff fenv res drive sub spread attack pitchEnv detune fmix wavemix
 
+sweetChords	fmIndex:f ratio:f drive:f sub:f width:f
+
 # Inert: declared so patterns referencing them still compile, but they do NOT
 # reach the master chain (that bridge was removed — master is set in
 # sc/dub_master.scd). Kept for compatibility with older chunks/state files.
