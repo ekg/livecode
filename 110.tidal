@@ -1,0 +1,52 @@
+-- 110: WILD RHYTHM + ROTATING MELODY SET.
+--
+-- RHYTHM (each layer on a different cycle length so they drift against each other):
+--   d1  perc   every 5 (fast 2) + striate 2, struct t(5,16)
+--   d2  kick   every 8 (fast 2) + octave pops 25%, struct rotating t(4,8) t(4,8) t(3,8) t(5,8)
+--   d3  snare  every 4 (fast 2) rolls + speed 1.4 pitch pops 20%
+--   d4  hats   every 3 (fast 2) + striate 3 stutter bursts 30%, pan rotating 4 ways
+--   d10 perc   slow (5/4) POLYRHYTHM + chop 12 bursts 25%, struct t(7,16)
+--
+-- MELODY (d11): a 4-song set stretched over 32 bars with slow 32, so it unfolds
+-- instead of machine-gunning. Lines, all transposed to D:
+--   Pet Shop Boys "It's a Sin" | New Order "Crystal" | Portishead "Glory Box"
+--   Radiohead "Everything In Its Right Place"
+--
+-- CHORDS (d9): Daft Punk "Something About Us" progression in D, jux rev, sweeps.
+-- d5 bass, d6 arp, d7, d8 and d12 are silent.
+-- NOTE: sosBell is loud per note - keep its amp/gain modest or it overwhelms.
+-- Parent 109.tidal. Needs sc/samples94.scd, sosBell, sc/chords.scd.
+
+let psrate = pF "psrate"
+
+let prog107 = slow 8 $ n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>"
+
+let lpvMel = loopAt 1 $ s "p93arp"
+
+let air109 = slow 32 $ n "d6 f6 d5 a5 d6 e6 d5 f5 a5 d6 d5 a5 d6 e6 d5 g5 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cs6 ~ fs5 ~ a5 ~ cs6 ~ b5 ~ fs5 ~ a5 ~ cs6 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ c5 ~ f5 ~ f4 ~ ds4 ~ as4 ~ ds5 ~ ds4 ~ d4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ [f4,a4,d5] ~ ~ ~ a4 ~ d5 ~ as4 ~ [a4,d5] ~ d4 ~ [d4,fs4,d5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+
+setcps (104/240)
+
+d1 $ every 5 (fast 2) $ sometimesBy 0.3 (striate 2) $ struct "t(5,16)" $ loopAt 1 $ s "p93perc" # gain "0.32 0 0 0.26 0 0 0.28 0" # hpf 800 # lpf 15000 # cut 8 # pan "<0.25 0.7 0.45 0.6>" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.26 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d2 $ every 8 (fast 2) $ sometimesBy 0.25 (|+ up 7) $ struct "<t(4,8) t(4,8) t(3,8) t(5,8)>" $ s "p70kick" # gain "0.95 0.8" # hpf 50 # lpf 6500 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ every 4 (fast 2) $ sometimesBy 0.2 (|+ speed 1.4) $ s "~ ~ ~ ~ p70snare ~ ~ ~ ~ ~ ~ ~ p70snare ~ ~ ~" # gain "0.8 0.7" # hpf 260 # lpf 12000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.05
+
+d4 $ sometimesBy 0.3 (striate 3) $ every 3 (fast 2) $ s "p70hat*8" # gain "0.45 0.3 0.4 0.28 0.44 0.3 0.4 0.32" # hpf 1800 # lpf 18000 # pan "<0.62 0.5 0.7 0.45>" # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ silence
+
+d6 $ silence
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ jux rev $ prog107 # s "sweetChords" # amp 0.75 # cutoff (slow 16 $ range 3600 7500 sine) # release 1.7 # detune "<0.01 0.01 0.015 0.007>" # fmIndex "<1.2 1.2 1.7 0.9>" # drive 1.4 # gain ("0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6" * slow 8 "<0.4 1 1 1 1 1 1 1>") # pan 0.42 # hpf 240 # lpf 11500 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.24
+
+d10 $ slow (5/4) $ sometimesBy 0.25 (chop 12) $ struct "t(7,16)" $ loopAt 1 $ s "p93perc" # gain "0.5 0 0 0.42 0 0 0.46 0" # hpf 700 # lpf 16000 # cut 8 # pan "0.3 0.7" # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d11 $ off 0.25 (|* gain 0.35) $ air109 # s "sosBell" # amp 0.6 # rel 3.6 # gain "0.5 0.38 0.44 0.34" # pan 0.68 # hpf 560 # lpf 11000 # ddSend 0.14 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.3 # ddWow 0 # ddCross 1 # verbSend 0.26
+
+d12 $ silence

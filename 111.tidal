@@ -1,0 +1,46 @@
+-- 111: NEW TEMPO, NEW DRUMS, NEW SYNTH.
+--
+-- 128 BPM (was 104). All drums swapped from the h2ogm acoustic kit to the h2o808 kit:
+--   d2 k808L kick, struct t(3,8)
+--   d3 s808a snare on 2 and 4 with c808 clap
+--   d4 h808C closed hats on offbeats
+--   d10 t808H/t808M/t808Lo/cb808 rotating toms and cowbell, struct t(5,16)
+--   d1 and d10's old perc layers gone - the break and ghatam are out.
+--
+-- MELODY (d11): four-song set (Pet Shop Boys "It's a Sin", New Order "Crystal",
+-- Portishead "Glory Box", Radiohead "Everything In Its Right Place"), all transposed
+-- to D, stretched with slow 32. Now on MiPlaits (engine 11 = string) via sc/mi.scd,
+-- NOT the bell - the bell is gone entirely.
+--
+-- d9 chords are OFF. d5 bass, d6, d7, d8, d12 silent.
+-- Needs sc/samples110.scd (808 kit), sc/mi.scd (Plaits lead), sc/chords.scd.
+
+let prog107 = slow 8 $ n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>"
+
+let blend111 = slow 32 $ n "d6 f6 d5 a5 d6 e6 d5 f5 a5 d6 d5 a5 d6 e6 d5 g5 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cs6 ~ fs5 ~ a5 ~ cs6 ~ b5 ~ fs5 ~ a5 ~ cs6 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ c5 ~ f5 ~ f4 ~ ds4 ~ as4 ~ ds5 ~ ds4 ~ d4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ [f4,a4,d5] ~ ~ ~ a4 ~ d5 ~ as4 ~ [a4,d5] ~ d4 ~ [d4,fs4,d5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+
+setcps (128/240)
+
+d1 $ silence
+
+d2 $ struct "t(3,8)" $ s "k808L" # gain "1.0 0.85 0.92" # hpf 40 # lpf 7000 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "~ ~ ~ ~ s808a ~ ~ ~ ~ ~ ~ ~ c808 ~ ~ ~" # gain "0.85 0.7" # hpf 300 # lpf 13000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.05
+
+d4 $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.44 0.34 0.4 0.36" # hpf 2200 # lpf 18000 # pan "<0.62 0.5 0.7 0.45>" # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d5 $ silence
+
+d6 $ silence
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ struct "t(5,16)" $ s "<t808H t808M t808Lo cb808>" # gain 0.4 # hpf 700 # lpf 14000 # pan "0.3 0.7" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d11 $ off 0.25 (|* gain 0.35) $ blend111 # s "miLead" # amp 0.5 # engine 11 # harm 0.4 # timbre 0.5 # morph 0.5 # cutoff 9000 # release 0.5 # gain "0.62 0.48 0.56 0.44" # pan 0.65 # hpf 300 # lpf 11000 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.32 # ddWow 0 # ddCross 1 # verbSend 0.2
+
+d12 $ silence

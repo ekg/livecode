@@ -69,6 +69,14 @@ let detune = pF "detune"
 let fmix = pF "fmix"
 let wavemix = pF "wavemix"
 
+-- miLead
+let engine = pI "engine"
+let harm = pF "harm"
+let timbre = pF "timbre"
+let morph = pF "morph"
+let level = pF "level"
+let lpgColour = pF "lpgColour"
+
 -- sweetChords
 let fmIndex = pF "fmIndex"
 let ratio = pF "ratio"

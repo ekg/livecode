@@ -9,6 +9,7 @@
 	['dirt_tape', [\tape, \tapeWow, \tapeHf, \tapeHiss]],
 	['dirt_monitor', [\limitertype]],
 	['instrument', [\cutoff, \fenv, \res, \drive, \sub, \spread, \attack, \pitchEnv, \detune, \fmix, \wavemix]],
+	['miLead', [\engine, \harm, \timbre, \morph, \level, \lpgColour]],
 	['sweetChords', [\fmIndex, \ratio, \drive, \sub, \width]],
 	['master_inert', [\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth]],
 ];
