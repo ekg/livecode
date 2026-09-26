@@ -1,0 +1,31 @@
+-- 108: CLEAN STRAIGHT DRUMS + DAFT PUNK CHORDS, BASS OUT.
+-- d2 clean four-on-the-floor kick, d4 offbeat hats, d3 snare on 2 and 4.
+-- Replaced the euclidean density rotation, the striate perc layer and the speed-1.4
+-- ghatam pitch-shift - those were the "weird little synth" sounds.
+-- d9 is the Daft Punk "Something About Us" progression (8 chords, C->D), one per bar,
+-- with a flat gain so every bar sounds (a scalar-times-gate gain was thinning it out).
+-- d5 bass out. Parent 107.tidal. Needs sc/samples94.scd, sosBell, sc/chords.scd.
+
+let prog107 = slow 8 $ n "<[g4,b4,e5] [a4,b4,d5] [b4,d5,fs5] [a4,cs5,e5] [g4,b4,e5] [a4,b4,ds5] [b4,e5,a5] [b4,e5,g5]>"
+
+let sd102 = slow 16 $ up "14 ~ ~ ~ 18 ~ ~ ~ 21 ~ ~ 26 ~ ~ ~ ~ 11 ~ 11 ~ 14 13 14 ~ 18 17 18 23 ~ ~ ~ ~ 10 ~ 10 ~ 14 ~ 14 ~ 17 16 17 ~ 22 ~ ~ 21 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 14 ~ ~ ~ 18 ~ ~ ~ 21 ~ ~ 26 ~ ~ ~ ~ 11 ~ 11 ~ 14 13 14 ~ 18 17 18 23 ~ ~ ~ ~ 10 ~ 10 ~ 14 ~ 14 ~ 17 16 17 ~ 22 ~ ~ 21 ~ ~ ~ 21 18 21 ~ ~"
+let tffTheme = slow 16 $ n "~ ~ ~ ~ ~ ~ d5 ~ cs4 ~ e4 ~ a4 ~ b3 ~ [e3,a3,d4,g4,b4,e5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ [d4,g4,b4] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ [d4,g4,b4] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ [d4,g4,b4] ~ ~ ~ ~ ~ ~ ~ [d4,a4,cs5] ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+let air103 = slow 4 $ n "c5 c5 fs4 a3 d3 ~ g4 e4 c4 e4 g4 d4 d4 ~ fs3 d4 d4 d3 a4 fs4 b4 ~ a4 d4 e4 b3 a4 b4 b4 ~ c5 d5 d5 ~ fs5 d5 b4 ~ a4 d4 e4 b3 fs4 d4 g3 b3 fs3 d4 d4 d3 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+let lpvPerc = loopAt 1 $ s "p93perc"
+let lpvMel = loopAt 1 $ s "p93arp"
+let lpvStr = loopAt 1 $ s "p93str"
+
+setcps (104/240)
+
+d1 $ struct "t(7,16)" $ loopAt 1 $ s "p93perc" # gain ("0.3 0 0 0 0 0.24 0 0 0 0 0 0.26 0 0 0 0" * slow 8 "<0 0.4 0.7 0.9 1 1 0.8 1>") # hpf 800 # lpf 15000 # cut 8 # pan "<0.25 0.7 0.45 0.6>" # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.26 # ddWow 0 # ddCross 1 # verbSend 0.12
+d2 $ s "p70kick*4" # gain "0.95 0.8 0.88 0.8" # hpf 50 # lpf 6500 # pan 0.5 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d3 $ s "~ ~ ~ ~ p70snare ~ ~ ~ ~ ~ ~ ~ p70snare ~ ~ ~" # gain "0.8 0.7" # hpf 260 # lpf 12000 # pan 0.45 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.05
+d4 $ s "~ p70hat ~ p70hat ~ p70hat ~ p70hat" # gain "0.42 0.34 0.4 0.36" # hpf 1800 # lpf 18000 # pan 0.62 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+d5 $ silence
+d6 $ jux (# pan 0.75) $ lpvMel # gain ("0 0 0.82 0 0.68 0 0 0.76 0 0 0.64 0 0 0.8 0 0" * slow 8 "<0 0 0.55 0.85 1 1 1 1>") # attack 0.006 # hold 0.05 # release 0.24 # hpf 250 # lpf (slow 32 $ range 6000 14000 sine) # cut 6 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # ddWow 0 # ddCross 1 # verbSend 0.18
+d7 $ silence
+d8 $ silence
+d9 $ jux rev $ prog107 # s "sweetChords" # amp 0.63 # cutoff (slow 16 $ range 3200 7000 sine) # release 1.6 # detune "<0.01 0.01 0.015 0.007>" # fmIndex "<1.2 1.2 1.7 0.9>" # drive 1.4 # gain "0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5" # pan 0.42 # hpf 240 # lpf 11000 # ddSend 0.14 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 1 # verbSend 0.22
+d10 $ every 11 (hurry 2) $ struct "t(5,16)" $ loopAt 1 $ s "p93perc" # gain ("0.5 0 0 0 0 0.42 0 0 0 0 0 0.46 0 0 0 0" * slow 8 "<0 0 0 0 1 1 1 1>") # hpf 700 # lpf 16000 # cut 8 # pan "<0.3 0.7 0.5 0.65>" # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.12
+d11 $ off 0.25 (|* gain 0.4) $ air103 # s "sosBell" # amp 0.55 # rel 2.6 # gain ("0.5 0 0 0 0.42 0 0 0 0.46 0 0 0 0.38 0 0 0" * slow 8 "<0 0 0 0.5 0.8 1 1 1>") # pan 0.7 # hpf 600 # lpf 11000 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.34 # ddWow 0 # ddCross 1 # verbSend 0.3
+d12 $ silence
