@@ -1,0 +1,30 @@
+-- 73: OPEN WINDOWS / LOOP PLAYGROUND. Listener-approved live state.
+-- LPViz loops foregrounded; no sustained synth lead, bass synth or voice collage.
+-- Recall sc/samples70.scd, then sc/groove71.scd; evaluate these statements.
+-- Exact direct-eval performance, not a generated suite. 99 BPM.
+
+setcps (99/240)
+
+d1 $ every 8 (chop 8) $ loopAt 1 $ s "p70drumA" # gain 0.73 # lpf 18000 # hpf 30 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+d2 $ every 4 rev $ struct "<t(5,8) t(7,8) t(3,8) t(5,8,2)>" $ chop 8 $ loopAt 2 $ s "p70drumB" # gain 0.41 # hpf 500 # lpf 18000 # cut 2 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0
+
+d3 $ s "icshaker(7,16)" # n "<0 1 4 2>" # gain "0.22 0.3 0.19 0.34" # pan 0.62 # lpf 18000 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d4 $ silence
+
+d5 $ silence
+
+d6 $ loopAt 2 $ s "<p70synthA p70synthA p70synthB p70synthB>" # gain 0.64 # hpf 100 # lpf 18000 # cut 6 # ddSend 0.08 # delaySend 1 # delayfeedback 0.2 # ddWow 0 # ddCross 1 # verbSend 0.1
+
+d7 $ silence
+
+d8 $ every 4 rev $ struct "<t f t f f t f f>" $ chop 8 $ loopAt 2 $ s "p70synthB" # gain 0.39 # hpf 500 # lpf 14000 # cut 8 # pan 0.65 # ddSend 0.1 # delaySend 1 # delayfeedback 0.2 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d9 $ silence
+
+d10 $ slow (5/4) $ struct "t(5,8)" $ chop 8 $ loopAt 1 $ s "p70perc" # gain 0.28 # hpf 800 # lpf 16000 # cut 10 # pan 0.3 # ddSend 0 # delaySend 0 # delayfeedback 0
+
+d11 $ silence
+
+d12 $ silence
