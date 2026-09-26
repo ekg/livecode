@@ -1,10 +1,11 @@
-# Current jam state — PLAYING / RECORDING
+# Current jam state — PAUSED / RECORDING STOPPED
 
-**Live scene: `82.tidal` (LET THE NEW ONE RIDE), 104 BPM, D major.**
-Restored after another scsynth exit. Recording: `recordings/jam-20260926-1258.wav`.
-Fresh check confirmed 70 incoming events in roughly three seconds and stereo
-hardware-output envelopes of 0.0522 / 0.0578. Mixer: `sc/groove71.scd`.
-`83.tidal` is an undelivered piano-rewrite draft, NOT the restored live scene.
+**Saved scene: `82.tidal` (LET THE NEW ONE RIDE), 104 BPM, D major.**
+Hushed and recording stopped at the listener's request. Mixer: `sc/groove71.scd`.
+Finalized take: `recordings/jam-20260926-1258.wav` plus FLAC and markers.
+Verified FLAC: 240.085333 seconds (4:00.085), 34,895,425 bytes.
+Before hush, this was the restored 82 scene; hardware output had been verified.
+`83.tidal` is an undelivered piano-rewrite draft, NOT the last played scene.
 Do not automatically restart playback merely by reading this file.
 
 Direction: let the newer drum/melodic loops ride; do not cycle back to the older,
@@ -35,7 +36,7 @@ if starting the new phrases together is desired; hush does not freeze the clock.
 | 78 | **Approved “CHOICE”**: ringing melody and periodic delay throws | best C-minor full-groove return point |
 | 80 | Four-loop D-major chain; Kate Bush/Daft Punk call-and-response | previous key-lift scene |
 | 81 | Chopped rotating drum bed plus 3/5/7-bar Rhodes/body-percussion/mandolin parts | saved growth stage |
-| 82 | Hold newer drum B and melodic source D; no return to played-out loops | **current live performance** |
+| 82 | Hold newer drum B and melodic source D; no return to played-out loops | **last played / paused recall point** |
 | 83 | Eleven-bar broken-piano rewrite, saved after failed dispatch | **unperformed draft**, audition separately |
 
 The base mixer for these recent states is `sc/groove71.scd`: drum group 1.25,
