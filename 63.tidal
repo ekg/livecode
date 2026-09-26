@@ -1,0 +1,15 @@
+-- Synth palette audition: same C-minor phrase, a different loaded synth each bar.
+
+hush
+
+setcps (100/240)
+
+-- Steady kick; conservative levels while validating synth control.
+
+d1 $ s "bd(4,4)" # gain 0.65
+
+-- Piano -> vibraphone -> physical-model mandolin -> FM; repeats every four bars.
+
+d2 $ n "0 3 7 10" # s "<superpiano supervibe supermandolin superfm>" # gain 0.5 # legato 0.5
+
+d3 $ silence
