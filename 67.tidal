@@ -1,0 +1,30 @@
+-- 67: IMPOSSIBLE ARCADE. 102 BPM with double-time illusion; standalone scene.
+-- Aerodynamic arpeggios transposed +3 semitones: Dm / Bdim / Gm / C.
+-- Britneylike minor piano answers, elastic FM, melodic chip cascades, drum edits.
+-- Intensity comes from rhythm, register and counterpoint, NOT master gain.
+
+setcps (102/240)
+
+d1 $ every 8 (stut 2 0.3 (1/16)) $ s "bd ~ ~ bd bd ~ ~ ~ bd ~ bd ~ bd ~ ~ [bd bd]" # gain 0.76
+
+d2 $ every 4 (stut 3 0.35 (1/32)) $ s "~ sn ~ sn" # gain 0.56 # hpf 240 # ddSend 0.12 # lock 1 # delaytime (3/16) # delayfeedback 0.45
+
+d3 $ every 4 rev $ s "hh(13,16)" # gain "0.28 0.42 0.24 0.35" # pan (slow 2 $ range 0.18 0.82 sine) # hpf 2600
+
+d4 $ every 8 (fast 2) $ s "cp(5,16)" # gain 0.33 # hpf 1500 # ddSend 0.3 # lock 1 # delaytime (5/16) # delayfeedback 0.53
+
+d5 $ n "<[d3 ~ d4 d3 ~ a3 ~ c4] [b2 ~ b3 b2 ~ f3 ~ a3] [g2 ~ g3 g2 ~ d3 ~ f3] [c3 ~ c4 c3 ~ g3 ~ as3]>" # s "dubsub" # gain 0.65 # legato 0.24 # lpf 850
+
+d6 $ n "<[d4,f4,a4,c5,e5] [b3,d4,f4,a4] [d4,f4,a4,as4] [e4,g4,as4,d5]>" # s "dubchord" # gain 0.47 # legato 0.34 # lpf (slow 8 $ range 900 2900 sine) # res 0.3 # ddSend 0.3 # lock 1 # delaytime (3/16) # delayfeedback 0.52 # ddLp 2100
+
+d7 $ every 8 (fast 2) $ every 4 rev $ n "<[f5 a4 d5 a4]*4 [f5 b4 d5 b4]*4 [as5 d5 g5 d5]*4 [g5 c5 e5 c5]*4>" # s "superchip" # gain 0.43 # legato 0.45 # lpf (slow 8 $ range 2300 5800 sine) # hpf 300 # pan (slow 4 $ range 0.25 0.75 sine) # ddSend 0.18 # lock 1 # delaytime (3/16) # delayfeedback 0.5
+
+d8 $ every 4 rev $ n "<[~ d5 f5 a5 ~ d6 a5 f5] [~ b4 d5 f5 ~ b5 f5 d5] [~ g4 as4 d5 ~ g5 d5 as4] [~ c5 e5 g5 ~ c6 g5 e5]>" # s "superpiano" # gain 0.52 # legato 0.5 # hpf 400 # lpf 3800 # pan 0.68 # ddSend 0.2 # lock 1 # delaytime (5/16) # delayfeedback 0.46
+
+d9 $ every 4 (stut 3 0.4 (1/16)) $ n "<[~ a5 ~ e6] [~ f5 ~ a5] [~ d5 ~ a5] [~ g5 ~ d6]>" # s "superfm" # gain 0.36 # legato 0.2 # lpf (slow 4 $ range 1200 4400 sine) # hpf 750 # pan 0.25 # ddSend 0.33 # lock 1 # delaytime (7/16) # delayfeedback 0.55 # ddLp 2400
+
+d10 $ n "<[f4,a4,c5] [d4,f4,a4] [f4,a4,as4] [e4,g4,as4]>" # s "supersaw" # gain 0.3 # legato 0.8 # lpf 1900 # verbSend 0.2 # verbHp 650
+
+d11 $ every 4 (fast 2) $ s "clak(7,16)" # gain 0.27 # pan "0.2 0.8" # hpf 1800 # ddSend 0.33 # lock 1 # delaytime (3/16) # delayfeedback 0.48
+
+d12 $ n "~ ~ ~ <d6 b5 g5 c6>" # s "supervibe" # gain 0.33 # legato 0.5 # hpf 700 # lpf 4200 # ddSend 0.35 # lock 1 # delaytime (5/16) # delayfeedback 0.5 # verbSend 0.18

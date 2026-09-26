@@ -1,0 +1,29 @@
+-- 65: GLASS ATRIUM. Melodic 102-BPM vapor-soul; standalone scene.
+-- Something About Us voicings and response motif meet Everytime's arpeggio,
+-- re-harmonised around Bbmaj9 / A7sus / Dm9 / G9. See sc/scenes65-68.md.
+
+setcps (102/240)
+
+d1 $ s "bd ~ ~ ~ bd ~ ~ bd bd ~ ~ ~ bd ~ ~ ~" # gain 0.78
+
+d2 $ s "~ sn ~ sn" # gain 0.55 # hpf 200 # ddSend 0.08 # lock 1 # delaytime (3/16) # delayfeedback 0.35
+
+d3 $ s "hh*8" # gain "0.25 0.38 0.28 0.36" # hpf 1800 # pan "0.35 0.65"
+
+d4 $ s "~ ~ clak ~ ~ clak ~ ~" # gain 0.35 # hpf 900 # ddSend 0.24 # lock 1 # delaytime (3/16) # delayfeedback 0.45
+
+d5 $ n "<[as2 ~ as3 ~ f3 ~ a2 ~] [a2 ~ a3 ~ e3 ~ c3 ~] [d3 ~ d4 ~ a3 ~ c3 ~] [g2 ~ g3 ~ d3 ~ f3 ~]>" # s "dubsub" # gain 0.64 # legato 0.38 # lpf 650
+
+d6 $ n "<[as3,f4,a4,c5,d5] [a3,e4,g4,c5,d5] [d4,f4,a4,c5,e5] [g3,d4,f4,a4,b4]>" # s "superpiano" # gain 0.59 # legato 1.25 # lpf 3800 # verbSend 0.16 # verbHp 500 # verbT60 4
+
+d7 $ slow 2 $ n "d5 ~ ~ f5 ~ ~ d5 ~ ~ ~ f5 ~ a4 c5 ~ ~ d5 ~ ~ f5 ~ ~ d5 ~ ~ ~ f5 ~ ~ g5 ~ ~" # s "supervibe" # gain 0.7 # legato 0.85 # lpf 4400 # ddSend 0.2 # lock 1 # delaytime (3/16) # delayfeedback 0.45 # pan (slow 8 $ range 0.35 0.65 sine)
+
+d8 $ slow 2 $ n "~ ~ ~ ~ d5 f5 a5 f5 ~ ~ d6 a5 f5 a5 ~ ~" # s "superpiano" # gain 0.49 # legato 0.7 # lpf 3200 # ddSend 0.25 # lock 1 # delaytime (5/16) # delayfeedback 0.43 # pan 0.65
+
+d9 $ n "~ ~ <a5 c6> ~" # s "supermandolin" # gain 0.34 # legato 0.3 # hpf 700 # ddSend 0.3 # lock 1 # delaytime (7/16) # delayfeedback 0.5 # lpf 2800
+
+d10 $ n "<[f4,a4,c5] [e4,g4,c5] [f4,a4,c5] [f4,a4,b4]>" # s "supersaw" # gain 0.32 # legato 1.1 # lpf (slow 16 $ range 700 1300 sine) # verbSend 0.22 # verbHp 600
+
+d11 $ silence
+
+d12 $ silence
