@@ -1,30 +1,41 @@
-// dubsynth: a voice designed to be stacked into chords.
+// dubsynth: dubchord's voice, made flexible.
 //
-// Why this exists: playing chord tokens like [g3,b3,d4] on `dubchord` spawns one synth
-// per note, and each of those is already a detuned chord-ish voice - so the instances
-// beat against each other and it sounds thin/phasey. This voice is instead a pair of
-// softly detuned saws plus a sub per note, so stacking three of them blends into a real
-// chord instead of fighting itself. One synth per note is then the CORRECT way to use it.
+// Identical architecture to `dubchord` (sc/dub_fx.scd) - detuned saw stack [0.5, 1-d, 1, 1+d]
+// through RLPF with a percussive filter envelope, tanh drive, plus a sine sub - but every
+// musical character is now a controllable parameter:
 //
-// Same safety rules as sweetChords / miLead: bounded sustain-driven envelope,
-// doneAction 2, writes to the orbit's `out`, pans with DirtPan.
+//   waveMix  how much of the fundamental-frequency saw pair is audible (0 = pure sine sub
+//            tone, 1 = full saw stack). This is the key knob: low values are warm and round
+//            (safe to stack into chords), high values are bright and aggressive (use single
+//            notes). The 0.5x sub-octave saw is ALWAYS present at `subMix` level.
+//   detune   detune of the +/- pair. dubchord default 0.14; go lower (0.04-0.08) when
+//            stacking chords so instances blend instead of beating against each other.
+//   spread   stereo width of the detuned pair (passed to Splay when n > 1).
+//   cutoff / fenv / res / drive / subTone / attack   as in dubchord.
+//   NOTE: the sine-sub level is `subTone`, not `sub` - `sub` is a SuperDirt unit
+//   control and arrives as nil, which crashes the SynthDef build.
+//
+// Same safety rules: bounded sustain-driven envelope, doneAction 2, orbit `out`, DirtPan.
 (
 SynthDef(\dubsynth, { |out = 0, freq = 220, sustain = 1, pan = 0, amp = 0.5,
-    detune = 0.06, cutoff = 2200, fenv = 2.4, res = 0.3, drive = 0.2,
-    sub = 0.25, spread = 0.7, attack = 0.06, speed = 1, accelerate = 0|
+    detune = 0.14, waveMix = 0.5, subMix = 0.35, subTone = 0.25, spread = 0.7,
+    cutoff = 700, fenv = 3.2, res = 0.35, drive = 0.35,
+    attack = 0.004, speed = 1, accelerate = 0|
 
-    var env = EnvGen.kr(Env.linen(attack, sustain * 0.7, sustain * 1.6, 1, -3), doneAction: 2);
-    var f   = freq * DirtFreqScale.kr(speed, accelerate, sustain);
-    var fmod = EnvGen.kr(Env.perc(0.004, 0.5), levelScale: fenv);
-    var a   = Saw.ar(f * (1 - detune));
-    var b   = Saw.ar(f * (1 + detune));
-    var c   = SinOsc.ar(f * 0.5) * sub;
-    var sig = RLPF.ar((a + b + c), cutoff * (1 + fmod), res);
-    sig = (sig * (1 + (drive * 3))).tanh;
+    var n    = ~dirt.numChannels;
+    var env  = EnvGen.kr(Env.linen(attack, sustain * 0.65, sustain * 2.4, 1, -3), doneAction: 2);
+    var fmod = EnvGen.kr(Env.perc(0.002, 0.28), levelScale: fenv);
+    var base = freq * DirtFreqScale.kr(speed, accelerate, sustain);
+    var saws = Saw.ar(base * [0.5, 1 - detune, 1, 1 + detune]) * [subMix, waveMix * 0.7, waveMix, waveMix * 0.7];
+    var subO = SinOsc.ar(base * 0.5) * subTone;
+    var sig  = (saws.sum + subO);
+    sig = RLPF.ar(sig, (cutoff * (1 + fmod)).clip(40, 17000), res.clip(0.05, 0.95));
+    sig = (sig * (1 + (drive * 4))).tanh * 0.4;
     sig = sig * env * amp;
-    Out.ar(out, DirtPan.ar(sig, ~dirt.numChannels, pan));
+    sig = if(n == 1) { sig.asArray.sum } { Splay.ar(sig.asArray, spread) };
+    Out.ar(out, DirtPan.ar(sig, n, pan));
 }).add;
 
-~dirt.soundLibrary.addSynth(\dubsynth, (instrument: \dubsynth, attack: 0.06, amp: 0.5));
-"sc/dubsynth.scd loaded: dubsynth registered (chord-stacking voice)".postln;
+~dirt.soundLibrary.addSynth(\dubsynth, (instrument: \dubsynth, amp: 0.5, cutoff: 700));
+"sc/dubsynth.scd loaded: dubsynth = dubchord with waveMix/subMix/spread controls".postln;
 )

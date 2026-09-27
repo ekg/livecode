@@ -19,6 +19,7 @@ dirt_monitor	limitertype:i
 
 instrument	cutoff fenv res drive sub spread attack pitchEnv detune fmix wavemix
 
+dubsynth	waveMix:f subMix:f spread:f
 miLead	engine:i harm:f timbre:f morph:f level:f lpgColour:f
 sweetChords	fmIndex:f ratio:f drive:f sub:f width:f
 

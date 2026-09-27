@@ -69,6 +69,11 @@ let detune = pF "detune"
 let fmix = pF "fmix"
 let wavemix = pF "wavemix"
 
+-- dubsynth
+let waveMix = pF "waveMix"
+let subMix = pF "subMix"
+let spread = pF "spread"
+
 -- miLead
 let engine = pI "engine"
 let harm = pF "harm"
