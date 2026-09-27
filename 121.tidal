@@ -42,12 +42,12 @@ d6 $ sometimesBy 0.2 (fast 3) $ degradeBy 0.25 $ s "cp(5,8)" # gain 0.26 # hpf 9
 
 d7 $ silence
 
-d8 $ degradeBy 0.4 $ s "mars*8" # n (quantise 1 (perlin * 4374)) # gain "0.18 0.14 0.16 0.15" # hpf 120 # lpf 13000 # pan (perlin * 0.5 + 0.25) # ddSend 0.15 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.8 # verbSend 0.15
+d8 $ degradeBy 0.35 $ s "mars*8" # n (sometimesBy 0.25 (fast 6) $ quantise 1 (fast 3 $ perlin * 4374)) # speed (perlin * 0.3 + 0.85) # gain "0.18 0.14 0.16 0.15" # hpf 120 # lpf 13000 # pan (perlin * 0.5 + 0.25) # ddSend 0.15 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.8 # verbSend 0.15
 
 d9 $ sometimesBy 0.12 (|+ n 2) $ every 9 (|+ n 1) $ s "<[mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars ~ mars] [mars mars mars mars ~ mars] [mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars mars mars] [mars ~ ~ ~ ~ ~]>" # n 16 # speed "<[1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.2599 ~ 1.4142 1.4983 ~ 1.4983] [1.4983 1.6818 1.4983 1.4142 ~ 1.1225] [1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.4983 ~ 1.2599 1.2599 1.1225 0.9439] [0.8409 ~ ~ ~ ~ ~]>" # gain "0.5 0.4 0.46 0.42" # attack 0.005 # hold 0.08 # release 0.3 # hpf 200 # lpf 9000 # pan 0.45 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.24
 
 d10 $ silence
 
-d11 $ n "<[a3,c4,e4] [a3,c4,e4] [e3,g3,b3] [d3,fs3,a3] [a3,c4,e4] [a3,c4,e4] [g3,b3,d4] [a3,c4,e4]>" # s "sweetChords" # amp 0.55 # fmIndex (slow 16 $ range 0.35 0.75 sine) # cutoff (slow 32 $ range 2400 4400 sine) # release 1.6 # detune 0.006 # drive 1.1 # gain 0.46 # pan 0.35 # hpf 180 # lpf 8500 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.3
+d11 $ n "<[a3,c4,e4] [a3,c4,e4] [e3,g3,b3] [d3,fs3,a3] [a3,c4,e4] [a3,c4,e4] [g3,b3,d4] [a3,c4,e4]>" # s "sweetChords" # amp 0.6 # fmIndex (slow 16 $ range 0.35 0.75 sine) # cutoff (slow 32 $ range 2400 4400 sine) # release 1.6 # detune 0.006 # drive 1.1 # gain 0.56 # pan 0.35 # hpf 180 # lpf 8500 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.3
 
 d12 $ silence
