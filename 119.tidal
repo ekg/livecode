@@ -1,0 +1,51 @@
+-- 119: ALGORAVE SHIFT. Everything from 118 eliminated except the sweetChords pad
+-- (d11, unchanged: gain 0.4). Tempo 122 -> 170 BPM. New fully algorithmic drum kit.
+--
+-- THE DRUMS (all mini-notation/param-driven, no samples of the old kit except
+-- the break):
+--   d2 kick  p70kick, density jumping per bar via "p70kick*<4 8 4 16 8 4 12 8>"
+--             (angle brackets = one value per cycle = one density per bar),
+--             fast 2 doubling every 5 bars, |* speed 1.5 pitched rip every 7,
+--             rev 12%. 73 hits in a 12 s probe.
+--   d3 break  p94brkA slice 16 with FOUR rotating orderings (identity, evens-
+--             first, reversed, diagonal), chop 12 bursts 25% (deliberate: chop
+--             on slice MULTIPLIES density - here that is the point), rev every
+--             3, gain perlin*0.3+0.5 (smooth random accents). 144 hits/12 s.
+--   d4 hats   h808C*<8 12 16 20 12 16 8 16>, iter 4 (rotating 16th offsets),
+--             pan drifting on perlin. 146 hits/12 s.
+--   d5 congas cn808(7,11) - polymetric 7-in-11 against the 16th grid, heavy
+--             5/16 dub delay.
+--   d6 clap   cp(5,8) degraded 25%, fast 3 triple-bursts 20%.
+-- Variation periods 3/5/7/11 + perlin are all coprime-ish and continuous, so
+-- nothing ever repeats in sync - the algorave promise.
+--
+-- Pad: same 8-bar F#m9..Aadd9 progression as 118, slow 2, fmIndex breathing.
+-- Mix live: drums group 1.5, open70 master, mGain 1.45. Peak measured 0.085.
+-- Requires sc/samples70.scd (p70kick) and sc/samples94.scd (p94brkA) - both
+-- auto-load at boot since the init.scd fix.
+
+setcps (170/240)
+
+d1 $ silence
+
+d2 $ every 5 (fast 2) $ every 7 (|* speed 1.5) $ sometimesBy 0.12 (rev) $ s "p70kick*<4 8 4 16 8 4 12 8>" # gain "0.8 0.62 0.72 0.66" # hpf 35 # lpf 9000 # pan 0.5 # ddSend 0 # verbSend 0.05
+
+d3 $ every 3 (rev) $ sometimesBy 0.25 (chop 12) $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0> <3 7 11 15 2 6 10 14 1 5 9 13 0 4 8 12>" $ loopAt 1 $ s "p94brkA" # gain (perlin * 0.3 + 0.5) # hpf 200 # lpf 14000 # pan 0.5 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 1 # verbSend 0.12
+
+d4 $ iter 4 $ s "h808C*<8 12 16 20 12 16 8 16>" # gain "0.32 0.24 0.28 0.26" # hpf 3500 # lpf 17000 # pan (perlin * 0.4 + 0.3) # ddSend 0 # verbSend 0
+
+d5 $ s "cn808(7,11)" # gain 0.32 # hpf 500 # lpf 9000 # pan 0.6 # ddSend 0.25 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.4 # ddWow 0 # ddCross 0.6 # verbSend 0.12
+
+d6 $ sometimesBy 0.2 (fast 3) $ degradeBy 0.25 $ s "cp(5,8)" # gain 0.26 # hpf 900 # lpf 11500 # pan 0.4 # ddSend 0.06 # verbSend 0.08
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ silence
+
+d11 $ slow 2 $ n "<[fs4,a4,cs5,e5] [e4,gs4,b4,d5] [d4,fs4,a4,cs5] [cs4,e4,gs4,b4] [a3,cs4,e4,gs4] [b3,d4,fs4,a4] [e4,gs4,b4,ds5] [a3,e4,a4,cs5]>" # s "sweetChords" # amp 0.5 # fmIndex (slow 16 $ range 0.3 0.65 sine) # cutoff (slow 32 $ range 2000 3800 sine) # release 1.8 # detune 0.006 # drive 1.1 # gain 0.4 # pan 0.35 # hpf 220 # lpf 8000 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.32
+
+d12 $ silence
