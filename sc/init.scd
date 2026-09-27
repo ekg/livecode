@@ -93,11 +93,39 @@ loadStage.("load surface", sc ++ "/surface.scd", \scLoadedSurface);
 // audio gate below supersedes it, so it is not loaded here
 stage.("load saved SC state", { ~scLoad.value });
 
+// ---- project sounds -------------------------------------------------------
+// These are neither SuperDirt stock nor part of the pi-tidal plugin, and before
+// this they were only ever present when someone loaded them by hand. Every
+// restart therefore came up with no p70*/p76bass/sh808/... sample aliases and no
+// sweetChords/miLead/dubsynth voices. Tidal kept triggering them happily and
+// SuperDirt dropped every single event, so the stack reported "ready" with a
+// dead-silent mix. Ordered: each file layers on the previous (70->76->80->85->93->94).
+stage.("load project samples", {
+	["samples70", "samples76", "samples80", "samples85", "samples93", "samples94",
+	 "samples110", "samples111", "samples115"].do { |f|
+		this.executeFile(sc ++ "/" ++ f ++ ".scd");
+	};
+});
+stage.("load project voices", {
+	["chords", "mi", "dubsynth"].do { |f| this.executeFile(sc ++ "/" ++ f ++ ".scd") };
+});
+stage.("verify project sounds", {
+	// fail LOUDLY: a missing alias here is exactly the silent-mix bug above.
+	var names = [\p70kick, \p70snare, \p70soft, \p70hat, \p70rhodes, \p76bass, \sh808,
+		\p94brkA, \vxA, \cp4, \cb4];
+	var lib = ~dirt.soundLibrary;
+	var gone = names.reject { |n| lib.at(n).notNil };
+	if(gone.notEmpty) {
+		Error("missing project sample aliases: " ++ gone.join(" ")).throw
+	};
+	log.("     project aliases ok: " ++ names.size ++ " checked");
+});
+
 // 2 --------------------------------- defs on the SERVER, and buses present
 s.sync;
 stage.("verify defs and buses", {
 	var want = ["dirt_dubdelay2", "dirt_dubverb2", "dirt_tape2",
-		"dubchord", "dubsub", "tapestab",
+		"dubchord", "dubsub", "tapestab", "dubsynth", "sweetChords", "miLead",
 		"phononGroup2", "phononAuxDelay2", "phononAuxVerb2", "phononAuxShimmer2"];
 	var have = SynthDescLib.global.synthDescs.keys.collect(_.asString);
 	var missing = want.reject { |w| have.includes(w) };

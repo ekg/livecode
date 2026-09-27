@@ -1,12 +1,19 @@
-# Current jam state — STACK DOWN / RECOVERY NEEDED
+# Current jam state — LIVE
 
-**Last approved historical scene: `100.tidal` (AMP PATTERNS), 104 BPM, D major.**
-**Latest work: `118.tidal` (September pocket), 122 BPM, C#-minor/A-major source motif.**
-Scene 118 is validated and saved, but its latest pattern updates have NOT been confirmed live.
-The Pi/Tidal tool process errors in `stopOwnedProcessTree`; process inspection shows the owned
-sclang and GHCi alive but no scsynth process. User requested a restart; use a refreshed Pi
-session/extension to safely recover, then send `118.tidal`. Do not claim playback is active.
-Historical recording references below are from prior sessions and are not current.
+**Scene: `118.tidal` (September pocket), 122 BPM.** Commit `08ea2cd` + init.scd autoload fix.
+Stack fully recovered: scsynth up, REPL fresh, all sample aliases auto-load at boot.
+Mix live: open70 base, drums 1.35 / bass 1.4 / music 1.25 / fx 0.9, master mGain 1.45.
+Peak measured 0.0795. Not recording.
+
+**THE ROOT CAUSE OF THE LONG OUTAGE (fixed 2026-09-26):** `sc/samples*.scd` and
+`sc/{chords,mi,dubsynth}.scd` were never loaded at boot — only by hand in past
+sessions. Every restart came up with zero p70*/p76bass/sh808 aliases: Tidal
+triggered them, SuperDirt silently dropped every event, peak 0.0004 while the
+stack reported "ready". `sc/init.scd` now loads the full sample chain and the
+three project voices on every boot, and FAILS the boot loudly if any of 11
+aliases is missing. A wedged scsynth ("too many users" + "duplicate node ID",
+no synth creation) required a full stack restart; killing verified-owned PIDs
+(`--who=pi-tidal` marker, BootTidal.hs ghci) then `tidal_restart` recovered it.
 
 ## Recall
 
