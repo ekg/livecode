@@ -1,0 +1,54 @@
+-- 120: THE CYBERNETIC ORCHESTRA. 119's algorave drum kit, but the chord line
+-- gives way to a MELLODIC ORCHESTRA - the sensation of 2026, living in a
+-- cybernetic future. Everything in the harmony family of 118/119 (F#m9 -> Em9
+-- -> Dmaj9 -> C#m7 -> Amaj7 -> Bm7 -> E9 -> Aadd9, one chord per bar).
+--
+-- THE SEATS OF THE ORCHESTRA:
+--   d9  THE VOICE   supersaw lead - one melodic phrase over the 8 bars
+--                   (fs5-a5-gs5-e5-fs5-cs5-e5-b5-d5-gs5-b5-cs6), with downward
+--                   `accelerate` glides per bar: notes that sag and yearn.
+--   d8  THE MACHINE superchip - fast 4 $ arpeggiate of the chords, 16th-note
+--                   digital chatter, contour reversed every 7 bars, pan on perlin.
+--   d7  THE HUMAN   cb4s bowed string (sustained, ~/sounds cpluck family) - one
+--                   whole-note per bar following the harmony (A-G#-F#-E-B-D-G#-A),
+--                   pitch via speed ratios from the C4 root (NOT `up`).
+--   d10 THE GLASS   sosBell (SCLOrk) - one high bell every other bar, tiny.
+--   d1  THE GHOST   humanip vocal fragments (vxA/vxD/vxG/vxB), detuned, hpf 420,
+--                   heavy 7/16 dub delay + wow - feelings, not words.
+--   d11 THE FLOOR   sweetChords, same progression but |- note 12 (an octave down)
+--                   and gain 0.35 - it gave way; the melody carries the sensation.
+--
+-- DRUMS (unchanged from 119): p70kick with per-bar density jumps + fast 2 / speed
+-- 1.5 rips, p94brkA chopped break with four rotating slice orders (chop softened
+-- to 10% / chop 8 per listener), h808C iter-4 hats, cn808(7,11) polymetric congas,
+-- degraded cp(5,8) claps. 170 BPM.
+--
+-- Mix live: drums group 1.5, open70 master, mGain 1.45. Recording: jam-20260926-2040.
+-- Requires sc/samples70.scd, sc/samples94.scd, sc/samples110.scd, sc/samples111.scd,
+-- sc/samples115.scd (cb4s), sc/chords.scd (sweetChords) - all auto-load at boot.
+
+setcps (170/240)
+
+d1 $ sometimesBy 0.2 (rev) $ s "<vxA ~ vxD ~ ~ vxG ~ vxB ~>" # speed "<1.19 1.33 0.89 1.12>" # gain "0.4 0 0 0.34 0 0 0.38 0" # hpf 420 # lpf 8500 # pan "<0.3 0.7 0.4 0.6>" # cut 3 # ddSend 0.35 # delaySend 1 # lock 1 # delaytime (7/16) # delayfeedback 0.45 # ddWow 0.3 # ddCross 1 # verbSend 0.35
+
+d2 $ every 5 (fast 2) $ every 7 (|* speed 1.5) $ sometimesBy 0.12 (rev) $ s "p70kick*<4 8 4 16 8 4 12 8>" # gain "0.8 0.62 0.72 0.66" # hpf 35 # lpf 9000 # pan 0.5 # ddSend 0 # verbSend 0.05
+
+d3 $ every 3 (rev) $ sometimesBy 0.1 (chop 8) $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0> <3 7 11 15 2 6 10 14 1 5 9 13 0 4 8 12>" $ loopAt 1 $ s "p94brkA" # gain (perlin * 0.28 + 0.45) # hpf 200 # lpf 11000 # pan 0.5 # ddSend 0.08 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.22 # ddWow 0 # ddCross 1 # verbSend 0.16
+
+d4 $ iter 4 $ s "h808C*<8 12 16 20 12 16 8 16>" # gain "0.32 0.24 0.28 0.26" # hpf 3500 # lpf 17000 # pan (perlin * 0.4 + 0.3) # ddSend 0 # verbSend 0
+
+d5 $ s "cn808(7,11)" # gain 0.32 # hpf 500 # lpf 9000 # pan 0.6 # ddSend 0.25 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.4 # ddWow 0 # ddCross 0.6 # verbSend 0.12
+
+d6 $ sometimesBy 0.2 (fast 3) $ degradeBy 0.25 $ s "cp(5,8)" # gain 0.26 # hpf 900 # lpf 11500 # pan 0.4 # ddSend 0.06 # verbSend 0.08
+
+d7 $ s "cb4s" # speed "<1.6818 1.5874 1.4142 1.2599 1.8877 2.2450 1.5874 1.6818>" # gain 0.5 # attack 0.4 # hold 0.9 # release 1.2 # hpf 250 # lpf 7000 # pan 0.58 # ddSend 0.14 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.26 # ddWow 0 # ddCross 0.4 # verbSend 0.3
+
+d8 $ every 7 (rev) $ fast 4 $ arpeggiate $ n "<[fs4,a4,cs5,e5] [e4,gs4,b4,d5] [d4,fs4,a4,cs5] [cs4,e4,gs4,b4] [a3,cs4,e4,gs4] [b3,d4,fs4,a4] [e4,gs4,b4,ds5] [a3,e4,a4,cs5]>" # s "superchip" # gain "0.24 0.18 0.2 0.19" # legato 0.4 # release 0.15 # hpf 500 # lpf 15000 # pan (perlin * 0.5 + 0.25) # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.15
+
+d9 $ n "<[fs5 ~ a5 ~] [gs5 ~ ~ ~] [e5 ~ fs5 ~] [cs5 ~ ~ ~] [e5 ~ ~ b5] [d5 ~ ~ ~] [gs5 ~ b5 ~] [cs6 ~ ~ ~]>" # s "supersaw" # accelerate "<-0.04 0 -0.06 -0.03 0 -0.05 -0.04 0>" # gain "0.3 0.24" # attack 0.01 # hold 0.15 # release 0.5 # hpf 300 # lpf 12000 # pan 0.45 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.35 # ddWow 0 # ddCross 0.8 # verbSend 0.3
+
+d10 $ n "<[~ ~ cs6 ~] [~ ~ ~ ~] [~ ~ e6 ~] [~ ~ ~ ~] [~ ~ gs6 ~] [~ ~ ~ ~] [~ ~ b5 ~] [~ ~ ~ ~]>" # s "sosBell" # gain 0.16 # release 0.9 # hpf 600 # pan 0.62 # ddSend 0.1 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.8 # verbSend 0.4
+
+d11 $ (|- note 12) $ slow 2 $ n "<[fs4,a4,cs5,e5] [e4,gs4,b4,d5] [d4,fs4,a4,cs5] [cs4,e4,gs4,b4] [a3,cs4,e4,gs4] [b3,d4,fs4,a4] [e4,gs4,b4,ds5] [a3,e4,a4,cs5]>" # s "sweetChords" # amp 0.5 # fmIndex (slow 16 $ range 0.35 0.75 sine) # cutoff (slow 32 $ range 3200 5200 sine) # release 1.8 # detune 0.006 # drive 1.1 # gain 0.35 # pan 0.35 # hpf 180 # lpf 8000 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.3
+
+d12 $ silence
