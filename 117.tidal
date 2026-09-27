@@ -4,8 +4,11 @@
 -- pitchEnv 0.3 (was 0.6), gains 0.5-0.66 (was 0.64-0.8), verbSend 0.14.
 --
 -- NEW: d9 is dubchord - the project's own dub synth from sc/dub_fx.scd, previously unused.
--- Played as SINGLE NOTES, not chords: the synth is already detuned/chord-like internally,
--- so stacking chord tokens on it doubled the voicing. A 4-bar single-note line in mini-
+-- NOW CHORDS: on `dubsynth` (sc/dubsynth.scd), a voice BUILT to be stacked - per-note it
+-- is a pair of softly detuned saws plus a sub, so three of them blend into a real chord
+-- instead of beating against each other the way stacked `dubchord` instances did.
+-- Minor-9 progression: Cm9 / Fm9 / Gm7 / Abmaj7, with detune, cutoff, fenv and attack
+-- stepping through 4 values, and a 16-bar gain swell. A 4-bar single-note line in mini-
 -- notation, with detune/cutoff/fenv stepping through 4 values so the timbre moves too.
 -- The first attempt was one chord every 4 BARS - angle brackets are one value per cycle,
 -- so an 8-slot group with 2 chords in it is 8 cycles, not 2. That is why it felt unplayable.
@@ -36,7 +39,8 @@ d7 $ silence
 
 d8 $ silence
 
-d9 $ jux rev $ n "g3 ~ ~ d4 ~ ~ bb3 ~ g3 ~ ~ c4 ~ ~ a3 ~ bb3 ~ ~ g3 ~ ~ d4 ~ g4 ~ ~ bb3 ~ ~ c4 ~ a3 ~" # s "dubchord" # amp 0.45 # detune "<0.14 0.1 0.18 0.12>" # cutoff "<1600 2200 1400 1900>" # fenv "<2.2 2.8 1.8 2.4>" # res 0.32 # drive 0.3 # sub 0.3 # spread 0.7 # attack 0.01 # gain "0.55 0 0.48 0 0.52 0 0 0.44" # legato 0.7 # pan 0.45 # hpf 180 # lpf 7000 # ddSend 0.26 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.5 # ddWow 0.2 # ddCross 1 # verbSend 0.3
+d9 $ jux rev $ n "[c3,g3,bb3,d4] ~ ~ ~ [f3,c4,eb4,g4] ~ ~ ~ [g3,d4,f4,bb4] ~ ~ [ab3,c4,eb4,g4] ~ ~ ~ "
+    ++ "[c3,g3,bb3,d4] ~ ~ [eb3,g3,bb3,f4] ~ ~ [f3,c4,eb4,g4] ~ [g3,d4,f4,bb4] ~ [ab3,c4,eb4,g4] ~ ~" # s "dubsynth" # amp 0.55 # detune "<0.05 0.08 0.03 0.07>" # cutoff "<2400 1800 2800 2100>" # fenv "<2.6 2.0 3.0 2.2>" # res 0.3 # drive 0.22 # sub 0.3 # attack "<0.06 0.09 0.04 0.07>" # gain ("0.6 0 0.52 0 0.56 0 0.5 0" * slow 16 "<0.7 0.9 1 1>") # legato 0.8 # pan 0.45 # hpf 170 # lpf 7500 # ddSend 0.3 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.52 # ddWow 0.24 # ddCross 1 # verbSend 0.34
 
 d10 $ s "cn808(3,16)" # gain 0.3 # hpf 500 # lpf 9000 # pan "<0.3 0.7>" # ddSend 0.3 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.46 # ddWow 0 # ddCross 0.6 # verbSend 0.16
 
