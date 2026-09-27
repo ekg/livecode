@@ -1,0 +1,43 @@
+-- 118: AFTER THE DUB / a bright, clipped, human-pocket dance jam at 122 BPM.
+-- Fresh scene: no dubchord/dubsynth, voices, old break loops or sustained pad.
+-- Tunepile search: "September" -> Earth, Wind & Fire gp4 transcription
+-- /home/erik/tunepile/tabs-tidal/Earth_Wind_And_Fire_-_September.gp4-2388f12e.tidal
+-- Its guitar track [3] yields the C#5-B4-A4 / B4-G#4-B4-A4 call here, re-played
+-- with one sampled D4 Rhodes, using speed ratios (NOT `up`). Its piano track [2]
+-- contributes the F#m -> E -> D -> E harmony; bass is an adaptation of that harmony.
+-- Tunepile search: dance/disco -> Magenta Groove MIDI drummer1/session1/
+-- 101_dance-disco_120_beat_4-4.mid. The kick-on-every-beat, backbeat snare,
+-- half-beat hats and soft ghost notes are adapted from its first four measures.
+-- This is an interpretation, not a MIDI dump. The kick cycles through 8 bars:
+-- straight -> syncopated -> rolling -> one-bar air pocket. Snare phrases take
+-- 5 bars, hats 7 bars (including 7/12 and 11/16 Euclidean grids), clap 3 bars;
+-- a 5/12 Euclidean shaker enters on d11, leaving the downbeat to the kick;
+-- bass turns every 13 bars, Rhodes every 11, hats' filter sweeps over 29.
+-- Different periods keep the arrangement moving without synchronized stutters.
+-- Requires sc/samples76.scd -> samples70.scd (p76bass, p70rhodes, p70 kit).
+
+setcps (122/240)
+
+d1 $ silence
+
+d2 $ s "<[p70kick ~ p70kick ~ p70kick ~ p70kick ~] [p70kick ~ p70kick ~ p70kick ~ p70kick ~] [p70kick ~ ~ p70kick p70kick ~ p70kick ~] [p70kick ~ p70kick ~ p70kick ~ ~ p70kick] [p70kick ~ p70kick p70kick ~ ~ p70kick ~] [p70kick ~ ~ p70kick p70kick ~ ~ p70kick] [p70kick ~ p70kick ~ p70kick ~ p70kick ~] [p70kick ~ ~ ~ p70kick ~ ~ p70kick]>" # gain "0.68 0.59 0.65 0.61" # hpf 35 # lpf 8000 # pan 0.5 # ddSend 0 # verbSend 0
+
+d3 $ s "<[~ ~ p70snare ~ ~ ~ p70snare ~] [~ ~ p70snare ~ ~ p70snare p70snare ~] [~ ~ p70snare ~ ~ ~ p70snare ~] [~ ~ p70snare ~ p70snare ~ p70snare ~] [~ ~ p70snare ~ ~ ~ p70snare ~]>" # gain "0.66 0.56" # hpf 170 # lpf 11500 # pan 0.49 # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.18 # ddWow 0 # ddCross 0 # verbSend 0.07
+
+d4 $ s "<[p70hat*8] [p70hat(7,12)] [p70hat*8] [p70hat(11,16)] [p70hat(5,8)] [p70hat*8] [p70hat(3,8)]>" # gain "0.3 0.21 0.28 0.19 0.32 0.2 0.27 0.22" # hpf 3500 # lpf (slow 29 $ range 9500 17000 sine) # pan (slow 21 $ range 0.38 0.66 sine) # ddSend 0 # verbSend 0
+
+d5 $ s "~ p70soft ~ ~ ~ p70soft ~ ~ ~ ~ ~ p70soft ~ ~ ~ ~" # gain "0.17 0.13 0.18" # hpf 360 # lpf 7500 # pan 0.56 # ddSend 0 # verbSend 0
+
+d6 $ every 13 (iter 8) $ s "p76bass ~ p76bass ~ p76bass ~ p76bass ~ p76bass ~ p76bass ~ p76bass ~ p76bass ~" # speed "<[1.4142 ~ 1.4142 ~ 1.0595 ~ 1.4142 ~ 1.4142 ~ 1.6818 ~ 1.4142 ~ 1.2599 ~] [1.2599 ~ 1.2599 ~ 0.9439 ~ 1.2599 ~ 1.5874 ~ 1.2599 ~ 1.0595 ~ 1.2599 ~] [1.1225 ~ 1.1225 ~ 0.8409 ~ 1.1225 ~ 1.1225 ~ 1.4142 ~ 1.1225 ~ 1.0595 ~] [1.2599 ~ 1.2599 ~ 0.9439 ~ 1.0595 ~ 1.2599 ~ 0.9439 ~ 1.0595 ~ 1.2599 ~]>" # gain "0.64 0.48 0.58 0.46 0.61 0.43 0.55 0.48" # attack 0.003 # hold 0.045 # release 0.16 # hpf 36 # lpf 2300 # pan 0.5 # ddSend 0 # verbSend 0
+
+d7 $ n "<[~ [fs4,a4,cs5] ~ ~ ~ [fs4,a4,cs5] ~ ~] [~ [e4,gs4,b4] ~ ~ ~ [e4,gs4,b4] ~ ~] [~ [d4,fs4,a4] ~ ~ ~ [d4,fs4,a4] ~ ~] [~ [e4,gs4,b4] ~ ~ ~ [e4,gs4,b4] ~ ~]>" # s "superpiano" # gain "0.2 0.16" # legato 0.3 # hpf 280 # lpf 9300 # pan 0.37 # ddSend 0.09 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.23 # ddWow 0 # ddCross 0.4 # verbSend 0.12
+
+d8 $ every 11 (|+ speed 0.03) $ s "<[~ ~ p70rhodes ~ ~ ~ p70rhodes ~ ~ ~ p70rhodes ~ ~ ~ ~ ~] [p70rhodes ~ p70rhodes ~ ~ ~ p70rhodes ~ p70rhodes ~ p70rhodes ~ ~ ~ ~ ~] [~ ~ p70rhodes ~ ~ ~ p70rhodes ~ ~ ~ p70rhodes ~ ~ ~ ~ ~] [p70rhodes ~ p70rhodes ~ p70rhodes ~ p70rhodes ~ p70rhodes ~ ~ ~ ~ ~]>" # speed "<[~ ~ 1.8877 ~ ~ ~ 1.6818 ~ ~ ~ 1.4983 ~ ~ ~ ~ ~] [1.6818 ~ 1.6818 ~ ~ ~ 1.4142 ~ 1.6818 ~ 1.4983 ~ ~ ~ ~ ~] [~ ~ 1.8877 ~ ~ ~ 1.6818 ~ ~ ~ 1.4983 ~ ~ ~ ~ ~] [1.6818 ~ 1.6818 ~ 1.6818 ~ 1.4142 ~ 1.6818 ~ 1.4983 ~ ~ ~ ~ ~]>" # gain "0.38 0.34 0.35 0.31" # attack 0.004 # hold 0.12 # release 0.85 # hpf 370 # lpf 10000 # pan 0.65 # ddSend 0.16 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # ddWow 0 # ddCross 0.6 # verbSend 0.19
+
+d9 $ silence
+
+d10 $ s "<[~ ~ ~ ~ ~ ~ cp ~] [~ ~ ~ cp ~ ~ cp ~] [~ ~ ~ ~ ~ cp ~ cp]>" # gain 0.22 # hpf 1000 # lpf 11500 # pan 0.58 # ddSend 0.04 # verbSend 0.08
+
+d11 $ s "sh808(5,12)" # gain "0.14 0.1 0.12 0.09 0.13" # hpf 4200 # lpf 13500 # pan (slow 19 $ range 0.28 0.72 sine) # ddSend 0 # verbSend 0
+
+d12 $ silence

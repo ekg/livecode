@@ -1,9 +1,12 @@
-# Current jam state — LIVE / RECORDING
+# Current jam state — STACK DOWN / RECOVERY NEEDED
 
-**Scene: `100.tidal` (AMP PATTERNS), 104 BPM, D major. — LISTENER-APPROVED**
-Recording: `recordings/jam-20260926-1342.wav`, still open at last check (~1300 s).
-Committed state: `240aef5`. Marker "100 AMP PATTERNS approved" at 1380.1 s of the take.
-Do not auto-restart playback from this file.
+**Last approved historical scene: `100.tidal` (AMP PATTERNS), 104 BPM, D major.**
+**Latest work: `118.tidal` (September pocket), 122 BPM, C#-minor/A-major source motif.**
+Scene 118 is validated and saved, but its latest pattern updates have NOT been confirmed live.
+The Pi/Tidal tool process errors in `stopOwnedProcessTree`; process inspection shows the owned
+sclang and GHCi alive but no scsynth process. User requested a restart; use a refreshed Pi
+session/extension to safely recover, then send `118.tidal`. Do not claim playback is active.
+Historical recording references below are from prior sessions and are not current.
 
 ## Recall
 
@@ -96,6 +99,8 @@ different loop material is in `~/samples/loopmaster_producer_essentials`
 | 96–97 | stable single-source loops; three-and-one |
 | 98 | long effective loop: one source, 16-bar rotating slice-order |
 | 99 | per-stream prime-interval treatments (no more coincident variation) |
-| 100 | **amp patterns for space — current, approved** |
+| 100 | **amp patterns for space — historical approved scene** |
+| 116–117 | broken-beat dance and space dub experiments; not the current requested direction |
+| 118 | September-inspired clipped dance pocket; Euclidean kick/snare/hat/shaker variations, Rhodes reduced and lengthened; validated, awaiting playback recovery |
 
 Enjoy the ride, don't flatten it.
