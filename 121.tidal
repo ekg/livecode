@@ -8,7 +8,9 @@
 -- the "cybernetic future" sensation the listener asked for). Each angle-bracket
 -- group is one 4/4 bar carrying six melody events = one 6/8 bar of the air.
 --
--- MELODY d9 mars:16 = Accordion Wasp C4 01 (~/sounds/mars, 4374-file bank loaded at
+-- ARP d7 cp4 (cpluck C4): 8th-note broken chords over the tune's own
+-- Am/Em/D/G cycle, one bar each, pitch via speed ratios from C4 root.
+-- MELODY d9 slow 2 (stretched 2x = 16-bar phrases): mars:16 = Accordion Wasp C4 01 (~/sounds/mars, 4374-file bank loaded at
 -- boot; address files as mars:N, 0-based, or modulate `n` for wild instrument-hops:
 -- every 9 bars n 16->17 = the alternate take, sometimesBy 12% |+ n 2 = octave-up
 -- C5 wasp). Pitch via speed ratios from the C4 root (NOT `up`).
@@ -40,11 +42,11 @@ d5 $ s "cn808(7,11)" # gain 0.32 # hpf 500 # lpf 9000 # pan 0.6 # ddSend 0.25 # 
 
 d6 $ sometimesBy 0.2 (fast 3) $ degradeBy 0.25 $ s "cp(5,8)" # gain 0.26 # hpf 900 # lpf 11500 # pan 0.4 # ddSend 0.06 # verbSend 0.08
 
-d7 $ silence
+d7 $ s "cp4*8" # speed "<[0.8409 1.0 1.2599 1.0 0.8409 1.0 1.2599 1.0] [0.8409 1.0 1.2599 1.0 0.8409 1.0 1.2599 1.0] [1.2599 1.4983 1.8877 1.4983 1.2599 1.4983 1.8877 1.4983] [1.1225 1.4142 1.6818 1.4142 1.1225 1.4142 1.6818 1.4142] [0.8409 1.0 1.2599 1.0 0.8409 1.0 1.2599 1.0] [0.8409 1.0 1.2599 1.0 0.8409 1.0 1.2599 1.0] [1.4983 1.8877 2.245 1.8877 1.4983 1.8877 2.245 1.8877] [0.8409 1.2599 1.6818 1.2599 0.8409 1.2599 1.6818 1.2599]>" # gain "0.3 0.22 0.26 0.24" # attack 0.002 # hold 0.02 # release 0.25 # hpf 300 # lpf 9000 # pan 0.6 # ddSend 0.15 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # ddWow 0 # ddCross 0.5 # verbSend 0.18
 
 d8 $ degradeBy 0.35 $ s "mars*8" # n (sometimesBy 0.25 (fast 6) $ quantise 1 (fast 3 $ perlin * 4374)) # speed (perlin * 0.3 + 0.85) # gain "0.18 0.14 0.16 0.15" # hpf 120 # lpf 13000 # pan (perlin * 0.5 + 0.25) # ddSend 0.15 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.8 # verbSend 0.15
 
-d9 $ sometimesBy 0.12 (|+ n 2) $ every 9 (|+ n 1) $ s "<[mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars ~ mars] [mars mars mars mars ~ mars] [mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars mars mars] [mars ~ ~ ~ ~ ~]>" # n 16 # speed "<[1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.2599 ~ 1.4142 1.4983 ~ 1.4983] [1.4983 1.6818 1.4983 1.4142 ~ 1.1225] [1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.4983 ~ 1.2599 1.2599 1.1225 0.9439] [0.8409 ~ ~ ~ ~ ~]>" # gain "0.5 0.4 0.46 0.42" # attack 0.005 # hold 0.08 # release 0.3 # hpf 200 # lpf 9000 # pan 0.45 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.24
+d9 $ slow 2 $ sometimesBy 0.12 (|+ n 2) $ every 9 (|+ n 1) $ s "<[mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars ~ mars] [mars mars mars mars ~ mars] [mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars mars mars] [mars ~ ~ ~ ~ ~]>" # n 16 # speed "<[1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.2599 ~ 1.4142 1.4983 ~ 1.4983] [1.4983 1.6818 1.4983 1.4142 ~ 1.1225] [1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.4983 ~ 1.2599 1.2599 1.1225 0.9439] [0.8409 ~ ~ ~ ~ ~]>" # gain "0.5 0.4 0.46 0.42" # attack 0.005 # hold 0.08 # release 0.3 # hpf 200 # lpf 9000 # pan 0.45 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.24
 
 d10 $ silence
 
