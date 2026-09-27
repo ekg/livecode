@@ -49,6 +49,6 @@ d9 $ every 7 (rev) $ every 11 (|+ note 12) $ sometimesBy 0.25 (fast 2) $ fast 4 
 
 d10 $ s "<[~ ~ ~ ~ ~ ~ cp ~] [~ ~ ~ cp ~ ~ cp ~] [~ ~ ~ ~ ~ cp ~ cp]>" # gain 0.22 # hpf 1000 # lpf 11500 # pan 0.58 # ddSend 0.04 # verbSend 0.08
 
-d11 $ slow 2 $ n "<[fs4,a4,cs5,e5] [e4,gs4,b4,d5] [d4,fs4,a4,cs5] [cs4,e4,gs4,b4] [a3,cs4,e4,gs4] [b3,d4,fs4,a4] [e4,gs4,b4,ds5] [a3,e4,a4,cs5]>" # s "sweetChords" # amp 0.5 # fmIndex (slow 16 $ range 0.3 0.65 sine) # cutoff (slow 32 $ range 2000 3800 sine) # release 1.8 # detune 0.006 # drive 1.1 # gain 0.28 # pan 0.35 # hpf 220 # lpf 8000 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.32
+d11 $ slow 2 $ n "<[fs4,a4,cs5,e5] [e4,gs4,b4,d5] [d4,fs4,a4,cs5] [cs4,e4,gs4,b4] [a3,cs4,e4,gs4] [b3,d4,fs4,a4] [e4,gs4,b4,ds5] [a3,e4,a4,cs5]>" # s "sweetChords" # amp 0.5 # fmIndex (slow 16 $ range 0.3 0.65 sine) # cutoff (slow 32 $ range 2000 3800 sine) # release 1.8 # detune 0.006 # drive 1.1 # gain 0.4 # pan 0.35 # hpf 220 # lpf 8000 # ddSend 0.12 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.24 # ddWow 0 # ddCross 1 # verbSend 0.32
 
 d12 $ silence
