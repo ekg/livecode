@@ -18,7 +18,7 @@ d4 $ every 5 (fast 2) $ s "cn808(3,8)" # gain "0.22 0.3 0.18" # hpf 370 # lpf 76
 
 d5 $ n "<[b1 ~ ~ fs2 ~ b1 ~ a1] [b1 ~ ~ fs2 ~ d2 ~ fs2] [g1 ~ ~ d2 ~ g1 ~ fs1] [a1 ~ ~ e2 ~ a1 ~ fs1]>" # s "dubsub" # amp 0.48 # drive 0.27 # pitchEnv 0.22 # gain 0.62 # pan 0.5 # ddSend 0.02 # verbSend 0.04
 
-d6 $ every 9 (rev) $ n "<[~ ~ [b3,d4,fs4] ~ ~ ~ [b3,d4,fs4] ~] [~ ~ [a3,d4,fs4] ~ ~ ~ [a3,d4,fs4] ~] [~ ~ [g3,b3,d4] ~ ~ ~ [g3,b3,d4] ~] [~ ~ [a3,cs4,e4] ~ ~ ~ [a3,cs4,e4] ~]>" # s "dubsynth" # amp 0.38 # waveMix 0.3 # subMix 0.08 # subTone 0.02 # detune 0.025 # cutoff "1500 2400 1800 2100" # fenv 1.4 # res 0.32 # drive 0.12 # attack 0.008 # legato 0.22 # gain 0.52 # hpf 200 # lpf 7900 # pan 0.38 # ddSend 0.24 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.47 # ddWow 0.2 # ddCross 0.8 # verbSend 0.19
+d6 $ every 9 (rev) $ n "<[~ ~ [b3,d4,fs4] ~ ~ ~ [b3,d4,fs4] ~] [~ ~ [a3,d4,fs4] ~ ~ ~ [a3,d4,fs4] ~] [~ ~ [g3,b3,d4] ~ ~ ~ [g3,b3,d4] ~] [~ ~ [a3,cs4,e4] ~ ~ ~ [a3,cs4,e4] ~]>" # s "dubsynth" # amp 0.38 # waveMix 0.3 # subMix 0.08 # detune 0.025 # cutoff "1500 2400 1800 2100" # fenv 1.4 # res 0.32 # drive 0.12 # attack 0.008 # legato 0.22 # gain 0.52 # hpf 200 # lpf 7900 # pan 0.38 # ddSend 0.24 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.47 # ddWow 0.2 # ddCross 0.8 # verbSend 0.19
 
 d7 $ every 11 (rev) $ n "<[~ b3 ~ d4 ~ fs4 ~ ~] [~ a3 ~ d4 ~ fs4 ~ ~] [~ g3 ~ b3 ~ d4 ~ ~] [~ a3 ~ cs4 ~ e4 ~ ~]>" # s "tapestab" # amp 0.3 # gain 0.32 # hpf 260 # lpf 5600 # pan 0.68 # ddSend 0.35 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.43 # ddWow 0.22 # ddCross 0.75 # verbSend 0.19
 
