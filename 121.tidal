@@ -8,7 +8,10 @@
 -- the "cybernetic future" sensation the listener asked for). Each angle-bracket
 -- group is one 4/4 bar carrying six melody events = one 6/8 bar of the air.
 --
--- MELODY d9 supermandolin (approved timbre from 116), octave pops 15%:
+-- MELODY d9 mars:16 = Accordion Wasp C4 01 (~/sounds/mars, 4374-file bank loaded at
+-- boot; address files as mars:N, 0-based, or modulate `n` for wild instrument-hops:
+-- every 9 bars n 16->17 = the alternate take, sometimesBy 12% |+ n 2 = octave-up
+-- C5 wasp). Pitch via speed ratios from the C4 root (NOT `up`).
 --   e-a-aea / aea-aba / e-f#-g-g / gag-f#d / (repeat) / g-e-edB / A
 -- PAD d11 sweetChords follows the tune's OWN chord symbols (Am Am Em D Am Am
 --   G Am), one chord per bar, fmIndex/cutoff still breathing over 16/32 bars.
@@ -39,9 +42,9 @@ d6 $ sometimesBy 0.2 (fast 3) $ degradeBy 0.25 $ s "cp(5,8)" # gain 0.26 # hpf 9
 
 d7 $ silence
 
-d8 $ silence
+d8 $ degradeBy 0.4 $ s "mars*8" # n (quantise 1 (perlin * 4374)) # gain "0.18 0.14 0.16 0.15" # hpf 120 # lpf 13000 # pan (perlin * 0.5 + 0.25) # ddSend 0.15 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.8 # verbSend 0.15
 
-d9 $ sometimesBy 0.15 (|+ note 12) $ n "<[e4 ~ a4 a4 e4 a4] [a4 e4 a4 a4 b4 a4] [e4 ~ fs4 g4 ~ g4] [g4 a4 g4 fs4 ~ d4] [e4 ~ a4 a4 e4 a4] [a4 e4 a4 a4 b4 a4] [g4 ~ e4 e4 d4 b3] [a3 ~ ~ ~ ~ ~]>" # s "supermandolin" # gain "0.52 0.42 0.48 0.44" # legato 0.7 # attack 0.003 # hold 0.05 # release 0.45 # hpf 260 # lpf 10000 # pan 0.45 # ddSend 0.22 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.24
+d9 $ sometimesBy 0.12 (|+ n 2) $ every 9 (|+ n 1) $ s "<[mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars ~ mars] [mars mars mars mars ~ mars] [mars ~ mars mars mars mars] [mars mars mars mars mars mars] [mars ~ mars mars mars mars] [mars ~ ~ ~ ~ ~]>" # n 16 # speed "<[1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.2599 ~ 1.4142 1.4983 ~ 1.4983] [1.4983 1.6818 1.4983 1.4142 ~ 1.1225] [1.2599 ~ 1.6818 1.6818 1.2599 1.6818] [1.6818 1.2599 1.6818 1.6818 1.8877 1.6818] [1.4983 ~ 1.2599 1.2599 1.1225 0.9439] [0.8409 ~ ~ ~ ~ ~]>" # gain "0.5 0.4 0.46 0.42" # attack 0.005 # hold 0.08 # release 0.3 # hpf 200 # lpf 9000 # pan 0.45 # ddSend 0.2 # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # ddWow 0 # ddCross 0.6 # verbSend 0.24
 
 d10 $ silence
 
