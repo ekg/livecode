@@ -1,0 +1,43 @@
+-- 117: SPACE DUB. 74 BPM (was 128), half-time space, dub delays everywhere.
+--
+-- BASS chilled out per listener: dubsub amp 0.5 (was 0.85), drive 0.32 (was 0.5),
+-- pitchEnv 0.3 (was 0.6), gains 0.5-0.66 (was 0.64-0.8), verbSend 0.14.
+--
+-- NEW: d9 is dubchord - the project's own dub chord synth from sc/dub_fx.scd, previously
+-- unused. Warm detuned chords with filter env and drive, played at two-chords-per-bar on a
+-- 4-bar cycle, drenched in 3/8 dub delay with wow and cross. d11 is MiPlaits engine 11
+-- (string) as a lead, now at amp 0.32 with long 1.4s release - a spacey line rather than
+-- the earlier bright pluck.
+--
+-- DUB TREATMENT: every stream feeds delaytime (3/8) or (5/16) with feedback 0.3-0.56.
+-- ddWow and ddCross engaged on most streams (dub-tape wobble + stereo cross).
+--
+-- Drums: k808L on t(3,16), s808a on the 3 with heavy delay, h808C offbeat,
+-- cn808 congas on t(3,16). Vocal fragments floating on d6.
+-- Needs sc/samples115.scd, sc/samples111.scd, sc/samples110.scd.
+
+setcps (74/240)
+
+d1 $ silence
+
+d2 $ struct "t(3,16)" $ s "k808L" # gain "1.0 0.85 0.95" # hpf 34 # lpf 5000 # pan 0.5 # ddSend 0.1 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.42 # ddWow 0 # ddCross 0 # verbSend 0.14
+
+d3 $ s "~ ~ ~ ~ ~ ~ ~ ~ s808a ~ ~ ~ ~ ~ ~ ~" # gain "0.62 0.5" # hpf 260 # lpf 9000 # pan 0.45 # ddSend 0.34 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.5 # ddWow 0.2 # ddCross 0.6 # verbSend 0.2
+
+d4 $ s "~ ~ h808C ~ ~ ~ h808C ~ ~ ~ h808C ~ ~ ~ h808C ~" # gain "0.34 0.26 0.3 0.26" # hpf 2000 # lpf 15000 # pan 0.62 # ddSend 0.22 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.44 # ddWow 0 # ddCross 0.4 # verbSend 0.14
+
+d5 $ n "<[c2] ~ ~ ~ [c2] ~ [g2] ~> <[as1] ~ ~ ~ [as1] ~ [g1] ~>" # s "dubsub" # amp 0.5 # drive 0.32 # pitchEnv 0.3 # gain "0.66 0.55 0.6 0.5" # pan 0.5 # ddSend 0.06 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.3 # ddWow 0 # ddCross 0 # verbSend 0.14
+
+d6 $ sometimesBy 0.2 (rev) $ slice 8 "<0 0 0 5 0 0 0 0> <0 0 3 0 0 0 0 0>" $ loopAt 1 $ s "<vxA vxB vxD>" # speed "<0.5 0.75 0.89 1>" # gain "0.5 0 0 0.42 0 0 0.46 0" # hpf 320 # lpf 7500 # pan "<0.3 0.7>" # cut 6 # ddSend 0.4 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.56 # ddWow 0.3 # ddCross 1 # verbSend 0.3
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ jux rev $ n "<[g3,b3,d4] ~ ~ ~ [a3,c4,e4] ~ ~ ~> <[bb3,d4,f4] ~ ~ ~ [g3,b3,d4] ~ ~ ~>" # s "dubchord" # amp 0.4 # detune 0.14 # cutoff 1600 # fenv 2.2 # res 0.32 # drive 0.3 # sub 0.3 # spread 0.7 # attack 0.012 # gain "0.55 0 0.48 0 0.52 0 0 0.44" # legato 0.9 # pan 0.45 # hpf 180 # lpf 7000 # ddSend 0.26 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.5 # ddWow 0.2 # ddCross 1 # verbSend 0.3
+
+d10 $ s "cn808(3,16)" # gain 0.3 # hpf 500 # lpf 9000 # pan "<0.3 0.7>" # ddSend 0.3 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.46 # ddWow 0 # ddCross 0.6 # verbSend 0.16
+
+d11 $ off 0.25 (|* gain 0.4) $ sometimesBy 0.15 (|+ speed 0.5) $ n "<c5 ~ g5 ~ ~ ~ e5 ~> <as5 ~ ~ f5 ~ ~ ~ ~>" # s "miLead" # amp 0.32 # engine 11 # harm 0.3 # timbre 0.5 # morph 0.4 # cutoff 7000 # release 1.4 # gain "0.52 0 0 0.44 0 0 0.48 0" # pan 0.65 # hpf 320 # lpf 10000 # ddSend 0.3 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.44 # ddWow 0 # ddCross 0.6 # verbSend 0.22
+
+d12 $ silence
