@@ -1,0 +1,33 @@
+-- 123: TIDAL ESTUARY. 84 BPM; rooted dub with coprime-moving detail.
+-- Tune Pile source: Bob Marley, Could You Be Loved, tabs-tidal
+-- Marley_Bob_-_Could_You_Be_Loved.gp3-6387644c.tidal: Bm/D/G/A harmony,
+-- Spur 2 bass fragments b2-d3-fs3 and g3-e3-d3. Recomposition, not a cover.
+-- Sources: h2o808 kit, p94brkA break, cpluck cp4, cbow cb3s,
+-- project dubsub/dubsynth/tapestab + MI Plaits. All autoload at SC boot.
+-- Shape: fixed one-drop anchor; independent 5/7/9/11-cycle variation on
+-- peripheral voices. Reverb/delay on stabs and fragments, NOT a muddy master.
+setcps (84/240)
+
+d1 $ s "~ ~ ~ ~ ~ ~ ~ ~ k808S ~ ~ ~ ~ ~ ~ ~" # gain 0.88 # hpf 32 # lpf 6200 # pan 0.5 # ddSend 0.02 # verbSend 0.04
+
+d2 $ s "~ ~ ~ ~ ~ ~ ~ ~ [s808b,c808] ~ ~ ~ ~ ~ ~ ~" # gain 0.65 # hpf 210 # lpf 9400 # pan 0.47 # ddSend 0.25 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.38 # ddWow 0.16 # ddCross 0.65 # verbSend 0.15
+
+d3 $ every 7 (rev) $ s "sh808(5,16)" # gain "0.18 0.23 0.16 0.2 0.15" # hpf 1300 # lpf 8500 # pan (perlin * 0.28 + 0.36) # ddSend 0.06 # verbSend 0.07
+
+d4 $ every 5 (fast 2) $ s "cn808(3,8)" # gain "0.22 0.3 0.18" # hpf 370 # lpf 7600 # pan "0.28 0.68 0.48" # ddSend 0.18 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.33 # ddCross 0.7 # verbSend 0.09
+
+d5 $ n "<[b1 ~ ~ fs2 ~ b1 ~ a1] [b1 ~ ~ fs2 ~ d2 ~ fs2] [g1 ~ ~ d2 ~ g1 ~ fs1] [a1 ~ ~ e2 ~ a1 ~ fs1]>" # s "dubsub" # amp 0.48 # drive 0.27 # pitchEnv 0.22 # gain 0.62 # pan 0.5 # ddSend 0.02 # verbSend 0.04
+
+d6 $ every 9 (rev) $ n "<[~ ~ [b3,d4,fs4] ~ ~ ~ [b3,d4,fs4] ~] [~ ~ [a3,d4,fs4] ~ ~ ~ [a3,d4,fs4] ~] [~ ~ [g3,b3,d4] ~ ~ ~ [g3,b3,d4] ~] [~ ~ [a3,cs4,e4] ~ ~ ~ [a3,cs4,e4] ~]>" # s "dubsynth" # amp 0.38 # waveMix 0.3 # subMix 0.08 # subTone 0.02 # detune 0.025 # cutoff "1500 2400 1800 2100" # fenv 1.4 # res 0.32 # drive 0.12 # attack 0.008 # legato 0.22 # gain 0.52 # hpf 200 # lpf 7900 # pan 0.38 # ddSend 0.24 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.47 # ddWow 0.2 # ddCross 0.8 # verbSend 0.19
+
+d7 $ every 11 (rev) $ n "<[~ b3 ~ d4 ~ fs4 ~ ~] [~ a3 ~ d4 ~ fs4 ~ ~] [~ g3 ~ b3 ~ d4 ~ ~] [~ a3 ~ cs4 ~ e4 ~ ~]>" # s "tapestab" # amp 0.3 # gain 0.32 # hpf 260 # lpf 5600 # pan 0.68 # ddSend 0.35 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.43 # ddWow 0.22 # ddCross 0.75 # verbSend 0.19
+
+d8 $ degradeBy 0.72 $ s "cp4(5,16)" # speed "<1 1.1225 1.4983 1.6818>" # gain 0.24 # hpf 310 # lpf 4900 # pan 0.64 # ddSend 0.22 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.33 # ddCross 0.5 # verbSend 0.15
+
+d9 $ every 13 (rev) $ sometimesBy 0.08 (chop 4) $ loopAt 1 $ s "p94brkA" # gain 0.22 # hpf 240 # lpf 3500 # pan 0.52 # ddSend 0.04 # verbSend 0.05
+
+d10 $ every 11 (rev) $ n "<[~ ~ ~ fs4 ~ d4 ~ ~] [~ ~ a4 ~ ~ fs4 ~ ~] [~ ~ ~ d4 ~ b3 ~ ~] [~ ~ e4 ~ ~ cs4 ~ ~]>" # s "miLead" # engine 11 # harm 0.35 # timbre (slow 13 $ range 0.2 0.7 sine) # morph 0.3 # amp 0.25 # release 0.25 # gain 0.32 # hpf 260 # lpf 5200 # pan 0.62 # ddSend 0.28 # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.35 # ddCross 0.6 # verbSend 0.14
+
+d11 $ silence
+
+d12 $ silence

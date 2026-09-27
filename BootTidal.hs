@@ -72,6 +72,7 @@ let wavemix = pF "wavemix"
 -- dubsynth
 let waveMix = pF "waveMix"
 let subMix = pF "subMix"
+let subTone = pF "subTone"
 let spread = pF "spread"
 
 -- miLead
