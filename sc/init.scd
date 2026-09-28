@@ -107,7 +107,7 @@ stage.("load project samples", {
 	};
 });
 stage.("load project voices", {
-	["chords", "mi", "dubsynth", "orkrhodes"].do { |f| this.executeFile(sc ++ "/" ++ f ++ ".scd") };
+	["chords", "mi", "dubsynth", "orkrhodes", "horhodes"].do { |f| this.executeFile(sc ++ "/" ++ f ++ ".scd") };
 });
 stage.("verify project sounds", {
 	// fail LOUDLY: a missing alias here is exactly the silent-mix bug above.
@@ -125,7 +125,7 @@ stage.("verify project sounds", {
 s.sync;
 stage.("verify defs and buses", {
 	var want = ["dirt_dubdelay2", "dirt_dubverb2", "dirt_tape2",
-		"dubchord", "dubsub", "tapestab", "dubsynth", "sweetChords", "miLead", "orkRhodes",
+		"dubchord", "dubsub", "tapestab", "dubsynth", "sweetChords", "miLead", "orkRhodes", "hoRhodes",
 		"phononGroup2", "phononAuxDelay2", "phononAuxVerb2", "phononAuxShimmer2"];
 	var have = SynthDescLib.global.synthDescs.keys.collect(_.asString);
 	var missing = want.reject { |w| have.includes(w) };
