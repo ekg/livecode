@@ -1,0 +1,45 @@
+-- 126: TIDAL ESTUARY — LOOP-LED RETURN. 112 BPM.
+-- First return: only two sliced loops; drums and bass remain absent.
+-- Scene B full kit remains recallable at 124.tidal / 51766c3.
+-- A->B reharmonization: Bm9 / Em9 / Gmaj9 / F#7b9. The G in the
+-- Lovely Nancy melody becomes F#7's b9: sweetness turning to tension.
+-- Preserve Scene A in 123.tidal / fa73858; all streams resend after restart.
+-- d6 is the singing solo, d8 a two-part sweetChords response choir; do not
+-- replace the lead with a busy walking line. d9 is the supporting harmony.
+-- Tune Pile sources: Bob Marley, Could You Be Loved, tabs-tidal
+-- Marley_Bob_-_Could_You_Be_Loved.gp3-6387644c.tidal: Bm/D/G/A harmony,
+-- Spur 2 bass fragments b2-d3-fs3 and g3-e3-d3; and The Glass of Beer
+-- (MontrealSession/reels/4:GLASSOFBEER.abc, K:Bm): eight-bar A/B melodic
+-- phrases transposed an octave down. Recomposition, not a cover.
+-- 124-era overlay: Lovely Nancy (MontrealSession/waltzes/$:LOVELYNANCY.abc,
+-- K:Bm, 3/4) contributes F#-G-A and the rising answer, stretched over
+-- two dub bars on the same sweetChords instrument as the harmony.
+-- Sources: h2o808 kit, p94brkA break, cpluck cp4, cbow cb3s,
+-- project dubsub/dubsynth/tapestab + MI Plaits. All autoload at SC boot.
+-- Shape: fixed one-drop anchor; independent 5/7/9/11-cycle variation on
+-- peripheral voices. Reverb/delay on stabs and fragments, NOT a muddy master.
+setcps (112/240)
+
+d1 $ silence
+
+d2 $ silence
+
+d3 $ silence
+
+d4 $ silence
+
+d5 $ silence
+
+d6 $ every 11 (rev) $ slow 2 $ n "<[~ fs4 ~ ~ a4 ~] [~ g4 ~ ~ b4 ~] [~ a4 ~ ~ cs5 ~] [~ g4 ~ ~ a4 ~] [~ fs4 ~ ~ a4 ~] [~ g4 ~ b4 ~ d5] [~ cs5 ~ a4 ~ g4] [~ fs4 ~ ~ d4 ~]>" # s "sweetChords" # amp 0.48 # fmIndex (slow 5 $ range 0.22 0.58 sine) # cutoff (slow 7 $ range 3200 6600 sine) # detune 0.003 # attack 0.045 # release 0.75 # legato 0.58 # gain 0.55 # hpf 290 # lpf 8500 # pan 0.64 # ddSend "0 0 0.22 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.3 # verbSend 0.19
+
+d7 $ every 11 (rev) $ n "<[~ b3 ~ d4 ~ fs4 ~ ~] [~ e3 ~ g3 ~ b3 ~ ~] [~ g3 ~ b3 ~ d4 ~ ~] [~ fs3 ~ as3 ~ e4 ~ ~]>" # s "tapestab" # amp 0.3 # gain 0.34 # hpf 260 # lpf 7200 # pan 0.68 # ddSend "0 0 0.25 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.43 # ddWow 0.22 # ddCross 0.75 # verbSend 0.19
+
+d8 $ n "<[~ ~ ~ ~ ~ ~ [d4,fs4] ~] [~ ~ ~ ~ ~ ~ [g4,b4] ~] [~ ~ ~ ~ [b4,d5] ~ ~ ~] [~ ~ ~ ~ [as4,cs5] ~ ~ ~]>" # s "sweetChords" # amp 0.38 # fmIndex (slow 9 $ range 0.18 0.45 sine) # cutoff (slow 11 $ range 2500 5100 sine) # detune 0.004 # attack 0.07 # release 1.1 # legato 0.8 # gain (slow 16 $ range 0.25 0.42 sine) # hpf 330 # lpf 7900 # pan 0.32 # ddSend "0 0.12 0 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.25 # verbSend 0.19
+
+d9 $ every 13 (off 0.25 (|* gain 0.38)) $ n "<[b3,d4,fs4,cs5] [e3,g3,b3,fs4] [g3,b3,d4,a4] [fs3,as3,e4,g4]>" # s "sweetChords" # amp 0.52 # cutoff (slow 13 $ range 2600 5300 sine) # fmIndex 0.3 # release 0.8 # gain 0.52 # hpf 170 # lpf 10800 # pan 0.48 # ddSend "0 0 0.14 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.27 # verbSend 0.17
+
+d10 $ every 7 (iter 3) $ every 9 (jux rev) $ sometimesBy 0.18 (striate 8) $ slice 16 "<[0 3 7 11 2 6 10 14] [15 12 8 4 13 9 5 1]>" $ loopAt 1 $ s "p94brkC" # gain 0.31 # hpf 340 # lpf 6200 # pan 0.4 # ddSend "0 0 0.1 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.25 # verbSend 0.05
+
+d11 $ silence
+
+d12 $ every 5 (iter 4) $ every 11 (jux rev) $ sometimesBy 0.14 (striate 4) $ slice 8 "<[0 3 5 7] [6 2 4 1]>" $ loopAt 1 $ s "p70perc" # gain 0.3 # hpf 750 # lpf 8000 # pan 0.63 # ddSend "0 0.1 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.24 # verbSend 0.06
