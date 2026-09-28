@@ -1,7 +1,9 @@
 -- 123: TIDAL ESTUARY. 104 BPM; rooted dub with coprime-moving detail.
--- Tune Pile source: Bob Marley, Could You Be Loved, tabs-tidal
+-- Tune Pile sources: Bob Marley, Could You Be Loved, tabs-tidal
 -- Marley_Bob_-_Could_You_Be_Loved.gp3-6387644c.tidal: Bm/D/G/A harmony,
--- Spur 2 bass fragments b2-d3-fs3 and g3-e3-d3. Recomposition, not a cover.
+-- Spur 2 bass fragments b2-d3-fs3 and g3-e3-d3; and The Glass of Beer
+-- (MontrealSession/reels/4:GLASSOFBEER.abc, K:Bm): eight-bar A/B melodic
+-- phrases transposed an octave down. Recomposition, not a cover.
 -- Sources: h2o808 kit, p94brkA break, cpluck cp4, cbow cb3s,
 -- project dubsub/dubsynth/tapestab + MI Plaits. All autoload at SC boot.
 -- Shape: fixed one-drop anchor; independent 5/7/9/11-cycle variation on
@@ -18,15 +20,15 @@ d4 $ every 5 (fast 2) $ s "cn808(3,8)" # gain "0.22 0.3 0.18" # hpf 370 # lpf 76
 
 d5 $ n "<[b1 ~ ~ fs2 ~ b1 ~ a1] [b1 ~ ~ fs2 ~ d2 ~ fs2] [g1 ~ ~ d2 ~ g1 ~ fs1] [a1 ~ ~ e2 ~ a1 ~ fs1]>" # s "dubsub" # amp 0.5 # drive 0.29 # pitchEnv 0.22 # gain 0.65 # pan 0.5 # ddSend "0 0 0.18 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.3 # verbSend 0.03
 
-d6 $ every 9 (rev) $ n "<[~ ~ [b3,d4,fs4] ~ ~ ~ [b3,d4,fs4] ~] [~ ~ [a3,d4,fs4] ~ ~ ~ [a3,d4,fs4] ~] [~ ~ [g3,b3,d4] ~ ~ ~ [g3,b3,d4] ~] [~ ~ [a3,cs4,e4] ~ ~ ~ [a3,cs4,e4] ~]>" # s "dubsynth" # amp 0.38 # waveMix (slow 5 $ range 0.18 0.48 sine) # subMix 0.08 # detune (slow 11 $ range 0.012 0.042 sine) # cutoff (slow 7 $ range 1100 3600 sine) # fenv (slow 9 $ range 1.1 2.2 sine) # res 0.32 # drive 0.12 # attack 0.008 # legato 0.22 # gain 0.57 # hpf 200 # lpf 9400 # pan 0.38 # ddSend "0 0.45 0 0.3" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.47 # ddWow 0.2 # ddCross 0.8 # verbSend 0.19
+d6 $ silence
 
 d7 $ every 11 (rev) $ n "<[~ b3 ~ d4 ~ fs4 ~ ~] [~ a3 ~ d4 ~ fs4 ~ ~] [~ g3 ~ b3 ~ d4 ~ ~] [~ a3 ~ cs4 ~ e4 ~ ~]>" # s "tapestab" # amp 0.3 # gain 0.34 # hpf 260 # lpf 7200 # pan 0.68 # ddSend "0 0 0.5 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.43 # ddWow 0.22 # ddCross 0.75 # verbSend 0.19
 
 d8 $ degradeBy 0.72 $ s "cp4(5,16)" # speed "<1 1.1225 1.4983 1.6818>" # gain 0.24 # hpf 310 # lpf 4900 # pan 0.64 # ddSend 0.22 # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.33 # ddCross 0.5 # verbSend 0.15
 
-d9 $ n "<[b3,d4,fs4,a4] [a3,d4,fs4,a4] [g3,b3,d4,fs4] [a3,cs4,e4,g4]>" # s "sweetChords" # amp 0.55 # cutoff (slow 13 $ range 2300 4800 sine) # fmIndex 0.35 # release 0.75 # gain 0.58 # hpf 170 # lpf 10500 # pan 0.54 # ddSend "0 0 0.32 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.3 # verbSend 0.15
+d9 $ n "<[b3,d4,fs4,cs5] [d4,fs4,a4,e5] [g3,b3,d4,a4] [a3,cs4,e4,b4]>" # s "sweetChords" # amp 0.52 # cutoff (slow 13 $ range 2600 5300 sine) # fmIndex 0.3 # release 0.8 # gain 0.52 # hpf 170 # lpf 10800 # pan 0.48 # ddSend "0 0 0.28 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.27 # verbSend 0.17
 
-d10 $ every 11 (rev) $ n "<[fs4 ~ a4 b4 ~ d5 ~ fs4] [e4 ~ fs4 a4 ~ d5 ~ cs5] [d4 ~ fs4 g4 ~ b4 ~ d5] [e4 ~ g4 a4 ~ cs5 ~ b4]>" # s "miLead" # engine "<11 11 16 11>" # harm (slow 5 $ range 0.24 0.62 sine) # timbre (slow 7 $ range 0.18 0.8 sine) # morph (slow 11 $ range 0.18 0.68 sine) # cutoff (slow 13 $ range 2600 7800 sine) # amp 0.4 # release 0.32 # gain 0.54 # hpf 280 # lpf 8200 # pan 0.63 # ddSend "0 0 0.34 0 0 0 0.5 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.35 # ddCross 0.6 # verbSend 0.16
+d10 $ n "<[fs4 b3 b3 ~ fs4 b3 a4 b3] [fs4 b3 b3 ~ e4 ~ d4 e4] [fs4 b3 b3 ~ fs4 ~ ~ e4] [d4 fs4 a4 fs4 e4 ~ d4 e4] [d4 ~ ~ e4 fs4 ~ ~ e4] [d4 e4 fs4 d4 e4 a3 a3 ~] [d4 ~ ~ e4 fs4 g4 fs4 e4] [d4 fs4 a4 fs4 e4 ~ fs4 e4]>" # s "superpiano" # gain "0.47 0.38 0.43 0.39 0.46 0.36 0.41 0.4" # legato 0.42 # attack 0.006 # hold 0.05 # release 0.36 # hpf 200 # lpf 8500 # pan 0.61 # ddSend "0 0 0 0.38 0 0 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.33 # ddCross 0.6 # verbSend 0.15
 
 d11 $ every 7 (rev) $ s "c808(5,16)" # gain "0.26 0.34 0.2 0.3 0.23" # hpf 1100 # lpf 11500 # pan 0.68 # ddSend "0 0 0 0.45 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # verbSend 0.06
 
