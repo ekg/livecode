@@ -6,6 +6,9 @@
 -- 15015 bars before all mask phases coincide. The transformations have
 -- other coprime periods; the kick/clap remains stable as a dance anchor.
 -- Vocal is chopped into vowels/feelings, not understandable words.
+-- Mix recall: after SC boot, execute sc/house132-master.scd in sclang.
+-- The scene itself does not send m* params (that bridge is inert); the SC
+-- preset supplies fixed makeup + gentle compression + limiter ceiling.
 setcps (118/240)
 
 d1 $ s "k808S*4" # gain "0.8 0.73 0.76 0.74" # hpf 32 # lpf 5800 # pan 0.5 # ddSend 0 # verbSend 0.025
