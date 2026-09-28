@@ -1,6 +1,5 @@
--- 127: TIDAL ESTUARY — ONE-DROP RETURNS. 112 BPM.
--- Second return: bass, kick and backbeat lock to the two sewn loops.
--- Scene B full kit remains recallable at 124.tidal / 51766c3.
+-- 128: TIDAL ESTUARY — FULL ALGODUB DROP. 112 BPM.
+-- 125 breakdown -> 126 loops -> 127 one-drop -> 128 full polyrhythmic drop.
 -- A->B reharmonization: Bm9 / Em9 / Gmaj9 / F#7b9. The G in the
 -- Lovely Nancy melody becomes F#7's b9: sweetness turning to tension.
 -- Preserve Scene A in 123.tidal / fa73858; all streams resend after restart.
@@ -20,13 +19,13 @@
 -- peripheral voices. Reverb/delay on stabs and fragments, NOT a muddy master.
 setcps (112/240)
 
-d1 $ every 7 (fast 2) $ s "< [k808S ~ ~ ~ ~ ~ ~ ~ k808S ~ ~ ~ ~ ~ ~ ~] [k808S ~ ~ ~ ~ ~ k808S ~ k808S ~ ~ ~ ~ ~ ~ ~] [k808S ~ ~ ~ ~ ~ k808S ~ k808S ~ ~ ~ ~ k808S ~ ~] >" # gain 0.84 # hpf 32 # lpf 7500 # pan 0.5 # ddSend 0 # verbSend 0.03
+d1 $ sometimesBy 0.09 (fast 3) $ every 7 (fast 2) $ s "< [k808S ~ ~ ~ ~ ~ ~ ~ k808S ~ ~ ~ ~ ~ ~ ~] [k808S ~ ~ ~ ~ ~ k808S ~ k808S ~ ~ ~ ~ ~ ~ ~] [k808S ~ ~ ~ ~ ~ k808S ~ k808S ~ ~ ~ ~ k808S ~ ~] >" # gain 0.84 # hpf 32 # lpf 7500 # pan 0.5 # ddSend 0 # verbSend 0.03
 
-d2 $ every 9 (iter 4) $ s "<[~ ~ ~ ~ [s808b,c808] ~ ~ ~ ~ ~ ~ ~ [s808b,c808] ~ ~ ~] [~ ~ ~ ~ [s808b,c808] ~ ~ c808 ~ ~ ~ ~ [s808b,c808] ~ c808 ~] [~ ~ ~ ~ [s808b,c808] ~ ~ ~ ~ ~ c808 ~ [s808b,c808] ~ ~ ~]>" # gain 0.78 # hpf 260 # lpf 12000 # pan 0.47 # ddSend 0 # delaySend 0 # lock 1 # delaytime (3/8) # delayfeedback 0.36 # ddWow 0.1 # ddCross 0.65 # verbSend 0.02
+d2 $ every 11 (fast 2) $ every 9 (iter 4) $ s "<[~ ~ ~ ~ [s808b,c808] ~ ~ ~ ~ ~ ~ ~ [s808b,c808] ~ ~ ~] [~ ~ ~ ~ [s808b,c808] ~ ~ c808 ~ ~ ~ ~ [s808b,c808] ~ c808 ~] [~ ~ ~ ~ [s808b,c808] ~ ~ ~ ~ ~ c808 ~ [s808b,c808] ~ ~ ~]>" # gain 0.78 # hpf 260 # lpf 12000 # pan 0.47 # ddSend 0 # delaySend 0 # lock 1 # delaytime (3/8) # delayfeedback 0.36 # ddWow 0.1 # ddCross 0.65 # verbSend 0.02
 
-d3 $ silence
+d3 $ every 7 (iter 4) $ sometimesBy 0.08 (fast 2) $ s "sh808(5,16)" # gain (perlin * 0.26 + 0.42) # speed (perlin * 0.18 + 0.91) # hpf 1300 # lpf (slow 9 $ range 4600 10500 sine) # pan (perlin * 0.42 + 0.29) # ddSend "0 0 0.2 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.26 # verbSend 0.06
 
-d4 $ silence
+d4 $ every 11 (iter 3) $ every 5 (fast 2) $ s "cn808(5,13)" # gain (perlin * 0.26 + 0.37) # speed (slow 7 $ range 0.78 1.34 sine) # hpf 370 # lpf (slow 13 $ range 3800 8900 sine) # pan (perlin * 0.5 + 0.25) # ddSend "0 0 0 0.22 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.34 # ddCross 0.7 # verbSend 0.07
 
 d5 $ every 13 (rev) $ every 7 (fast 2) $ n "<[b1 ~ ~ fs2 ~ b1 ~ a1] [e2 ~ ~ b1 ~ e2 ~ d2] [g1 ~ ~ d2 ~ g1 ~ fs1] [fs1 ~ ~ cs2 ~ fs1 ~ e2]>" # s "dubsub" # amp 0.5 # drive 0.29 # pitchEnv 0.22 # gain 0.59 # pan 0.5 # ddSend "0 0 0.18 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.3 # verbSend 0.03
 
@@ -38,8 +37,8 @@ d8 $ n "<[~ ~ ~ ~ ~ ~ [d4,fs4] ~] [~ ~ ~ ~ ~ ~ [g4,b4] ~] [~ ~ ~ ~ [b4,d5] ~ ~ ~
 
 d9 $ every 13 (off 0.25 (|* gain 0.38)) $ n "<[b3,d4,fs4,cs5] [e3,g3,b3,fs4] [g3,b3,d4,a4] [fs3,as3,e4,g4]>" # s "sweetChords" # amp 0.52 # cutoff (slow 13 $ range 2600 5300 sine) # fmIndex 0.3 # release 0.8 # gain 0.52 # hpf 170 # lpf 10800 # pan 0.48 # ddSend "0 0 0.14 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.27 # verbSend 0.17
 
-d10 $ every 7 (iter 3) $ every 9 (jux rev) $ sometimesBy 0.18 (striate 8) $ slice 16 "<[0 3 7 11 2 6 10 14] [15 12 8 4 13 9 5 1]>" $ loopAt 1 $ s "p94brkC" # gain 0.31 # hpf 340 # lpf 6200 # pan 0.4 # ddSend "0 0 0.1 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.25 # verbSend 0.05
+d10 $ every 7 (iter 3) $ every 9 (jux rev) $ sometimesBy 0.12 (chop 8) $ sometimesBy 0.18 (striate 8) $ slice 16 "<[0 3 7 11 2 6 10 14] [15 12 8 4 13 9 5 1]>" $ loopAt 1 $ s "<p94brkC p94brkB p94brkA>" # gain 0.31 # hpf 340 # lpf (slow 13 $ range 3900 7900 sine) # pan 0.4 # ddSend "0 0 0.1 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.25 # verbSend 0.05
 
-d11 $ silence
+d11 $ every 13 (fast 2) $ every 9 (rev) $ s "c808(7,19)" # gain (perlin * 0.26 + 0.35) # speed "<0.9 1 1.12 0.84>" # hpf 1100 # lpf (slow 11 $ range 5500 12000 sine) # pan (perlin * 0.34 + 0.48) # ddSend 0 # delaySend 0 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # verbSend 0.02
 
-d12 $ every 5 (iter 4) $ every 11 (jux rev) $ sometimesBy 0.14 (striate 4) $ slice 8 "<[0 3 5 7] [6 2 4 1]>" $ loopAt 1 $ s "p70perc" # gain 0.3 # hpf 750 # lpf 8000 # pan 0.63 # ddSend "0 0.1 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.24 # verbSend 0.06
+d12 $ every 5 (iter 4) $ every 11 (jux rev) $ sometimesBy 0.14 (striate 4) $ slice 8 "<[0 3 5 7] [6 2 4 1]>" $ loopAt 1 $ s "<p70perc p70perc p70drumB p70perc>" # gain 0.3 # hpf 750 # lpf (slow 17 $ range 4800 10000 sine) # pan 0.63 # ddSend "0 0.1 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.24 # verbSend 0.06
