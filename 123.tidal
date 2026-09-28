@@ -28,7 +28,7 @@ d8 $ degradeBy 0.72 $ s "cp4(5,16)" # speed "<1 1.1225 1.4983 1.6818>" # gain 0.
 
 d9 $ n "<[b3,d4,fs4,cs5] [d4,fs4,a4,e5] [g3,b3,d4,a4] [a3,cs4,e4,b4]>" # s "sweetChords" # amp 0.52 # cutoff (slow 13 $ range 2600 5300 sine) # fmIndex 0.3 # release 0.8 # gain 0.52 # hpf 170 # lpf 10800 # pan 0.48 # ddSend "0 0 0.28 0" # delaySend 1 # lock 1 # delaytime (3/8) # delayfeedback 0.27 # verbSend 0.17
 
-d10 $ n "<[fs4 b3 b3 ~ fs4 b3 a4 b3] [fs4 b3 b3 ~ e4 ~ d4 e4] [fs4 b3 b3 ~ fs4 ~ ~ e4] [d4 fs4 a4 fs4 e4 ~ d4 e4] [d4 ~ ~ e4 fs4 ~ ~ e4] [d4 e4 fs4 d4 e4 a3 a3 ~] [d4 ~ ~ e4 fs4 g4 fs4 e4] [d4 fs4 a4 fs4 e4 ~ fs4 e4]>" # s "superpiano" # gain "0.47 0.38 0.43 0.39 0.46 0.36 0.41 0.4" # legato 0.42 # attack 0.006 # hold 0.05 # release 0.36 # hpf 200 # lpf 8500 # pan 0.61 # ddSend "0 0 0 0.38 0 0 0 0" # delaySend 1 # lock 1 # delaytime (5/16) # delayfeedback 0.33 # ddCross 0.6 # verbSend 0.15
+d10 $ silence
 
 d11 $ every 7 (rev) $ s "c808(5,16)" # gain "0.26 0.34 0.2 0.3 0.23" # hpf 1100 # lpf 11500 # pan 0.68 # ddSend "0 0 0 0.45 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # verbSend 0.06
 
