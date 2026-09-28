@@ -1,0 +1,38 @@
+-- 134: NIGHT WINDOW — vocal isolation diagnostic; secondary decks + vxA/B/D muted.
+-- Sources (all SC boot aliases): p80a/p80b Dmaj + p80c Amaj one-bar LPViz
+-- synth loops, p70perc & p85drumA percussion loops, humanip vxA/B/D vocal
+-- fragments, 808/p70 kit, dubsub, sweetChords. No web sample needed.
+-- 3/5/7/11/13-bar gain masks on independent DJ decks; 3*5*7*11*13 =
+-- 15015 bars before all mask phases coincide. The transformations have
+-- other coprime periods; the kick/clap remains stable as a dance anchor.
+-- Vocal is chopped into vowels/feelings, not understandable words.
+-- Harmony: Tune Pile chords/progressions.txt vi-IV-I-V [a] (F#m/D/A/E),
+-- recast as two 4-bar passes of inversions/extensions on superpiano.
+-- Mix recall: after SC boot, execute sc/house132-master.scd in sclang.
+-- The scene itself does not send m* params (that bridge is inert); the SC
+-- preset supplies fixed makeup + gentle compression + limiter ceiling.
+setcps (118/240)
+
+d1 $ s "k808S*4" # gain "0.72 0.66 0.69 0.67" # hpf 32 # lpf 5800 # pan 0.5 # ddSend 0 # verbSend 0.025
+
+d2 $ s "~ c808 ~ c808" # gain "0.43 0.51" # hpf 650 # lpf 8900 # pan 0.53 # ddSend "0 0.13 0 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.22 # verbSend 0.06
+
+d3 $ sometimesBy 0.16 (fast 2) $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.31 0.24 0.28 0.22" # hpf 2600 # lpf 10500 # pan 0.6 # ddSend 0 # verbSend 0.03
+
+d4 $ every 9 (iter 3) $ every 5 (fast 2) $ s "sh808(7,16)" # gain (perlin * 0.1 + 0.18) # hpf 1900 # lpf 7800 # pan (perlin * 0.3 + 0.38) # ddSend 0 # verbSend 0.04
+
+d5 $ n "<[fs2 ~ ~ cs2 ~ fs2 e2 ~] [d2 ~ ~ a1 ~ d2 cs2 ~] [a1 ~ ~ e2 ~ a1 gs1 ~] [e2 ~ ~ b1 ~ e2 cs2 ~]>" # s "dubsub" # amp 0.38 # drive 0.18 # pitchEnv 0.12 # gain 0.42 # hpf 32 # lpf 2700 # pan 0.5 # ddSend 0 # verbSend 0.03
+
+d6 $ every 11 (rev) $ loopAt 1 $ s "p80a" # gain "<0.48 0.38 0>" # hpf 220 # lpf (slow 17 $ range 2600 6200 sine) # pan 0.36 # cut 6 # ddSend 0.05 # verbSend 0.1
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ every 5 (off 0.5 (|* gain 0.32)) $ n "<[a3,cs4,e4,gs4] [a3,cs4,d4,fs4] [gs3,b3,cs4,e4] [gs3,b3,d4,fs4] [e4,a4,b4,cs5] [d4,e4,fs4,b4] [cs4,e4,gs4,b4] [b3,d4,fs4,a4]>" # s "superpiano" # amp 0.5 # attack 0.012 # hold 0.1 # release 0.58 # legato 0.54 # gain (slow 11 $ range 0.28 0.42 sine) # hpf 230 # lpf (slow 7 $ range 3600 9000 sine) # pan (slow 13 $ range 0.35 0.64 sine) # ddSend "0 0 0.12 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.21 # verbSend 0.14
+
+d10 $ silence
+
+d11 $ every 11 (iter 3) $ loopAt 1 $ s "p70perc" # gain "<0.25 0 0.3 0.22 0 0.27 0 0.25 0 0.22 0>" # hpf 930 # lpf 6800 # pan 0.42 # ddSend 0 # verbSend 0.07
+
+d12 $ every 13 (rev) $ slice 4 "<0 1 2 3> <2 0 3 1>" $ loopAt 1 $ s "p85drumA" # gain "<0 0 0.2 0 0.26 0 0.21 0 0 0.23 0 0.2 0>" # hpf 450 # lpf 5200 # pan 0.6 # ddSend 0 # verbSend 0.05
