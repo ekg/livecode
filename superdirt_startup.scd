@@ -12,7 +12,7 @@ This is an example startup file. You can load it from your startup file
 	s.options.numWireBufs = 2048; // increase this if you get "exceeded number of interconnect buffers" messages
 	s.options.maxNodes = 1024 * 32; // increase this if you are getting drop outs and the message "too many nodes"
 	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
-	s.options.numInputBusChannels = 2; // set this to your hardware output channel size, if necessary
+	s.options.numInputBusChannels = 0; // output-only Tidal stack: never create PipeWire mic capture ports
 	s.options.useSystemClock = false; // SC 3.13 default (true) makes scsynth exit cleanly with pipewire-jack
 	// boot the server and start SuperDirt
 	s.waitForBoot {
