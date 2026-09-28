@@ -1,0 +1,41 @@
+-- 137: NIGHT WINDOW — SCLOrk Rhodes rebuild. 118 BPM.
+-- Replaces the offending p80a D-major sample (and its companion pitched
+-- decks) with 16-bar F#m-D-A-E bass movement + four-bar Rhodes chord spans.
+-- Requires sc/orkrhodes.scd, loaded at boot via sc/init.scd.
+-- Sources (all SC boot aliases): p80a/p80b Dmaj + p80c Amaj one-bar LPViz
+-- synth loops, p70perc & p85drumA percussion loops, humanip vxA/B/D vocal
+-- fragments, 808/p70 kit, dubsub, sweetChords. No web sample needed.
+-- 3/5/7/11/13-bar gain masks on independent DJ decks; 3*5*7*11*13 =
+-- 15015 bars before all mask phases coincide. The transformations have
+-- other coprime periods; the kick/clap remains stable as a dance anchor.
+-- Vocal is chopped into vowels/feelings, not understandable words.
+-- Harmony: Tune Pile chords/progressions.txt vi-IV-I-V [a] (F#m/D/A/E),
+-- recast as two 4-bar passes of inversions/extensions on superpiano.
+-- Mix recall: after SC boot, execute sc/house132-master.scd in sclang.
+-- The scene itself does not send m* params (that bridge is inert); the SC
+-- preset supplies fixed makeup + gentle compression + limiter ceiling.
+setcps (118/240)
+
+d1 $ s "k808S*4" # gain "0.72 0.66 0.69 0.67" # hpf 32 # lpf 5800 # pan 0.5 # ddSend 0 # verbSend 0.025
+
+d2 $ s "~ c808 ~ c808" # gain "0.43 0.51" # hpf 650 # lpf 8900 # pan 0.53 # ddSend "0 0.13 0 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.22 # verbSend 0.06
+
+d3 $ sometimesBy 0.16 (fast 2) $ s "~ h808C ~ h808C ~ h808C ~ h808C" # gain "0.31 0.24 0.28 0.22" # hpf 2600 # lpf 10500 # pan 0.6 # ddSend 0 # verbSend 0.03
+
+d4 $ every 9 (iter 3) $ every 5 (fast 2) $ s "sh808(7,16)" # gain (perlin * 0.1 + 0.18) # hpf 1900 # lpf 7800 # pan (perlin * 0.3 + 0.38) # ddSend 0 # verbSend 0.04
+
+d5 $ sometimesBy 0.1 (fast 2) $ n "<[fs2 ~ ~ cs3 ~ e2 ~ cs3] [fs2 ~ a2 ~ cs3 ~ e2 ~] [fs2 ~ ~ cs3 ~ fs2 ~ e2] [fs2 ~ e2 ~ cs2 ~ b1 ~] [d2 ~ ~ a2 ~ fs2 ~ a2] [d2 ~ fs2 ~ a2 ~ cs3 ~] [d2 ~ ~ a2 ~ d2 ~ cs2] [d2 ~ a1 ~ cs2 ~ e2 ~] [a1 ~ ~ e2 ~ cs2 ~ e2] [a1 ~ cs2 ~ e2 ~ gs2 ~] [a1 ~ ~ e2 ~ a1 ~ gs1] [a1 ~ gs1 ~ e2 ~ cs2 ~] [e2 ~ ~ b1 ~ gs1 ~ b1] [e2 ~ gs1 ~ b1 ~ ds2 ~] [e2 ~ ~ b1 ~ e2 ~ ds2] [e2 ~ b1 ~ cs2 ~ ds2 ~]>" # s "dubsub" # amp 0.37 # drive 0.18 # pitchEnv 0.12 # gain 0.42 # hpf 32 # lpf 2700 # pan 0.5 # ddSend 0 # verbSend 0.03
+
+d6 $ off 2 (|* gain 0.55) $ slow 4 $ n "<[a3,cs4,e4,gs4] [a3,cs4,d4,fs4] [gs3,b3,cs4,e4] [gs3,b3,d4,fs4]>" # s "orkRhodes" # amp 0.44 # waveMix (slow 11 $ range 0.2 0.48 sine) # cutoff (slow 17 $ range 1800 5000 sine) # res 0.5 # attack 0.018 # release 0.72 # gain 0.57 # hpf 195 # lpf 9000 # pan (slow 19 $ range 0.36 0.62 sine) # ddSend "0 0.1 0 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.21 # verbSend 0.14
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ every 7 (rev) $ slice 8 "<0 2 4 6 1 3 5 7> <2 0 6 4 3 1 7 5>" $ loopAt 1 $ s "<vxA vxB vxD>" # speed "<0.84 1 1.12 0.94>" # gain ("0.37 0 0 0 0.28 0 0 0" * "<1 0 0.6 0 0.8 0 0 0.4 0>") # hpf 420 # lpf 6200 # pan "<0.4 0.62 0.53>" # cut 10 # ddSend "0 0 0 0.24 0 0 0 0" # delaySend 1 # lock 1 # delaytime (3/16) # delayfeedback 0.28 # verbSend 0.18
+
+d11 $ every 11 (iter 3) $ loopAt 1 $ s "p70perc" # gain "<0.25 0 0.3 0.22 0 0.27 0 0.25 0 0.22 0>" # hpf 930 # lpf 6800 # pan 0.42 # ddSend 0 # verbSend 0.07
+
+d12 $ every 13 (rev) $ slice 4 "<0 1 2 3> <2 0 3 1>" $ loopAt 1 $ s "p85drumA" # gain "<0 0 0.2 0 0.26 0 0.21 0 0 0.23 0 0.2 0>" # hpf 450 # lpf 5200 # pan 0.6 # ddSend 0 # verbSend 0.05
