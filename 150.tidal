@@ -1,7 +1,7 @@
 -- 150: THE DRIVING ONE — dub house in D MINOR, cps 0.54 (~130 BPM).
--- 4/4 foundation where EVERY layer is a genuine Euclidean pattern, and no two
--- layers share a (p,k): the interlock is the point, so the pulse is built by the
--- ensemble rather than a single wall of hits.
+-- 4/4 foundation where EVERY layer is a genuine Euclidean pattern; kick, bass
+-- and melody each take a different (p,k) and the layers are rotated against each
+-- other, so the pulse is built by the ensemble rather than one wall of hits.
 --   d1  kick       E(4,8) 4-on-the-floor       + ghost E(7,16) at low gain
 --   d2  snare      E(2,4,1)  -> backbeat on 2 & 4 (E(2,4) rotated by 1)
 --   d8  clap       E(2,4)    -> on 1 & 3, so it leans against the snare

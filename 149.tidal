@@ -36,7 +36,7 @@ d3 $ swing $ s "drumtraks:5(11,16)" # gain "0.34 0.22 0.28 0.22 0.32 0.22 0.28 0
 d4 $ swing $ euclidOff 7 8 3 $ note "<a1 a2 c2 d2 e2 f2 g1>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
 
 -- d5 PAD: hoRhodes triads on the Am - F - C - G cycle, slow 4 (one chord ~10 s).
-d5 $ swing $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2400 # attack 0.06 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
+d5 $ swing $ slow 4 $ note "<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2400 # attack 0.06 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
 -- d6 MELODY: hoRhodes on E(5,13,8), A minor, thinned with `degradeBy` so it leaves
 -- space and never repeats the same phrase twice. Rotated 8 to interlock with bass.

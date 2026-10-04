@@ -35,11 +35,12 @@ var n = 2;
 ~meterBus = Bus.control(s, 3);
 ~meterBus.set(0, 0, 0);
 ~meterLog = Platform.userHomeDir ++ "/livecode/sc/master-meter.log";
-// Master settings, sclang-side (see the note at the end of this file: the
-// Tidal-side m* control bridge does not reach the chain reliably, so the master
-// is configured here and the music is driven through the per-orbit sends).
+// Master settings, sclang-side. This bus is now the LIVE source of truth for the
+// chain: Ndef(\dubMaster) reads it every block, and dirt_masterctl rewrites it
+// whenever a Tidal event carries m* params — so these are the values the master
+// falls back to, and Tidal can modulate away from them per-cycle.
 // [gain, glue, sat, tone, duck, hpf, thresh, width]
-~masterCtlBus.set(0.9, 0.6, 0.28, 13000, 0.3, 28, 0.4, 0.9);
+~masterCtlBus.set(0.95, 0.5, 0.5, 9500, 0.3, 48, 0.3, 0.9);
 
 // ---------------------------------------------------------------- master bus
 ~masterBus = Bus.audio(s, n);
@@ -67,14 +68,20 @@ Ndef(\dubMaster, {
 	// that the Ndef reads. The bus version silently did nothing: writing the bus
 	// never changed the audio (measured: master bus gain 0.3 vs 1.0 made no
 	// difference), which is also why the Tidal m* params appeared dead.
-	var gain = \mGain.kr(0.9, 0.2);
-	var glue = \mGlue.kr(0.42, 0.2);   // was 0.6: smaller slopeAbove = more compression
-	var sat = \mSat.kr(0.34, 0.2);
-	var cut = \mCut.kr(13000, 0.5);
-	var duckAmt = \mDuck.kr(0.38, 0.2);
-	var hpfF = \mHpf.kr(28, 0.5);
-	var thresh = \mThresh.kr(0.28, 0.2);  // was 0.4: compress earlier
-	var width = \mWidth.kr(0.9, 0.2);
+	// The Tidal-side m* params reach us HERE: dirt_masterctl writes
+	// [gain, glue, sat, cut, duck, hpf, thresh, width] into ~masterCtlBus on
+	// every event carrying m* params, with a floor on the gain so a stray event
+	// cannot mute the mix. Per-slot lags make Tidal-side LFOs glide instead of
+	// stepping, which is what turns the master into a playable modulated effect.
+	var ctl = In.kr(~masterCtlBus.index, 8);
+	var gain = ctl[0].lag(0.1);
+	var glue = ctl[1].lag(0.1);   // smaller slopeAbove = more compression
+	var sat = ctl[2].lag(0.1);
+	var cut = ctl[3].lag(0.3);
+	var duckAmt = ctl[4].lag(0.1);
+	var hpfF = ctl[5].lag(0.2);
+	var thresh = ctl[6].lag(0.1);
+	var width = ctl[7].lag(0.1);
 
 	// NB: bus INDICES, not Bus objects — In.ar(Bus, n) builds a broken synth
 	// that compiles fine and passes nothing (the whole-evening "master chain
@@ -134,14 +141,16 @@ Ndef(\dubMaster, {
 
 // keep sclang-side access to the same values: this Event is the source of truth
 // for the surface, and Ndef.set is what actually reaches the audio
-~masterVals = (mGain: 0.9, mGlue: 0.42, mSat: 0.34, mCut: 13000,
-	mDuck: 0.38, mHpf: 28, mThresh: 0.28, mWidth: 0.9, mCeil: 0.79, mKnee: 0.35);
+~masterVals = (mGain: 0.95, mGlue: 0.5, mSat: 0.5, mCut: 9500,
+	mDuck: 0.3, mHpf: 48, mThresh: 0.3, mWidth: 0.9, mCeil: 0.79, mKnee: 0.35);
 ~masterSet = { |key, value|
 	if(~masterVals[key].isNil) {
 		("master: no such control: " ++ key).warn;
 	} {
 		~masterVals[key] = value;
 		Ndef(\dubMaster).set(key, value);
+		// keep the bus in step when a control is NOT one of the 8 bridged slots
+		// (mCeil/mKnee live on the Ndef only), so Tidal modulation cannot fight us
 		"master % = %".format(key, value).postln;
 	};
 };
