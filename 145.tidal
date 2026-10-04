@@ -41,13 +41,19 @@
 --   n 0. For SAMPLE melodies `note` IS playback speed: keep the line above ~fs4
 --   (gs3/fs3 dragged the sample to molasses) and do not jump an octave up
 --   (`|+ note 12` = 2x speed = the squeak).
--- Chords (d9) — mars_synths_OB_Strings, an 8-chord progression over 32 cycles:
---   F#m D Bm C#m / A E Bm C#m, voiced above middle C (fs4/cs5/a5 — the first
---   voicing was far too deep; one octave higher thinned the sample out because a
---   sampled pad at 2x speed loses its body). This is the one wet element and it
---   kept swamping the mix: verbSend came down 0.55 -> 0.22 with room 0.45 /
---   size 0.5 / verbT60 3.2. With such a sparse kit, one big reverb reads as
---   "reverb on everything".
+-- Chords (d9) — SILENCED. It was mars_synths_OB_Strings: an 8-chord progression
+--   (F#m D Bm C#m / A E Bm C#m) at slow 4, so each chord held for four bars.
+--   The "bassy chord farting along" that survived every hunt was THIS: for a
+--   SAMPLE, `note` is playback speed, and the low voicings had roots at b3/a3
+--   (~220-246 Hz) while the sample's own root is ~C4 — so those chords played the
+--   string machine at 0.6-0.7x, and its tape/chorus wobble stretched into a slow
+--   unstable low triad. Third time this trap has bitten (marimba dragging at gs3,
+--   the +12 squeak, now this): a sampled voice must stay near its natural register.
+--   To bring a pad back: keep every root at fs4 or above, or pick a sample with a
+--   lower root, or use a synth voice instead of a sample.
+--   Earlier history, kept for the reverb lesson: it was the only wet element and
+--   kept swamping the mix (verbSend 0.55 -> 0.22, room 0.45, size 0.5, T60 3.2);
+--   with a sparse kit one big reverb reads as "reverb on everything".
 -- Drums (d5, d11-d13) — real drum loops, see LOOPS.md for the pNN alias map:
 --   p93drumB = "300 breaks/12", p94brkB a Funky break, p93drumA the breaklots
 --   loop played whole. These replaced lpmr/lpviz for the cutups: those packs are
@@ -114,7 +120,7 @@ d7 $ s "drumtraks:4(1,13)" # gain 0.4 # hpf 2600 # pan 0.5 # ddSend 0 # verbSend
 
 d8 $ s "drumtraks:1(1,13,6)" # gain 0.62 # hpf 750 # lpf 7200 # release 0.09 # ddSend 0 # verbSend 0
 
-d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.22 # room 0.45 # size 0.5 # verbT60 3.2 # verbDamp 0.5 # ddSend 0
+d9 $ silence
 
 d10 $ s "drumtraks:5(2,13,9)" # gain 0.35 # hpf 2200 # lpf 11000 # pan 0.45 # verbSend 0 # ddSend 0
 
