@@ -1,5 +1,5 @@
--- 142: SAMPLE-SELECTION SCENE — euclid + `n`, real claps, 80s pop on top.
--- Two ideas drive the rhythm section:
+-- 142: SAMPLE-SELECTION SCENE — euclid + `n`, real claps, slowed 80s pop.
+-- SAVED STATE (nice spot to come back to). Two ideas drive the rhythm section:
 --   1. euclidean rhythm: `s "bd(3,8)"` is E(3,8) — 3 hits spread over 8 steps.
 --      Rotations/other densities: cp(3,8,2), realclaps(5,16), hand(7,16).
 --   2. sample selection / modulation with `n`: for a sample, `n` picks WHICH
@@ -7,27 +7,22 @@
 --        n (slow 4 $ choose [0,1,2])    new kick sample every 4 cycles
 --        n (choose [0,1,2,3])           pick per hit
 --        speed (slow 3 $ range 1 1.4 sine)   playback-rate sweep
--- Claps: WAY more real claps. The bank has realclaps (4), ovenclaps (11),
---   hand (17), cp (2) — note `n` only varies a folder that has more than one
---   file, so realclaps/n is real sample selection, not just pitch.
--- 80s pop on top (loud, dry — it kept getting buried):
---   d7 melody — Toto, "Africa" (1982) chorus, tabs-tidal/Toto_-_Africa.gp3-*.tidal,
---     8-bar A-major arc (statement / rise fs5 / high gs5 / return). gain 1.15..1.4.
---   d8 arpeggio — Tears For Fears, "Everybody Wants To Rule The World" (1985),
---     indexed riff d5 fs5 a5 fs5 b5 fs5 a5 fs5.
---   Both in F#m / A major (a b cs e fs gs) — in key with the fs1 bass.
--- Bass (d5): dubsynth pulled DOWN to gain 0.5 — it was too strong.
--- Mix: kick/bass dry (drums+bass group aux sends 0 in sc/routing.scd) — the
---   fix for the reverb-on-the-kick that kept reappearing.
--- Bass/kick tightened for space: shorter envelopes (release 0.09 kick, sustain
---   0.06 + lpf 900 bass), kick hpf 42 and gain down to 0.95, bass gain 0.32.
---   Group bus trims at runtime: drums 0.9, bass 0.8, music 1.25
---   (~groupCtl.set(gain, sDel, sVerb, sShim) in sclang).
--- Melody slowed another 2-fold (now slow 8, gain ramp over 64 cycles) and the
---   pad/chord progression was removed (d9 silence) — melody alone over the
---   trimmed rhythm section, with long empty space between phrases.
--- Folders: 773 total in the sound library; this scene uses 808bd, realclaps,
---   cp, ovenclaps, hand, hh + project dubsynth/hoRhodes.
+-- Claps: WAY more real claps — realclaps (4 files), ovenclaps (11), hand (17),
+--   cp (2). `n` only varies a folder with more than one file, so realclaps/n is
+--   real sample selection, not just pitch.
+-- 80s pop on top (loud, dry), slowed 8x from the original: d7 is now `slow 16`
+--   with `stut 4 0.5 0.5` stutter and a 128-cycle gain ramp (1.15..1.4).
+--   d8 keeps the Tears For Fears arpeggio (d5 fs5 a5 fs5 b5 fs5 a5 fs5).
+--   d7 melody is Toto "Africa" (1982) chorus, tabs-tidal/Toto_-_Africa.gp3-*.
+-- Pad (d9): vi-IV-I-V in F#m, raised an octave to a MID register — the first
+--   voicing (fs3/a3/cs4) read as ultra-bassy; now [fs4,a4,cs5] etc., gain 0.55.
+-- Bass/kick tightened for space: short envelopes (kick release 0.09; bass
+--   sustain 0.06 + lpf 900), kick hpf 42 gain 0.95, bass gain 0.32.
+-- Group bus trims at runtime: drums 0.9, bass 0.8, music 1.25
+--   (~groupCtl.set(gain, sDel, sVerb, sShim) in sclang; sends 0 = dry, which is
+--   the fix for the reverb-on-the-kick).
+-- Folders: 773 total in the sound library; scene uses 808bd, realclaps, cp,
+--   ovenclaps, hand, hh + project dubsynth/hoRhodes.
 setcps 0.5
 
 d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 0.95 # shape 0.55 # hpf 42 # release 0.09 # verbSend 0 # ddSend 0
@@ -42,11 +37,11 @@ d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 
 
 d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
 
-d7 $ slow 8 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 1.15 1.4 saw) # cutoff 4400 # release 0.9 # verbSend 0 # ddSend 0
+d7 $ stut 4 0.5 0.5 $ slow 16 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 128 $ range 1.15 1.4 saw) # cutoff 4400 # release 1.2 # verbSend 0 # ddSend 0
 
 d8 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.7 # cutoff 3800 # release 0.25 # verbSend 0 # ddSend 0
 
-d9 $ silence
+d9 $ slow 8 $ n "<[fs4,a4,cs5] [d4,fs4,a4] [a3,cs4,e4] [e4,gs4,b4]>" # s "hoRhodes" # gain 0.55 # cutoff 3000 # attack 0.4 # release 1.6 # verbSend 0 # ddSend 0
 
 d10 $ silence
 
