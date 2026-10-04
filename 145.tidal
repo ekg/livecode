@@ -2,9 +2,13 @@
 -- Started as three co-prime metres (13/17/23) drifting against each other; the
 -- operator's call was "everything should be in 13", so 17 and 23 are gone and
 -- EVERY pattern is a 13-division (euclids, slice counts and order sequences).
--- The drift now comes from different ROTATIONS of 13 (offsets like (2,13,6),
--- (3,13,3), (7,13)) rather than from coprime periods — the same metre displaced,
--- which reads as polyrhythm against the downbeat without ever fighting it.
+-- Later the operator asked for the whole thing to PULSE TOGETHER instead of
+-- reading scattered: every percussive layer now shares ONE division of 13 —
+-- (5,13) = hits on steps 0,3,6,9,12 — and a 13-length gain pattern accents the
+-- key steps (0 and 6 loudest, 3/9 medium, 12 soft). Same rhythm, different
+-- sounds: that is the "wall of pulsing sound". Layer-specific euclids/rotations
+-- (and the scattered click layer d10) are gone, and the breaks/drum loops are
+-- gated by the same (5,13) instead of sliced into scattered orders.
 --   13 everywhere: kick (4,13); snare <(2,13,6) (1,13) (3,13) (2,13)>; hats
 --      <(5,13) (3,13) (7,13) (2,13)>; claps <(3,13,3) (2,13,7) (5,13)>; accent
 --      ho(1,13); click <(3,13) (2,13) (5,13)>; break + drum loops sliced into 13
@@ -54,29 +58,29 @@
 --   (drums/bass/music/fx) so nothing hits the project verb/shimmer buses.
 setcps 0.5833
 
-d1 $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+d1 $ s "808bd(5,13)" # gain "1.2 0.55 0.55 0.95 0.55 0.95 1.15 0.55 0.55 0.95 0.55 0.55 0.9" # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ every 3 (iter 2) $ sometimesBy 0.25 (fast 2) $ s "<drumtraks:9(2,13,6) drumtraks:9(1,13) drumtraks:9(3,13) drumtraks:9(2,13)>" # gain 0.78 # hpf 420 # verbSend 0 # ddSend 0
+d2 $ s "drumtraks:9(5,13)" # gain "0.35 0.5 0.5 0.75 0.5 0.75 0.4 0.5 0.5 0.75 0.5 0.5 0.7" # hpf 420 # verbSend 0 # ddSend 0
 
-d3 $ s "<drumtraks:4(5,13) drumtraks:5(3,13) drumtraks:4(7,13) drumtraks:5(2,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "drumtraks:4(5,13)" # gain "0.5 0.3 0.3 0.45 0.3 0.45 0.5 0.3 0.3 0.45 0.3 0.3 0.45" # hpf 1800 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
 
 d4 $ silence
 
-d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "<[0 ~ 4 ~ 8 ~ 12 ~] [12 ~ 8 ~ 4 ~ 0 ~] [0 ~ 6 ~ 12 ~ 5 ~] [8 ~ 3 ~ 11 ~ 6 ~]>" $ s "breaks165" # gain 0.6 # hpf 250 # lpf 5500 # verbSend 0 # ddSend 0
+d5 $ s "breaks165(5,13)" # gain "0.7 0.35 0.35 0.55 0.35 0.55 0.7 0.35 0.35 0.55 0.35 0.35 0.55" # hpf 250 # lpf 6500 # verbSend 0 # ddSend 0
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0
 
 d7 $ s "drumtraks:4(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
-d8 $ s "<drumtraks:1(3,13,3) drumtraks:1(2,13,7) drumtraks:1(5,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.1 # release 0.09 # verbSend 0 # ddSend 0
+d8 $ s "drumtraks:1(5,13)" # gain "0.62 0.28 0.28 0.5 0.28 0.5 0.62 0.28 0.28 0.5 0.28 0.28 0.5" # hpf 750 # lpf 7200 # release 0.09 # verbSend 0 # ddSend 0
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
-d10 $ s "<drumtraks:5(3,13) drumtraks:4(2,13) drumtraks:5(5,13)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
+d10 $ silence
 
-d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.42 # hpf 160 # lpf 5500 # verbSend 0 # ddSend 0
+d11 $ s "p93drumB(5,13)" # gain "0.55 0.3 0.3 0.45 0.3 0.45 0.55 0.3 0.3 0.45 0.3 0.3 0.45" # speed 0.95 # hpf 160 # lpf 6000 # verbSend 0 # ddSend 0
 
-d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [2 ~ 5 ~ 8 ~ 11 ~ 1 ~ 4 ~] [12 ~ ~ 9 ~ ~ 6 ~ ~ 3 ~ ~ ~] [6 ~ 5 ~ 4 ~ 3 ~ 2 ~ 1 ~]>" $ s "p94brkB" # speed 0.95 # gain 0.38 # hpf 200 # lpf 5200 # pan 0.4 # verbSend 0 # ddSend 0
+d12 $ s "p94brkB(5,13)" # gain "0.5 0.25 0.25 0.4 0.25 0.4 0.5 0.25 0.25 0.4 0.25 0.25 0.4" # speed 0.95 # hpf 200 # lpf 6000 # pan 0.4 # verbSend 0 # ddSend 0
 
 d13 $ silence
 
