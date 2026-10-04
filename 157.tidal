@@ -56,7 +56,7 @@
 -- big size / T60 4-8 s); heavy dub-delay throws spike on chosen hits via ddSend lanes
 -- with lock 1 (delaytime 0.1875 = a dotted 8th of the bar); the whole thing runs through
 -- the tape module. Master (m*) is carried on the kick with ALL EIGHT slots spelled out.
-setcps 0.31667
+setcps 0.5
 
 let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.03 sine)))
 
@@ -67,7 +67,7 @@ let drown = (# verbSend 0.45) . (# size (slow 16 $ range 0.7 0.95 sine)) . (# ve
 -- KICK (d1): the ONE-DROP -- a single hit on beat 3, together with the snare, and NO
 -- kick on beat 1 (the "drop"). Bar 8 flips to STEPPERS (kick on all four). DRY, and the
 -- only stream that carries the master, so ALL EIGHT m* slots are spelled out here.
-d1 $ lofi $ swing $ s "<[~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [k808S ~ k808S ~ k808S ~ k808S ~]>" # gain 0.85 # shape 0.4 # hpf 55 # lpf 6000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.93 # mGlue (slow 32 $ range 0.45 0.62 sine) # mSat (slow 32 $ range 0.32 0.5 saw) # mCut (slow 16 $ range 7000 11000 sine) # mDuck (slow 16 $ range 0.22 0.42 sine) # mHpf 45 # mThresh 0.32 # mWidth (slow 24 $ range 0.8 0.95 sine)
+d1 $ lofi $ swing $ s "<[~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [k808S ~ k808S ~ k808S ~ k808S ~]>" # gain 0.85 # shape 0.4 # hpf 55 # lpf 6000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.93 # mGlue (slow 32 $ range 0.45 0.62 sine) # mSat (slow 32 $ range 0.32 0.5 saw) # mCut (slow 16 $ range 7000 11000 sine) # mDuck (slow 16 $ range 0.22 0.42 sine) # mHpf 45 # mThresh 0.32 # mWidth (slow 24 $ range 0.8 0.95 sine)
 
 -- SNARE (d2): the other half of the one-drop -- beat 3, together with the kick. Drenched
 -- in the plate and given a dub-delay throw on the same hit. Muted on bar 6 (no-drums).
