@@ -19,11 +19,15 @@
 -- Bass (d5): dubsynth pulled DOWN to gain 0.5 — it was too strong.
 -- Mix: kick/bass dry (drums+bass group aux sends 0 in sc/routing.scd) — the
 --   fix for the reverb-on-the-kick that kept reappearing.
+-- Bass/kick tightened for space: shorter envelopes (release 0.09 kick, sustain
+--   0.06 + lpf 900 bass), kick hpf 42 and gain down to 0.95, bass gain 0.32.
+--   Group bus trims at runtime: drums 0.85, bass 0.8, music 1.1
+--   (~groupCtl.set(gain, sDel, sVerb, sShim) in sclang).
 -- Folders: 773 total in the sound library; this scene uses 808bd, realclaps,
 --   cp, ovenclaps, hand, hh + project dubsynth/hoRhodes.
 setcps 0.5
 
-d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 1.25 # shape 0.3 # hpf 28 # verbSend 0 # ddSend 0
+d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 0.95 # shape 0.55 # hpf 42 # release 0.09 # verbSend 0 # ddSend 0
 
 d2 $ s "realclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.9 # hpf 420 # verbSend 0 # ddSend 0
 
@@ -31,7 +35,7 @@ d3 $ s "~ [cp cp] ~ [realclaps realclaps]" # n (choose [0,1,2,3]) # gain 0.85 # 
 
 d4 $ s "ovenclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.45 # hpf 750 # pan 0.62 # verbSend 0 # ddSend 0
 
-d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.55 # cutoff 180 # fenv 1.2 # drive 0.8 # sustain 0.1 # gain 0.5 # verbSend 0 # ddSend 0
+d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 0.7 # sustain 0.06 # release 0.1 # lpf 900 # gain 0.32 # verbSend 0 # ddSend 0
 
 d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
 
