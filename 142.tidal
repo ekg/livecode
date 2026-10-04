@@ -52,7 +52,7 @@ d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 
 
 d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
 
-d7 $ stut 4 0.5 0.5 $ slow 8 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 0.9 1.0 saw) # cutoff 4600 # release 0.9 # verbSend 0 # ddSend 0
+d7 $ stut 4 0.5 0.5 $ sometimesBy 0.35 (fast 2) $ slow 8 $ note "<[b4 [e5 cs5] e5 b4 [e5 cs5] b4 [e5 cs5] b4 a4 [gs4 a4] ~ ~] [[cs5 e5] fs5 e5 [cs5 e5] fs5 e5 a4 [b4 cs5] e5 b4 [cs5 b4] ~ ~] [e5 [fs5 gs5] fs5 e5 [cs5 b4] cs5 [e5 fs5] e5 cs5 b4 [a4 gs4] ~ ~] [b4 [e5 cs5] e5 b4 e5 cs5 b4 [e5 cs5] b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 0.9 1.0 saw) # cutoff 4600 # release 0.9 # verbSend 0 # ddSend 0
 
 d8 $ silence
 
