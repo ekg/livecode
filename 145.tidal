@@ -24,8 +24,14 @@
 --   the WHOLE loopmaster libraries (vocals and FX included) indexed only by n, so
 --   `n (choose [...])` sometimes drew a vocal loop — the "mousey" squeak.
 -- Vocal feels (d14) — lpviz 169-200 are 2020_DD_Vox1..32. Fragments are taken
---   with begin/end at speed 1 (natural pitch, no squeak), gated on 3-in-13 so
---   they land as feels. begin/end are paired patterns so the window cannot invert.
+--   with begin/end at speed 1 (natural pitch, no squeak), gated on 1-in-13 with an
+--   occasional fast-2 double so they are INFREQUENT, and sent wet (verbSend 0.42
+--   + dub delay 0.45 @3/16). begin/end are paired patterns so the window cannot
+--   invert. NOTE: sometimesBy is a pattern transform, so it wraps the pattern
+--   (`sometimesBy 0.3 (fast 2) $ s ...`) — it is NOT a `# param`.
+-- The sub (d4) is SILENCED: the bassline was carrying too much weight and mud;
+--   d6 melody hpf raised to 420 to take its low body out, and the drum loops
+--   damped (gains down, hpf 160-220, lpf ~5500) because their toms hit hard.
 -- Rules that keep biting (also in LOOPS.md):
 --   * `speed`  = playback rate (pitch follows), keeps slice-to-cycle mapping.
 --   * `loopAt N`>1 = fits the loop over N cycles, i.e. speed/N and N octaves-ish
@@ -44,11 +50,11 @@ d2 $ every 3 (iter 2) $ sometimesBy 0.3 (fast 2) $ s "<sn(3,17) sn(5,17) sn(2,13
 
 d3 $ s "<hh(3,23) ho(2,23) hh(5,23) ho(3,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
 
-d4 $ note "fs1(2,13)" # s "dubsynth" # waveMix 0.15 # cutoff 120 # fenv 0.6 # drive 0.6 # sustain 0.55 # release 0.4 # lpf 200 # hpf 34 # gain 0.5 # verbSend 0 # ddSend 0
+d4 $ silence
 
 d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "breaks165" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
 
-d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.82 # hpf 200 # lpf 9000 # verbSend 0 # ddSend 0
+d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0
 
 d7 $ s "ho(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
@@ -58,10 +64,10 @@ d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs
 
 d10 $ s "<ho(3,23) hh(2,23) ho(5,23)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
 
-d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~] [0 ~ 6 ~ 12 ~ 5 ~ 11 ~ 4 ~] [8 ~ 3 ~ 11 ~ 6 ~ 1 ~ 9 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.5 # hpf 120 # lpf 6500 # verbSend 0 # ddSend 0
+d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~] [0 ~ 6 ~ 12 ~ 5 ~ 11 ~ 4 ~] [8 ~ 3 ~ 11 ~ 6 ~ 1 ~ 9 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.42 # hpf 160 # lpf 5500 # verbSend 0 # ddSend 0
 
-d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [2 ~ 5 ~ 8 ~ 11 ~ 1 ~ 4 ~] [12 ~ ~ 9 ~ ~ 6 ~ ~ 3 ~ ~ ~] [6 ~ 5 ~ 4 ~ 3 ~ 2 ~ 1 ~] [1 ~ 7 ~ 0 ~ 8 ~ 2 ~ 9 ~] [0 ~ 3 ~ 6 ~ 9 ~ 12 ~ 2 ~]>" $ s "p94brkB" # speed 0.95 # gain 0.45 # hpf 140 # lpf 7000 # pan 0.4 # verbSend 0 # ddSend 0
+d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [2 ~ 5 ~ 8 ~ 11 ~ 1 ~ 4 ~] [12 ~ ~ 9 ~ ~ 6 ~ ~ 3 ~ ~ ~] [6 ~ 5 ~ 4 ~ 3 ~ 2 ~ 1 ~] [1 ~ 7 ~ 0 ~ 8 ~ 2 ~ 9 ~] [0 ~ 3 ~ 6 ~ 9 ~ 12 ~ 2 ~]>" $ s "p94brkB" # speed 0.95 # gain 0.38 # hpf 200 # lpf 5200 # pan 0.4 # verbSend 0 # ddSend 0
 
-d13 $ loopAt 1 $ s "p93drumA" # gain 0.4 # hpf 150 # lpf 7000 # verbSend 0 # ddSend 0
+d13 $ loopAt 1 $ s "p93drumA" # gain 0.3 # hpf 220 # lpf 5500 # verbSend 0 # ddSend 0
 
-d14 $ s "lpviz(3,13)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.55 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0.42 # room 0.6 # size 0.75 # ddSend 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
