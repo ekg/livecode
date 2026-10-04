@@ -3,7 +3,7 @@
 -- No four-on-the-floor, no euclid density, no 16th hat roll. A dub bar with 3 bass notes
 -- and 1 snare is correct here.
 --
--- TEMPO: 76 bpm, ONE CYCLE = ONE 4/4 BAR.  cps = (76/60)/4 = 0.31667.
+-- TEMPO: 120 bpm (raised from the transcribed 76), ONE CYCLE = ONE 4/4 BAR. cps = 0.5.
 --   At 0.31667 an 8-slot lane = 8th notes and a 16-slot lane = 16th notes.
 --
 -- RHYTHMIC REFERENCE — the real human reggae performance:
@@ -91,7 +91,7 @@ d6 $ lofi $ swing $ s "dubsynth" # note "<[~ ~ e2 ~ ~ ~ g2 ~] [~ ~ a2 ~ ~ ~ c3 ~
 -- SKANK (d7): the offbeat chord chop on the "&" of every beat -- sweetChords, SHORT and
 -- panned behind, drenched in the plate, light dub delay. degradeBy 0.12 keeps it human.
 -- Muted on bars 3 and 5 (the version / drums-only bars).
-d7 $ drown $ lofi $ swing $ degradeBy 0.12 $ note "<[~ [e3,g3,b3] ~ [e3,g3,b3] ~ [e3,g3,b3] ~ [e3,g3,b3]] [~ [a3,c4,e4] ~ [a3,c4,e4] ~ [a3,c4,e4] ~ [a3,c4,e4]] [~ [c4,e4,g4] ~ [c4,e4,g4] ~ [c4,e4,g4] ~ [c4,e4,g4]] [~ [g3,b3,d4] ~ [g3,b3,d4] ~ [g3,b3,d4] ~ [g3,b3,d4]]>" # s "sweetChords" # fmIndex 0.6 # ratio 2 # drive 0.25 # gain "<0.34 0.34 0 0.34 0 0.34 0.34 0.4>" # lpf (slow 16 $ range 2000 3800 sine) # release 0.14 # pan (slow 8 $ range 0.62 0.78 sine) # ddSend "<0 0.3 0 0.25 0 0.25 0 0.4>" # lock 1 # delaytime 0.1875 # delayfeedback 0.5 # ddWow 0.2
+d7 $ drown $ lofi $ swing $ note "<[e3,g3,b3] [e3,g3,b3] [a3,c4,e4] [a3,c4,e4] [c4,e4,g4] [c4,e4,g4] [g3,b3,d4] [g3,b3,d4]>" # s "miLead" # engine 11 # harm 0.55 # timbre 0.45 # morph 0.25 # level 0.7 # lpgColour 0.5 # gain 0.55 # lpf (slow 16 $ range 2200 4200 sine) # release 0.35 # pan (slow 8 $ range 0.45 0.6 sine) # ddSend "<0 0.3 0 0.25 0 0.25 0 0.4>" # lock 1 # delaytime 0.1875 # delayfeedback 0.5 # ddWow 0.2
 
 -- HORN LINE (d8): the Concrete Jungle head, calm and sparse, sitting in the gaps on
 -- hoRhodes, with a dub-delay throw. E minor: e4 d4 a3 g3 / e3 a3 c4 / e4 g4 e4 / b3 d4 g3.
