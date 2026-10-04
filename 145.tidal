@@ -30,11 +30,13 @@
 --   n 0. For SAMPLE melodies `note` IS playback speed: keep the line above ~fs4
 --   (gs3/fs3 dragged the sample to molasses) and do not jump an octave up
 --   (`|+ note 12` = 2x speed = the squeak).
--- Chords (d9) — mars_synths_OB_Strings, an 8-chord progression over 32 cycles
---   (~55 s): F#m D Bm C#m / A E Bm C#m, voiced above middle C (fs4/cs5/a5 — the
---   first voicing was far too deep; one octave higher thinned the sample out
---   because a sampled pad at 2x speed loses its body). The ONLY wet element:
---   verbSend 0.55, room 0.8, size 0.9, verbT60 6.
+-- Chords (d9) — mars_synths_OB_Strings, an 8-chord progression over 32 cycles:
+--   F#m D Bm C#m / A E Bm C#m, voiced above middle C (fs4/cs5/a5 — the first
+--   voicing was far too deep; one octave higher thinned the sample out because a
+--   sampled pad at 2x speed loses its body). This is the one wet element and it
+--   kept swamping the mix: verbSend came down 0.55 -> 0.22 with room 0.45 /
+--   size 0.5 / verbT60 3.2. With such a sparse kit, one big reverb reads as
+--   "reverb on everything".
 -- Drums (d5, d11-d13) — real drum loops, see LOOPS.md for the pNN alias map:
 --   p93drumB = "300 breaks/12", p94brkB a Funky break, p93drumA the breaklots
 --   loop played whole. These replaced lpmr/lpviz for the cutups: those packs are
@@ -78,7 +80,7 @@ d7 $ s "drumtraks:4(1,13)" # gain 0.4 # hpf 2600 # pan 0.5 # ddSend 0 # verbSend
 
 d8 $ s "drumtraks:1(1,13,6)" # gain 0.62 # hpf 750 # lpf 7200 # release 0.09 # ddSend 0 # verbSend 0
 
-d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
+d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.22 # room 0.45 # size 0.5 # verbT60 3.2 # verbDamp 0.5 # ddSend 0
 
 d10 $ silence
 
