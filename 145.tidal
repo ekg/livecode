@@ -56,15 +56,15 @@
 --   badly once (sub + Micro_Sub impacts + low kick) so the low end is: one sub
 --   (hpf 34), kick hpf 46, no second sub layer. All group aux sends are 0
 --   (drums/bass/music/fx) so nothing hits the project verb/shimmer buses.
-setcps 0.5833
+setcps 0.4667
 
 d1 $ s "808bd(5,13)" # gain "1.2 0.55 0.55 0.95 0.55 0.95 1.15 0.55 0.55 0.95 0.55 0.55 0.9" # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ s "drumtraks:9(5,13)" # gain "0.35 0.5 0.5 0.75 0.5 0.75 0.4 0.5 0.5 0.75 0.5 0.5 0.7" # hpf 420 # verbSend 0 # ddSend 0
+d2 $ s "drumtraks:9(5,13)" # gain "0.35 0.5 0.5 0.75 0.5 0.75 0.4 0.5 0.5 0.75 0.5 0.5 0.7" # hpf 420 # ddSend 0.55 # lock 1 # delaytime (3/16) # delayfeedback 0.5 # ddLp 3000 # ddHp 300 # verbSend 0
 
-d3 $ s "drumtraks:4(5,13)" # gain "0.5 0.3 0.3 0.45 0.3 0.45 0.5 0.3 0.3 0.45 0.3 0.3 0.45" # hpf 1800 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "drumtraks:4(5,13)" # gain "0.42 0.24 0.24 0.36 0.24 0.36 0.42 0.24 0.24 0.36 0.24 0.24 0.36" # hpf 1800 # lpf 8000 # pan 0.6 # verbSend 0 # ddSend 0
 
-d4 $ silence
+d4 $ note "fs1(5,13)" # s "dubsynth" # waveMix 0.1 # cutoff 90 # fenv 0.5 # drive 0.5 # sustain 0.7 # release 0.5 # lpf 165 # hpf 28 # gain 0.8 # verbSend 0 # ddSend 0
 
 d5 $ s "breaks165(5,13)" # gain "0.7 0.35 0.35 0.55 0.35 0.55 0.7 0.35 0.35 0.55 0.35 0.35 0.55" # hpf 250 # lpf 6500 # verbSend 0 # ddSend 0
 
@@ -72,7 +72,7 @@ d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ 
 
 d7 $ s "drumtraks:4(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
-d8 $ s "drumtraks:1(5,13)" # gain "0.62 0.28 0.28 0.5 0.28 0.5 0.62 0.28 0.28 0.5 0.28 0.28 0.5" # hpf 750 # lpf 7200 # release 0.09 # verbSend 0 # ddSend 0
+d8 $ s "drumtraks:1(5,13)" # gain "0.62 0.28 0.28 0.5 0.28 0.5 0.62 0.28 0.28 0.5 0.28 0.28 0.5" # hpf 750 # lpf 7200 # release 0.09 # ddSend 0.35 # lock 1 # delaytime (1/8) # delayfeedback 0.42 # ddLp 3400 # verbSend 0
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
