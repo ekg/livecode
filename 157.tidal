@@ -1,0 +1,128 @@
+-- 157: DUB REGGAE — ONE-DROP / STEPPERS. Radically different from the rest of the set:
+-- slow, spacious, BASS-LED, and the COMPOSITION IS THE MIX (drops, delay throws, reverb).
+-- No four-on-the-floor, no euclid density, no 16th hat roll. A dub bar with 3 bass notes
+-- and 1 snare is correct here.
+--
+-- TEMPO: 76 bpm, ONE CYCLE = ONE 4/4 BAR.  cps = (76/60)/4 = 0.31667.
+--   At 0.31667 an 8-slot lane = 8th notes and a 16-slot lane = 16th notes.
+--
+-- RHYTHMIC REFERENCE — the real human reggae performance:
+--   ~/tunepile/midi/groove/groove/drummer1/session1/184_reggae_78_beat_4-4.mid
+--   (Magenta Groove corpus; info.csv: drummer1/session1/184, style "reggae",
+--    bpm 78, beat, 4/4. Also cross-checked 201_reggae-slow_64_beat and
+--    drummer5/session2/5_reggae_126_beat.) Read with a hand-rolled MIDI parser
+--   (mido is not installed), GM drum map: 36=kick, 37=cross-stick/side-stick,
+--   38=snare (appears only in the fills), 42=hi-hat, 44=hi-hat pedal/downbeat.
+--   Aggregated over 16 bars on a 16th grid the file reads:
+--     36 kick      ....x.......x...   -> beats 2 and 4, NO kick on beat 1 (the "drop")
+--     37 stick     ....x..xo.oox.o.   -> lands WITH the kick (kick+cross-stick pair)
+--     38 snare     ........o.....o.   -> fills only (185/186/187/188 are the fills)
+--     42 hi-hat    xxx.xox.xxxoxoxo   -> continuous 8ths, not a 16th roll
+--     22 shaker    ..x...xo..x...oo   -> the offbeats (the "&") -- the one-drop space
+--   (22/26 are registry-specific low voices in this e-kit; 22 is squarely on the
+--    offbeat 8ths, i.e. the "skank" hat.)
+--   DERIVED LANES (what I transcribed; note the kick is sparse and NEVER on beat 1):
+--     8-slot kick   ~ ~ x ~ ~ ~ x ~
+--     8-slot stick  ~ ~ x ~ ~ ~ x ~
+--     8-slot hat    x ~ x ~ x ~ x ~
+--     8-slot offb   ~ x ~ x ~ x ~ x
+--   The performance pairs kick+cross-stick and drops the downbeat -> I re-frame that
+--   pairing onto beat 3 for the canonical ONE-DROP below, and use the same "drop the
+--   one" space (sparse kick, offbeat hats, no 16ths).
+--
+-- MELODIC SOURCE — the horn line (d8):
+--   "Concrete Jungle" — Bob Marley & The Wailers  (E minor, 94 bpm, 4/4)
+--   pile path: ~/tunepile/tabs-tidal/Marley_Bob_-_Concrete_Jungle.gp4-e29e644e.tidal
+--   (header: key EMinor, 94 bpm). Its guitar-1 head is the E-minor riff
+--   e4 d4 a3 g3 e3 / a3 b3 c4 e3 and the later descent e4 e4 e4 b3 b3 b3 a3 g3 fs3 e3.
+--   TRANSPOSITION: none needed — the tune is already E minor and my dub bass sits on
+--   E/A/C/G (i-iv-VI-III), so I only re-barred the 16-bar pile grid into one 8-slot lane
+--   per bar and thinned it to the calm upper notes: e4 d4 a3 g3 / e3 a3 c4 / e4 g4 /
+--   b3 d4 g3. Nothing shifted > an octave.
+--
+-- DROPOUT MAP (8-bar frame; bass is the constant, kick keeps the one-drop):
+--   bar 1  full
+--   bar 2  full
+--   bar 3  VERSION  — skank+bubble+horn out; bass + drums + delay tail + ghost remain
+--   bar 4  full (everything returns)
+--   bar 5  drums+bass; keys still out (skank/horn/bubble muted)  -> ghost in
+--   bar 6  NO DRUMS — bass + keys + horn breakdown (kick/snare/hats/perc muted)
+--   bar 7  full
+--   bar 8  STEPPERS — kick on all four beats + tom fill + big cp4 delay throw
+--   gates: keys "<1 1 0 1 0 1 1 1>"  drums "<1 1 1 1 1 0 1 1>"
+--          ghost "<0 0 1 0 1 0 0 0>" toms "<0 0 0 0 0 0 0 1>"
+--
+-- MIX: kick is pinned DRY (verbSend 0 # ddSend 0); snare + skank are drenched (dubverb,
+-- big size / T60 4-8 s); heavy dub-delay throws spike on chosen hits via ddSend lanes
+-- with lock 1 (delaytime 0.1875 = a dotted 8th of the bar); the whole thing runs through
+-- the tape module. Master (m*) is carried on the kick with ALL EIGHT slots spelled out.
+setcps 0.31667
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.03 sine)))
+
+let lofi = (# tape (slow 8 $ range 0.06 0.2 sine)) . (# tapeWow 0.3) . (# tapeHf (slow 16 $ range 4500 7500 sine)) . (# tapeHiss 0)
+
+let drown = (# verbSend 0.45) . (# size (slow 16 $ range 0.7 0.95 sine)) . (# verbT60 (slow 16 $ range 4 8 sine)) . (# verbTone (slow 16 $ range 3500 8000 sine)) . (# verbHp 300) . (# verbLow 0.3)
+
+-- KICK (d1): the ONE-DROP -- a single hit on beat 3, together with the snare, and NO
+-- kick on beat 1 (the "drop"). Bar 8 flips to STEPPERS (kick on all four). DRY, and the
+-- only stream that carries the master, so ALL EIGHT m* slots are spelled out here.
+d1 $ lofi $ swing $ s "<[~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [k808S ~ k808S ~ k808S ~ k808S ~]>" # gain 0.85 # shape 0.4 # hpf 55 # lpf 6000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.93 # mGlue (slow 32 $ range 0.45 0.62 sine) # mSat (slow 32 $ range 0.32 0.5 saw) # mCut (slow 16 $ range 7000 11000 sine) # mDuck (slow 16 $ range 0.22 0.42 sine) # mHpf 45 # mThresh 0.32 # mWidth (slow 24 $ range 0.8 0.95 sine)
+
+-- SNARE (d2): the other half of the one-drop -- beat 3, together with the kick. Drenched
+-- in the plate and given a dub-delay throw on the same hit. Muted on bar 6 (no-drums).
+d2 $ drown $ lofi $ swing $ s "~ ~ ~ ~ s808b ~ ~ ~" # gain "<0.6 0.6 0.6 0.6 0.6 0 0.6 0.75>" # hpf 400 # lpf 9000 # release 0.12 # ddSend "<0 0 0 0 0.55 0 0 0>" # lock 1 # delaytime 0.1875 # delayfeedback 0.62 # ddWow 0.25 # ddLp (slow 8 $ range 1800 4200 sine) # ddHp 240 # ddCross 0.55 # ddDrive 0.3
+
+-- HATS (d3): SPARSE offbeat hats (the "&" of every beat), thinned by degradeBy so it is
+-- not a machine, and dry. This is the opposite of the techno 16th roll.
+d3 $ lofi $ swing $ degradeBy 0.3 $ s "~ h808P ~ h808C ~ h808P ~ h808C" # gain "<0.24 0.24 0.24 0.24 0.24 0 0.24 0.28>" # hpf 2500 # lpf (slow 8 $ range 7000 11000 saw) # pan (slow 8 $ range 0.55 0.7 sine) # release 0.04 # verbSend 0 # ddSend 0
+
+-- SHAKER (d4): dry offbeat shimmer, alternating figure, off the grid, muted on bar 6.
+d4 $ lofi $ swing $ s "<[~ sh808 ~ ~ ~ sh808 ~ ~] [~ ~ sh808 ~ ~ ~ sh808 ~]>" # gain "<0.22 0.22 0.22 0.22 0.22 0 0.22 0.24>" # hpf 3500 # lpf 12000 # pan 0.4 # verbSend 0 # ddSend 0
+
+-- BASS SUB (d5): the star -- deep sine root on beats 1 and 3-ish with real space. Real
+-- freqs via note; i-iv-VI-III roots e1 / a1 / c2 / g1 (a fifth d2 on the last bar).
+d5 $ lofi $ swing $ s "dubsub" # note "<[e1 ~ ~ ~ e1 ~ ~ ~] [a1 ~ ~ a1 ~ ~ ~ ~] [c2 ~ ~ ~ c2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~]>" # drive 0.55 # pitchEnv 0.5 # legato 1.5 # sustain 0.3 # release 0.25 # amp 0.85 # gain 0.52 # hpf 26 # lpf 220 # verbSend 0 # ddSend 0
+
+-- BASS SYNTH (d6): the upper movement on dubsynth with a SHORT envelope (sustain 0.16,
+-- release 0.14) in octave 2/3 -- never a long low note. Filter breathes via cutoff.
+d6 $ lofi $ swing $ s "dubsynth" # note "<[~ ~ e2 ~ ~ ~ g2 ~] [~ ~ a2 ~ ~ ~ c3 ~] [~ ~ e3 ~ ~ ~ c3 ~] [~ ~ d3 ~ ~ ~ g2 ~]>" # waveMix 0.2 # cutoff (slow 16 $ range 300 640 sine) # fenv 2.2 # drive 0.4 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.42 # verbSend 0 # ddSend 0
+
+-- SKANK (d7): the offbeat chord chop on the "&" of every beat -- sweetChords, SHORT and
+-- panned behind, drenched in the plate, light dub delay. degradeBy 0.12 keeps it human.
+-- Muted on bars 3 and 5 (the version / drums-only bars).
+d7 $ drown $ lofi $ swing $ degradeBy 0.12 $ note "<[~ [e3,g3,b3] ~ [e3,g3,b3] ~ [e3,g3,b3] ~ [e3,g3,b3]] [~ [a3,c4,e4] ~ [a3,c4,e4] ~ [a3,c4,e4] ~ [a3,c4,e4]] [~ [c4,e4,g4] ~ [c4,e4,g4] ~ [c4,e4,g4] ~ [c4,e4,g4]] [~ [g3,b3,d4] ~ [g3,b3,d4] ~ [g3,b3,d4] ~ [g3,b3,d4]]>" # s "sweetChords" # fmIndex 0.6 # ratio 2 # drive 0.25 # gain "<0.34 0.34 0 0.34 0 0.34 0.34 0.4>" # lpf (slow 16 $ range 2000 3800 sine) # release 0.14 # pan (slow 8 $ range 0.62 0.78 sine) # ddSend "<0 0.3 0 0.25 0 0.25 0 0.4>" # lock 1 # delaytime 0.1875 # delayfeedback 0.5 # ddWow 0.2
+
+-- HORN LINE (d8): the Concrete Jungle head, calm and sparse, sitting in the gaps on
+-- hoRhodes, with a dub-delay throw. E minor: e4 d4 a3 g3 / e3 a3 c4 / e4 g4 e4 / b3 d4 g3.
+-- Muted on bars 3 and 5.
+d8 $ drown $ lofi $ swing $ s "hoRhodes" # note "<[e4 ~ ~ d4 ~ a3 ~ g3] [~ e3 ~ ~ a3 ~ c4 ~] [~ ~ e4 ~ g4 ~ e4 ~] [~ b3 ~ d4 ~ g3 ~ ~]>" # gain "<0.42 0.42 0 0.42 0 0.42 0.42 0.46>" # cutoff 4600 # attack 0.006 # release 0.3 # hpf 300 # lpf (slow 16 $ range 3000 8000 sine) # ddSend "<0 0.35 0 0 0 0.3 0 0>" # lock 1 # delaytime 0.1875 # delayfeedback 0.55
+
+-- ORGAN BUBBLE (d9): the reggae keyboard bubble -- short single notes on the offbeats,
+-- higher register, vibes colour. Muted on bars 3 and 5.
+d9 $ lofi $ swing $ s "mars_synths_DX100_Vibes" # n 0 # note "<[~ e4 ~ e4 ~ e4 ~ e4] [~ a4 ~ a4 ~ a4 ~ a4] [~ c5 ~ c5 ~ c5 ~ c5] [~ b4 ~ b4 ~ b4 ~ b4]>" # gain "<0.3 0.3 0 0.3 0 0.3 0.3 0.32>" # hpf 500 # lpf (slow 16 $ range 3000 8000 sine) # release 0.12 # pan (slow 8 $ range 0.3 0.45 sine) # verbSend (slow 16 $ range 0.12 0.3 sine) # size 0.5 # ddSend 0.1
+
+-- PERC (d10): sparse hand percussion + occasional cowbell, dry-ish, offbeat throw.
+-- Muted on bar 6.
+d10 $ lofi $ swing $ s "<[p93perc ~ ~ ~ cb808 ~ ~ ~] [~ ~ p93perc ~ ~ ~ cb808 ~]>" # gain "<0.16 0.16 0.16 0.16 0.16 0 0.16 0.2>" # hpf 700 # lpf 9000 # pan (slow 8 $ range 0.3 0.65 sine) # release 0.2 # verbSend 0.15 # ddSend "<0 0 0.4 0 0 0 0 0>" # lock 1 # delaytime 0.1875 # delayfeedback 0.45
+
+-- TOMS (d11): one bar of tom fill, on bar 8 only (the steppers bar), dry.
+d11 $ lofi $ swing $ s "~ ~ ~ ~ ~ ~ [t808M,t808Lo] t808H" # gain "<0 0 0 0 0 0 0 0.3>" # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0
+
+-- DELAY THROW (d12): a single plucked-string call at the end of each bar with a HEAVY
+-- dub-delay throw (ddSend lane) -- the classic dub send. Moves delaytime (dotted 8th /
+-- 3/8 / 1/8), feedback and the delay's own filter sweep; lock 1 ties them to the bar.
+d12 $ lofi $ swing $ s "cp4" # n 0 # note "<[~ e5 ~ e5 ~ e5 ~ e5] [~ a4 ~ a4 ~ a4 ~ a4] [~ c5 ~ c5 ~ c5 ~ c5] [~ b4 ~ b4 ~ b4 ~ b4]>" # gain 0.3 # hpf 400 # lpf (slow 8 $ range 2500 6000 saw) # release 0.25 # ddSend "<0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.85>" # lock 1 # delaytime "<0.1875 0.1875 0.1875 0.375 0.1875 0.125 0.1875 0.1875>" # delayfeedback "<0.5 0.5 0.5 0.62 0.5 0.45 0.5 0.75>" # ddWow 0.35 # ddLp (slow 8 $ range 1500 5000 saw) # ddHp (slow 8 $ range 200 900 sine) # ddDrive 0.35 # ddCross 0.6
+
+-- DUB GHOST (d13): a bowed-string tail that appears only in the version bars (3 and 5)
+-- and is almost all reverb + delay -- the "delay tail" of the drop.
+d13 $ lofi $ swing $ s "cb4" # n 0 # note "<[b4 ~ ~ b4 ~ ~ ~ ~] [b4 ~ ~ b4 ~ ~ ~ ~] [d5 ~ ~ d5 ~ ~ ~ ~] [b4 ~ ~ b4 ~ ~ ~ ~]>" # gain "<0.26 0 0 0.24 0 0 0.28 0>" # hpf 300 # lpf 5000 # sustain 0.5 # release 1.5 # verbSend 0.6 # size 0.9 # verbT60 8 # verbTone 4000 # ddSend "<0 0 0.7 0 0.6 0 0 0>" # lock 1 # delaytime 0.375 # delayfeedback 0.7 # ddWow 0.4
+
+-- WOVEN PERC (d14): three 808 voices woven (weave takes a LIST), dry-ish, wide pan.
+d14 $ lofi $ swing $ weave 8 (s "sh808(7,16,3)" # gain 0.16) [s "t808H(5,16,2)" # gain 0.16, s "cn808(3,16,1)" # gain 0.18] # pan (slow 8 $ range 0.25 0.75 sine) # hpf 900 # lpf 11000 # verbSend 0.12 # ddSend 0.1
+
+d15 $ silence
+
+d16 $ silence
+
+-- END 157.tidal
