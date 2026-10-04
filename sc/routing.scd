@@ -62,9 +62,14 @@ var n = 2;
 ~groupCtl.bass.set(1.0, 0.0, 0.0, 0.0);
 ~groupCtl.music.set(0.95, 0.45, 0.3, 0.25);
 ~groupCtl.fx.set(0.9, 0.5, 0.55, 0.4);
-~auxCtl.delay.set(0.55, 0.55, 2600, 0.5);
-~auxCtl.verb.set(0.5, 0.0, 9000, 0.35);
-~auxCtl.shimmer.set(0.45, 0.6, 4200, 0.2);
+// aux returns are OFF at the master bus: level 0 for all three. The feedback and
+// tone values are left in place so a single `~auxCtl.verb.set(0.3, 0, 9000, 0.35)`
+// brings it back. Rationale: a global reverb on a sparse kit reads as "reverb on
+// everything" — there is not enough density to mask it. Space is now per-element
+// (only the pad and the vocal fragments carry any), and only as much as it earns.
+~auxCtl.delay.set(0.0, 0.55, 2600, 0.5);
+~auxCtl.verb.set(0.0, 0.0, 9000, 0.35);
+~auxCtl.shimmer.set(0.0, 0.6, 4200, 0.2);
 
 // ---------------------------------------------------------------- group strip
 // one insert per group: gain, aux sends, gentle compression, then out to master
