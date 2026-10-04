@@ -1,0 +1,70 @@
+-- 152: TECHNO MASHUP — SEVEN NATION ARMY (hook) x PERSONAL JESUS (bass).
+-- Real material dug from ~/tunepile/tabs-tidal (50347 pile files, searched with fielded terms):
+--   A) The White Stripes — Seven Nation Army (bass-guitar riff, E minor, 120 BPM)
+--      ~/tunepile/tabs-tidal/White_Stripes_-_Seven_Nation_Army.gp3-445e143a.tidal
+--   B) Depeche Mode — Personal Jesus (G/Bb bass pump, G minor, 135 BPM)
+--      ~/tunepile/tabs-tidal/Depeche_Mode_-_Personal_Jesus.gp3-e3c49508.tidal
+-- RECONCILED to ONE key + tempo: C natural minor at 140 BPM (cps 0.5833).
+--   A: E minor -> C minor = DOWN 4 semitones. Riff E3 E3 G3 E3 D3 C3 B2 -> C3 C3 Eb3 C3 Bb2 Ab2 G2,
+--      lifted +1 octave into lead register: c4 c4 ef4 c4 bf3 af3 g3. Kept whole, under `slow 2`.
+--   B: G minor -> C minor = UP 5 semitones. G2 Bb2 -> C3 Eb3, dropped -1 octave to bass register
+--      c2/ef2; the G/Bb quarter pump becomes a relentless 16th-note C/Eb driver.
+--   A's 120 BPM and B's 135 BPM are both fitted to the one floor tempo, 140 BPM.
+-- TECHNO FRAME: 4/4; four-on-the-floor k808S; offbeat open hats h808O; c808 clap + s808b snare on
+-- 2 & 4; driving 16th dubsynth bass; a long 32-cycle master filter opening + tape saturation.
+-- NO VOICES anywhere: texture is bowed strings, 808 perc and synths only.
+setcps 0.5833
+
+-- d1 KICK: k808S four-on-the-floor E(4,8) + a low ghost E(7,16). Regular events carry the master
+-- modulation: 32-cycle lowpass opening (mCut) and tape saturation (mSat); mGain held 0.92. Dry.
+d1 $ stack [s "k808S(4,8)" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09, s "k808S(7,16)" # gain 0.24 # hpf 70 # release 0.05] # mGain 0.92 # mCut (slow 32 $ range 2200 11000 sine) # mSat (slow 16 $ range 0.25 0.6 saw) # verbSend 0 # ddSend 0
+
+-- d2 CLAP + SNARE on beats 2 & 4: E(2,4,1) rotation lands both on the backbeat. Dry.
+d2 $ sometimesBy 0.35 (off 0.015625 (fast 2)) $ euclidOff 7 16 1 $ s "c808" # gain 0.55 # hpf 260 # lpf 9000 # pan (slow 4 $ range 0.2 0.8 saw) # speed 1.25 # verbSend 0.15 # room 0.45 # size 0.45 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.35
+
+-- d3 OPEN HATS offbeat: E(4,8,1) puts the open hat on every "and" — the techno lift. Dry.
+d3 $ s "h808O(4,8,1)" # gain "<0.5 0.42>" # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0
+
+-- d4 BASS (Personal Jesus): dubsynth 16ths on C/Eb — the Gm pump transposed up 5 into Cm, octave down.
+-- Short envelope (sustain 0.16 / release 0.14) keeps it a bass; the real low end is d10.
+d4 $ note "c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+
+-- d5 HOOK (Seven Nation Army): the hero riff, transposed Em->Cm (+1 octave), kept whole.
+-- One 32-step / two-bar phrase under `slow 2`; a touch of room + 3/16 delay for the drop.
+d5 $ slow 2 $ note "c4 ~ ~ ~ ~ ~ c4 ~ ef4 ~ ~ c4 ~ ~ bf3 ~ af3 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.7 # cutoff 5200 # attack 0.006 # release 0.3 # lpf 6500 # verbSend 0.15 # room 0.5 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.22
+
+-- d6 PAD: hoRhodes holds the C-minor harmony both sources share — Cm Ab Eb Bb, 4 cycles each.
+-- A 16-cycle filter breathes under it. Space is the held chord, not reverb.
+d6 $ slow 4 $ note "<[c3,ef3,g3] [af2,c3,ef3] [ef3,g3,bf3] [bf2,d3,f3]>" # s "hoRhodes" # gain 0.5 # cutoff 3200 # attack 0.06 # release 2.2 # lpf (range 1000 2600 $ slow 16 sine) # verbSend 0.25 # room 0.55 # size 0.6 # ddSend 0
+
+-- d7 CLOSED HATS rolling: E(15,16) with one gap, the rotation/family creeping each bar.
+d7 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.28 0.22>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- d8 SHAKER: E(7,16,3) — the dry 16th shimmer. Space comes from the euclid gap.
+d8 $ s "sh808(7,16,3)" # gain 0.28 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0
+
+-- d9 COUNTER-LINE: DX100 Vibes, E(3,8,2), a sparse C-minor thread answering the hook. Mostly dry.
+d9 $ s "mars_synths_DX100_Vibes(3,8,2)" # n 0 # note "<c5 ef5 g5 bf5 g5 ef5 d5 c5>" # gain 0.42 # hpf 300 # lpf 5500 # verbSend 0.2 # ddSend 0.2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+
+-- d10 SUB: dubsub E(4,8,1) on the chord roots (c1 ab1 eb1 bb1), one root per 4 cycles.
+d10 $ s "dubsub(4,8,1)" # note (slow 4 $ "<c1 af1 ef1 bf1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- d11 STRINGS: bowed cello cb3 — a held C pedal, consonant over Cm / Ab / Eb / Bb. One note per 2 cycles rings.
+d11 $ slow 2 $ s "cb3" # speed 1 # gain 0.42 # hpf 140 # lpf 2400 # attack 0.4 # release 3 # verbSend 0.22 # room 0.6 # size 0.7 # ddSend 0
+
+-- d12 TOMS: 808 mid tom E(5,16,3), syncopated fill under the hats. Dry.
+d12 $ s "t808M(5,16,3)" # gain 0.4 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0
+
+-- d13 STABS: sweetChords offbeat Cm chord stabs, muted every 4th cycle to leave air.
+d13 $ every 4 (# gain 0) $ note "<[c3,ef3,g3] ~ [af2,c3,ef3] ~ [ef3,g3,bf3] ~ [bf2,d3,f3] ~>" # s "sweetChords" # gain 0.4 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # size 0.55 # ddSend 0.1
+
+-- d14 unused.
+d14 $ silence
+
+-- d15 unused.
+d15 $ silence
+
+-- d16 unused.
+d16 $ silence
+
+-- END 152.tidal
