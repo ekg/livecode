@@ -9,7 +9,13 @@
 -- rather than transposed — both of these are natively in A minor / C major.
 --
 -- Hooks (tabs-tidal via ~/tunepile):
---   * Melody (d6) — "Nothing Compares 2 U" (1990, Sinéad O'Connor / Prince):
+--   * Melody (d6) — now HOCKETS WITH THE SUB (d13): same tonal material, placed in
+--       the GAPS of the sub's rhythm. The sub fires on steps 0/3/5 of each 8, so the
+--       melody takes 1/2/4/6/7; and where the sub rises (a1->e2) the melody descends
+--       (e5->a4), so the two lines mirror each other. One phrase per chord, all
+--       `slow 4`, so sub + pad + melody change harmony together.
+--       This replaced a straight arrangement of "Nothing Compares 2 U" (1990,
+--       Sinéad O'Connor / Prince), which was:
 --       g4 c5 d5 e5 d5 c5 a4 g4 — indexed from the tunepile tab:
 --         "g4 c5 d5 e5 e5 d5 c5 d5 c5 a4 g4 ..."
 --       Recut into a four-phrase 8-bar arc: statement, lift, descent, resolve.
@@ -72,7 +78,7 @@ d4 $ note "<[a2 ~ ~ ~ e3 ~ ~ ~] [f2 ~ ~ ~ c3 ~ ~ ~] [c3 ~ ~ ~ g3 ~ ~ ~] [g2 ~ ~ 
 
 d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4] [a3,c4,e4] [f3,a3,c4] [d3,f3,a3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
-d6 $ every 4 (|+ note 12) $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ c5 a4 g4] [g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ e5 d5 c5] [a4 ~ c5 d5 e5 d5 c5 ~ a4 g4 ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+d6 $ slow 4 $ note "<[~ a4 c5 ~ e5 ~ b4 c5] [~ f4 a4 ~ c5 ~ e5 f4] [~ e4 g4 ~ c5 ~ g4 e4] [~ d4 g4 ~ b4 ~ d5 b4] [~ a4 d5 ~ f5 ~ d5 a4] [~ b4 e5 ~ gs5 ~ e5 b4] [~ a4 c5 ~ e5 ~ b4 c5] [~ f4 a4 ~ c5 ~ e5 f4]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.0 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
 
 d7 $ s "<drumtraks:0(5,13,3) drumtraks:0(3,13,7) drumtraks:0(7,13)>" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
 
