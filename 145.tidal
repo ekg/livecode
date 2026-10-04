@@ -11,8 +11,10 @@
 --     step 3  snare                step 6  kick + hats + clap + sub
 --     step 9  snare + break        step 11 loop B (p94brkB)
 --     step 12 hats + sub
--- Tempo also came down to 90 BPM (cps 0.375) from 112, and the loop layers got a
--- short `release` (0.18) so their own room does not smear into a wash.
+-- Tempo settled at 108 BPM (cps 0.45) after ranging 90-140, and the loop layers got a
+-- short `release` (0.18) so their own room does not smear into a wash. Layers
+-- were stripped to identify a reverb culprit and then brought back: d10 open-hat
+-- tick, d13 the whole p93drumA loop, d15 p93perc (ghatam), d16 p94brkD (2step).
 --   13 everywhere: kick (4,13); snare <(2,13,6) (1,13) (3,13) (2,13)>; hats
 --      <(5,13) (3,13) (7,13) (2,13)>; claps <(3,13,3) (2,13,7) (5,13)>; accent
 --      ho(1,13); click <(3,13) (2,13) (5,13)>; break + drum loops sliced into 13
@@ -62,7 +64,7 @@
 --   badly once (sub + Micro_Sub impacts + low kick) so the low end is: one sub
 --   (hpf 34), kick hpf 46, no second sub layer. All group aux sends are 0
 --   (drums/bass/music/fx) so nothing hits the project verb/shimmer buses.
-setcps 0.375
+setcps 0.45
 
 d1 $ s "808bd(4,13)" # gain "0.85 0.45 0.45 0.6 0.45 0.6 0.78 0.45 0.45 0.6 0.45 0.45 0.55" # shape 0.5 # hpf 46 # release 0.09 # ddSend 0 # verbSend 0
 
@@ -82,12 +84,16 @@ d8 $ s "drumtraks:1(1,13,6)" # gain 0.62 # hpf 750 # lpf 7200 # release 0.09 # d
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.22 # room 0.45 # size 0.5 # verbT60 3.2 # verbDamp 0.5 # ddSend 0
 
-d10 $ silence
+d10 $ s "drumtraks:5(2,13,9)" # gain 0.35 # hpf 2200 # lpf 11000 # pan 0.45 # verbSend 0 # ddSend 0
 
 d11 $ s "p93drumB(1,13,2)" # gain 0.5 # speed 0.95 # hpf 180 # lpf 5200 # release 0.18 # ddSend 0 # verbSend 0
 
 d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0.4 # release 0.18 # ddSend 0 # verbSend 0
 
-d13 $ silence
+d13 $ s "p93drumA(2,13,4)" # gain 0.42 # hpf 200 # lpf 5200 # release 0.18 # verbSend 0 # ddSend 0
 
 d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0 # ddSend 0
+
+d15 $ s "p93perc(1,13,7)" # gain 0.36 # hpf 400 # lpf 6200 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
+
+d16 $ s "p94brkD(1,13,4)" # gain 0.34 # hpf 260 # lpf 5000 # release 0.16 # verbSend 0 # ddSend 0
