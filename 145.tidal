@@ -8,6 +8,9 @@
 -- ensemble rather than everyone firing at once:
 --     step 0  kick + tick          step 2  loop A (p93drumB)   (kick is 4-in-13
 --     at a LOWER gain — doubled for momentum, but sitting inside the mix)
+--   The SUB (d4) is SILENCED: a single fs1 hit twice a bar with sustain 1.1 was
+--   the "boring bass hit in the back". A low element needs movement to earn its
+--   place — see the dubsynth notes below for what it was.
 --     step 3  snare                step 6  kick + hats + clap + sub
 --     step 9  snare + break        step 11 loop B (p94brkB)
 --     step 12 hats + sub
@@ -89,7 +92,7 @@ d2 $ s "drumtraks:9(2,13,3)" # gain "0.6 0.6 0.6 0.95 0.6 0.6 0.6 0.6 0.6 0.85 0
 
 d3 $ s "drumtraks:4(3,13,6)" # gain "0.45 0.3 0.3 0.4 0.3 0.4 0.45 0.3 0.3 0.4 0.3 0.3 0.4" # hpf 1800 # lpf 8000 # pan 0.6 # ddSend 0 # verbSend 0
 
-d4 $ note "fs1(2,13,6)" # s "dubsynth" # waveMix 0.1 # cutoff 90 # fenv 0.5 # drive 0.5 # sustain 1.1 # release 0.6 # lpf 165 # hpf 28 # gain 0.85 # ddSend 0 # verbSend 0
+d4 $ silence
 
 d5 $ s "breaks165(1,13,9)" # gain 0.6 # hpf 250 # lpf 5500 # release 0.18 # ddSend 0 # verbSend 0
 
