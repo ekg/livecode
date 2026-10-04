@@ -26,7 +26,8 @@
 --   down at b3/a3 (sample root ~C4) played at 0.6-0.7x and its tape wobble
 --   stretched into a bassy "farting" chord. Hence: keep sample melodies in
 --   c4-c5, use SYNTH voices (hoRhodes/orkRhodes) when real pitch is needed.
--- TEMPO/SPACE: 90 BPM (cps 0.375) and much sparser — melody and pad both at
+-- TEMPO/SPACE: 120 BPM (cps 0.5, same as the rest of the session) but much
+--   sparser — melody and pad both at
 --   `slow 4` (a phrase every ~10 s), bass on half-notes only, tambourine (d7) out,
 --   hats at gain 0.26, and the counter-line halved in density. Space is mostly
 --   achieved by REMOVING HITS, not by reverb.
@@ -36,7 +37,7 @@
 --   snare. Clean sources, dirty sum.
 -- Mix: dry kit; space only on pad (verbSend 0.28) and the melody voices (0.25/0.2).
 --   Master aux returns are 0 (see sc/routing.scd) and the kit carries no sends.
-setcps 0.375
+setcps 0.5
 
 d1 $ s "808bd*4" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
