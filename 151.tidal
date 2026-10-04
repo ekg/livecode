@@ -15,7 +15,7 @@ let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
 
 -- KICK: 808bd 7-in-8, dense and hard, shape 0.7 for the crunch. Also carries the
 -- slow master-chain modulation (mSat saw 24, mCut sine 32, mGain held 0.92).
-d1 $ swing $ euclid "<4 4 4 5>" 8 $ s "808bd" # gain 0.9 # shape 0.7 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 24 $ range 0.3 0.7 saw) # mCut (slow 32 $ range 2000 9000 sine)
+d1 $ swing $ euclid "<4 4 4 5>" 8 $ s "808bd" # gain 0.9 # shape 0.45 # hpf 58 # lpf 6500 # release 0.09 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 24 $ range 0.2 0.5 saw) # mCut (slow 32 $ range 2500 9000 sine)
 
 -- SNARE: 3-in-8, rotated to 5 so the ghosts answer the bass rather than the kick.
 d2 $ swing $ s "drumtraks:9(3,8,5)" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
