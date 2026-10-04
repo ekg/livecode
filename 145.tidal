@@ -1,0 +1,58 @@
+-- 145: PRIME METRE — 13 / 17 / 23 grids, half-time, Mars samples.
+-- The idea: three co-prime divisions (13, 17, 23) layered so they drift and
+-- only realign every 13x17x23 cycles. Half-time at ~140 BPM so the odd metres
+-- read as groove rather than clutter.
+--   13 : kick (808bd(4,13)), break (breaks165(5,13) etc.), clap (cp(5,13,3)),
+--        sub (fs1(2,13)); the loop resections are 13 slices with 13-slot orders,
+--        so each resection realises once per cycle and locks to the metre.
+--   17 : snare <sn(3,17) sn(5,17) sn(2,13) sn(4,17)>.
+--   23 : hats <hh(7,23) ho(5,23) hh(9,23) ho(7,13)> and the click layer.
+-- Melody — RHCP "Under the Bridge" (1991) verse line, from ~/tunepile
+--   tabs-tidal (the whole line is F# minor: gs fs e cs, no accidentals).
+--   Carried on mars_synths_DX100_Marimba at n 0. NB: for sample melodies `note`
+--   sets PLAYBACK SPEED, so the line is kept above ~fs4 — low notes drag the
+--   sample down (gs3/fs3 made it sound like molasses) and the old
+--   `every 8 (|+ note 12)` octave jump squeaked (2x speed).
+-- Chords — mars_synths_S612_Pad, an 8-chord progression over 32 cycles (~55 s):
+--   F#m D Bm C#m / A E Bm C#m, voiced ABOVE middle C (fs4/cs5/a5 ...) because
+--   the first voicing was far too deep and low. This is the one wet element —
+--   huge verb (verbSend 0.55, room 0.8, size 0.9, verbT60 6) over a slow shift.
+-- Cutups — lpmr / lpviz loop packs sliced into 13 and RESECTIONED, each layer
+--   running a six-cycle sequence of different 13-slot orders, so the cutup
+--   evolves instead of looping. `loopAt 1` = natural rate (loopAt 2/4 screws the
+--   loop down to half/quarter speed — used deliberately on other takes).
+-- Rules learned on this piece:
+--   * loopAt N>1 slows the sample by N; use loopAt 1 + speed for rate control.
+--   * `note` on a sample = speed; keep melodies near the sample's root (~C4).
+--   * The library's `mars_*` sample folders are the good clean melodic/perc
+--     material; the index's `key` column in tunepile is unreliable — pick by notes.
+-- Mix: master mHpf 48 / mCut 11000 / mGain 0.85 (~masterSet). Three sub-ish
+--   layers stacked badly before (sub + Micro_Sub impacts + low kick) so the
+--   low end is now: one sub (hpf 34), kick hpf 46, and no second sub layer.
+--   All group aux sends are 0 (drums/bass/music/fx) so nothing hits the project
+--   verb/shimmer buses — the pad's own verbSend is the only space in the mix.
+setcps 0.5833
+
+d1 $ every 4 (iter 2) $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+
+d2 $ every 3 (iter 2) $ sometimesBy 0.3 (fast 2) $ s "<sn(3,17) sn(5,17) sn(2,13) sn(4,17)>" # gain 0.78 # hpf 420 # shape 0.4 # verbSend 0 # ddSend 0
+
+d3 $ s "<hh(7,23) ho(5,23) hh(9,23) ho(7,13)>" # gain 0.32 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
+
+d4 $ note "fs1(2,13)" # s "dubsynth" # waveMix 0.15 # cutoff 120 # fenv 0.6 # drive 0.6 # sustain 0.55 # release 0.4 # lpf 200 # hpf 34 # gain 0.5 # verbSend 0 # ddSend 0
+
+d5 $ every 4 (rev) $ slow 2 $ s "<breaks165(5,13) breaks165(7,13) breaks165(3,13)>" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
+
+d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.82 # hpf 200 # lpf 9000 # verbSend 0 # ddSend 0
+
+d7 $ silence
+
+d8 $ s "<cp(5,13,3) cp(3,13,7) cp(7,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.25 # release 0.09 # verbSend 0 # ddSend 0
+
+d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_S612_Pad" # n 0 # gain 0.72 # hpf 300 # lpf 6000 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
+
+d10 $ s "<ho(5,23) hh(3,23) ho(7,23)>" # gain 0.22 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
+
+d11 $ sometimesBy 0.35 (chop 2) $ loopAt 1 $ slice 13 "<[0 5 10 2 7 12 4 9 1 6 11 3 8] [12 9 6 3 0 10 7 4 1 11 8 5 2] [0 1 2 3 4 5 6 7 8 9 10 11 12] [4 5 6 7 8 9 10 11 12 0 1 2 3] [0 6 12 5 11 4 10 3 9 2 8 1 7] [8 3 11 6 1 9 4 12 7 2 10 5 0]>" $ s "lpviz" # n (choose [0,7,14,21]) # gain 0.36 # hpf 520 # lpf 4500 # verbSend 0 # ddSend 0
+
+d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 9 6 3 0 10 7 4 1 11 8 5 2] [2 5 8 11 1 4 7 10 0 3 6 9 12] [12 11 10 9 8 7 6 5 4 3 2 1 0] [6 5 4 3 2 1 0 12 11 10 9 8 7] [1 7 0 8 2 9 3 10 4 11 5 12 6] [0 3 6 9 12 2 5 8 11 1 4 7 10]>" $ s "lpmr" # n (choose [3,11,25,42]) # gain 0.32 # hpf 560 # lpf 4200 # pan 0.4 # verbSend 0 # ddSend 0
