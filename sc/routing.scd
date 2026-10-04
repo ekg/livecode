@@ -55,8 +55,10 @@ var n = 2;
 	shimmer: Bus.control(s, 4),
 );
 
-// defaults: drums loud and dry, bass dry, music sent to both time-based effects
-~groupCtl.drums.set(1.0, 0.06, 0.05, 0.0);
+// defaults: drums loud and DRY, bass dry, music sent to both time-based effects
+// (drums used to carry 0.06 delay / 0.05 verb sends; that low-level tail reads
+//  as reverb ON THE KICK and kept creeping back — it is now zero.)
+~groupCtl.drums.set(1.0, 0.0, 0.0, 0.0);
 ~groupCtl.bass.set(1.0, 0.0, 0.0, 0.0);
 ~groupCtl.music.set(0.95, 0.45, 0.3, 0.25);
 ~groupCtl.fx.set(0.9, 0.5, 0.55, 0.4);
@@ -194,17 +196,21 @@ var n = 2;
 	level: { |group, gain| ~groupCtl[group].setAt(0, gain) },
 	ret: { |aux, level| ~auxCtl[aux].setAt(0, level) },
 	levels: {
+		// getn, not getSynchronous: the synchronous read came back stale (it kept
+		// reporting 1.0/1.0/1.0 sends on buses that actually held 0), which sent
+		// a whole debugging session chasing a phantom reverb on the kick.
 		~groupCtl.keysValuesDo { |name, ctl|
-			("%  in=% send(d/v/s)=%/%/%".format(name,
-				ctl.getSynchronous(0).round(0.01),
-				ctl.getSynchronous(1).round(0.01),
-				ctl.getSynchronous(2).round(0.01),
-				ctl.getSynchronous(3).round(0.01))).postln;
+			ctl.getn(4, { |v|
+				("%  in=% send(d/v/s)=%/%/%".format(name,
+					v[0].round(0.01), v[1].round(0.01),
+					v[2].round(0.01), v[3].round(0.01))).postln;
+			});
 		};
 		~auxCtl.keysValuesDo { |name, ctl|
-			("aux %  level=% fb=% tone=%".format(name,
-				ctl.getSynchronous(0).round(0.01), ctl.getSynchronous(1).round(0.01),
-				ctl.getSynchronous(2).round(1))).postln;
+			ctl.getn(4, { |v|
+				("aux %  level=% fb=% tone=%".format(name,
+					v[0].round(0.01), v[1].round(0.01), v[2].round(1))).postln;
+			});
 		};
 	},
 );
