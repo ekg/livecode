@@ -2,7 +2,7 @@
 
 **erik + pi** — live TidalCycles take, 7m37s, 6 movements.
 
-Source: `recordings/jam-20261004-1103.smooth.flac` (masters: FLAC, sharing: MP3 320).
+Source: `recordings/neoniton-20261004-1103.smooth.flac` (masters: FLAC, sharing: MP3 320).
 
 | # | start | len | title |
 |---|-------|-----|-------|

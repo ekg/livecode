@@ -1,8 +1,10 @@
-# 141 Hooks -> Hard Techno -> Pretty Return
+# Neoniton
+
+*(80s hooks -> hard techno -> pretty return)*
 
 **erik + pi** — live TidalCycles take, 7m41s, 6 movements.
 
-Source: `recordings/jam-20261004-1103.flac` (masters: FLAC, sharing: MP3 320).
+Source: `recordings/neoniton-20261004-1103.flac` (masters: FLAC, sharing: MP3 320).
 
 This is the take that opened the session: 80s hooks mined from `~/tunepile`
 (Tears For Fears "Everybody Wants To Rule The World", a-ha "Take On Me", Michael
@@ -23,7 +25,7 @@ The chunk-by-chunk history is in `143.tidal` / `142.tidal` and the marker file.
 
 **`mastered-smooth/`** is the deliverable:
 
-- `jam-20261004-1103.smooth.flac` (+ `.mp3`) — the whole programme mastered once
+- `neoniton-20261004-1103.smooth.flac` (+ `.mp3`) — the whole programme mastered once
   with a smoothly ridden gain curve (`tools/master_smooth.py --target -14
   --ramp 20`). Sections measured −21.8 … −28.9 LUFS (the melody solo is the
   quietest, needing +14.85 dB; hard techno the loudest, +7.76 dB), interpolated

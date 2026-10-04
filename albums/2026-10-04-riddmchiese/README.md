@@ -1,8 +1,10 @@
-# Driving Anthem (tech house riddim)
+# Riddmchiese
+
+*(driving anthem / tech house riddim)*
 
 **erik + pi** — live TidalCycles take, 4m16s, 6 movements.
 
-Source: `recordings/jam-20261004-1133.flac` (masters: FLAC, sharing: MP3 320).
+Source: `recordings/riddmchiese-20261004-1133.flac` (masters: FLAC, sharing: MP3 320).
 
 Built live from `143.tidal` in one pass: melody + pad → tech house riddim
 (4-on-floor, offbeat hats and bass) → layered/heavier drums and a hard kick →
@@ -22,7 +24,7 @@ moves to Bm–G–D–A, melody softens). Markers record each move.
 
 **`mastered-smooth/`** is the deliverable:
 
-- `jam-20261004-1133.smooth.flac` (+ `.mp3`) — mastered once with a smoothly
+- `riddmchiese-20261004-1133.smooth.flac` (+ `.mp3`) — mastered once with a smoothly
   ridden gain curve (`tools/master_smooth.py --target -14 --ramp 20`). Sections
   measured −24.3 … −29.8 LUFS (the closing pad is the quietest, +15.80 dB),
   interpolated over 20 s across every join. Largest section-to-section change

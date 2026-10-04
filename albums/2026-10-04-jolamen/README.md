@@ -1,8 +1,10 @@
-# Riddim Anthem -> Jolene Piano -> Pad Landing
+# Jolamen
+
+*(amen riddim -> Jolene piano -> pad landing)*
 
 **erik + pi** — live TidalCycles take, 7m34s, 7 movements.
 
-Source: `recordings/jam-20261004-1137.flac` (masters: FLAC, sharing: MP3 320).
+Source: `recordings/jolamen-20261004-1137.flac` (masters: FLAC, sharing: MP3 320).
 
 | # | start | len | title |
 |---|-------|-----|-------|
@@ -18,7 +20,7 @@ Source: `recordings/jam-20261004-1137.flac` (masters: FLAC, sharing: MP3 320).
 
 **`mastered-smooth/`** is the deliverable:
 
-- `jam-20261004-1137.smooth.flac` (+ `.mp3`) — the whole programme mastered once
+- `jolamen-20261004-1137.smooth.flac` (+ `.mp3`) — the whole programme mastered once
   with a smoothly ridden gain curve (`tools/master_smooth.py --target -14
   --ramp 20`): the live take measured **−22.35 LUFS** integrated (TP −10.23 dB)
   and each movement gets its own gain (+9.7 … +14.0 dB from the section table),
@@ -38,4 +40,4 @@ Tools: `tools/master_smooth.py` (smoothed continuous ride) and
 
 Curated from the take's 22 markers — the full edit history (every `n`-selection
 tweak, the amen rebuild, the piano octave-up/reverse) is in
-`recordings/jam-20261004-1137.markers.jsonl`.
+`recordings/jolamen-20261004-1137.markers.jsonl`.
