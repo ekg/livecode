@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jukebox</title>
+<style>
+  :root { --bg:#0e0f12; --fg:#e8e6e3; --dim:#8b8f98; --hi:#ffd479; --line:#22242a; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg);
+    font:14px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  header { padding:14px 16px 10px; border-bottom:1px solid var(--line); position:sticky; top:0;
+    background:var(--bg); z-index:2; display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; }
+  h1 { font-size:15px; margin:0; letter-spacing:.06em; text-transform:lowercase; }
+  .meta { color:var(--dim); font-size:12px; }
+  header .spacer { flex:1; }
+  button { background:#1a1c22; color:var(--fg); border:1px solid var(--line); border-radius:6px;
+    padding:5px 10px; cursor:pointer; font:inherit; }
+  button:hover { border-color:#3a3e48; }
+  button.on { color:var(--hi); border-color:#4a4326; background:#221f14; }
+  #list { padding:4px 0 92px; }
+  .row { display:flex; gap:10px; align-items:baseline; padding:6px 16px; cursor:pointer;
+    border-bottom:1px solid #16181d; }
+  .row:hover { background:#14161b; }
+  .row .i { color:var(--dim); width:2.6em; text-align:right; flex:none; }
+  .row .n { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .row .d { color:var(--dim); font-size:12px; flex:none; }
+  .row.now .n { color:var(--hi); }
+  .row.now .i::before { content:"▶"; color:var(--hi); }
+  .row.now .i { color:transparent; }
+  footer { position:fixed; left:0; right:0; bottom:0; background:#111318; border-top:1px solid var(--line);
+    padding:10px 16px; display:flex; gap:12px; align-items:center; }
+  footer .t { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  footer .t b { color:var(--hi); font-weight:600; }
+  input[type=range] { width:120px; accent-color:var(--hi); }
+  #err { color:#ff8a8a; padding:14px 16px; }
+  a { color:var(--dim); }
+</style>
+</head>
+<body>
+<header>
+  <h1>jukebox</h1>
+  <span class="meta" id="count">loading…</span>
+  <span class="spacer"></span>
+  <button id="order" title="toggle listing order">newest first</button>
+  <button id="shuffle" title="shuffle">shuffle</button>
+  <button id="loop" title="repeat one">repeat</button>
+</header>
+<div id="list"></div>
+<footer>
+  <button id="prev" title="previous (←)">⏮</button>
+  <button id="play" title="play/pause (space)">▶</button>
+  <button id="next" title="next (→)">⏭</button>
+  <span class="t"><b id="now">—</b> <span class="meta" id="time"></span></span>
+  <input id="seek" type="range" min="0" max="1000" value="0" step="1" title="seek">
+  <input id="vol" type="range" min="0" max="100" value="85" title="volume">
+  <button id="share" title="copy link to this track">link</button>
+</footer>
+<audio id="a" preload="metadata"></audio>
+
+<script>
+/* A jukebox over an Apache autoindex directory: the playlist IS the listing.
+   No server code, no build step — change a file in the dir and it appears.
+   Default order is the listing's own reverse-chronological sort (C=M;O=D). */
+const DIR    = "/~erik/music/";      // trailing slash required
+const QUERY  = "?C=M;O=D";           // mod_autoindex: sort by Last modified, descending
+const EXTS   = [".mp3", ".m4a", ".opus", ".ogg", ".flac", ".wav"];
+const KEY    = "jukebox:v1";
+
+const $ = (s) => document.querySelector(s);
+const a = $("#a");
+let tracks = [], idx = -1, order = "served", shuffle = false, loopOne = false;
+let lastWrite = 0;
+
+function fmtTime(s) {
+  if (!isFinite(s)) return "";
+  const m = Math.floor(s / 60), x = Math.floor(s % 60);
+  return m + ":" + String(x).padStart(2, "0");
+}
+function say(t) { $("#now").textContent = t; }
+
+async function load() {
+  let html;
+  try {
+    const r = await fetch(DIR + QUERY, { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    html = await r.text();
+  } catch (e) {
+    $("#count").textContent = "";
+    $("#err") || document.body.insertAdjacentHTML("afterbegin",
+      `<div id="err">can't read the listing at ${DIR} — ${e.message}</div>`);
+    return;
+  }
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  tracks = [...doc.querySelectorAll('a[href]')].map((el) => {
+    const href = el.getAttribute("href") || "";
+    const decoded = decodeURIComponent(href);
+    const ext = EXTS.find((e) => decoded.toLowerCase().endsWith(e));
+    if (!ext) return null;
+    const cells = el.closest("tr")?.querySelectorAll("td") || [];
+    return {
+      name: el.textContent.trim().replace(/\s+/g, " "),
+      href: href.startsWith("/") ? href : DIR + href,
+      date: (cells[2]?.textContent || "").trim().replace(/\s+/g, " "),
+      size: (cells[3]?.textContent || "").trim(),
+    };
+  }).filter(Boolean);
+  render();
+  restore();
+}
+
+function render() {
+  const list = order === "name"
+    ? [...tracks].sort((x, y) => x.name.localeCompare(y.name))
+    : tracks;                                   // "served" = whatever Apache returned
+  const box = $("#list");
+  box.innerHTML = "";
+  list.forEach((t) => {
+    const d = document.createElement("div");
+    d.className = "row" + (t === tracks[idx] ? " now" : "");
+    d.innerHTML = `<span class="i"></span><span class="n"></span><span class="d"></span>`;
+    d.children[1].textContent = t.name;
+    d.children[2].textContent = t.date.slice(0, 10);
+    d.onclick = () => play(tracks.indexOf(t), true);
+    d.dataset.href = t.href;
+    box.appendChild(d);
+  });
+  $("#count").textContent = `${tracks.length} tracks · ${new Date().getFullYear()}`;
+  $("#order").textContent = order === "name" ? "a→z" : "newest first";
+  scrollToNow();
+}
+function scrollToNow() {
+  const el = $("#list .row.now");
+  if (el) el.scrollIntoView({ block: "nearest" });
+}
+
+function play(i, userGesture) {
+  if (i < 0 || i >= tracks.length) return;
+  idx = i;
+  const t = tracks[i];
+  a.src = t.href;
+  say(t.name);
+  if (userGesture !== false) a.play().catch(() => {});
+  render();
+  remember();
+}
+function step(n) {
+  if (!tracks.length) return;
+  if (shuffle && tracks.length > 1) {
+    let j; do { j = Math.floor(Math.random() * tracks.length); } while (j === idx);
+    return play(j, true);
+  }
+  let j = idx + n;
+  if (j >= tracks.length) j = 0;
+  if (j < 0) j = tracks.length - 1;
+  play(j, true);
+}
+function remember() {
+  if (track() < 0) {
+    // a track with no offset conflicts with a resume; give it a deterministic
+    // divergence instead of a fixed second so browsers don't share a position
+    store({ h: tracks[idx].href, t: 0, r: Math.random() * 4 });
+    return;
+  }
+  store({ h: tracks[idx].href, t: a.currentTime || 0 });
+}
+function track() { return idx >= 0 && tracks[idx] ? tracks[idx].href : null; }
+function store(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch {} }
+
+function restore() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "null"); } catch {}
+  const hash = location.hash.slice(1);
+  const want = hash ? decodeURIComponent(hash) : (saved && saved.h);
+  if (!want) return;
+  const i = tracks.findIndex((t) => t.href === want || decodeURIComponent(t.href) === want);
+  if (i < 0) return;
+  idx = i;
+  a.src = tracks[i].href;
+  say(tracks[i].name);
+  const at = hash ? 0 : (saved && saved.t) || 0;
+  a.addEventListener("loadedmetadata", () => { try { a.currentTime = at; } catch {} }, { once: true });
+  render();
+}
+
+/* --- controls --- */
+a.addEventListener("ended", () => (loopOne ? play(idx, true) : step(1)));
+a.addEventListener("timeupdate", () => {
+  if (a.duration) $("#seek").value = String((a.currentTime / a.duration) * 1000);
+  $("#time").textContent = fmtTime(a.currentTime) + " / " + fmtTime(a.duration);
+  if (Date.now() - lastWrite > 4000) { lastWrite = Date.now(); remember(); }
+});
+a.addEventListener("play", () => ($("#play").textContent = "⏸"));
+a.addEventListener("pause", () => ($("#play").textContent = "▶"));
+
+$("#play").onclick = () => {
+  if (idx < 0) return play(0, true);
+  a.paused ? a.play().catch(() => {}) : a.pause();
+};
+$("#next").onclick = () => step(1);
+$("#prev").onclick = () => (a.currentTime > 3 ? (a.currentTime = 0) : step(-1));
+$("#seek").oninput = () => { if (a.duration) a.currentTime = (Number($("#seek").value) / 1000) * a.duration; };
+$("#vol").oninput = () => { a.volume = Number($("#vol").value) / 100; };
+$("#shuffle").onclick = (e) => { shuffle = !shuffle; e.currentTarget.classList.toggle("on", shuffle); };
+$("#loop").onclick = (e) => { loopOne = !loopOne; e.currentTarget.classList.toggle("on", loopOne); };
+$("#order").onclick = () => { order = order === "name" ? "served" : "name"; render(); };
+$("#share").onclick = async (e) => {
+  if (idx < 0) return;
+  const url = location.origin + location.pathname + "#" + encodeURIComponent(tracks[idx].href);
+  try {
+    await navigator.clipboard.writeText(url);
+    e.currentTarget.textContent = "copied";
+  } catch {
+    e.currentTarget.textContent = url.slice(-24);
+  }
+  setTimeout(() => (e.currentTarget.textContent = "link"), 1400);
+};
+addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.code === "Space") { e.preventDefault(); $("#play").click(); }
+  else if (e.code === "ArrowRight") step(1);
+  else if (e.code === "ArrowLeft") $("#prev").click();
+});
+
+a.volume = Number($("#vol").value) / 100;
+load();
+</script>
+</body>
+</html>
