@@ -103,7 +103,7 @@ d11 $ swing $ s "p93perc(3,13)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # re
 
 d12 $ swing $ every 4 (fast 2) $ slow 4 $ note "<[e5 ~ ~ g5 a5 ~ g5 ~ e5 ~ d5 ~ ~] [c5 ~ ~ e5 g5 ~ e5 ~ c5 ~ b4 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.42 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # size 0.6 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
 
-d13 $ swing $ s "dubsub*8" # note (slow 4 $ "<a1 f1 c2 g1 d2 e2 a1 f1>") # drive 0.6 # pitchEnv 0.5 # sustain 0.14 # release 0.1 # amp 0.85 # gain 0.58 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+d13 $ swing $ s "<dubsub(7,13,1) dubsub(8,13,5) dubsub(5,13,3) dubsub(7,13,11)>" # note (slow 4 $ "<a1 f1 c2 g1 d2 e2 a1 f1>") # drive 0.6 # pitchEnv 0.5 # sustain 0.14 # release 0.1 # amp 0.85 # gain 0.58 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
 d14 $ silence
 
