@@ -1,45 +1,39 @@
--- 141: 80s POP MINING — TUNEPILE HOOKS OVER A 120 BPM GROOVE.
--- First session after the stack-ownership incident; the plugin's dead-end
--- "SC running outside this instance" refusal is fixed, so this is a normal jam.
--- Straight-ahead four-piece groove (kick/clap/hats/sub-bass) with three hooks
--- lifted from ~/tunepile, searched via index/tunepile.db (FTS5):
+-- 141: 80s POP MINING — TUNEPILE HOOKS, REBUILT AROUND A SYNCOPATED KICK.
+-- Started as a 120 BPM four-piece groove with hooks mined from ~/tunepile
+-- (index/tunepile.db, FTS5). Then the kick was changed to the figure
+-- "x x - - x x x - -" (9 steps: hits at 1-2-5-6-7) and EVERYTHING was reworked
+-- around it: hats hocket the kick's rests, bass mirrors the kick's hits, clap
+-- was dropped, and the arp/melody were re-lengthed to the 9-step group.
 --   * arpeggio (d5)  — Tears For Fears, "Everybody Wants To Rule The World"
 --       tabs-tidal/Tears_For_Fears_-_Everybody_Wants_To_Rule_The_World.gp4-*.tidal
---       riff as indexed: d5 fs5 a5 fs5 b5 fs5 a5 fs5 (D-major arpeggio, 1985).
---       cutoff now sweeps (slow 8, 1600..4400 sine) so the part opens on its own.
---   * melody (d6)    — a-ha, "Take On Me" (1985), opening synth line notes
+--       riff as indexed: d5 fs5 a5 fs5 b5 fs5 a5 fs5, extended to 9 for the grid.
+--       cutoff sweeps (slow 8, 1600..4400 sine).
+--   * melody (d6)    — a-ha, "Take On Me" (1985)
 --       tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal (first-note extract).
---       Recast on our grid, RAMMED FORWARD (gain slow 16, 0.45..0.95 saw) — it
---       was mixed too quiet. Delay taps CLEANED OUT (ddSend 0): melody is dry.
+--       Ramped forward hard (gain slow 16, 0.62..1.15 saw) — it kept getting
+--       buried; this is the loudest it gets.
 --   * bass (d4)      — Michael Jackson, "Billie Jean" (1983) contour
---       tabs-tidal/Jackson_Michael_-_Billie_Jean.gp3-*.tidal — F#m root movement,
---       voiced on the project's dubsynth (sc/dubsynth.scd).
+--       tabs-tidal/Jackson_Michael_-_Billie_Jean.gp3-*.tidal, re-cut to the kick.
 --   * pad (d11)      — vi-IV-I-V in F#m (Tunepile chords/progressions), hoRhodes,
---       ramped in (gain slow 16, 0.3..0.62 saw). This is the "new part".
--- Claps: first pass was room 0.45 / sz 0.85 (far too intense), then modulated
--- (slow 8 sine 0.05..0.22); FINAL pass drops reverb entirely — dry clap,
--- room 0, sz 0.35 — for the progressive section.
--- Delay: the tap/dub delay (ddSend) is removed from all melodic parts (d5/d6/d11).
--- Sources: bd/cp/hh/ho Dirt-Samples + dubsynth, tapestab, hoRhodes (project DSP).
+--       ramped in (gain slow 16, 0.3..0.62 saw).
+-- Claps: tried wet (room 0.45), modulated, then dry — finally DROPPED (d2).
+-- Delay: tap/dub delay removed (ddSend 0) from all melodic parts.
+-- Sources: bd/hh/ho Dirt-Samples + dubsynth, hoRhodes (project DSP).
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
--- Verification: 138+ scsynth synths while running; recording
--- recordings/jam-20261004-1103.wav with change markers.
--- Per-stream gain/amp deliberate. Kick: originally bd(5,8); now the syncopated
--- "x x - - x x x - -" figure (9 steps), which drifts against the 8-step bass
--- for a lopsided push instead of grid four-on-the-floor.
+-- Verification: recording recordings/jam-20261004-1103.wav with change markers.
 setcps 0.5
 
 d1 $ s "bd bd ~ ~ bd bd bd ~ ~" # gain 1.15 # shape 0.25
 
-d2 $ s "~ cp ~ cp" # gain 0.8 # hpf 350 # sz 0.35 # room 0
+d2 $ silence
 
-d3 $ s "[hh hh hh hh hh hh hh ho]" # gain 0.42 # speed 1.4 # pan 0.6
+d3 $ s "~ ~ hh hh ~ ~ ~ hh ho" # gain 0.42 # speed 1.4 # pan 0.6
 
-d4 $ note "fs2 ~ cs3 fs2 ~ e2 fs2 ~" # s "dubsynth" # waveMix 0.3 # cutoff 380 # fenv 2.4 # sustain 0.3 # gain 0.8
+d4 $ note "fs2 fs2 ~ ~ cs3 fs2 e2 ~ ~" # s "dubsynth" # waveMix 0.3 # cutoff 380 # fenv 2.4 # sustain 0.3 # gain 0.8
 
-d5 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.5 # cutoff (slow 8 $ range 1600 4400 sine) # release 0.3 # ddSend 0
+d5 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5 b5" # s "hoRhodes" # gain 0.5 # cutoff (slow 8 $ range 1600 4400 sine) # release 0.3 # ddSend 0
 
-d6 $ slow 2 $ note "fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~" # s "hoRhodes" # gain (slow 16 $ range 0.45 0.95 saw) # cutoff 3800 # release 0.4 # ddSend 0
+d6 $ slow 2 $ note "fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.4 # ddSend 0
 
 d7 $ silence
 
