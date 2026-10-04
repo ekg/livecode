@@ -14,8 +14,13 @@
 --   with `stut 4 0.5 0.5` stutter and a 128-cycle gain ramp (1.15..1.4).
 --   d8 keeps the Tears For Fears arpeggio (d5 fs5 a5 fs5 b5 fs5 a5 fs5).
 --   d7 melody is Toto "Africa" (1982) chorus, tabs-tidal/Toto_-_Africa.gp3-*.
--- Pad (d9): vi-IV-I-V in F#m, raised an octave to a MID register — the first
---   voicing (fs3/a3/cs4) read as ultra-bassy; now [fs4,a4,cs5] etc., gain 0.55.
+-- Pad (d9): vi-IV-I-V in F#m as WIDE INVERSIONS spanning octaves 3-5 — one
+--   chord tone per octave, e.g. F#m = fs3 / a4 / cs5. The low triads
+--   (fs3-a3-cs4) read as ultra-bassy and a tight high voicing was thin; this
+--   spreads each chord across three octaves. Chords divide gain in SuperDirt,
+--   so the pad needs a much higher `gain` than a single note; 3.0 was too loud,
+--   settled at ~1.3. Fired every 2 cycles with long sustain/release (hoRhodes'
+--   envelope caps ~2.8 s) so successive chords ring into each other.
 -- Bass/kick tightened for space: short envelopes (kick release 0.09; bass
 --   sustain 0.06 + lpf 900), kick hpf 42 gain 0.95, bass gain 0.32.
 -- Group bus trims at runtime: drums 0.9, bass 0.8, music 1.25
@@ -41,7 +46,7 @@ d7 $ stut 4 0.5 0.5 $ slow 16 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 g
 
 d8 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.7 # cutoff 3800 # release 0.25 # verbSend 0 # ddSend 0
 
-d9 $ slow 8 $ n "<[fs4,a4,cs5] [d4,fs4,a4] [a3,cs4,e4] [e4,gs4,b4]>" # s "hoRhodes" # gain 0.55 # cutoff 3000 # attack 0.4 # release 1.6 # verbSend 0 # ddSend 0
+d9 $ slow 2 $ n "<[fs3,a4,cs5] [d3,fs4,d5] [a3,e4,cs5] [e3,b4,gs5]>" # s "hoRhodes" # gain 1.3 # cutoff 4200 # attack 0.03 # sustain 4 # release 2.6 # verbSend 0 # ddSend 0
 
 d10 $ silence
 
