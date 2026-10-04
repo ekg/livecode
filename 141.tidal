@@ -24,9 +24,12 @@
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
 -- Verification: 138+ scsynth synths while running; recording
 -- recordings/jam-20261004-1103.wav with change markers.
+-- Per-stream gain/amp deliberate. Kick: originally bd(5,8); now the syncopated
+-- "x x - - x x x - -" figure (9 steps), which drifts against the 8-step bass
+-- for a lopsided push instead of grid four-on-the-floor.
 setcps 0.5
 
-d1 $ s "bd(5,8)" # gain 1.15 # shape 0.25
+d1 $ s "bd bd ~ ~ bd bd bd ~ ~" # gain 1.15 # shape 0.25
 
 d2 $ s "~ cp ~ cp" # gain 0.8 # hpf 350 # sz 0.35 # room 0
 
