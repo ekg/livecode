@@ -3,37 +3,41 @@
 --   1. 120 BPM groove with hooks mined from ~/tunepile (index/tunepile.db, FTS5).
 --   2. Kick became "x x - - x x x - -" (9 steps); everything reworked around it.
 --   3. Kick + clap dropped; then all parts except the melody dropped for a solo.
---   4. Melody extended to an 8-bar arc, big regular dub delay + big verb, chopped.
+--   4. Solo extended to an 8-bar arc, big regular dub delay + big verb, chopped.
 --   5. A new hard techno beat + rolling bass dropped in under it.
---   6. Techno out; back to something pretty — a second Tunepile hook (Toto,
---      "Africa") with the F#m pad restored. This file reflects the final state.
+--   6. Techno out; back to something pretty (Toto, "Africa").
+--   7. Beat/bass restored, both DRY (verbSend 0, ddSend 0) — reverb off the
+--      kick and bass — and the pretty melody lifted so it is actually present.
+--      This file reflects the final state.
 -- Melody (d6) — Toto, "Africa" (1982), chorus line:
 --   tabs-tidal/Toto_-_Africa.gp3-*.tidal — indexed run b4 e5 cs5 e5 b4 e5 …
 --   Recast to an 8-bar A-major phrase set: statement, rise (fs5), high (gs5),
 --   return. All pitches in A major / F#m (a b cs e fs gs) — stays in key.
---   gain slow 16 (0.55..0.9 saw); dub delay ddSend 0.35, delaytime 3/8,
---   feedback 0.45, lock 1; verbSend 0.45, size 0.9, room 0.7, verbT60 5.
---   (The earlier a-ha "Take On Me" solo + chop and the hard techno are gone.)
+--   gain slow 16 (0.8..1.2 saw) — it was inaudibly quiet at 0.55..0.9.
+--   DRY: the dub delay + reverb were removed (ddSend 0, verbSend 0) after they
+--   read as a wandering verb/delay wash; nothing in this set is wet.
+-- Kick (d1) / bass (d4): DRY — no reverb, no delay.
 -- Pad (d11) — vi-IV-I-V in F#m (Tunepile chords/progressions), hoRhodes,
---   soft gain 0.34, verbSend 0.3.
--- Drum/other streams silent. Hooks used earlier in the session, now silent:
---   arpeggio (Tears For Fears "Everybody Wants To Rule The World"),
---   bass ("Billie Jean" contour), pad (F#m), hard techno beat/rolling bass.
+--   gain 0.34, DRY (verbSend 0).
+-- Hooks used earlier, now silent: arpeggio (Tears For Fears "Everybody Wants To
+-- Rule The World"), bass ("Billie Jean" contour), the a-ha "Take On Me" solo.
 -- Sources: Dirt-Samples + dubsynth, hoRhodes (project DSP).
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
+-- Verification: master meter 261004_111007 peak 0.308 rms 0.227 (was 0.0 when
+-- the pretty parts were too quiet).
 setcps 0.5
 
-d1 $ silence
+d1 $ s "bd*4" # gain 1.25 # shape 0.45 # hpf 28 # verbSend 0 # ddSend 0
 
 d2 $ silence
 
 d3 $ silence
 
-d4 $ silence
+d4 $ note "fs2 ~ cs3 fs2 ~ e2 fs2 ~" # s "dubsynth" # waveMix 0.3 # cutoff 380 # fenv 2.4 # sustain 0.3 # gain 0.85 # verbSend 0 # ddSend 0
 
 d5 $ silence
 
-d6 $ slow 2 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.55 0.9 saw) # cutoff 3600 # release 0.6 # ddSend 0.35 # lock 1 # delaytime (3/8) # delayfeedback 0.45 # verbSend 0.45 # size 0.9 # room 0.7 # verbT60 5 # verbDamp 0.4
+d6 $ slow 2 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.8 1.2 saw) # cutoff 3600 # release 0.6 # ddSend 0 # verbSend 0
 
 d7 $ silence
 
@@ -43,6 +47,6 @@ d9 $ silence
 
 d10 $ silence
 
-d11 $ slow 2 $ n "<[fs3,a3,cs4] [d3,fs3,a3] [a2,cs3,e3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.34 # cutoff 2200 # release 0.7 # verbSend 0.3
+d11 $ slow 2 $ n "<[fs3,a3,cs4] [d3,fs3,a3] [a2,cs3,e3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.34 # cutoff 2200 # release 0.7 # verbSend 0
 
 d12 $ silence
