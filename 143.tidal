@@ -31,11 +31,11 @@ setcps 0.5
 
 d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 0.95 # shape 0.55 # hpf 42 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ s "realclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.7 # hpf 420 # verbSend 0 # ddSend 0
+d2 $ s "realclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.78 # hpf 420 # verbSend 0 # ddSend 0
 
-d3 $ s "~ [cp cp] ~ [realclaps realclaps]" # n (choose [0,1,2,3]) # gain 0.66 # hpf 420 # verbSend 0 # ddSend 0
+d3 $ s "~ [cp cp] ~ [realclaps realclaps]" # n (choose [0,1,2,3]) # gain 0.74 # hpf 420 # verbSend 0 # ddSend 0
 
-d4 $ s "ovenclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.34 # hpf 750 # pan 0.62 # verbSend 0 # ddSend 0
+d4 $ s "ovenclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.4 # hpf 750 # pan 0.62 # verbSend 0 # ddSend 0
 
 d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 0.7 # sustain 0.06 # release 0.1 # lpf 900 # gain 0.32 # verbSend 0 # ddSend 0
 
