@@ -1,0 +1,40 @@
+-- 141: 80s POP MINING — TUNEPILE HOOKS OVER A 120 BPM GROOVE.
+-- First session after the stack-ownership incident; the plugin's dead-end
+-- "SC running outside this instance" refusal is fixed, so this is a normal jam.
+-- Straight-ahead four-piece groove (kick/clap/hats/sub-bass) with three hooks
+-- lifted from ~/tunepile, searched via index/tunepile.db (FTS5):
+--   * arpeggio (d5)  — Tears For Fears, "Everybody Wants To Rule The World"
+--       tabs-tidal/Tears_For_Fears_-_Everybody_Wants_To_Rule_The_World.gp4-*.tidal
+--       riff as indexed: d5 fs5 a5 fs5 b5 fs5 a5 fs5 (D-major arpeggio, 1985).
+--   * melody (d6)    — a-ha, "Take On Me" (1985), opening synth line notes
+--       tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal (first-note extract).
+--       Recast on our grid; "runs out" through the dub delay (ddSend/lock).
+--   * bass (d4)      — Michael Jackson, "Billie Jean" (1983) contour
+--       tabs-tidal/Jackson_Michael_-_Billie_Jean.gp3-*.tidal — F#m root movement,
+--       voiced on the project's dubsynth (sc/dubsynth.scd).
+-- Clap: the first pass used room 0.45 / sz 0.85 and was far too intense, so the
+-- reverb is now MODULATED (slow 8 sine, room 0.05..0.22) with sz 0.55 — present
+-- but never washy. Hats pan right; kick is euclidean 5-in-8.
+-- Sources: bd/cp/hh/ho Dirt-Samples + dubsynth, tapestab, hoRhodes (project DSP).
+-- Mix: per-stream gain deliberate, master UNITY as in 139/140.
+setcps 0.5
+
+d1 $ s "bd(5,8)" # gain 1.15 # shape 0.25
+
+d2 $ s "~ cp ~ cp" # gain 0.8 # hpf 350 # sz 0.55 # room (slow 8 $ range 0.05 0.22 sine)
+
+d3 $ s "[hh hh hh hh hh hh hh ho]" # gain 0.42 # speed 1.4 # pan 0.6
+
+d4 $ note "fs2 ~ cs3 fs2 ~ e2 fs2 ~" # s "dubsynth" # waveMix 0.3 # cutoff 380 # fenv 2.4 # sustain 0.3 # gain 0.8
+
+d5 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.5 # cutoff 3000 # release 0.3 # ddSend 0.2
+
+d6 $ slow 2 $ note "fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~" # s "hoRhodes" # gain 0.45 # cutoff 3800 # release 0.4 # ddSend 0.35 # lock 1
+
+d7 $ silence
+
+d8 $ silence
+
+d9 $ silence
+
+d10 $ silence
