@@ -34,6 +34,9 @@
   footer .t b { color:var(--hi); font-weight:600; }
   input[type=range] { width:120px; accent-color:var(--hi); }
   #err { color:#ff8a8a; padding:14px 16px; }
+  #tap { position:fixed; inset:0 0 72px 0; display:grid; place-items:center; background:rgba(14,15,18,.72); z-index:3; }
+  #tap[hidden] { display:none; }
+  #tap button { font-size:16px; padding:14px 22px; border-color:#4a4326; background:#221f14; color:var(--hi); }
   a { color:var(--dim); }
 </style>
 </head>
@@ -47,6 +50,7 @@
   <button id="loop" title="repeat one">repeat</button>
 </header>
 <div id="list"></div>
+<div id="tap" hidden><button id="tapbtn">▶ play</button></div>
 <footer>
   <button id="prev" title="previous (←)">⏮</button>
   <button id="play" title="play/pause (space)">▶</button>
@@ -77,6 +81,11 @@ function fmtTime(s) {
   const m = Math.floor(s / 60), x = Math.floor(s % 60);
   return m + ":" + String(x).padStart(2, "0");
 }
+/* a short, human-readable, stable id for a track: jolamen.mp3 -> jolamen */
+function slugOf(name) {
+  return name.replace(/\.[a-z0-9]+$/i, "").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
 function say(t) { $("#now").textContent = t; }
 
 async function load() {
@@ -92,6 +101,7 @@ async function load() {
     return;
   }
   const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = Object.create(null);
   tracks = [...doc.querySelectorAll('a[href]')].map((el) => {
     const href = el.getAttribute("href") || "";
     const decoded = decodeURIComponent(href);
@@ -104,7 +114,12 @@ async function load() {
       date: (cells[2]?.textContent || "").trim().replace(/\s+/g, " "),
       size: (cells[3]?.textContent || "").trim(),
     };
-  }).filter(Boolean);
+  }).filter(Boolean).map((t) => {
+    let s = slugOf(t.name) || "track";
+    const n = (seen[s] = (seen[s] || 0) + 1);
+    t.slug = n > 1 ? s + "-" + n : s;      // collisions get a suffix, never merge
+    return t;
+  });
   render();
   restore();
 }
@@ -116,12 +131,13 @@ function render() {
   const box = $("#list");
   box.innerHTML = "";
   list.forEach((t) => {
-    const d = document.createElement("div");
+    const d = document.createElement("a");          // a real link: right-click copies
     d.className = "row" + (t === tracks[idx] ? " now" : "");
+    d.href = "#" + encodeURIComponent(t.slug);
     d.innerHTML = `<span class="i"></span><span class="n"></span><span class="d"></span>`;
     d.children[1].textContent = t.name;
     d.children[2].textContent = t.date.slice(0, 10);
-    d.onclick = () => play(tracks.indexOf(t), true);
+    d.onclick = (e) => { e.preventDefault(); play(tracks.indexOf(t), true); };
     d.dataset.href = t.href;
     box.appendChild(d);
   });
@@ -140,9 +156,23 @@ function play(i, userGesture) {
   const t = tracks[i];
   a.src = t.href;
   say(t.name);
-  if (userGesture !== false) a.play().catch(() => {});
+  if (userGesture !== false) a.play().catch(showTap);   // policy may need a real tap
+  setHash(t.slug);
   render();
   remember();
+}
+function showTap() {
+  if (idx < 0) return;
+  const el = $("#tap");
+  $("#tapbtn").textContent = "▶ play " + tracks[idx].name;
+  el.hidden = false;
+}
+function hideTap() { $("#tap").hidden = true; }
+/* keep the address bar pointing at the playing track, so copying it shares
+   that track — replaceState so it does not fire hashchange/back-stack noise */
+function setHash(slug) {
+  const want = "#" + encodeURIComponent(slug);
+  if (location.hash !== want) history.replaceState(null, "", want);
 }
 function step(n) {
   if (!tracks.length) return;
@@ -170,18 +200,33 @@ function store(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch 
 function restore() {
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY) || "null"); } catch {}
+  const params = new URLSearchParams(location.search);
+  const q = params.get("t") || params.get("track");
   const hash = location.hash.slice(1);
-  const want = hash ? decodeURIComponent(hash) : (saved && saved.h);
-  if (!want) return;
-  const i = tracks.findIndex((t) => t.href === want || decodeURIComponent(t.href) === want);
+  const want = hash ? decodeURIComponent(hash) : q;      // #jolamen or ?t=jolamen
+  let i = -1, deep = false;
+  if (want) {
+    i = tracks.findIndex((t) => t.slug === want || t.name === want ||
+      decodeURIComponent(t.href) === want || t.href.endsWith("/" + want));
+    deep = i >= 0;
+  }
+  if (i < 0 && saved) i = tracks.findIndex((t) => t.href === saved.h);
   if (i < 0) return;
   idx = i;
   a.src = tracks[i].href;
   say(tracks[i].name);
-  const at = hash ? 0 : (saved && saved.t) || 0;
+  const at = deep ? 0 : (saved && saved.t) || 0;
   a.addEventListener("loadedmetadata", () => { try { a.currentTime = at; } catch {} }, { once: true });
+  if (deep) setHash(tracks[i].slug);
+  if (deep) a.play().catch(showTap);            // browsers may still need a tap
   render();
 }
+/* a link pasted into an already-open page should switch tracks */
+addEventListener("hashchange", () => {
+  const want = decodeURIComponent(location.hash.slice(1));
+  const i = tracks.findIndex((t) => t.slug === want);
+  if (i >= 0 && i !== idx) play(i, true);
+});
 
 /* --- controls --- */
 a.addEventListener("ended", () => (loopOne ? play(idx, true) : step(1)));
@@ -190,8 +235,9 @@ a.addEventListener("timeupdate", () => {
   $("#time").textContent = fmtTime(a.currentTime) + " / " + fmtTime(a.duration);
   if (Date.now() - lastWrite > 4000) { lastWrite = Date.now(); remember(); }
 });
-a.addEventListener("play", () => ($("#play").textContent = "⏸"));
+a.addEventListener("play", () => { $("#play").textContent = "⏸"; hideTap(); });
 a.addEventListener("pause", () => ($("#play").textContent = "▶"));
+$("#tapbtn").onclick = () => { hideTap(); a.play().catch(() => {}); };
 
 $("#play").onclick = () => {
   if (idx < 0) return play(0, true);
@@ -206,7 +252,7 @@ $("#loop").onclick = (e) => { loopOne = !loopOne; e.currentTarget.classList.togg
 $("#order").onclick = () => { order = order === "name" ? "served" : "name"; render(); };
 $("#share").onclick = async (e) => {
   if (idx < 0) return;
-  const url = location.origin + location.pathname + "#" + encodeURIComponent(tracks[idx].href);
+  const url = location.origin + location.pathname + "#" + encodeURIComponent(tracks[idx].slug);
   try {
     await navigator.clipboard.writeText(url);
     e.currentTarget.textContent = "copied";
