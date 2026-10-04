@@ -17,13 +17,15 @@
 --   * pad (d11)      — vi-IV-I-V in F#m (Tunepile chords/progressions), hoRhodes,
 --       ramped in (gain slow 16, 0.3..0.62 saw).
 -- Claps: tried wet (room 0.45), modulated, then dry — finally DROPPED (d2).
+-- Kick: the 9-step "x x - - x x x - -" figure was later DROPPED too (d1 silence) —
+-- the groove runs as a skeleton: hats + bass + hoRhodes arp/melody/pad only.
 -- Delay: tap/dub delay removed (ddSend 0) from all melodic parts.
 -- Sources: bd/hh/ho Dirt-Samples + dubsynth, hoRhodes (project DSP).
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
 -- Verification: recording recordings/jam-20261004-1103.wav with change markers.
 setcps 0.5
 
-d1 $ s "bd bd ~ ~ bd bd bd ~ ~" # gain 1.15 # shape 0.25
+d1 $ silence
 
 d2 $ silence
 
