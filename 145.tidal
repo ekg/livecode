@@ -52,9 +52,11 @@
 --       the loop rather than the same window again;
 --     * n walks 12 different Vox loops (169..188) at slow 8 -> 96 cycles (over
 --       three minutes) before any source returns.
---   Gain per section sits 0.42-0.54, band 380-5600 Hz, and speed is 0.5 (half
---   rate, an octave down) for the slowed "lady voice" character. Per-section
---   speed is possible too: give `speed` the same slow-8 <...> shape as n. Gain landed at 0.42-0.58
+--   Gain per section sits 0.42-0.54, band 380-5600 Hz, and the slowed "lady
+--   voice" is MODULATED rather than fixed: `# speed "<0.5 1 1 1>"` drops to 0.5
+--   (half rate, an octave down) on one bar in four and plays natural rate the rest
+--   of the time, so the slowed utterances recur as an event. For a rarer version
+--   use `"<0.5 1 1 1 1 1 1 1>"` (one bar in eight). Gain landed at 0.42-0.58
 --   with hpf 380 / lpf 5600 and doubling 0.22 — midway between the first harsh
 --   setting (0.58-0.76, band to 7000, doubling 0.3) and a too-strong cut
 --   (0.30-0.44, band 460-4200, doubling 0.15). Splitting the difference in both
@@ -107,7 +109,7 @@ d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0
 
 d13 $ s "p93drumA(2,13,4)" # gain 0.42 # hpf 200 # lpf 5200 # release 0.18 # verbSend 0 # ddSend 0
 
-d14 $ s "lpviz(2,13,1)" # n (slow 8 $ "<169 170 171 172 175 176 177 178 180 182 186 188>") # begin "0.05 0.30 0.55 0.12 0.40 0.68 0.22 0.50 0.15 0.35 0.60 0.25 0.45" # end "0.16 0.40 0.66 0.24 0.52 0.78 0.32 0.62 0.28 0.48 0.72 0.38 0.58" # speed 0.5 # gain (slow 8 $ "<0.50 0.44 0.54 0.46 0.52 0.42 0.50 0.45 0.54 0.47 0.50 0.43>") # hpf 380 # lpf 5600 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ s "lpviz(2,13,1)" # n (slow 8 $ "<169 170 171 172 175 176 177 178 180 182 186 188>") # begin "0.05 0.30 0.55 0.12 0.40 0.68 0.22 0.50 0.15 0.35 0.60 0.25 0.45" # end "0.16 0.40 0.66 0.24 0.52 0.78 0.32 0.62 0.28 0.48 0.72 0.38 0.58" # speed "<0.5 1 1 1>" # gain (slow 8 $ "<0.50 0.44 0.54 0.46 0.52 0.42 0.50 0.45 0.54 0.47 0.50 0.43>") # hpf 380 # lpf 5600 # pan 0.55 # verbSend 0 # ddSend 0
 
 d15 $ s "p93perc(1,13,7)" # gain 0.36 # hpf 400 # lpf 6200 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
 
