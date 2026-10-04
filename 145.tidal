@@ -41,7 +41,7 @@ d3 $ s "<hh(7,23) ho(5,23) hh(9,23) ho(7,13)>" # gain 0.32 # hpf 1800 # lpf 1200
 
 d4 $ note "fs1(2,13)" # s "dubsynth" # waveMix 0.15 # cutoff 120 # fenv 0.6 # drive 0.6 # sustain 0.55 # release 0.4 # lpf 200 # hpf 34 # gain 0.5 # verbSend 0 # ddSend 0
 
-d5 $ every 4 (rev) $ slow 2 $ s "<breaks165(5,13) breaks165(7,13) breaks165(3,13)>" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
+d5 $ every 4 (rev) $ slow 4 $ s "<breaks165(5,13) breaks165(7,13) breaks165(3,13)>" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.82 # hpf 200 # lpf 9000 # verbSend 0 # ddSend 0
 
