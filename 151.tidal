@@ -26,7 +26,7 @@ d3 $ swing $ s "drumtraks:4(13,16)" # gain "0.3 0.22 0.26 0.22 0.3 0.22 0.26 0.2
 -- BASS: dubsynth on euclid 3 8 rotation 1 — the syncopated dub bass. G minor lane
 -- (g1 g2 bf2 c3 d3 f2) cycles as 6 against 3 hits/cycle, so the line drifts. Short
 -- envelope (sustain 0.16 / release 0.14) keeps it a bass, not a fart.
-d4 $ swing $ euclid 3 8 1 $ note "<g1 g2 bf2 c3 d3 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+d4 $ swing $ euclidOff 3 8 1 $ note "<g1 g2 bf2 c3 d3 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
 
 -- PAD: hoRhodes, slow 4, an eight-chord G minor progression (Gm Bb Cm Dm Eb F Gm Dm).
 d5 $ swing $ slow 4 $ note "<[g3,bf3,d4] [bf3,d4,f4] [c4,ef4,g4] [d4,f4,a4] [ef4,g4,bf4] [f4,a4,c5] [g3,bf3,d4] [d4,f4,a4]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
@@ -45,22 +45,22 @@ d9 $ silence
 
 -- COUNTER-LINE (VIBES): DX100_Vibes on euclid 3 8 rotation 3 — sparse, metallic, sits
 -- above the Rhodes melody without competing with it.
-d10 $ swing $ euclid 3 8 3 $ note "<d5 f5 bf5 a5 g5 d5>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+d10 $ swing $ euclidOff 3 8 3 $ note "<d5 f5 bf5 a5 g5 d5>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
 
 -- PERC: p93perc ghatam 7-in-16, rotation 11 — dense hand percussion under the hats.
 d11 $ swing $ s "p93perc(7,16,11)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
 
 -- COUNTER-LINE (SINE): DX100_Sine on euclid 5 8 rotation 6 — the soaring top thread,
 -- the dark mirror of the vibes line.
-d12 $ swing $ euclid 5 8 6 $ note "<g5 bf5 d6 c6 a5 f5 g5 d6>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.42 # hpf 400 # lpf 6000 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+d12 $ swing $ euclidOff 5 8 6 $ note "<g5 bf5 d6 c6 a5 f5 g5 d6>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.42 # hpf 400 # lpf 6000 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
 
 -- SUB: dubsub 7-in-16 rotation 5 (dense, hard, the low thump), walking a G minor lane
 -- one step per 4 cycles. A synth, so it takes a real freq — no sample-rate trap.
 d13 $ swing $ s "dubsub(7,16,5)" # note (slow 4 $ "<g1 bf1 c2 d2 f1 g1 bf2 d2>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
--- VOICES: chop + walk lpviz — slice 16 marches the loop's start positions in order,
--- n rotates eight Vox loops, and gain "<0.6 0>" opens the voice ONE bar in two.
-d14 $ swing $ slice 16 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15" $ s "lpviz" # n (slow 8 $ "<169 175 172 178 181 186 170 176>") # speed 1 # gain "<0.6 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+-- VOICES: NO VOICES - string line lpviz — slice 16 marches the loop's start positions in order,  [REPLACED: no voices in this set - plucked/bowed strings instead]
+-- n rotates eight Vox loops, and gain "<0.6 0>" opens the voice ONE bar in two.  [REPLACED: no voices in this set - plucked/bowed strings instead]
+d14 $ swing $ euclidOff 5 8 2 $ note "<g4 bf4 d5 f5 d5 bf4 g4 f5>" # s "cp4" # gain 0.5 # hpf 300 # lpf 5200 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
 
 d15 $ silence
 

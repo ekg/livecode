@@ -1,7 +1,7 @@
 -- 147.tidal — SCENE C: ALWAYS IN 13
 -- Every layer lives on the 13-grid; no 4/4 scaffolding at all (145's all-13 idea,
 -- taken to a new place: D minor, slower, moodier). Global swing, as in B.
--- Voice trick carried over from B: chopped + walked loop, gated 1-in-4.
+-- Voice trick carried over from B: chopped + walked loop, gated 1-in-4.  [REPLACED: no voices in this set - plucked/bowed strings instead]
 
 setcps 0.46
 
@@ -43,8 +43,8 @@ d12 $ swing $ every 4 (fast 2) $ slow 2 $ note "<[a5 ~ ~ f5 ~ g5 a5 ~ ~ e5 ~ ~] 
 -- SUB: dubsub Euclidean (5,13) rotating, D minor pitch lane
 d13 $ swing $ s "<dubsub(5,13) dubsub(5,13,3) dubsub(5,13,7) dubsub(5,13,10)>" # note (slow 4 $ "<d1 bf1 f1 c2 g1 a1 d1 bf1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
--- VOICES: chop + walk the loop, open 1 bar in 4, rotate 8 loops
-d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 4 $ "<169 175 172 178 181 186 170 176>") # speed 1 # gain "<0.55 0 0 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+-- VOICES: NO VOICES - string line the loop, open 1 bar in 4, rotate 8 loops  [REPLACED: no voices in this set - plucked/bowed strings instead]
+d14 $ swing $ euclidOff 5 13 3 $ note "<d4 f4 a4 c5 f4 a4>" # s "cp4" # gain 0.5 # hpf 300 # lpf 5200 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
 
 d9 $ silence
 d15 $ silence

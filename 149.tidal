@@ -10,7 +10,7 @@
 -- Mix: dry kit and perc (no verbSend/ddSend anywhere on drums — that rule bit us
 -- before), short dubsynth envelope (sustain 0.16 / release 0.14) so the bass does
 -- not fart, sub on dubsub (sine, real freq) for the bottom. Space comes from
--- REMOVING hits (the voice gate, the degraded melody), not from reverb.
+-- REMOVING hits (the voice gate, the degraded melody), not from reverb.  [REPLACED: no voices in this set - plucked/bowed strings instead]
 -- Master: two slow modulations write the master chain from the hats stream —
 -- mCut saw over 16 cycles and mSat sine over 32 — so the whole mix opens and
 -- dirties gradually; mGain held at 0.92.
@@ -61,12 +61,12 @@ d11 $ swing $ s "p93perc(3,13,4)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # 
 d12 $ swing $ every 4 (fast 2) $ slow 2 $ note "<[e5 ~ ~ c5 ~ d5 e5 ~ ~ b4 ~ ~] [a4 ~ ~ c5 ~ e5 ~ ~ d5 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.4 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # size 0.6 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
 
 -- d13 SUB: dubsub E(5,13) (unrotated, so it sits in the melody's gaps) walking the
--- A-minor roots a1 f1 c2 g1, sine voice so no saw-stack fart.
+-- A-minor roots a1 f1 c2 g1, sine voice so no saw-stack fart.  [REPLACED: no voices in this set - plucked/bowed strings instead]
 d13 $ swing $ s "dubsub(5,13)" # note (slow 4 $ "<a1 f1 c2 g1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
--- d14 VOICES: chop-and-walk the loop (slice 13 marching 0..12), rotate 4 loops,
+-- d14 VOICES: NO VOICES - string line the loop (slice 13 marching 0..12), rotate 4 loops,  [REPLACED: no voices in this set - plucked/bowed strings instead]
 -- gated open one bar in four so the same utterance never returns twice.
-d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 4 $ "<169 175 172 178>") # speed 1 # gain "<0.5 0 0 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ swing $ euclidOff 5 13 8 $ note "<a4 c5 e5 g4 c5 e5>" # s "cp4" # gain 0.5 # hpf 300 # lpf 5200 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
 
 -- d15: unused — silenced.
 d15 $ silence

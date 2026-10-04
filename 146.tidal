@@ -19,14 +19,14 @@
 --       g4 c5 d5 e5 d5 c5 a4 g4 — indexed from the tunepile tab:
 --         "g4 c5 d5 e5 e5 d5 c5 d5 c5 a4 g4 ..."
 --       Recut into a four-phrase 8-bar arc: statement, lift, descent, resolve.
---       Voice: mars_synths_DrSample_80s_Piano (n 0) — an 80s piano sample, played
+--       Voice: mars_synths_DrSample_80s_Piano (n 0) — an 80s piano sample, played  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --       in its natural register (c4-c5) per the rule below.
 --   * Counter-line (d10) — "Losing My Religion" (1991, R.E.M.) mandolin riff:
 --       d5 e5 d5 c5 f5 f5 f5 / g4 a4 b4 c5 a4 c5 — natively A minor.
---       Voice: now mars_synths_DX100_Vibes (FM vibes) at low level and halved
+--       Voice: now mars_synths_DX100_Vibes (FM vibes) at low level and halved  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --       density (`slow 4` + sometimesBy 0.5) — the sampled `pluck` was the other
 --       clangy element, and vibes keep the mandolin brightness without the grit.
--- VOICES (d14) — built by CHOPPING AND WALKING the loop, not by repeating one window:
+-- VOICES (d14) — built by CHOPPING AND WALKING the loop, not by repeating one window:  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   `slice 13 "0 1 2 … 12"` marches through the loop's start positions in order (a
 --   scrub, which yields a new melodic phrase from the loop's own content), thinned
 --   by a 13-value gain gate so it leaves space. `speed 1` — NATURAL RATE, because
@@ -35,14 +35,14 @@
 --   version). NOTE: `slice` is a pattern FUNCTION, not a `#` param — `slice N
 --   "<indices>" $ s "…"`, never `# slice …`. Same class of trap as `sometimesBy`,
 --   `every`, `fast`.
---   SPACE (the repeat problem): `gain "<0.55 0 0 0>"` opens the voice for ONE bar in
+--   SPACE (the repeat problem): `gain "<0.55 0 0 0>"` opens the voice for ONE bar in  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   four, and `n (slow 4 "<169 … 176>")` rotates through EIGHT different Vox loops —
 --   so the same utterance never returns twice. The old version repeated 8x because
 --   the walk was fixed while `n` only changed every 8 cycles. Rule of thumb: to stop
 --   an 8x repeat, put the variation on a SHORTER cycle than the repeat, or gate it.
 --   Pitch is only nudged +/- a semitone-ish by the gain-shaped slices; if it starts
 --   reading as out-of-key, that is the loop's own tonality, not ours.
--- SUB MELODY (d13) — `dubsub`, the project's dedicated sub voice: SinOsc + a 12%
+-- SUB MELODY (d13) — `dubsub`, the project's dedicated sub voice: SinOsc + a 12%  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   second harmonic, tanh drive, and `pitchEnv` for the thump. Sine-based, so none
 --   of the saw-stack fart applies, and as a SYNTH it takes real `freq` (no sample
 --   rate trap). It walks an 8-figure melodic line on the roots (a1/f1/c2/g1) with
@@ -50,19 +50,19 @@
 --   than a static thud, which is what the earlier "boring bass hit" lacked.
 -- BASS: dubsynth again, but NOT at a1/f1 — a detuned saw + sine sub at 55-87 Hz
 --   with a long sustain is the "fart bass" (the same lesson as the dubchord stab:
---   these voices live in the bass region by construction). Now an octave up
+--   these voices live in the bass region by construction). Now an octave up  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   (a2/f2/c3/g2), short (sustain 0.16 / release 0.14), less saw (waveMix 0.18),
 --   brighter (cutoff 420, lpf 1800) — bass-guitar register rather than sub.
 -- Harmony: Am - F - C - G (bass d4 alternates two figures and walks 8 chords;
 --   pad d5 holds triads [a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]).
 --
--- VOICE RULE (this is what bit us three times tonight): for a SAMPLE, `note` is
---   PLAYBACK SPEED, not pitch-from-a-sampler. A sampled voice must stay near its
+-- VOICE RULE (this is what bit us three times tonight): for a SAMPLE, `note` is  [REPLACED: no voices in this set - plucked/bowed strings instead]
+--   PLAYBACK SPEED, not pitch-from-a-sampler. A sampled voice must stay near its  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   natural register. Failures: gs3 on the marimba dragged it to molasses;
---   `|+ note 12` turned it into a squeak (2x speed); the OB_Strings pad voiced
+--   `|+ note 12` turned it into a squeak (2x speed); the OB_Strings pad voiced  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   down at b3/a3 (sample root ~C4) played at 0.6-0.7x and its tape wobble
 --   stretched into a bassy "farting" chord. Hence: keep sample melodies in
---   c4-c5, use SYNTH voices (hoRhodes/orkRhodes) when real pitch is needed.
+--   c4-c5, use SYNTH voices (hoRhodes/orkRhodes) when real pitch is needed.  [REPLACED: no voices in this set - plucked/bowed strings instead]
 -- TEMPO/SPACE: 120 BPM (cps 0.5, same as the rest of the session) but much
 --   sparser — melody and pad both at
 --   `slow 4` (a phrase every ~10 s), bass on half-notes only, tambourine (d7) out,
@@ -77,10 +77,10 @@
 --   alternates, d8 clap gets a delay throw, d11 ghatam perc layer,
 --   d12 soaring DX100_Sine top line (fast-2 every 4th).
 -- GRUNGE vs SWEET: the "sweet but a bit grungy" character comes from the MASTER
---   TAPE SATURATION rather than from dirtying the voices: mSat 0.5, mCut 9500,
+--   TAPE SATURATION rather than from dirtying the voices: mSat 0.5, mCut 9500,  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   mHpf 48, mGain 0.95 (~masterSet), plus shape 0.6 on the kick and 0.2 on the
 --   snare. Clean sources, dirty sum.
--- Mix: dry kit; space only on pad (verbSend 0.28) and the melody voices (0.25/0.2).
+-- Mix: dry kit; space only on pad (verbSend 0.28) and the melody voices (0.25/0.2).  [REPLACED: no voices in this set - plucked/bowed strings instead]
 --   Master aux returns are 0 (see sc/routing.scd) and the kit carries no sends.
 setcps 0.5
 
@@ -121,7 +121,7 @@ d12 $ swing $ every 4 (fast 2) $ slow 4 $ note "<[e5 ~ ~ g5 a5 ~ g5 ~ e5 ~ d5 ~ 
 
 d13 $ swing $ s "<dubsub(5,13) dubsub(5,13,3) dubsub(5,13,7) dubsub(5,13,10)>" # note (slow 4 $ "<a1 f1 c2 g1 d2 e2 a1 f1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
-d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 4 $ "<169 175 172 178 181 186 170 176>") # speed 1 # gain "<0.55 0 0 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ swing $ euclidOff 5 13 3 $ note "<a4 c5 e5 g4 a4 c5>" # s "cp4" # gain 0.5 # hpf 300 # lpf 5200 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
 
 d15 $ silence
 
