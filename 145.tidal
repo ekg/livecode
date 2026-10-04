@@ -80,6 +80,12 @@
 -- The sub (d4) is SILENCED: the bassline was carrying too much weight and mud;
 --   d6 melody hpf raised to 420 to take its low body out, and the drum loops
 --   damped (gains down, hpf 160-220, lpf ~5500) because their toms hit hard.
+-- MYSTERY DRONE? It is usually ORPHANED SYNTHS, not a pattern. Removing a pattern
+--   does not stop notes already spawned: anything with a long `sustain`/`release`
+--   (the sub at sustain 1.1, the pad at release 1.2) keeps ringing under the mix.
+--   Symptom: a bassy "farting along" that survives every attempt to find it in the
+--   patterns, plus a synth count that keeps climbing (386 here). Fix: tidal_panic
+--   (frees the SuperDirt nodes and rebuilds the orbit chains), then re-send.
 -- Rules that keep biting (also in LOOPS.md):
 --   * `speed`  = playback rate (pitch follows), keeps slice-to-cycle mapping.
 --   * `loopAt N`>1 = fits the loop over N cycles, i.e. speed/N and N octaves-ish
