@@ -26,6 +26,17 @@
 --       Voice: now mars_synths_DX100_Vibes (FM vibes) at low level and halved
 --       density (`slow 4` + sometimesBy 0.5) — the sampled `pluck` was the other
 --       clangy element, and vibes keep the mandolin brightness without the grit.
+-- VOICES (d14) — built by CHOPPING AND WALKING the loop, not by repeating one window:
+--   `slice 13 "0 1 2 … 12"` marches through the loop's start positions in order (a
+--   scrub, which yields a new melodic phrase from the loop's own content), thinned
+--   by a 13-value gain gate so it leaves space. `speed 1` — NATURAL RATE, because
+--   `loopAt` sets speed so the whole sample fits the cycle, which for a multi-second
+--   vocal loop speeds it up several octaves (the "4 octaves too high / scary"
+--   version). NOTE: `slice` is a pattern FUNCTION, not a `#` param — `slice N
+--   "<indices>" $ s "…"`, never `# slice …`. Same class of trap as `sometimesBy`,
+--   `every`, `fast`.
+--   Pitch is only nudged +/- a semitone-ish by the gain-shaped slices; if it starts
+--   reading as out-of-key, that is the loop's own tonality, not ours.
 -- SUB MELODY (d13) — `dubsub`, the project's dedicated sub voice: SinOsc + a 12%
 --   second harmonic, tanh drive, and `pitchEnv` for the thump. Sine-based, so none
 --   of the saw-stack fart applies, and as a SYNTH it takes real `freq` (no sample
@@ -105,7 +116,7 @@ d12 $ swing $ every 4 (fast 2) $ slow 4 $ note "<[e5 ~ ~ g5 a5 ~ g5 ~ e5 ~ d5 ~ 
 
 d13 $ swing $ s "<dubsub(5,13) dubsub(5,13,3) dubsub(5,13,7) dubsub(5,13,10)>" # note (slow 4 $ "<a1 f1 c2 g1 d2 e2 a1 f1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
-d14 $ silence
+d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 8 $ "<169 175 172 178>") # speed 1 # gain "0.5 0 0.45 0 0 0.5 0 0.45 0 0 0.5 0 0" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
 
 d15 $ silence
 
