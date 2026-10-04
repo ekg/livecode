@@ -1,13 +1,17 @@
--- 145: PRIME METRE — 13 / 17 / 23 grids, half-time, sample-based voices.
--- The idea: three co-prime divisions (13, 17, 23) layered so they drift and only
--- realign every 13x17x23 cycles. Half-time at ~140 BPM so the odd metres read as
--- groove rather than clutter. 13 is the SPINE:
---   13 : kick 808bd(4,13) (un-rotated so the grid keeps its identity), the break
---        (a straight 13-slice pass), the accent ho(1,13), clap cp(5,13,3), sub
---        fs1(2,13), the drum-loop resections (13 slices / 13-slot orders) and the
---        vocal fragments (3-in-13).
---   17 : snare <sn(3,17) sn(5,17) sn(2,13) sn(4,17)>.
---   23 : hats <hh(3,23) ho(2,23) hh(5,23) ho(3,13)> and the click layer.
+-- 145: ALL THIRTEEN — every layer on a 13 grid, half-time, sample-based voices.
+-- Started as three co-prime metres (13/17/23) drifting against each other; the
+-- operator's call was "everything should be in 13", so 17 and 23 are gone and
+-- EVERY pattern is a 13-division (euclids, slice counts and order sequences).
+-- The drift now comes from different ROTATIONS of 13 (offsets like (2,13,6),
+-- (3,13,3), (7,13)) rather than from coprime periods — the same metre displaced,
+-- which reads as polyrhythm against the downbeat without ever fighting it.
+--   13 everywhere: kick (4,13); snare <(2,13,6) (1,13) (3,13) (2,13)>; hats
+--      <(5,13) (3,13) (7,13) (2,13)>; claps <(3,13,3) (2,13,7) (5,13)>; accent
+--      ho(1,13); click <(3,13) (2,13) (5,13)>; break + drum loops sliced into 13
+--      with 13-slot orders; vocal fragments (1,13,5).
+-- The earlier snare was the annoyance: three overlapping euclids (3,5,2,4 hits)
+-- x every 3 (iter 2) x sometimesBy (fast 2) = 5-8 snare hits a cycle, sprayed
+-- evenly across the bar. Now two hits a cycle at most, offset.
 -- Melody (d6) — RHCP "Under the Bridge" (1991) verse line from ~/tunepile; the
 --   whole line is F# minor (gs fs e cs, no accidentals). Mars DX100_Marimba at
 --   n 0. For SAMPLE melodies `note` IS playback speed: keep the line above ~fs4
@@ -46,28 +50,28 @@ setcps 0.5833
 
 d1 $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ every 3 (iter 2) $ sometimesBy 0.3 (fast 2) $ s "<sn(3,17) sn(5,17) sn(2,13) sn(4,17)>" # gain 0.78 # hpf 420 # shape 0.4 # verbSend 0 # ddSend 0
+d2 $ every 3 (iter 2) $ sometimesBy 0.25 (fast 2) $ s "<sn(2,13,6) sn(1,13) sn(3,13) sn(2,13)>" # gain 0.78 # hpf 420 # shape 0.4 # verbSend 0 # ddSend 0
 
-d3 $ s "<hh(3,23) ho(2,23) hh(5,23) ho(3,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "<hh(5,13) ho(3,13) hh(7,13) ho(2,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
 
 d4 $ silence
 
-d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "breaks165" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
+d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "<[0 ~ 4 ~ 8 ~ 12 ~] [12 ~ 8 ~ 4 ~ 0 ~] [0 ~ 6 ~ 12 ~ 5 ~] [8 ~ 3 ~ 11 ~ 6 ~]>" $ s "breaks165" # gain 0.6 # hpf 250 # lpf 5500 # verbSend 0 # ddSend 0
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0
 
 d7 $ s "ho(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
-d8 $ s "<cp(5,13,3) cp(3,13,7) cp(7,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.25 # release 0.09 # verbSend 0 # ddSend 0
+d8 $ s "<cp(3,13,3) cp(2,13,7) cp(5,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.1 # release 0.09 # verbSend 0 # ddSend 0
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
-d10 $ s "<ho(3,23) hh(2,23) ho(5,23)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
+d10 $ s "<ho(3,13) hh(2,13) ho(5,13)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
 
-d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~] [0 ~ 6 ~ 12 ~ 5 ~ 11 ~ 4 ~] [8 ~ 3 ~ 11 ~ 6 ~ 1 ~ 9 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.42 # hpf 160 # lpf 5500 # verbSend 0 # ddSend 0
+d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.42 # hpf 160 # lpf 5500 # verbSend 0 # ddSend 0
 
-d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [2 ~ 5 ~ 8 ~ 11 ~ 1 ~ 4 ~] [12 ~ ~ 9 ~ ~ 6 ~ ~ 3 ~ ~ ~] [6 ~ 5 ~ 4 ~ 3 ~ 2 ~ 1 ~] [1 ~ 7 ~ 0 ~ 8 ~ 2 ~ 9 ~] [0 ~ 3 ~ 6 ~ 9 ~ 12 ~ 2 ~]>" $ s "p94brkB" # speed 0.95 # gain 0.38 # hpf 200 # lpf 5200 # pan 0.4 # verbSend 0 # ddSend 0
+d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [2 ~ 5 ~ 8 ~ 11 ~ 1 ~ 4 ~] [12 ~ ~ 9 ~ ~ 6 ~ ~ 3 ~ ~ ~] [6 ~ 5 ~ 4 ~ 3 ~ 2 ~ 1 ~]>" $ s "p94brkB" # speed 0.95 # gain 0.38 # hpf 200 # lpf 5200 # pan 0.4 # verbSend 0 # ddSend 0
 
-d13 $ loopAt 1 $ s "p93drumA" # gain 0.3 # hpf 220 # lpf 5500 # verbSend 0 # ddSend 0
+d13 $ silence
 
 d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0.42 # room 0.6 # size 0.75 # ddSend 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
