@@ -20,7 +20,12 @@
 --       Voice: now mars_synths_DX100_Vibes (FM vibes) at low level and halved
 --       density (`slow 4` + sometimesBy 0.5) — the sampled `pluck` was the other
 --       clangy element, and vibes keep the mandolin brightness without the grit.
--- Harmony: Am - F - C - G (bass d4 walks a1/f1/c2/g1 with a fifth on the offbeat;
+-- BASS: dubsynth again, but NOT at a1/f1 — a detuned saw + sine sub at 55-87 Hz
+--   with a long sustain is the "fart bass" (the same lesson as the dubchord stab:
+--   these voices live in the bass region by construction). Now an octave up
+--   (a2/f2/c3/g2), short (sustain 0.16 / release 0.14), less saw (waveMix 0.18),
+--   brighter (cutoff 420, lpf 1800) — bass-guitar register rather than sub.
+-- Harmony: Am - F - C - G (bass d4 alternates two figures and walks 8 chords;
 --   pad d5 holds triads [a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]).
 --
 -- VOICE RULE (this is what bit us three times tonight): for a SAMPLE, `note` is
@@ -57,7 +62,7 @@ d2 $ every 8 (fast 2) $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # 
 
 d3 $ s "<drumtraks:4(7,13) drumtraks:4(11,13) drumtraks:4(5,13) drumtraks:4(9,13)>" # gain "0.4 0.24 0.3 0.26 0.34 0.24 0.3 0.26 0.32 0.24 0.3 0.26 0.3" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
 
-d4 $ note "<[a1 ~ ~ ~ e2 ~ ~ ~] [f1 ~ ~ ~ c2 ~ ~ ~] [c2 ~ ~ ~ g2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~] [a1 ~ e2 ~ a1 ~ e2 ~] [f1 ~ c2 ~ f1 ~ c2 ~] [d2 ~ a2 ~ d2 ~ a2 ~] [e2 ~ b2 ~ e2 ~ b2 ~]>" # s "dubsynth" # waveMix 0.28 # cutoff 240 # fenv 1.2 # drive 0.45 # sustain 0.5 # release 0.6 # lpf 1100 # gain 0.68 # verbSend 0 # ddSend 0
+d4 $ note "<[a2 ~ ~ ~ e3 ~ ~ ~] [f2 ~ ~ ~ c3 ~ ~ ~] [c3 ~ ~ ~ g3 ~ ~ ~] [g2 ~ ~ ~ d3 ~ ~ ~] [a2 ~ e3 ~ a2 ~ e3 ~] [f2 ~ c3 ~ f2 ~ c3 ~] [d3 ~ a3 ~ d3 ~ a3 ~] [e3 ~ b3 ~ e3 ~ b3 ~]>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
 
 d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4] [a3,c4,e4] [f3,a3,c4] [d3,f3,a3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
