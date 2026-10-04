@@ -35,6 +35,14 @@
 --   `slow 4` (a phrase every ~10 s), bass on half-notes only, tambourine (d7) out,
 --   hats at gain 0.26, and the counter-line halved in density. Space is mostly
 --   achieved by REMOVING HITS, not by reverb.
+-- VARIATION (the "go wild" pass): every layer has movement rather than repeating —
+--   d1 kick `sometimesBy 0.15 (fast 2)` (occasional double), d2 snare an
+--   `every 8 (fast 2)` fill, d3 hats alternate four different 13-densities,
+--   d4 bass alternates two figures and walks an 8-chord progression, d5 pad
+--   extended to 8 chords (Am F C G Am F Dm E), d6 hook lifts an octave every 4th
+--   pass (`every 4 (|+ note 12)` — safe on a SYNTH, lethal on a sample), d7 cabasa
+--   alternates, d8 clap gets a delay throw, d11 ghatam perc layer,
+--   d12 soaring DX100_Sine top line (fast-2 every 4th).
 -- GRUNGE vs SWEET: the "sweet but a bit grungy" character comes from the MASTER
 --   TAPE SATURATION rather than from dirtying the voices: mSat 0.5, mCut 9500,
 --   mHpf 48, mGain 0.95 (~masterSet), plus shape 0.6 on the kick and 0.2 on the
@@ -43,29 +51,29 @@
 --   Master aux returns are 0 (see sc/routing.scd) and the kit carries no sends.
 setcps 0.5
 
-d1 $ s "808bd*4" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+d1 $ sometimesBy 0.15 (fast 2) $ s "808bd*4" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
+d2 $ every 8 (fast 2) $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
 
-d3 $ s "drumtraks:4(7,13)" # gain "0.42 0.24 0.3 0.26 0.36 0.24 0.3 0.26 0.34 0.24 0.3 0.26 0.32" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "<drumtraks:4(7,13) drumtraks:4(11,13) drumtraks:4(5,13) drumtraks:4(9,13)>" # gain "0.4 0.24 0.3 0.26 0.34 0.24 0.3 0.26 0.32 0.24 0.3 0.26 0.3" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
 
-d4 $ note "<[a1 ~ ~ ~ e2 ~ ~ ~] [f1 ~ ~ ~ c2 ~ ~ ~] [c2 ~ ~ ~ g2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~]>" # s "dubsynth" # waveMix 0.28 # cutoff 240 # fenv 1.2 # drive 0.45 # sustain 0.5 # release 0.6 # lpf 1100 # gain 0.68 # verbSend 0 # ddSend 0
+d4 $ note "<[a1 ~ ~ ~ e2 ~ ~ ~] [f1 ~ ~ ~ c2 ~ ~ ~] [c2 ~ ~ ~ g2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~] [a1 ~ e2 ~ a1 ~ e2 ~] [f1 ~ c2 ~ f1 ~ c2 ~] [d2 ~ a2 ~ d2 ~ a2 ~] [e2 ~ b2 ~ e2 ~ b2 ~]>" # s "dubsynth" # waveMix 0.28 # cutoff 240 # fenv 1.2 # drive 0.45 # sustain 0.5 # release 0.6 # lpf 1100 # gain 0.68 # verbSend 0 # ddSend 0
 
-d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
+d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4] [a3,c4,e4] [f3,a3,c4] [d3,f3,a3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
-d6 $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ c5 a4 g4] [g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ e5 d5 c5] [a4 ~ c5 d5 e5 d5 c5 ~ a4 g4 ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+d6 $ every 4 (|+ note 12) $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ c5 a4 g4] [g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ e5 d5 c5] [a4 ~ c5 d5 e5 d5 c5 ~ a4 g4 ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
 
-d7 $ s "drumtraks:0(5,13,3)" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
+d7 $ s "<drumtraks:0(5,13,3) drumtraks:0(3,13,7) drumtraks:0(7,13)>" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
 
-d8 $ silence
+d8 $ s "~ ~ ~ drumtraks:1" # gain 0.5 # hpf 750 # lpf 7200 # release 0.09 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # verbSend 0
 
 d9 $ silence
 
 d10 $ slow 4 $ sometimesBy 0.5 id $ note "<[d5 ~ ~ ~ c5 ~ ~ ~ f5 ~ ~ ~ ~] [g4 ~ ~ ~ a4 ~ ~ ~ c5 ~ ~ ~ ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
 
-d11 $ silence
+d11 $ s "p93perc(3,13)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
 
-d12 $ silence
+d12 $ every 4 (fast 2) $ slow 4 $ note "<[e5 ~ ~ g5 a5 ~ g5 ~ e5 ~ d5 ~ ~] [c5 ~ ~ e5 g5 ~ e5 ~ c5 ~ b4 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.42 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # size 0.6 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
 
 d13 $ silence
 
