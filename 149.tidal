@@ -1,0 +1,77 @@
+-- 149: SCENE D — THE DEEP ONE. Dub house in A MINOR, cps 0.5 (120 BPM).
+-- The point of this scene is EUCLIDEAN, not a 4/4 grid with filler: KICK, BASS
+-- and MELODY each run a DIFFERENT (p,k) figure and carry a rotation, so their
+-- hits fall on three different phase sets and the groove interlocks instead of
+-- stacking. Kick E(5,8) = the floor; bass E(7,8,3) = a denser, shifted walk;
+-- melody E(5,13,8) = a longer prime cycle that drifts against both. The sub
+-- reuses E(5,13) but UNROTATED, so it fills the gaps the rotated melody leaves.
+-- Harmony is Am - F - C - G; every melodic layer sits in A natural minor
+-- (a b c d e f g) so nothing clashes when the phrases phase against each other.
+-- Mix: dry kit and perc (no verbSend/ddSend anywhere on drums — that rule bit us
+-- before), short dubsynth envelope (sustain 0.16 / release 0.14) so the bass does
+-- not fart, sub on dubsub (sine, real freq) for the bottom. Space comes from
+-- REMOVING hits (the voice gate, the degraded melody), not from reverb.
+-- Master: two slow modulations write the master chain from the hats stream —
+-- mCut saw over 16 cycles and mSat sine over 32 — so the whole mix opens and
+-- dirties gradually; mGain held at 0.92.
+setcps 0.5
+
+-- GLOBAL SWING (house idiom): a named nudge on the 8th grid, so only the off-beats
+-- move. The sine sweep (0 -> 0.06 over 16 cycles) makes the lean breathe.
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
+
+-- d1 KICK: E(5,8) floor, with a `sometimesBy 0.2 (fast 2)` double so ~1 hit in 5
+-- fires twice — dub-house bounce without losing the four.
+d1 $ swing $ sometimesBy 0.2 (fast 2) $ s "808bd(5,8)" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+
+-- d2 SNARE: E(2,8,2) — the backbeat (steps 2 and 6) as a rotated Euclidean figure.
+d2 $ swing $ s "drumtraks:9(2,8,2)" # gain 0.75 # hpf 420 # shape 0.2 # release 0.1 # verbSend 0 # ddSend 0
+
+-- d3 HATS: E(11,16) dense character layer; alternates 11 open/closed gains.
+-- Carries the master FX modulation (mCut saw 16 / mSat sine 32 / mGain 0.92).
+d3 $ swing $ s "drumtraks:5(11,16)" # gain "0.34 0.22 0.28 0.22 0.32 0.22 0.28 0.22 0.34 0.22 0.28" # hpf 2000 # lpf 9000 # pan 0.6 # mCut (slow 16 $ range 3000 11000 saw) # mSat (slow 32 $ range 0.25 0.55 sine) # mGain 0.92 # verbSend 0 # ddSend 0
+
+-- d4 BASS: dubsynth on E(7,8,3) — 7 hits per cycle, rotated 3 — walking the A-minor
+-- lane (a1 a2 c2 d2 e2 f2 g1). Short envelope, dry.
+d4 $ swing $ euclidOff 7 8 3 $ note "<a1 a2 c2 d2 e2 f2 g1>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+
+-- d5 PAD: hoRhodes triads on the Am - F - C - G cycle, slow 4 (one chord ~10 s).
+d5 $ swing $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2400 # attack 0.06 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
+
+-- d6 MELODY: hoRhodes on E(5,13,8), A minor, thinned with `degradeBy` so it leaves
+-- space and never repeats the same phrase twice. Rotated 8 to interlock with bass.
+d6 $ swing $ degradeBy 0.25 $ euclidOff 5 13 8 $ note "<e5 c5 a4 e5 g4 d5 c5 a4>" # s "hoRhodes" # gain 0.7 # cutoff 4200 # release 1.0 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+
+-- d7 CABASA / TAMBOURINE: two rotated Euclidean figures alternating every cycle.
+d7 $ swing $ s "<drumtraks:0(5,16,3) drumtraks:10(7,16,5)>" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
+
+-- d8 CLAP: sparse offbeat E(2,16,6) with a delay throw (space from the tail, not hits).
+d8 $ swing $ s "drumtraks:1(2,16,6)" # gain 0.5 # hpf 750 # lpf 7200 # release 0.09 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3 # verbSend 0
+
+-- d9: unused — silenced.
+d9 $ silence
+
+-- d10 DX100 VIBES counter-line: sparse 13-token phrase, slow 2.
+d10 $ swing $ slow 2 $ note "<[~ e5 ~ ~ a4 ~ ~ c5 ~ ~ ~ b4 ~] [~ c5 ~ ~ a4 ~ ~ e5 ~ ~ ~ d5 ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+
+-- d11 PERC: p93perc on E(3,13,4) — rotated so it never lines up with the sub.
+d11 $ swing $ s "p93perc(3,13,4)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
+
+-- d12 DX100 SINE top line: 13-token phrase, doubled every 4th pass.
+d12 $ swing $ every 4 (fast 2) $ slow 2 $ note "<[e5 ~ ~ c5 ~ d5 e5 ~ ~ b4 ~ ~] [a4 ~ ~ c5 ~ e5 ~ ~ d5 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.4 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # size 0.6 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+
+-- d13 SUB: dubsub E(5,13) (unrotated, so it sits in the melody's gaps) walking the
+-- A-minor roots a1 f1 c2 g1, sine voice so no saw-stack fart.
+d13 $ swing $ s "dubsub(5,13)" # note (slow 4 $ "<a1 f1 c2 g1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- d14 VOICES: chop-and-walk the loop (slice 13 marching 0..12), rotate 4 loops,
+-- gated open one bar in four so the same utterance never returns twice.
+d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 4 $ "<169 175 172 178>") # speed 1 # gain "<0.5 0 0 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+
+-- d15: unused — silenced.
+d15 $ silence
+
+-- d16: unused — silenced.
+d16 $ silence
+
+-- END 149.tidal

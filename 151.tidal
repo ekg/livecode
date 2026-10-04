@@ -1,0 +1,69 @@
+-- 151: SCENE D — DUB HOUSE, G MINOR, THE DARK ONE.
+-- 4/4 floor held down by Euclidean layers rather than a straight grid: kick 7-in-8
+-- on the 8-grid, bass 3-in-8 (rot 1), melody 5-in-8, sub 7-in-16 (rot 5). Every
+-- layer gets a DIFFERENT p/k (or rotation) so they interlock instead of locking.
+-- cps 0.57 (a touch under 137 BPM): dub weight without the tempo going slack.
+-- Global swing (house idiom) leans the off-beats of every layer; the kick's dense
+-- 7-in-8 means the floor itself breathes.
+-- Space is made by REMOVING hits (the kick's one gap, the sub's rotations) and the
+-- dubsum envelope, not by reverb. Drums/perc are bone dry.
+-- Master FX is modulated from d1 (regular events, so mSat/mCut glide): tape
+-- saturation sweeps on a 24-cycle saw, the master lowpass on a 32-cycle sine.
+setcps 0.57
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
+
+-- KICK: 808bd 7-in-8, dense and hard, shape 0.7 for the crunch. Also carries the
+-- slow master-chain modulation (mSat saw 24, mCut sine 32, mGain held 0.92).
+d1 $ swing $ s "808bd(7,8)" # gain 0.9 # shape 0.7 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 24 $ range 0.3 0.7 saw) # mCut (slow 32 $ range 2000 9000 sine)
+
+-- SNARE: 3-in-8, rotated to 5 so the ghosts answer the bass rather than the kick.
+d2 $ swing $ s "drumtraks:9(3,8,5)" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
+
+-- HATS: 13-in-16 rolling closed hat, gain shaped so the 16 never reads as a machine.
+d3 $ swing $ s "drumtraks:4(13,16)" # gain "0.3 0.22 0.26 0.22 0.3 0.22 0.26 0.22" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- BASS: dubsynth on euclid 3 8 rotation 1 — the syncopated dub bass. G minor lane
+-- (g1 g2 bf2 c3 d3 f2) cycles as 6 against 3 hits/cycle, so the line drifts. Short
+-- envelope (sustain 0.16 / release 0.14) keeps it a bass, not a fart.
+d4 $ swing $ euclid 3 8 1 $ note "<g1 g2 bf2 c3 d3 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+
+-- PAD: hoRhodes, slow 4, an eight-chord G minor progression (Gm Bb Cm Dm Eb F Gm Dm).
+d5 $ swing $ slow 4 $ note "<[g3,bf3,d4] [bf3,d4,f4] [c4,ef4,g4] [d4,f4,a4] [ef4,g4,bf4] [f4,a4,c5] [g3,bf3,d4] [d4,f4,a4]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+
+-- MELODY: hoRhodes on euclid 5 8 — 5 hits against the bass's 3-in-8, drifting across
+-- it. Aggressive attack (attack 0.008, short release) so it stabs rather than pads.
+d6 $ swing $ euclid 5 8 $ note "<g4 bf4 c5 d5 f5 d5 bf4 g4>" # s "hoRhodes" # gain 0.72 # cutoff 5200 # attack 0.008 # release 0.3 # verbSend 0.2 # room 0.5 # size 0.5 # ddSend 0
+
+-- CABASA: 9-in-16, rotation 3 — the dry shimmer that fills the kick's one gap.
+d7 $ swing $ s "drumtraks:0(9,16,3)" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
+
+-- CLAP: sparse 5-in-16, rotation 11 — off-grid answer to the snare, on the 16.
+d8 $ swing $ s "drumtraks:1(5,16,11)" # gain 0.5 # hpf 300 # verbSend 0 # ddSend 0
+
+d9 $ silence
+
+-- COUNTER-LINE (VIBES): DX100_Vibes on euclid 3 8 rotation 3 — sparse, metallic, sits
+-- above the Rhodes melody without competing with it.
+d10 $ swing $ euclid 3 8 3 $ note "<d5 f5 bf5 a5 g5 d5>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+
+-- PERC: p93perc ghatam 7-in-16, rotation 11 — dense hand percussion under the hats.
+d11 $ swing $ s "p93perc(7,16,11)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
+
+-- COUNTER-LINE (SINE): DX100_Sine on euclid 5 8 rotation 6 — the soaring top thread,
+-- the dark mirror of the vibes line.
+d12 $ swing $ euclid 5 8 6 $ note "<g5 bf5 d6 c6 a5 f5 g5 d6>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.42 # hpf 400 # lpf 6000 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+
+-- SUB: dubsub 7-in-16 rotation 5 (dense, hard, the low thump), walking a G minor lane
+-- one step per 4 cycles. A synth, so it takes a real freq — no sample-rate trap.
+d13 $ swing $ s "dubsub(7,16,5)" # note (slow 4 $ "<g1 bf1 c2 d2 f1 g1 bf2 d2>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- VOICES: chop + walk lpviz — slice 16 marches the loop's start positions in order,
+-- n rotates eight Vox loops, and gain "<0.6 0>" opens the voice ONE bar in two.
+d14 $ swing $ slice 16 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15" $ s "lpviz" # n (slow 8 $ "<169 175 172 178 181 186 170 176>") # speed 1 # gain "<0.6 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+
+d15 $ silence
+
+d16 $ silence
+
+-- END 151.tidal
