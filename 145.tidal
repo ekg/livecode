@@ -2,13 +2,16 @@
 -- Started as three co-prime metres (13/17/23) drifting against each other; the
 -- operator's call was "everything should be in 13", so 17 and 23 are gone and
 -- EVERY pattern is a 13-division (euclids, slice counts and order sequences).
--- Later the operator asked for the whole thing to PULSE TOGETHER instead of
--- reading scattered: every percussive layer now shares ONE division of 13 —
--- (5,13) = hits on steps 0,3,6,9,12 — and a 13-length gain pattern accents the
--- key steps (0 and 6 loudest, 3/9 medium, 12 soft). Same rhythm, different
--- sounds: that is the "wall of pulsing sound". Layer-specific euclids/rotations
--- (and the scattered click layer d10) are gone, and the breaks/drum loops are
--- gated by the same (5,13) instead of sliced into scattered orders.
+-- The pulse: first everything shared one (5,13) wall — which at tempo read as a
+-- double-time machine-gun — so it was RESEQUENCED into a composite. Each layer
+-- now owns a different step (or two) of the same 13, so the pulse is built by the
+-- ensemble rather than everyone firing at once:
+--     step 0  kick + tick          step 2  loop A (p93drumB)
+--     step 3  snare                step 6  kick + hats + clap + sub
+--     step 9  snare + break        step 11 loop B (p94brkB)
+--     step 12 hats + sub
+-- Tempo also came down to 90 BPM (cps 0.375) from 112, and the loop layers got a
+-- short `release` (0.18) so their own room does not smear into a wash.
 --   13 everywhere: kick (4,13); snare <(2,13,6) (1,13) (3,13) (2,13)>; hats
 --      <(5,13) (3,13) (7,13) (2,13)>; claps <(3,13,3) (2,13,7) (5,13)>; accent
 --      ho(1,13); click <(3,13) (2,13) (5,13)>; break + drum loops sliced into 13
@@ -56,31 +59,31 @@
 --   badly once (sub + Micro_Sub impacts + low kick) so the low end is: one sub
 --   (hpf 34), kick hpf 46, no second sub layer. All group aux sends are 0
 --   (drums/bass/music/fx) so nothing hits the project verb/shimmer buses.
-setcps 0.4667
+setcps 0.375
 
-d1 $ s "808bd(5,13)" # gain "1.2 0.55 0.55 0.95 0.55 0.95 1.15 0.55 0.55 0.95 0.55 0.55 0.9" # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+d1 $ s "808bd(2,13)" # gain "1.3 0.6 0.6 0.6 0.6 0.6 1.05 0.6 0.6 0.6 0.6 0.6 0.6" # shape 0.5 # hpf 46 # release 0.09 # ddSend 0 # verbSend 0
 
-d2 $ s "drumtraks:9(5,13)" # gain "0.35 0.5 0.5 0.75 0.5 0.75 0.4 0.5 0.5 0.75 0.5 0.5 0.7" # hpf 420 # ddSend 0 # verbSend 0
+d2 $ s "drumtraks:9(2,13,3)" # gain "0.6 0.6 0.6 0.95 0.6 0.6 0.6 0.6 0.6 0.85 0.6 0.6 0.6" # hpf 420 # ddSend 0 # verbSend 0
 
-d3 $ s "drumtraks:4(5,13)" # gain "0.42 0.24 0.24 0.36 0.24 0.36 0.42 0.24 0.24 0.36 0.24 0.24 0.36" # hpf 1800 # lpf 8000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "drumtraks:4(3,13,6)" # gain "0.45 0.3 0.3 0.4 0.3 0.4 0.45 0.3 0.3 0.4 0.3 0.3 0.4" # hpf 1800 # lpf 8000 # pan 0.6 # ddSend 0 # verbSend 0
 
-d4 $ note "fs1(5,13)" # s "dubsynth" # waveMix 0.1 # cutoff 90 # fenv 0.5 # drive 0.5 # sustain 0.7 # release 0.5 # lpf 165 # hpf 28 # gain 0.8 # verbSend 0 # ddSend 0
+d4 $ note "fs1(2,13,6)" # s "dubsynth" # waveMix 0.1 # cutoff 90 # fenv 0.5 # drive 0.5 # sustain 1.1 # release 0.6 # lpf 165 # hpf 28 # gain 0.85 # ddSend 0 # verbSend 0
 
-d5 $ s "breaks165(5,13)" # gain "0.7 0.35 0.35 0.55 0.35 0.55 0.7 0.35 0.35 0.55 0.35 0.35 0.55" # hpf 250 # lpf 6500 # verbSend 0 # ddSend 0
+d5 $ s "breaks165(1,13,9)" # gain 0.6 # hpf 250 # lpf 5500 # release 0.18 # ddSend 0 # verbSend 0
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0
 
-d7 $ s "drumtraks:4(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
+d7 $ s "drumtraks:4(1,13)" # gain 0.4 # hpf 2600 # pan 0.5 # ddSend 0 # verbSend 0
 
-d8 $ s "drumtraks:1(5,13)" # gain "0.62 0.28 0.28 0.5 0.28 0.5 0.62 0.28 0.28 0.5 0.28 0.28 0.5" # hpf 750 # lpf 7200 # release 0.09 # ddSend 0 # verbSend 0
+d8 $ s "drumtraks:1(1,13,6)" # gain 0.62 # hpf 750 # lpf 7200 # release 0.09 # ddSend 0 # verbSend 0
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
 d10 $ silence
 
-d11 $ s "p93drumB(5,13)" # gain "0.55 0.3 0.3 0.45 0.3 0.45 0.55 0.3 0.3 0.45 0.3 0.3 0.45" # speed 0.95 # hpf 160 # lpf 6000 # verbSend 0 # ddSend 0
+d11 $ s "p93drumB(1,13,2)" # gain 0.5 # speed 0.95 # hpf 180 # lpf 5200 # release 0.18 # ddSend 0 # verbSend 0
 
-d12 $ s "p94brkB(5,13)" # gain "0.5 0.25 0.25 0.4 0.25 0.4 0.5 0.25 0.25 0.4 0.25 0.25 0.4" # speed 0.95 # hpf 200 # lpf 6000 # pan 0.4 # verbSend 0 # ddSend 0
+d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0.4 # release 0.18 # ddSend 0 # verbSend 0
 
 d13 $ silence
 
