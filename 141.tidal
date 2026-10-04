@@ -1,36 +1,39 @@
--- 141: 80s POP MINING -> SOLO -> HARD TECHNO.
+-- 141: 80s POP MINING -> SOLO -> HARD TECHNO -> PRETTY RETURN.
 -- Session arc, all on one take (recordings/jam-20261004-1103.wav):
 --   1. 120 BPM groove with hooks mined from ~/tunepile (index/tunepile.db, FTS5).
 --   2. Kick became "x x - - x x x - -" (9 steps); everything reworked around it.
 --   3. Kick + clap dropped; then all parts except the melody dropped for a solo.
---   4. Melody extended to an 8-bar arc, big regular dub delay + big reverb,
---      then chopped hard (chop 16).
---   5. A NEW hard techno beat + rolling bass dropped in underneath (NOT the old
---      9-step figure). This file reflects the final state.
--- Melody (d6) — a-ha, "Take On Me" (1985):
---   tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal. Key: F#m / A major
---   (a b cs d e fs gs; the lift phrase's F natural was corrected to fs5).
---   gain slow 16 (0.62..1.15 saw); regular dub delay ddSend 0.7, delaytime 3/8,
---   feedback 0.55, ddLp 3800/ddHp 300, ddCross 0.5, lock 1; big verb
---   verbSend 0.6, size 0.92, room 0.75, verbT60 6.
--- Hooks used earlier, now silent: arpeggio (d5, Tears For Fears "Everybody
--- Wants To Rule The World"), bass (d4 earlier, "Billie Jean" contour),
--- pad (d11, vi-IV-I-V in F#m).
--- Sources: bd/cp/hh/ho Dirt-Samples + dubsynth, hoRhodes (project DSP).
+--   4. Melody extended to an 8-bar arc, big regular dub delay + big verb, chopped.
+--   5. A new hard techno beat + rolling bass dropped in under it.
+--   6. Techno out; back to something pretty — a second Tunepile hook (Toto,
+--      "Africa") with the F#m pad restored. This file reflects the final state.
+-- Melody (d6) — Toto, "Africa" (1982), chorus line:
+--   tabs-tidal/Toto_-_Africa.gp3-*.tidal — indexed run b4 e5 cs5 e5 b4 e5 …
+--   Recast to an 8-bar A-major phrase set: statement, rise (fs5), high (gs5),
+--   return. All pitches in A major / F#m (a b cs e fs gs) — stays in key.
+--   gain slow 16 (0.55..0.9 saw); dub delay ddSend 0.35, delaytime 3/8,
+--   feedback 0.45, lock 1; verbSend 0.45, size 0.9, room 0.7, verbT60 5.
+--   (The earlier a-ha "Take On Me" solo + chop and the hard techno are gone.)
+-- Pad (d11) — vi-IV-I-V in F#m (Tunepile chords/progressions), hoRhodes,
+--   soft gain 0.34, verbSend 0.3.
+-- Drum/other streams silent. Hooks used earlier in the session, now silent:
+--   arpeggio (Tears For Fears "Everybody Wants To Rule The World"),
+--   bass ("Billie Jean" contour), pad (F#m), hard techno beat/rolling bass.
+-- Sources: Dirt-Samples + dubsynth, hoRhodes (project DSP).
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
 setcps 0.5
 
-d1 $ s "bd*4" # gain 1.35 # shape 0.55 # hpf 28
+d1 $ silence
 
-d2 $ s "~ cp ~ cp" # gain 0.95 # hpf 300 # sz 0.4 # room 0
+d2 $ silence
 
-d3 $ s "[~ ho]*4" # gain 0.5 # speed 1.6 # pan 0.58
+d3 $ silence
 
-d4 $ note "fs1*16" # s "dubsynth" # waveMix 0.55 # cutoff 185 # fenv 1.1 # drive 0.85 # sustain 0.09 # gain 0.9
+d4 $ silence
 
 d5 $ silence
 
-d6 $ chop 16 $ slow 2 $ note "<[fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~] [a5 e5 cs5 fs5 a5 a5 fs5 d5 d5 fs5 fs5 b5 ~ cs6 ~ ~] [cs6 b5 a5 gs5 a5 fs5 e5 cs5 d5 b4 a4 gs4 a4 ~ ~ ~] [fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.15 # sustain 0.1 # ddSend 0.7 # lock 1 # delaytime (3/8) # delayfeedback 0.55 # ddLp 3800 # ddHp 300 # ddCross 0.5 # verbSend 0.6 # size 0.92 # room 0.75 # verbT60 6 # verbDamp 0.35 # verbHp 250 # verbWidth 0.9
+d6 $ slow 2 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.55 0.9 saw) # cutoff 3600 # release 0.6 # ddSend 0.35 # lock 1 # delaytime (3/8) # delayfeedback 0.45 # verbSend 0.45 # size 0.9 # room 0.7 # verbT60 5 # verbDamp 0.4
 
 d7 $ silence
 
@@ -40,6 +43,6 @@ d9 $ silence
 
 d10 $ silence
 
-d11 $ silence
+d11 $ slow 2 $ n "<[fs3,a3,cs4] [d3,fs3,a3] [a2,cs3,e3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.34 # cutoff 2200 # release 0.7 # verbSend 0.3
 
 d12 $ silence
