@@ -1,0 +1,54 @@
+-- 143: LATE-NIGHT VERSION OF 142 — real claps, `n` selection, syncopated
+-- 80s melody over a slow verbed pad. Evolved from 142 across one long session:
+--   * 142 had the melody at slow 2 and a dry, low pad; here the melody is
+--     syncopated (double-time note pairs) and the pad sits high and wet.
+--   * The Tears For Fears arpeggio (142 d8) is CUT — it read as background
+--     clutter under the melody.
+--   * A soaring a-ha "Take On Me" chorus counter-line was tried on dubsynth
+--     and REJECTED (sounded bad); d10 is silenced. Nothing above the melody.
+-- Rhythm section (euclid + `n` selection):
+--   d1 808bd(3,8)      — E(3,8) kick, `n` picks a new 808bd file every 4 cycles
+--   d2 realclaps(5,16) — REAL claps, per-hit sample via n (choose [0,1,2,3])
+--   d3 ~ [cp cp] ~ [realclaps realclaps] — mixed backbeat (cp + realclaps)
+--   d4 ovenclaps(5,16) — airy clap layer, panned right
+--   d6 hand(7,16)      — hand percussion, playback-rate sweep via speed
+-- Melody (d7) — Toto "Africa" (1982) chorus; tabs-tidal/Toto_-_Africa.gp3-*.
+--   8-bar A-major arc, syncopated into double-time pairs and salted with
+--   sometimesBy 0.35 (fast 2) flurries, stut 4 0.5 0.5, slow 8. In key (F#m/A).
+-- Pad (d9) — F#m-D-A-E as WIDE INVERSIONS spanning octaves 3-5 (one chord tone
+--   per octave), gain 1.15, verbed (verbSend 0.35, room 0.6, size 0.7, verbT60 4).
+--   Chords divide gain in SuperDirt, so a chord patch needs a much higher gain
+--   than a single note; hoRhodes' envelope caps ~2.8 s so chords are fired every
+--   2 cycles to ring into each other.
+-- Bass (d5): dubsynth fs1, tight and dry (sustain 0.06, release 0.1, lpf 900).
+-- Master chain (sc/dub_master.scd): hpf -> glue comp (ducked by kick) -> tape
+--   saturation -> tone -> soft limiter (Limiter.ar 0.79) + guaranteed ceiling —
+--   compression/limiting IS on the master; `ceiling-used` in sc/master-meter.log
+--   is its headroom. Melody/pad gains were tuned BY EAR (meter samples 2 s).
+-- Dry sends: drums/bass group aux sends are 0 (sc/routing.scd) — the fix for the
+--   reverb-on-the-kick that kept creeping back.
+setcps 0.5
+
+d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 0.95 # shape 0.55 # hpf 42 # release 0.09 # verbSend 0 # ddSend 0
+
+d2 $ s "realclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.9 # hpf 420 # verbSend 0 # ddSend 0
+
+d3 $ s "~ [cp cp] ~ [realclaps realclaps]" # n (choose [0,1,2,3]) # gain 0.85 # hpf 420 # verbSend 0 # ddSend 0
+
+d4 $ s "ovenclaps(5,16)" # n (choose [0,1,2,3]) # gain 0.45 # hpf 750 # pan 0.62 # verbSend 0 # ddSend 0
+
+d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 0.7 # sustain 0.06 # release 0.1 # lpf 900 # gain 0.32 # verbSend 0 # ddSend 0
+
+d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
+
+d7 $ stut 4 0.5 0.5 $ sometimesBy 0.35 (fast 2) $ slow 8 $ note "<[b4 [e5 cs5] e5 b4 [e5 cs5] b4 [e5 cs5] b4 a4 [gs4 a4] ~ ~] [[cs5 e5] fs5 e5 [cs5 e5] fs5 e5 a4 [b4 cs5] e5 b4 [cs5 b4] ~ ~] [e5 [fs5 gs5] fs5 e5 [cs5 b4] cs5 [e5 fs5] e5 cs5 b4 [a4 gs4] ~ ~] [b4 [e5 cs5] e5 b4 e5 cs5 b4 [e5 cs5] b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 0.9 1.0 saw) # cutoff 4600 # release 0.9 # verbSend 0 # ddSend 0
+
+d8 $ silence
+
+d9 $ slow 2 $ n "<[fs3,a4,cs5] [d3,fs4,d5] [a3,e4,cs5] [e3,b4,gs5]>" # s "hoRhodes" # gain 1.15 # cutoff 4200 # attack 0.03 # sustain 4 # release 2.6 # verbSend 0.35 # room 0.6 # size 0.7 # verbT60 4 # verbDamp 0.4 # ddSend 0
+
+d10 $ silence
+
+d11 $ silence
+
+d12 $ silence
