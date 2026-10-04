@@ -10,7 +10,11 @@
 --       tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal (first-note extract).
 --       Now an 8-bar arc: index phrase, a lift (up a 4th, cs6 peak), a
 --       descending resolution, then a return to the head. Ramped forward
---       (gain slow 16, 0.62..1.15 saw) — it kept getting buried.
+--       (gain slow 16, 0.62..1.15 saw) — it kept getting buried. Now BIG delay:
+--       ddSend 0.7, delaytime 3/8, feedback 0.55, ddLp 3800/ddHp 300, ddCross 0.5
+--       (widened), lock 1 — the regular dub delay (dirt_dubdelay), NOT tape.
+--       Key: F#m/A major throughout — the lift phrase's F natural was corrected
+--       to fs5 so the solo never leaves the key.
 -- Hooks used earlier in the session and now silent, for the record:
 --   arpeggio (d5) — Tears For Fears, "Everybody Wants To Rule The World"
 --   bass     (d4) — Michael Jackson, "Billie Jean" contour, on dubsynth
@@ -32,7 +36,7 @@ d4 $ silence
 
 d5 $ silence
 
-d6 $ slow 2 $ note "<[fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~] [a5 e5 cs5 fs5 a5 a5 f5 d5 d5 fs5 fs5 b5 ~ cs6 ~ ~] [cs6 b5 a5 gs5 a5 fs5 e5 cs5 d5 b4 a4 gs4 a4 ~ ~ ~] [fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.4 # ddSend 0
+d6 $ slow 2 $ note "<[fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~] [a5 e5 cs5 fs5 a5 a5 fs5 d5 d5 fs5 fs5 b5 ~ cs6 ~ ~] [cs6 b5 a5 gs5 a5 fs5 e5 cs5 d5 b4 a4 gs4 a4 ~ ~ ~] [fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.4 # ddSend 0.7 # lock 1 # delaytime (3/8) # delayfeedback 0.55 # ddLp 3800 # ddHp 300 # ddCross 0.5
 
 d7 $ silence
 
