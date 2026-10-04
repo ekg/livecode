@@ -8,9 +8,15 @@
 -- ensemble rather than everyone firing at once:
 --     step 0  kick + tick          step 2  loop A (p93drumB)   (kick is 4-in-13
 --     at a LOWER gain — doubled for momentum, but sitting inside the mix)
---   The SUB (d4) is SILENCED: a single fs1 hit twice a bar with sustain 1.1 was
---   the "boring bass hit in the back". A low element needs movement to earn its
---   place — see the dubsynth notes below for what it was.
+--   d4 is SILENCED and stays that way. It has held, in turn: the sub fs1(2,13,6)
+--   (a single note twice a bar with sustain 1.1 = "boring bass hit in the back"),
+--   then a dubchord stab [fs3,cs4,a4]... which read as a "bassy chord farting
+--   along". Lesson: `dubchord`/`dubsynth` are detuned-saw + sine-sub voices with a
+--   low lowpass — they sit in the bass region by construction, so at chord
+--   density they muddy rather than support. If a low element comes back it should
+--   be sparse, moving, and clearly either bass OR chord — not a bassy chord.
+--   NB: Tidal's outside-in only defines d1..d16; all sixteen are in use, so a new
+--   layer has to displace an existing one (d4 is the free slot).
 --     step 3  snare                step 6  kick + hats + clap + sub
 --     step 9  snare + break        step 11 loop B (p94brkB)
 --     step 12 hats + sub
