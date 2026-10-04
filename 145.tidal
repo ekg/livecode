@@ -17,7 +17,8 @@
 --   sets PLAYBACK SPEED, so the line is kept above ~fs4 — low notes drag the
 --   sample down (gs3/fs3 made it sound like molasses) and the old
 --   `every 8 (|+ note 12)` octave jump squeaked (2x speed).
--- Chords — mars_synths_S612_Pad, an 8-chord progression over 32 cycles (~55 s):
+-- Chords — mars_synths_OB_Strings (a string-machine sample; the earlier
+--   S612_Pad was a synth voice and read as a synth), an 8-chord progression over 32 cycles (~55 s):
 --   F#m D Bm C#m / A E Bm C#m, voiced two octaves ABOVE middle C
 --   (fs5/cs6/a6 ...) — the low voicing was far too deep and it needed one
 --   more lift after fs4/cs5/a5. Caveat: for a SAMPLE pad, `note` is playback
@@ -57,7 +58,7 @@ d7 $ s "ho(1,13)" # gain 0.3 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
 d8 $ s "<cp(5,13,3) cp(3,13,7) cp(7,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.25 # release 0.09 # verbSend 0 # ddSend 0
 
-d9 $ slow 4 $ note "<[fs5,cs6,a6] [d5,a5,fs6] [b4,fs5,d6] [cs5,gs5,e6] [a4,e5,cs6] [e5,b5,gs6] [b4,fs5,d6] [cs5,gs5,e6]>" # s "mars_synths_S612_Pad" # n 0 # gain 0.72 # hpf 300 # lpf 6000 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
+d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
 d10 $ s "<ho(5,23) hh(3,23) ho(7,23)>" # gain 0.22 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
 
