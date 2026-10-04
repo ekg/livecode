@@ -23,9 +23,9 @@
 --   0.06 + lpf 900 bass), kick hpf 42 and gain down to 0.95, bass gain 0.32.
 --   Group bus trims at runtime: drums 0.9, bass 0.8, music 1.25
 --   (~groupCtl.set(gain, sDel, sVerb, sShim) in sclang).
--- Melody slowed 2-fold (slow 4, gain ramp over 32 cycles); a SLOW PAD chord
---   progression (d9, vi-IV-I-V in F#m, slow 4, attack 0.4 / release 1.6) sits
---   underneath to fill the space the trimmed kick/bass left.
+-- Melody slowed another 2-fold (now slow 8, gain ramp over 64 cycles) and the
+--   pad/chord progression was removed (d9 silence) — melody alone over the
+--   trimmed rhythm section, with long empty space between phrases.
 -- Folders: 773 total in the sound library; this scene uses 808bd, realclaps,
 --   cp, ovenclaps, hand, hh + project dubsynth/hoRhodes.
 setcps 0.5
@@ -42,11 +42,11 @@ d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 
 
 d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
 
-d7 $ slow 4 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 32 $ range 1.15 1.4 saw) # cutoff 4400 # release 0.7 # verbSend 0 # ddSend 0
+d7 $ slow 8 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 1.15 1.4 saw) # cutoff 4400 # release 0.9 # verbSend 0 # ddSend 0
 
 d8 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.7 # cutoff 3800 # release 0.25 # verbSend 0 # ddSend 0
 
-d9 $ slow 4 $ n "<[fs3,a3,cs4] [d3,fs3,a3] [a2,cs3,e3] [e3,gs3,b3]>" # s "hoRhodes" # gain 0.5 # cutoff 2200 # attack 0.4 # release 1.6 # verbSend 0 # ddSend 0
+d9 $ silence
 
 d10 $ silence
 
