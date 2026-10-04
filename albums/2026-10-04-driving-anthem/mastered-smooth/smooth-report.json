@@ -1,0 +1,79 @@
+{
+ "mode": "smoothed-continuous",
+ "target_lufs": -14.0,
+ "ramp_s": 20.0,
+ "preset": "share",
+ "comp": "light",
+ "sections": [
+  {
+   "section": 1,
+   "title": "Melody & Pad",
+   "start": 0.0,
+   "end": 39.3,
+   "lufs": -27.69,
+   "gain_db": 13.69,
+   "tp": -12.19,
+   "out_lufs": -14.62,
+   "out_tp": -2.2
+  },
+  {
+   "section": 2,
+   "title": "Tech House Riddim",
+   "start": 39.3,
+   "end": 83.6,
+   "lufs": -26.03,
+   "gain_db": 12.03,
+   "tp": -10.14,
+   "out_lufs": -14.58,
+   "out_tp": -2.0
+  },
+  {
+   "section": 3,
+   "title": "Drums & Hard Kick",
+   "start": 83.6,
+   "end": 153.9,
+   "lufs": -24.28,
+   "gain_db": 10.28,
+   "tp": -9.87,
+   "out_lufs": -14.64,
+   "out_tp": -1.99
+  },
+  {
+   "section": 4,
+   "title": "Breakbeat Breakdown",
+   "start": 153.9,
+   "end": 186.3,
+   "lufs": -25.0,
+   "gain_db": 11.0,
+   "tp": -10.56,
+   "out_lufs": -15.21,
+   "out_tp": -1.86
+  },
+  {
+   "section": 5,
+   "title": "Bring Back",
+   "start": 186.3,
+   "end": 220.0,
+   "lufs": -24.91,
+   "gain_db": 10.91,
+   "tp": -10.07,
+   "out_lufs": -14.43,
+   "out_tp": -2.11
+  },
+  {
+   "section": 6,
+   "title": "New Ending",
+   "start": 220.0,
+   "end": 256.1,
+   "lufs": -29.8,
+   "gain_db": 15.8,
+   "tp": -14.81,
+   "out_lufs": -14.7,
+   "out_tp": -2.2
+  }
+ ],
+ "outputs": [
+  "jam-20261004-1133.smooth.flac",
+  "jam-20261004-1133.smooth.mp3"
+ ]
+}

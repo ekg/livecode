@@ -1,0 +1,7 @@
+# start        end          title
+0:00.0        0:51.8       Groove In
+0:51.8        1:34.6       Sweep & Pad
+1:34.6        3:43.8       Kicks & Skeleton
+3:43.8        4:55.6       Solo & Dub Delay
+4:55.6        5:32.3       Hard Techno
+5:32.3        7:41.3       Pretty Return

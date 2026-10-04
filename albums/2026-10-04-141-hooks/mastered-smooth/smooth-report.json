@@ -1,0 +1,79 @@
+{
+ "mode": "smoothed-continuous",
+ "target_lufs": -14.0,
+ "ramp_s": 20.0,
+ "preset": "share",
+ "comp": "light",
+ "sections": [
+  {
+   "section": 1,
+   "title": "Groove In",
+   "start": 0.0,
+   "end": 51.8,
+   "lufs": -23.29,
+   "gain_db": 9.29,
+   "tp": -9.83,
+   "out_lufs": -14.53,
+   "out_tp": -2.19
+  },
+  {
+   "section": 2,
+   "title": "Sweep & Pad",
+   "start": 51.8,
+   "end": 94.6,
+   "lufs": -23.28,
+   "gain_db": 9.28,
+   "tp": -9.82,
+   "out_lufs": -14.49,
+   "out_tp": -2.19
+  },
+  {
+   "section": 3,
+   "title": "Kicks & Skeleton",
+   "start": 94.6,
+   "end": 223.8,
+   "lufs": -23.7,
+   "gain_db": 9.7,
+   "tp": -9.8,
+   "out_lufs": -14.4,
+   "out_tp": -2.19
+  },
+  {
+   "section": 4,
+   "title": "Solo & Dub Delay",
+   "start": 223.8,
+   "end": 295.6,
+   "lufs": -28.85,
+   "gain_db": 14.85,
+   "tp": -10.14,
+   "out_lufs": -17.02,
+   "out_tp": -2.2
+  },
+  {
+   "section": 5,
+   "title": "Hard Techno",
+   "start": 295.6,
+   "end": 332.3,
+   "lufs": -21.76,
+   "gain_db": 7.76,
+   "tp": -10.04,
+   "out_lufs": -13.41,
+   "out_tp": -2.19
+  },
+  {
+   "section": 6,
+   "title": "Pretty Return",
+   "start": 332.3,
+   "end": 461.3,
+   "lufs": -23.26,
+   "gain_db": 9.26,
+   "tp": -9.28,
+   "out_lufs": -14.43,
+   "out_tp": -2.2
+  }
+ ],
+ "outputs": [
+  "jam-20261004-1103.smooth.flac",
+  "jam-20261004-1103.smooth.mp3"
+ ]
+}

@@ -1,0 +1,85 @@
+{
+ "album": "Riddim Anthem -> Jolene Piano -> Pad Landing",
+ "artist": "erik + pi",
+ "source": "jam-20261004-1137.smooth.flac",
+ "duration": 454.7,
+ "tracks": [
+  {
+   "track": 1,
+   "title": "New Space",
+   "start": 0.0,
+   "end": 38.6,
+   "seconds": 38.6,
+   "files": {
+    "flac": "01 - New-Space.flac",
+    "mp3": "01 - New-Space.mp3"
+   }
+  },
+  {
+   "track": 2,
+   "title": "Amen Riddim",
+   "start": 38.6,
+   "end": 98.3,
+   "seconds": 59.7,
+   "files": {
+    "flac": "02 - Amen-Riddim.flac",
+    "mp3": "02 - Amen-Riddim.mp3"
+   }
+  },
+  {
+   "track": 3,
+   "title": "Go Hard",
+   "start": 98.3,
+   "end": 153.0,
+   "seconds": 54.7,
+   "files": {
+    "flac": "03 - Go-Hard.flac",
+    "mp3": "03 - Go-Hard.mp3"
+   }
+  },
+  {
+   "track": 4,
+   "title": "Chopped & Screwed",
+   "start": 153.0,
+   "end": 198.3,
+   "seconds": 45.3,
+   "files": {
+    "flac": "04 - Chopped-Screwed.flac",
+    "mp3": "04 - Chopped-Screwed.mp3"
+   }
+  },
+  {
+   "track": 5,
+   "title": "Jolene Piano",
+   "start": 198.3,
+   "end": 322.2,
+   "seconds": 123.9,
+   "files": {
+    "flac": "05 - Jolene-Piano.flac",
+    "mp3": "05 - Jolene-Piano.mp3"
+   }
+  },
+  {
+   "track": 6,
+   "title": "Breakdown & Rebuild",
+   "start": 322.2,
+   "end": 406.6,
+   "seconds": 84.4,
+   "files": {
+    "flac": "06 - Breakdown-Rebuild.flac",
+    "mp3": "06 - Breakdown-Rebuild.mp3"
+   }
+  },
+  {
+   "track": 7,
+   "title": "Pad Landing",
+   "start": 406.6,
+   "end": 454.7,
+   "seconds": 48.1,
+   "files": {
+    "flac": "07 - Pad-Landing.flac",
+    "mp3": "07 - Pad-Landing.mp3"
+   }
+  }
+ ]
+}

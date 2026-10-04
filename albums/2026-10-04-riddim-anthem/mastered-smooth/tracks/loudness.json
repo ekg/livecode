@@ -1,0 +1,44 @@
+[
+ {
+  "file": "01 - New-Space.mp3",
+  "lufs": -14.64,
+  "tp": -2.2,
+  "lra": 14.5
+ },
+ {
+  "file": "02 - Amen-Riddim.mp3",
+  "lufs": -15.55,
+  "tp": -2.17,
+  "lra": 2.6
+ },
+ {
+  "file": "03 - Go-Hard.mp3",
+  "lufs": -16.01,
+  "tp": -2.15,
+  "lra": 1.3
+ },
+ {
+  "file": "04 - Chopped-Screwed.mp3",
+  "lufs": -15.48,
+  "tp": -2.16,
+  "lra": 1.5
+ },
+ {
+  "file": "05 - Jolene-Piano.mp3",
+  "lufs": -14.7,
+  "tp": -2.16,
+  "lra": 1.6
+ },
+ {
+  "file": "06 - Breakdown-Rebuild.mp3",
+  "lufs": -15.11,
+  "tp": -2.15,
+  "lra": 2.1
+ },
+ {
+  "file": "07 - Pad-Landing.mp3",
+  "lufs": -16.15,
+  "tp": -2.19,
+  "lra": 8.7
+ }
+]

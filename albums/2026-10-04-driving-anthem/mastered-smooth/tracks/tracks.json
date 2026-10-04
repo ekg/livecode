@@ -1,0 +1,74 @@
+{
+ "album": "Driving Anthem (tech house riddim)",
+ "artist": "erik + pi",
+ "source": "jam-20261004-1133.smooth.flac",
+ "duration": 252.5,
+ "tracks": [
+  {
+   "track": 1,
+   "title": "Melody & Pad",
+   "start": 0.0,
+   "end": 39.3,
+   "seconds": 39.3,
+   "files": {
+    "flac": "01 - Melody-Pad.flac",
+    "mp3": "01 - Melody-Pad.mp3"
+   }
+  },
+  {
+   "track": 2,
+   "title": "Tech House Riddim",
+   "start": 39.3,
+   "end": 83.6,
+   "seconds": 44.3,
+   "files": {
+    "flac": "02 - Tech-House-Riddim.flac",
+    "mp3": "02 - Tech-House-Riddim.mp3"
+   }
+  },
+  {
+   "track": 3,
+   "title": "Drums & Hard Kick",
+   "start": 83.6,
+   "end": 153.9,
+   "seconds": 70.3,
+   "files": {
+    "flac": "03 - Drums-Hard-Kick.flac",
+    "mp3": "03 - Drums-Hard-Kick.mp3"
+   }
+  },
+  {
+   "track": 4,
+   "title": "Breakbeat Breakdown",
+   "start": 153.9,
+   "end": 186.3,
+   "seconds": 32.4,
+   "files": {
+    "flac": "04 - Breakbeat-Breakdown.flac",
+    "mp3": "04 - Breakbeat-Breakdown.mp3"
+   }
+  },
+  {
+   "track": 5,
+   "title": "Bring Back",
+   "start": 186.3,
+   "end": 220.0,
+   "seconds": 33.7,
+   "files": {
+    "flac": "05 - Bring-Back.flac",
+    "mp3": "05 - Bring-Back.mp3"
+   }
+  },
+  {
+   "track": 6,
+   "title": "New Ending",
+   "start": 220.0,
+   "end": 256.1,
+   "seconds": 36.1,
+   "files": {
+    "flac": "06 - New-Ending.flac",
+    "mp3": "06 - New-Ending.mp3"
+   }
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+# start        end          title
+0:00.0        0:39.3       Melody & Pad
+0:39.3        1:23.6       Tech House Riddim
+1:23.6        2:33.9       Drums & Hard Kick
+2:33.9        3:06.3       Breakbeat Breakdown
+3:06.3        3:40.0       Bring Back
+3:40.0        4:16.1       New Ending

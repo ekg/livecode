@@ -1,0 +1,74 @@
+{
+ "album": "141 Hooks -> Hard Techno -> Pretty Return",
+ "artist": "erik + pi",
+ "source": "jam-20261004-1103.smooth.flac",
+ "duration": 457.8,
+ "tracks": [
+  {
+   "track": 1,
+   "title": "Groove In",
+   "start": 0.0,
+   "end": 51.8,
+   "seconds": 51.8,
+   "files": {
+    "flac": "01 - Groove-In.flac",
+    "mp3": "01 - Groove-In.mp3"
+   }
+  },
+  {
+   "track": 2,
+   "title": "Sweep & Pad",
+   "start": 51.8,
+   "end": 94.6,
+   "seconds": 42.8,
+   "files": {
+    "flac": "02 - Sweep-Pad.flac",
+    "mp3": "02 - Sweep-Pad.mp3"
+   }
+  },
+  {
+   "track": 3,
+   "title": "Kicks & Skeleton",
+   "start": 94.6,
+   "end": 223.8,
+   "seconds": 129.2,
+   "files": {
+    "flac": "03 - Kicks-Skeleton.flac",
+    "mp3": "03 - Kicks-Skeleton.mp3"
+   }
+  },
+  {
+   "track": 4,
+   "title": "Solo & Dub Delay",
+   "start": 223.8,
+   "end": 295.6,
+   "seconds": 71.8,
+   "files": {
+    "flac": "04 - Solo-Dub-Delay.flac",
+    "mp3": "04 - Solo-Dub-Delay.mp3"
+   }
+  },
+  {
+   "track": 5,
+   "title": "Hard Techno",
+   "start": 295.6,
+   "end": 332.3,
+   "seconds": 36.7,
+   "files": {
+    "flac": "05 - Hard-Techno.flac",
+    "mp3": "05 - Hard-Techno.mp3"
+   }
+  },
+  {
+   "track": 6,
+   "title": "Pretty Return",
+   "start": 332.3,
+   "end": 461.3,
+   "seconds": 129.0,
+   "files": {
+    "flac": "06 - Pretty-Return.flac",
+    "mp3": "06 - Pretty-Return.mp3"
+   }
+  }
+ ]
+}

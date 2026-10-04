@@ -1,0 +1,90 @@
+{
+ "mode": "smoothed-continuous",
+ "target_lufs": -14.0,
+ "ramp_s": 20.0,
+ "preset": "share",
+ "comp": "light",
+ "sections": [
+  {
+   "section": 1,
+   "title": "New Space",
+   "start": 0.0,
+   "end": 38.6,
+   "lufs": -26.98,
+   "gain_db": 12.98,
+   "tp": -11.34,
+   "out_lufs": -14.64,
+   "out_tp": -2.19
+  },
+  {
+   "section": 2,
+   "title": "Amen Riddim",
+   "start": 38.6,
+   "end": 98.3,
+   "lufs": -25.46,
+   "gain_db": 11.46,
+   "tp": -9.21,
+   "out_lufs": -15.54,
+   "out_tp": -2.19
+  },
+  {
+   "section": 3,
+   "title": "Go Hard",
+   "start": 98.3,
+   "end": 153.0,
+   "lufs": -24.73,
+   "gain_db": 10.73,
+   "tp": -9.19,
+   "out_lufs": -16.01,
+   "out_tp": -2.19
+  },
+  {
+   "section": 4,
+   "title": "Chopped & Screwed",
+   "start": 153.0,
+   "end": 198.3,
+   "lufs": -24.37,
+   "gain_db": 10.37,
+   "tp": -9.21,
+   "out_lufs": -15.48,
+   "out_tp": -2.19
+  },
+  {
+   "section": 5,
+   "title": "Jolene Piano",
+   "start": 198.3,
+   "end": 322.2,
+   "lufs": -23.72,
+   "gain_db": 9.72,
+   "tp": -9.01,
+   "out_lufs": -14.7,
+   "out_tp": -2.17
+  },
+  {
+   "section": 6,
+   "title": "Breakdown & Rebuild",
+   "start": 322.2,
+   "end": 406.6,
+   "lufs": -24.45,
+   "gain_db": 10.45,
+   "tp": -9.2,
+   "out_lufs": -15.11,
+   "out_tp": -2.2
+  },
+  {
+   "section": 7,
+   "title": "Pad Landing",
+   "start": 406.6,
+   "end": 454.7,
+   "lufs": -27.99,
+   "gain_db": 13.99,
+   "tp": -9.49,
+   "out_lufs": -16.15,
+   "out_tp": -2.2
+  }
+ ],
+ "outputs": [
+  "jam-20261004-1137.smooth.flac",
+  "jam-20261004-1137.smooth.mp3"
+ ]
+}
