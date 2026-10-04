@@ -1,0 +1,106 @@
+-- 158: BALKAN / KLEZMER ODD-METER DANCE — LESNOTO 7/8 (3+2+2), A MINOR, 160 bpm.
+--
+-- METER DECISION: 7/8 lesnoto, grouped 3+2+2 (accents land on the 1st, 4th and 6th
+-- eighth of the bar). BPM 160 -> setcps (160/60/3.5) = 0.7619. ONE CYCLE = ONE 7/8 BAR.
+--   A 7-slot lane  = the seven eighth notes of the bar.
+--   A 14-slot lane = 16ths; a 28-slot lane = 32nds.
+--   A 16-slot lane is deliberately used for the real drum performances: those are
+--   4/4 sixteen-step cells laid against the 7/8 bar, so the human syncopation DRIFTS
+--   by 2/16 every bar (the "phrase-against-bar" character the task asks for). Slot 0
+--   of a 16-lane is always the bar downbeat, so the floor stays anchored.
+--
+-- CORPUS MINING (all paths under /home/erik/tunepile):
+--
+--  1) abc/ — MELODY, transcribed note-for-note from the real tune "Kara Mustafa [Am]"
+--     abc/trillian.mit.edu/~jc/music/abc/session/lesnoto/Kara_Mustafa.abc
+--     (O: Macedonia, R: lesnoto, M: 7/8, L: 1/8, K: Am). Its %%Q line reads
+--     "2/8 1/8 2/8 2/8" — a 7/8 bar. Head (A) in eighth slots, 8 bars:
+--       B1 c d B c  B A | B2 d  A A G A B | B3 c d B c B A | B4 e  A d c d e
+--       B5 c d B c  B A | B6 d  A A G A B | B7 c d B c B A | B8 A  E A  . . .
+--     The B (answer) part, 4 bars: d e e e e d | e d d d d c | e d c c c B | A G G.
+--     I did NOT change a pitch; I only re-barred/held notes (c2 -> "c4 ~", etc.).
+--
+--  2) rhythm/euclid/ — PERCUSSION, two real Euclidean rhythms from
+--     rhythm/euclid/index.txt (library lines: "5 13 3 00110111100000",
+--     "4 11 0 101110000001"). E(5,13,3) on the shaker and E(4,11,0) on the ghatam:
+--     both 13 and 11 are coprime with 7, so they never re-align with the 7/8 bar.
+--
+--  3) midi/groove/ — DRUMS, transcribed from two REAL Magenta-Groove performances
+--     (info.csv): "drummer4/session1/3_jazz-klezmer_152_beat_4-4.mid" (152 bpm) and
+--     "drummer1/session1/80_dance-breakbeat_170_beat_4-4.mid" (170 bpm, for the hats).
+--     Klezmer kick 16th-slots B1 {0,4,6,10,12} B2 {0,4,6,10,11}; snare p38 127-vel at
+--     slots {6,12}; china p52 on every downbeat (0); tomM p47 flamming the snare at
+--     {6,12}. Breakbeat hhCL = straight eighths {0,2,4,6,8,10,12,14}. See each lane.
+--
+--  4) chords/ — HARMONY, the real progression "minor-ii-V-i" in key of a from
+--     chords/progressions.txt, TRANSPOSED +3 semitones (F#m -> Am) so the i lands on
+--     A minor: Dm7(9) - G7(9) - Am7(9) - Am7(9). Voicings kept root/3/5/7/9:
+--       b3 b4 d5 fs5 a5 cs6 -> d3 d4 f4 a4 c5 e5
+--       e3 e4 gs4 b4 d5 fs5 -> g3 g4 b4 d5 f5 a5
+--       fs3 fs4 a4 cs5 e5 gs5 -> a3 a4 c5 e5 g5 b5
+--
+-- WILD CARD = the dub delay, MOVING as patterns on the ghatam (d13) and the spin lead
+-- (d10). Brass (sweetChords, d14) is a hard dry punch. Kick (d1) is pinned dry and
+-- carries the master modulation for the whole mix.
+setcps (160/60/3.5)
+
+let crush = pF "crush"
+
+let coarse = pF "coarse"
+
+let grunge = (# crush (slow 8 $ range 4 13 saw)) . (# coarse (slow 4 $ range 2 7 sine))
+
+let moist = (sometimesBy 0.45 (# shape (slow 8 $ range 0.15 0.6 sine))) . (# crush (slow 16 $ range 8 13 sine))
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.04 sine)))
+
+-- KICK — klezmer performance, 16-slot cell: bar1 {0,4,6,10,12}, bar2 {0,4,6,10,11}.
+-- DRY (verbSend/ddSend pinned to 0). Carries every m* this mix cares about.
+d1 $ struct "<[1 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0] [1 0 0 0 1 0 1 0 0 0 1 1 0 0 0 0]>" $ s "k808S" # gain 0.72 # shape 0.45 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.5 saw) # mCut (slow 16 $ range 3000 11000 sine) # mWidth (slow 24 $ range 0.75 1 sine)
+
+-- SNARE — klezmer backbeat, pushed onto 16th-slots {6,12} (velocity 127 in the source). Dry.
+d2 $ struct "0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0" $ s "s808b" # gain 0.6 # hpf 420 # lpf 9000 # release 0.08 # verbSend 0 # ddSend 0
+
+-- TOMS — the same performance's tomM p47 flams the snare on slots {6,12}; kept quiet so it reads as a fill edge, not a second snare. Dry.
+d3 $ struct "0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0" $ s "t808M" # gain 0.26 # hpf 120 # lpf 4600 # pan 0.44 # release 0.22 # verbSend 0 # ddSend 0
+
+-- CYMBAL — the klezmer china p52 hits the downbeat of every bar (slot 0). Muted every 2nd cycle so it breathes. Dry.
+d4 $ every 2 (# gain 0) $ struct "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" $ s "cy808" # gain 0.16 # hpf 1800 # lpf 12000 # pan 0.5 # release 0.3 # verbSend 0.1 # ddSend 0
+
+-- BASS — the Dm7-G7-Am7-Am7 roots on the 3+2+2 accents (slots 0,3,5), octave 2/3, SHORT envelope. Dry.
+d5 $ grunge $ note "<[d2 ~ d2 d3 ~ d2 ~] [g2 ~ g2 g3 ~ g2 ~] [a2 ~ a2 a3 ~ a2 a3] [a2 ~ a2 a3 ~ e3 ~]>" # s "dubsynth" # waveMix 0.18 # cutoff (slow 16 $ range 300 640 sine) # fenv 2.2 # drive 0.4 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.5 # verbSend 0 # ddSend 0
+
+-- SUB — real low end, one root per bar on the chord loop, dubsub sine at real frequencies.
+d6 $ s "dubsub(2,8,1)" # note "<d1 g1 a1 a1>" # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.46 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- PAD — the transposed minor-ii-V-i voicings (Dm7(9) G7(9) Am7(9) Am7(9)), one chord per bar, filter and hall breathing.
+d7 $ moist $ note "<[d3,f3,a3,c4] [g3,b3,d4,f4] [a3,c4,e4,g4] [a3,c4,e4,g4]>" # s "hoRhodes" # gain 0.46 # attack 0.06 # release 1.8 # lpf (slow 16 $ range 1500 3200 sine) # verbSend (slow 16 $ range 0.15 0.4 sine) # room 0.55 # size (slow 32 $ range 0.5 0.9 saw) # verbT60 (slow 16 $ range 1.5 5 sine) # ddSend 0
+
+-- MELODY A (the hook): Kara Mustafa A-part head, 8 bars, one 7-eighth lane per cycle, cp4 pluck near its C4 root.
+d8 $ swing $ note "<[c4 d4 b3 c4 ~ b3 a3] [d4 ~ a3 a3 g3 a3 b3] [c4 d4 b3 c4 ~ b3 a3] [e4 ~ a3 d4 c4 d4 e4] [c4 d4 b3 c4 ~ b3 a3] [d4 ~ a3 a3 g3 a3 b3] [c4 d4 b3 c4 ~ b3 a3] [a3 ~ e4 a3 ~ ~ ~]>" # s "cp4" # gain 0.46 # hpf 300 # lpf (slow 16 $ range 3000 7000 sine) # release 0.3 # verbSend (slow 16 $ range 0.12 0.3 sine) # room 0.5 # size 0.55 # ddSend (slow 8 $ range 0.1 0.35 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.6 sine)
+
+-- MELODY B (the answer): Kara Mustafa B-part, 4 bars played twice, cb4 bowed string, sits a shade under the head.
+d9 $ swing $ note "<[d4 e4 ~ e4 ~ e4 d4] [e4 ~ d4 d4 ~ d4 c4] [e4 d4 ~ c4 ~ c4 b3] [a3 ~ ~ g3 ~ g3 ~] [d4 e4 ~ e4 ~ e4 d4] [e4 ~ d4 d4 ~ d4 c4] [e4 d4 ~ c4 ~ c4 b3] [a3 ~ ~ g3 ~ g3 ~]>" # s "cb4" # gain 0.38 # hpf 250 # lpf (slow 16 $ range 2500 5200 sine) # attack 0.012 # release 0.5 # pan 0.62 # verbSend (slow 16 $ range 0.15 0.35 sine) # room 0.5 # size 0.6 # ddSend (slow 8 $ range 0.1 0.3 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.55 sine)
+
+-- SPIN — a 5-note Am9 arpeggio per cycle: 5 tokens over a 7/8 bar = five equal divisions, so the phrase-against-bar drifts 2 eighths every cycle. Dub-delayed.
+d10 $ note "<[a4 c5 e5 g5 b5] [c5 e5 a4 g5 b5]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.34 # hpf 400 # lpf (slow 16 $ range 2500 7000 sine) # verbSend (slow 16 $ range 0.1 0.3 sine) # ddSend (slow 8 $ range 0.15 0.45 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.25 0.6 sine) # ddWow (slow 16 $ range 0 0.5 sine)
+
+-- HATS — the breakbeat performance's hhCL straight eighths {0,2,4,6,8,10,12,14} -> a 16-slot lane, i.e. an even 8th-note shimmer across the 7/8 bar. Light dub.
+d11 $ grunge $ struct "1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0" $ s "h808C" # gain (slow 4 $ range 0.2 0.32 sine) # hpf 2200 # lpf (slow 8 $ range 6000 9500 saw) # pan (slow 8 $ range 0.35 0.65 sine) # verbSend 0 # ddSend 0.08 # lock 1 # delaytime (slow 8 $ range 0.0625 0.125 saw) # delayfeedback 0.25
+
+-- SHAKER — real euclid E(5,13,3) (index.txt "5 13 3 00110111100000"): 13 steps coprime with 7, so it never lines up with the bar. Dry.
+d12 $ struct "t(5,13,3)" $ s "sh808" # gain 0.24 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0
+
+-- GHATAM — real euclid E(4,11,0) (index.txt "4 11 0 101110000001"), 11 coprime with 7. Truncated to a hit; the WILD dub delay moves across it.
+d13 $ grunge $ struct "t(4,11,0)" $ s "p93perc" # begin 0 # end 0.12 # n 0 # gain 0.34 # hpf 700 # lpf 14000 # pan (slow 8 $ range 0.2 0.8 sine) # verbSend (slow 16 $ range 0.05 0.2 sine) # ddSend (slow 8 $ range 0.08 0.28 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.55 sine) # ddWow (slow 16 $ range 0 0.45 sine) # ddDrive (slow 16 $ range 0 0.4 saw)
+
+-- STABS — brass punch on the lesnoto accents (7-slot, hits at 0,3,5). Hard and dry: tiny attack/release, almost no send.
+d14 $ struct "1 0 0 1 0 1 0" $ note "<[d3,f3,a3] [g3,b3,d4] [a3,c4,e4] [a3,c4,e4]>" # s "sweetChords" # gain 0.4 # attack 0.005 # release 0.12 # lpf (slow 16 $ range 2200 4200 sine) # fmIndex 0.2 # ratio 1.5 # verbSend 0.05 # room 0.4 # size 0.45 # ddSend 0
+
+-- d15 unused — silence.
+d15 $ silence
+
+-- d16 unused — silence.
+d16 $ silence
+
+-- END 158.tidal
