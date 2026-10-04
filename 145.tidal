@@ -9,9 +9,14 @@
 --      <(5,13) (3,13) (7,13) (2,13)>; claps <(3,13,3) (2,13,7) (5,13)>; accent
 --      ho(1,13); click <(3,13) (2,13) (5,13)>; break + drum loops sliced into 13
 --      with 13-slot orders; vocal fragments (1,13,5).
--- The earlier snare was the annoyance: three overlapping euclids (3,5,2,4 hits)
--- x every 3 (iter 2) x sometimesBy (fast 2) = 5-8 snare hits a cycle, sprayed
--- evenly across the bar. Now two hits a cycle at most, offset.
+-- THE HORRIBLE DRUM SAMPLE: `sn` sample 0 with `shape 0.4`. `sn` is a 52-file
+-- folder, so `s "sn(...)"` with no index played whatever sn:0 happens to be, and
+-- `shape` added an overdrive/crunch on top that read as a bad tom. The operator
+-- called it as a snare early; the lesson is to act on that instead of bisecting
+-- the whole kit first. FIX + RULE: use NAMED machine hits wherever a specific
+-- sound matters — `drumtraks` indices are known: 1 Claps, 3 Crash, 4 Hat Closed,
+-- 5 Hat Open, 6 Kick, 8 Rimshot, 9 Snare, 10 Tambourine, 11/12 Toms. Never rely on
+-- an arbitrary folder index (n=0) for a sound you actually care about.
 -- Melody (d6) — RHCP "Under the Bridge" (1991) verse line from ~/tunepile; the
 --   whole line is F# minor (gs fs e cs, no accidentals). Mars DX100_Marimba at
 --   n 0. For SAMPLE melodies `note` IS playback speed: keep the line above ~fs4
@@ -51,9 +56,9 @@ setcps 0.5833
 
 d1 $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ every 3 (iter 2) $ sometimesBy 0.25 (fast 2) $ s "<sn(2,13,6) sn(1,13) sn(3,13) sn(2,13)>" # gain 0.78 # hpf 420 # shape 0.4 # verbSend 0 # ddSend 0
+d2 $ every 3 (iter 2) $ sometimesBy 0.25 (fast 2) $ s "<drumtraks:9(2,13,6) drumtraks:9(1,13) drumtraks:9(3,13) drumtraks:9(2,13)>" # gain 0.78 # hpf 420 # verbSend 0 # ddSend 0
 
-d3 $ s "<hh(5,13) ho(3,13) hh(7,13) ho(2,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "<drumtraks:4(5,13) drumtraks:5(3,13) drumtraks:4(7,13) drumtraks:5(2,13)>" # gain 0.5 # hpf 1800 # lpf 12000 # pan 0.6 # verbSend 0 # ddSend 0
 
 d4 $ silence
 
@@ -61,13 +66,13 @@ d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "<[0 ~ 4 ~ 8 ~ 12 ~] [12 ~ 8 ~ 4 ~ 0 ~]
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0
 
-d7 $ s "ho(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
+d7 $ s "drumtraks:4(1,13)" # gain 0.42 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
-d8 $ s "<cp(3,13,3) cp(2,13,7) cp(5,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.1 # release 0.09 # verbSend 0 # ddSend 0
+d8 $ s "<drumtraks:1(3,13,3) drumtraks:1(2,13,7) drumtraks:1(5,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.1 # release 0.09 # verbSend 0 # ddSend 0
 
 d9 $ slow 4 $ note "<[fs4,cs5,a5] [d4,a4,fs5] [b3,fs4,d5] [cs4,gs4,e5] [a3,e4,cs5] [e4,b4,gs5] [b3,fs4,d5] [cs4,gs4,e5]>" # s "mars_synths_OB_Strings" # n 0 # gain 0.7 # hpf 280 # lpf 6500 # attack 0.06 # release 1.2 # verbSend 0.55 # room 0.8 # size 0.9 # verbT60 6 # verbDamp 0.4 # ddSend 0
 
-d10 $ s "<ho(3,13) hh(2,13) ho(5,13)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
+d10 $ s "<drumtraks:5(3,13) drumtraks:4(2,13) drumtraks:5(5,13)>" # gain 0.4 # hpf 2600 # pan 0.45 # verbSend 0 # ddSend 0
 
 d11 $ loopAt 1 $ slice 13 "<[0 ~ 5 ~ 10 ~ 2 ~ 7 ~ 12 ~] [12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 ~] [0 ~ ~ 3 ~ ~ 7 ~ ~ 11 ~ ~ ~] [4 ~ 6 ~ 8 ~ 10 ~ 12 ~ 0 ~]>" $ s "p93drumB" # speed 0.9 # gain 0.42 # hpf 160 # lpf 5500 # verbSend 0 # ddSend 0
 
