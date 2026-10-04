@@ -2,9 +2,13 @@
 -- The idea: three co-prime divisions (13, 17, 23) layered so they drift and
 -- only realign every 13x17x23 cycles. Half-time at ~140 BPM so the odd metres
 -- read as groove rather than clutter.
---   13 : kick (808bd(4,13)), break (breaks165(5,13) etc.), clap (cp(5,13,3)),
---        sub (fs1(2,13)); the loop resections are 13 slices with 13-slot orders,
---        so each resection realises once per cycle and locks to the metre.
+--   13 : THE SPINE. kick (808bd(4,13), left un-rotated so the grid keeps its
+--        identity), break played as a straight 13-slice pass (loopAt 1), accent
+--        ho(1,13), clap (cp(5,13,3)), sub (fs1(2,13)), and the loop resections
+--        (13 slices with 13-slot orders, so each resection realises once per
+--        cycle). An earlier version diluted 13: `slow 4` on the break stretched
+--        its 13 across four cycles and `every 4 (iter 2)` rotated the kick off
+--        the grid. 13 must stay the metre the other two drift against.
 --   17 : snare <sn(3,17) sn(5,17) sn(2,13) sn(4,17)>.
 --   23 : hats <hh(7,23) ho(5,23) hh(9,23) ho(7,13)> and the click layer.
 -- Melody — RHCP "Under the Bridge" (1991) verse line, from ~/tunepile
@@ -37,7 +41,7 @@
 --   verb/shimmer buses — the pad's own verbSend is the only space in the mix.
 setcps 0.5833
 
-d1 $ every 4 (iter 2) $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+d1 $ s "808bd(4,13)" # gain 0.95 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
 d2 $ every 3 (iter 2) $ sometimesBy 0.3 (fast 2) $ s "<sn(3,17) sn(5,17) sn(2,13) sn(4,17)>" # gain 0.78 # hpf 420 # shape 0.4 # verbSend 0 # ddSend 0
 
@@ -45,11 +49,11 @@ d3 $ s "<hh(7,23) ho(5,23) hh(9,23) ho(7,13)>" # gain 0.32 # hpf 1800 # lpf 1200
 
 d4 $ note "fs1(2,13)" # s "dubsynth" # waveMix 0.15 # cutoff 120 # fenv 0.6 # drive 0.6 # sustain 0.55 # release 0.4 # lpf 200 # hpf 34 # gain 0.5 # verbSend 0 # ddSend 0
 
-d5 $ every 4 (rev) $ slow 4 $ s "<breaks165(5,13) breaks165(7,13) breaks165(3,13)>" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
+d5 $ every 4 (rev) $ loopAt 1 $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "breaks165" # gain 0.72 # hpf 250 # lpf 9000 # verbSend 0 # ddSend 0
 
 d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.82 # hpf 200 # lpf 9000 # verbSend 0 # ddSend 0
 
-d7 $ silence
+d7 $ s "ho(1,13)" # gain 0.3 # hpf 2600 # pan 0.5 # verbSend 0 # ddSend 0
 
 d8 $ s "<cp(5,13,3) cp(3,13,7) cp(7,13)>" # gain 0.5 # hpf 750 # lpf 7200 # speed 1.25 # release 0.09 # verbSend 0 # ddSend 0
 
