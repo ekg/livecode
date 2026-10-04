@@ -12,7 +12,8 @@
 --   real sample selection, not just pitch.
 -- 80s pop on top (loud, dry), slowed 8x from the original: d7 is now `slow 16`
 --   with `stut 4 0.5 0.5` stutter and a 128-cycle gain ramp (1.15..1.4).
---   d8 keeps the Tears For Fears arpeggio (d5 fs5 a5 fs5 b5 fs5 a5 fs5).
+--   d8 (Tears For Fears arpeggio) was CUT — it read as a quiet background
+--   arp that cluttered the melody rather than supporting it.
 --   d7 melody is Toto "Africa" (1982) chorus, tabs-tidal/Toto_-_Africa.gp3-*.
 -- Pad (d9): vi-IV-I-V in F#m as WIDE INVERSIONS spanning octaves 3-5 — one
 --   chord tone per octave, e.g. F#m = fs3 / a4 / cs5. The low triads
@@ -44,7 +45,7 @@ d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1
 
 d7 $ stut 4 0.5 0.5 $ slow 16 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 128 $ range 1.15 1.4 saw) # cutoff 4400 # release 1.2 # verbSend 0 # ddSend 0
 
-d8 $ note "d5 fs5 a5 fs5 b5 fs5 a5 fs5" # s "hoRhodes" # gain 0.7 # cutoff 3800 # release 0.25 # verbSend 0 # ddSend 0
+d8 $ silence
 
 d9 $ slow 2 $ n "<[fs3,a4,cs5] [d3,fs4,d5] [a3,e4,cs5] [e3,b4,gs5]>" # s "hoRhodes" # gain 1.3 # cutoff 4200 # attack 0.03 # sustain 4 # release 2.6 # verbSend 0 # ddSend 0
 
