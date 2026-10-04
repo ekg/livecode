@@ -1,0 +1,51 @@
+-- 147.tidal — SCENE C: ALWAYS IN 13
+-- Every layer lives on the 13-grid; no 4/4 scaffolding at all (145's all-13 idea,
+-- taken to a new place: D minor, slower, moodier). Global swing, as in B.
+-- Voice trick carried over from B: chopped + walked loop, gated 1-in-4.
+
+setcps 0.46
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
+
+-- KICK: 5-in-13, the scene's heartbeat
+d1 $ swing $ s "808bd(5,13)" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+
+-- SNARE: 4 hits across the 13, leaning on the tail
+d2 $ swing $ s "drumtraks:9(4,13)" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
+
+-- HATS: dense 11-in-13, the character layer
+d3 $ swing $ s "drumtraks:4(11,13)" # gain "0.3 0.2 0.24 0.2 0.28 0.2 0.24 0.2 0.3 0.2 0.24 0.2 0.26" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- CLAP: sparse, on the 7
+d8 $ swing $ s "drumtraks:1(2,13,7)" # gain 0.5 # hpf 300 # verbSend 0.2 # room 0.4 # size 0.45 # ddSend 0.2
+
+-- BASS: dubsynth, D minor, 5-in-13 figure
+d4 $ swing $ s "dubsynth(5,13)" # note (slow 4 $ "<d2 d2 f2 g2 a2 f2 g2 a2 d2 d2 c2 a1 d2>") # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+
+-- PAD: hoRhodes, slow 13-chord cycle
+d5 $ swing $ slow 2 $ note "<[d4,f4,a4] [d4,f4,a4] [g3,bf3,d4] [a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,bf3,d4] [a3,c4,e4]>" # s "hoRhodes" # gain 0.55 # cutoff 3800 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+
+-- MELODY: hocketed with the sub, 8-in-13
+d6 $ swing $ slow 2 $ note "<[~ a4 d5 ~ f5 ~ e5 d5] [~ f5 a5 ~ d5 ~ a4 f4] [~ g4 bf4 ~ d5 ~ c5 bf4] [~ a4 c5 ~ e5 ~ d5 c5]>" # s "hoRhodes" # gain 0.7 # cutoff 4200 # release 1.0 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+
+-- CABASA: 7-in-13, alternating feel
+d7 $ swing $ s "<drumtraks:0(7,13,3) drumtraks:0(5,13,7) drumtraks:0(9,13)>" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
+
+-- VIBES counter-line: 3-in-13, sparse
+d10 $ swing $ slow 2 $ note "<[~ d5 ~ ~ a4 ~ ~ f5 ~ ~ ~ e5 ~] [~ f5 ~ ~ d5 ~ ~ a5 ~ ~ ~ g5 ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+
+-- PERC: ghatam 3-in-13
+d11 $ swing $ s "p93perc(3,13)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
+
+-- SOARING SINE: 5-in-13, the high thread
+d12 $ swing $ every 4 (fast 2) $ slow 2 $ note "<[a5 ~ ~ f5 ~ g5 a5 ~ ~ e5 ~ ~] [d5 ~ ~ f5 ~ a5 ~ ~ g5 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.4 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # size 0.6 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+
+-- SUB: dubsub Euclidean (5,13) rotating, D minor pitch lane
+d13 $ swing $ s "<dubsub(5,13) dubsub(5,13,3) dubsub(5,13,7) dubsub(5,13,10)>" # note (slow 4 $ "<d1 bf1 f1 c2 g1 a1 d1 bf1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- VOICES: chop + walk the loop, open 1 bar in 4, rotate 8 loops
+d14 $ swing $ slice 13 "0 1 2 3 4 5 6 7 8 9 10 11 12" $ s "lpviz" # n (slow 4 $ "<169 175 172 178 181 186 170 176>") # speed 1 # gain "<0.55 0 0 0>" # hpf 460 # lpf 4600 # pan 0.55 # verbSend 0 # ddSend 0
+
+d9 $ silence
+d15 $ silence
+d16 $ silence
