@@ -11,7 +11,7 @@
 --     step 3  snare                step 6  kick + hats + clap + sub
 --     step 9  snare + break        step 11 loop B (p94brkB)
 --     step 12 hats + sub
--- Tempo settled at 108 BPM (cps 0.45) after ranging 90-140, and the loop layers got a
+-- Tempo: 120 BPM (cps 0.5) after ranging 90-140, and the loop layers got a
 -- short `release` (0.18) so their own room does not smear into a wash. Layers
 -- were stripped to identify a reverb culprit and then brought back: d10 open-hat
 -- tick, d13 the whole p93drumA loop, d15 p93perc (ghatam), d16 p94brkD (2step).
@@ -44,7 +44,10 @@
 --   loop played whole. These replaced lpmr/lpviz for the cutups: those packs are
 --   the WHOLE loopmaster libraries (vocals and FX included) indexed only by n, so
 --   `n (choose [...])` sometimes drew a vocal loop — the "mousey" squeak.
--- Vocal feels (d14) — lpviz 169-200 are 2020_DD_Vox1..32. Fragments are taken
+-- Vocal feels (d14) — a FORM, not a loop: `slow 8` per entry makes a six-section
+--   arc of verse / chorus / verse / bridge / chorus / chorus by stepping the Vox
+--   choice (169 -> 175 -> 169 -> 186 -> 175 -> 178) along with window and gain, so
+--   each section gets its own voice and weight. Fragments are taken
 --   with begin/end at speed 1 (natural pitch, no squeak), gated on 1-in-13 with an
 --   occasional fast-2 double so they are INFREQUENT, and COMPLETELY DRY
 --   (verbSend 0, ddSend 0). It went 0.42/0.6/0.75 -> 0.18/0.35/0.45 ->
@@ -64,7 +67,7 @@
 --   badly once (sub + Micro_Sub impacts + low kick) so the low end is: one sub
 --   (hpf 34), kick hpf 46, no second sub layer. All group aux sends are 0
 --   (drums/bass/music/fx) so nothing hits the project verb/shimmer buses.
-setcps 0.45
+setcps 0.5
 
 d1 $ s "808bd(4,13)" # gain "0.85 0.45 0.45 0.6 0.45 0.6 0.78 0.45 0.45 0.6 0.45 0.45 0.55" # shape 0.5 # hpf 46 # release 0.09 # ddSend 0 # verbSend 0
 
@@ -92,7 +95,7 @@ d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0
 
 d13 $ s "p93drumA(2,13,4)" # gain 0.42 # hpf 200 # lpf 5200 # release 0.18 # verbSend 0 # ddSend 0
 
-d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ "<169 175 169 186 175 178>") # begin (slow 8 $ "<0.05 0.10 0.05 0.30 0.12 0.05>") # end (slow 8 $ "<0.25 0.45 0.28 0.60 0.40 0.30>") # speed 1 # gain (slow 8 $ "<0.58 0.74 0.58 0.5 0.72 0.76>") # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0 # ddSend 0
 
 d15 $ s "p93perc(1,13,7)" # gain 0.36 # hpf 400 # lpf 6200 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
 
