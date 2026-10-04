@@ -17,7 +17,7 @@ let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.05 sine)))
 
 -- KICK: 4-on-the-floor that occasionally steps to 5. Also carries the master
 -- modulation: a 32-cycle saturation swell and a 16-cycle lowpass bloom.
-d1 $ swing $ euclid "<4 4 4 5>" 8 $ s "k808S" # gain 0.95 # shape 0.5 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.45 saw) # mCut (slow 16 $ range 3000 10000 sine)
+d1 $ swing $ euclid "<4 4 4 5>" 8 $ s "k808S" # gain 0.78 # shape 0.5 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.45 saw) # mCut (slow 16 $ range 3000 10000 sine)
 
 -- CLAP: E(2,4,1) -> the backbeat, dry.
 d2 $ swing $ s "c808(2,4,1)" # gain 0.6 # hpf 320 # lpf 9000 # release 0.09 # verbSend 0 # ddSend 0
@@ -27,7 +27,7 @@ d3 $ swing $ s "h808O(4,8,1)" # gain (slow 4 $ range 0.28 0.48 sine) # hpf 1800 
 
 -- BASS: dubsynth on a 5-in-16 figure (struct samples the F-minor lane per hit, so
 -- the line moves instead of repeating). Short envelope keeps it a bass.
-d4 $ swing $ struct "t(5,16,1)" $ note "<f2 f2 ab2 c3 eb3 c3 ab2 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+d4 $ swing $ struct "t(5,16,1)" $ note "<f2 f2 ab2 c3 eb3 c3 ab2 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.46 # verbSend 0 # ddSend 0
 
 -- PAD: Fm - Db - Eb - Cm, slow 4, filter breathing over 16 cycles.
 d5 $ swing $ slow 4 $ note "<[f3,ab3,c4] [db3,f3,ab3] [eb3,g3,bb3] [c3,eb3,g3]>" # s "hoRhodes" # gain 0.52 # cutoff 3000 # attack 0.06 # release 2.0 # lpf (range 1100 3000 $ slow 16 sine) # verbSend 0.25 # room 0.55 # size 0.6 # ddSend 0
@@ -45,7 +45,7 @@ d8 $ swing $ s "sh808(7,16,3)" # gain 0.26 # hpf 3000 # lpf 12000 # pan 0.42 # v
 d9 $ swing $ s "cb808(5,16,2)" # gain 0.2 # hpf 700 # lpf 9000 # pan 0.34 # release 0.2 # verbSend 0 # ddSend 0
 
 -- SUB: dubsub on the roots, one per 4 cycles, real freqs (sine voice, no fart).
-d10 $ swing $ s "dubsub(4,8,1)" # note (slow 4 $ "<f1 db1 ab1 eb1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+d10 $ swing $ s "dubsub(4,8,1)" # note (slow 4 $ "<f1 db1 ab1 eb1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.46 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
 
 -- PLUCKED STRINGS: cp4 (C4 sampled) on euclidOff 5 16 2, answering the sine melody.
 d11 $ swing $ euclidOff 5 16 2 $ note "<f4 ab4 c5 eb5 c5 ab4 f4 c5>" # s "cp4" # gain 0.46 # hpf 300 # lpf 5000 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
