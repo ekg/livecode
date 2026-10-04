@@ -1,0 +1,85 @@
+-- 154: F MINOR — THE GRUNGED TWIN OF 153 (switchable).
+--
+-- 153 and 154 are the same arrangement: identical streams, identical patterns,
+-- identical balance. The ONLY difference is that 154 pushes the drums/perc/bass
+-- through `grunge`/`moist` — pattern-driven bitcrushing and downsampling.
+--
+-- WHY THIS SHAPE: because the grunge lives in reusable TRANSFORMS rather than in
+-- the patterns themselves, the two scenes can be switched by pasting either file's
+-- lines, and every stream stays independent. Switching is per-layer, so you can
+-- grunge the claps while the melody stays clean, or grunge everything at once.
+--
+--   paste 153.tidal  ->  clean dub-techno
+--   paste 154.tidal  ->  the same thing, grunged
+--   or: take 153's line and add `grunge $` after the `$` (see the two examples in
+--   the header comment of each stream below)
+--
+-- THE GRUNGE: both transforms are made of SuperDirt's stock modules (no SC rebuild):
+--   crush   = bit depth (0.5 ** (crush-1)); 8 bits is audible, 3 is destruction
+--   coarse  = sample-rate decimation (Latch against Impulse); 1 = full rate
+--   shape   = waveshaper, adds the "moist" buzz
+--   grunge: crush sweeps 3->14 on an 8-cycle saw (so it opens up), coarse breathes
+--           2->9 on a 4-cycle sine, and shape only bites 35% of the time.
+--   moist:  a lighter, mostly-8-bit crush on a 16-cycle sine + a slow gentle shape
+--           -- for the bass and anything that still needs to read as a note.
+setcps 0.6
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.05 sine)))
+
+let crush = pF "crush"
+
+let coarse = pF "coarse"
+
+let grunge = (# crush (slow 8 $ range 3 14 saw)) . (# coarse (slow 4 $ range 2 9 sine)) . (sometimesBy 0.35 (# shape (range 0.25 0.7 sine)))
+
+let moist = (sometimesBy 0.5 (# crush (slow 16 $ range 8 14 sine))) . (# shape (slow 8 $ range 0 0.3 sine))
+
+-- KICK: same clean-ish kick as 153 (0.78) but bitcrushed -- switch:
+--   clean  = d1 $ swing $ euclid ...
+--   grunged= d1 $ grunge $ swing $ euclid ...
+d1 $ grunge $ swing $ euclid "<4 4 4 5>" 8 $ s "k808S" # gain 0.78 # shape 0.5 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.45 saw) # mCut (slow 16 $ range 3000 10000 sine)
+
+-- CLAP: grunged hard -- the backbeat with 3-bit teeth at the bottom of the sweep.
+d2 $ grunge $ swing $ s "c808(2,4,1)" # gain 0.6 # hpf 320 # lpf 9000 # release 0.09 # verbSend 0 # ddSend 0
+
+-- OPEN HATS: light moist crush, so the lift stays a lift.
+d3 $ moist $ swing $ s "h808O(4,8,1)" # gain (slow 4 $ range 0.28 0.48 sine) # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0
+
+-- BASS: moist only -- crush it harder and the pitch stops reading as a note.
+d4 $ moist $ swing $ struct "t(5,16,1)" $ note "<f2 f2 ab2 c3 eb3 c3 ab2 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.46 # verbSend 0 # ddSend 0
+
+-- PAD: clean -- harmony is what the grunge is measured against.
+d5 $ swing $ slow 4 $ note "<[f3,ab3,c4] [db3,f3,ab3] [eb3,g3,bb3] [c3,eb3,g3]>" # s "hoRhodes" # gain 0.52 # cutoff 3000 # attack 0.06 # release 2.0 # lpf (range 1100 3000 $ slow 16 sine) # verbSend 0.25 # room 0.55 # size 0.6 # ddSend 0
+
+-- MELODY: clean sine -- the top line is the "pretty" the grunge contrasts with.
+d6 $ swing $ euclidOff 7 16 3 $ note "<ab4 c5 eb5 f5 eb5 c5 ab4 f4>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.44 # hpf 400 # lpf 6000 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+
+-- CLOSED HATS: grunged -- the roll gets a decimated alias edge.
+d7 $ grunge $ swing $ ply 2 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.26 0.2>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- SHAKER: grunged -- a crushed shaker reads as texture, not percussion.
+d8 $ grunge $ swing $ s "sh808(7,16,3)" # gain 0.26 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0
+
+-- COWBELL: grunged -- 808 cowbell through a 3-bit sweep is pure noise-art.
+d9 $ grunge $ swing $ s "cb808(5,16,2)" # gain 0.2 # hpf 700 # lpf 9000 # pan 0.34 # release 0.2 # verbSend 0 # ddSend 0
+
+-- SUB: clean -- crushing the sub is how you lose the bottom entirely.
+d10 $ swing $ s "dubsub(4,8,1)" # note (slow 4 $ "<f1 db1 ab1 eb1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.46 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- PLUCKED STRINGS: moist -- a little crush makes the plucks splinter.
+d11 $ moist $ swing $ euclidOff 5 16 2 $ note "<f4 ab4 c5 eb5 c5 ab4 f4 c5>" # s "cp4" # gain 0.46 # hpf 300 # lpf 5000 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+
+-- TOMS: grunged -- the rotating fill sprays aliased artefacts.
+d12 $ grunge $ swing $ iter 4 $ s "t808M(5,16,3)" # gain 0.36 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0
+
+-- STABS: moist -- enough to smear the chord without losing the harmony.
+d13 $ moist $ swing $ every 4 (# gain 0) $ note "<[f3,ab3,c4] ~ [db3,f3,ab3] ~ [eb3,g3,bb3] ~>" # s "sweetChords" # gain 0.38 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # size 0.55 # ddSend 0.1
+
+-- WOVEN PERC: grunged -- the three woven 808 voices are the main grunge carrier.
+d14 $ grunge $ swing $ weave 8 (s "sh808(7,16,3)" # gain 0.2) [s "t808H(5,16,2)" # gain 0.24, s "cn808(3,16,1)" # gain 0.26] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0
+
+d15 $ silence
+
+d16 $ silence
+
+-- END 154.tidal
