@@ -1,42 +1,36 @@
--- 141: 80s POP MINING — TUNEPILE HOOKS, REBUILT AROUND A SYNCOPATED KICK,
--- THEN STRIPPED BACK TO A SOLO MELODY.
--- Started as a 120 BPM groove with hooks mined from ~/tunepile
--- (index/tunepile.db, FTS5). The kick became the figure "x x - - x x x - -"
--- (9 steps) and everything was reworked around it; then kick + clap were
--- dropped, and finally all parts except the melody were dropped for a synth
--- solo, extended to an 8-bar passage (four 2-bar phrases) so it plays out
--- instead of looping every two bars.
---   * melody (d6)    — a-ha, "Take On Me" (1985)
---       tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal (first-note extract).
---       Now an 8-bar arc: index phrase, a lift (up a 4th, cs6 peak), a
---       descending resolution, then a return to the head. Ramped forward
---       (gain slow 16, 0.62..1.15 saw) — it kept getting buried. Now BIG delay:
---       ddSend 0.7, delaytime 3/8, feedback 0.55, ddLp 3800/ddHp 300, ddCross 0.5
---       (widened), lock 1 — the regular dub delay (dirt_dubdelay), NOT tape.
---       Key: F#m/A major throughout — the lift phrase's F natural was corrected
---       to fs5 so the solo never leaves the key.
--- Hooks used earlier in the session and now silent, for the record:
---   arpeggio (d5) — Tears For Fears, "Everybody Wants To Rule The World"
---   bass     (d4) — Michael Jackson, "Billie Jean" contour, on dubsynth
---   pad      (d11) — vi-IV-I-V in F#m (Tunepile chords/progressions), hoRhodes
--- Claps: wet -> modulated -> dry -> dropped. Kick: 9-step figure -> dropped.
--- Delay: tap/dub delay removed (ddSend 0) from all melodic parts.
--- Sources: bd/hh/ho Dirt-Samples + dubsynth, hoRhodes (project DSP).
+-- 141: 80s POP MINING -> SOLO -> HARD TECHNO.
+-- Session arc, all on one take (recordings/jam-20261004-1103.wav):
+--   1. 120 BPM groove with hooks mined from ~/tunepile (index/tunepile.db, FTS5).
+--   2. Kick became "x x - - x x x - -" (9 steps); everything reworked around it.
+--   3. Kick + clap dropped; then all parts except the melody dropped for a solo.
+--   4. Melody extended to an 8-bar arc, big regular dub delay + big reverb,
+--      then chopped hard (chop 16).
+--   5. A NEW hard techno beat + rolling bass dropped in underneath (NOT the old
+--      9-step figure). This file reflects the final state.
+-- Melody (d6) — a-ha, "Take On Me" (1985):
+--   tabs-tidal/Emil_Bulls_-_Take_On_Me.gp3-*.tidal. Key: F#m / A major
+--   (a b cs d e fs gs; the lift phrase's F natural was corrected to fs5).
+--   gain slow 16 (0.62..1.15 saw); regular dub delay ddSend 0.7, delaytime 3/8,
+--   feedback 0.55, ddLp 3800/ddHp 300, ddCross 0.5, lock 1; big verb
+--   verbSend 0.6, size 0.92, room 0.75, verbT60 6.
+-- Hooks used earlier, now silent: arpeggio (d5, Tears For Fears "Everybody
+-- Wants To Rule The World"), bass (d4 earlier, "Billie Jean" contour),
+-- pad (d11, vi-IV-I-V in F#m).
+-- Sources: bd/cp/hh/ho Dirt-Samples + dubsynth, hoRhodes (project DSP).
 -- Mix: per-stream gain deliberate, master UNITY as in 139/140.
--- Verification: recording recordings/jam-20261004-1103.wav with change markers.
 setcps 0.5
 
-d1 $ silence
+d1 $ s "bd*4" # gain 1.35 # shape 0.55 # hpf 28
 
-d2 $ silence
+d2 $ s "~ cp ~ cp" # gain 0.95 # hpf 300 # sz 0.4 # room 0
 
-d3 $ silence
+d3 $ s "[~ ho]*4" # gain 0.5 # speed 1.6 # pan 0.58
 
-d4 $ silence
+d4 $ note "fs1*16" # s "dubsynth" # waveMix 0.55 # cutoff 185 # fenv 1.1 # drive 0.85 # sustain 0.09 # gain 0.9
 
 d5 $ silence
 
-d6 $ slow 2 $ note "<[fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~] [a5 e5 cs5 fs5 a5 a5 fs5 d5 d5 fs5 fs5 b5 ~ cs6 ~ ~] [cs6 b5 a5 gs5 a5 fs5 e5 cs5 d5 b4 a4 gs4 a4 ~ ~ ~] [fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.4 # ddSend 0.7 # lock 1 # delaytime (3/8) # delayfeedback 0.55 # ddLp 3800 # ddHp 300 # ddCross 0.5
+d6 $ chop 16 $ slow 2 $ note "<[fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~] [a5 e5 cs5 fs5 a5 a5 fs5 d5 d5 fs5 fs5 b5 ~ cs6 ~ ~] [cs6 b5 a5 gs5 a5 fs5 e5 cs5 d5 b4 a4 gs4 a4 ~ ~ ~] [fs5 cs5 a4 e5 fs5 fs5 d5 b4 b4 e5 e5 gs5 gs5 a5 ~ ~]>" # s "hoRhodes" # gain (slow 16 $ range 0.62 1.15 saw) # cutoff 4300 # release 0.15 # sustain 0.1 # ddSend 0.7 # lock 1 # delaytime (3/8) # delayfeedback 0.55 # ddLp 3800 # ddHp 300 # ddCross 0.5 # verbSend 0.6 # size 0.92 # room 0.75 # verbT60 6 # verbDamp 0.35 # verbHp 250 # verbWidth 0.9
 
 d7 $ silence
 
