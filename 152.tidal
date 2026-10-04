@@ -59,7 +59,6 @@ d12 $ s "t808M(5,16,3)" # gain 0.4 # hpf 120 # lpf 4500 # pan 0.45 # release 0.2
 d13 $ every 4 (# gain 0) $ note "<[c3,ef3,g3] ~ [af2,c3,ef3] ~ [ef3,g3,bf3] ~ [bf2,d3,f3] ~>" # s "sweetChords" # gain 0.4 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # size 0.55 # ddSend 0.1
 
 -- d14 unused.
-d14 $ silence
 
 -- d15 unused.
 d14 $ weave 8 (s "sh808(7,16,3)" # gain 0.22) [s "t808H(5,16,2)" # gain 0.26, s "cn808(3,16,1)" # gain 0.28] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0
