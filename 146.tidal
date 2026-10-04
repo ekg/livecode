@@ -13,8 +13,9 @@
 --       in its natural register (c4-c5) per the rule below.
 --   * Counter-line (d10) — "Losing My Religion" (1991, R.E.M.) mandolin riff:
 --       d5 e5 d5 c5 f5 f5 f5 / g4 a4 b4 c5 a4 c5 — natively A minor.
---       Voice: `pluck` (17 plucked-string samples) for the mandolin feel, with a
---       3/16 delay throw.
+--       Voice: now mars_synths_DX100_Vibes (FM vibes) at low level and halved
+--       density (`slow 4` + sometimesBy 0.5) — the sampled `pluck` was the other
+--       clangy element, and vibes keep the mandolin brightness without the grit.
 -- Harmony: Am - F - C - G (bass d4 walks a1/f1/c2/g1 with a fifth on the offbeat;
 --   pad d5 holds triads [a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]).
 --
@@ -25,29 +26,37 @@
 --   down at b3/a3 (sample root ~C4) played at 0.6-0.7x and its tape wobble
 --   stretched into a bassy "farting" chord. Hence: keep sample melodies in
 --   c4-c5, use SYNTH voices (hoRhodes/orkRhodes) when real pitch is needed.
--- Mix: dry kit; space only on pad (verbSend 0.2) and the two melody voices (0.12).
+-- TEMPO/SPACE: 90 BPM (cps 0.375) and much sparser — melody and pad both at
+--   `slow 4` (a phrase every ~10 s), bass on half-notes only, tambourine (d7) out,
+--   hats at gain 0.26, and the counter-line halved in density. Space is mostly
+--   achieved by REMOVING HITS, not by reverb.
+-- GRUNGE vs SWEET: the "sweet but a bit grungy" character comes from the MASTER
+--   TAPE SATURATION rather than from dirtying the voices: mSat 0.5, mCut 9500,
+--   mHpf 48, mGain 0.95 (~masterSet), plus shape 0.6 on the kick and 0.2 on the
+--   snare. Clean sources, dirty sum.
+-- Mix: dry kit; space only on pad (verbSend 0.28) and the melody voices (0.25/0.2).
 --   Master aux returns are 0 (see sc/routing.scd) and the kit carries no sends.
-setcps 0.5
+setcps 0.375
 
-d1 $ s "808bd*4" # gain 0.9 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
+d1 $ s "808bd*4" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0
 
-d2 $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # verbSend 0 # ddSend 0
+d2 $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
 
-d3 $ s "[~ drumtraks:4]*2" # gain 0.34 # hpf 1800 # lpf 11000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "[~ drumtraks:4]*2" # gain 0.26 # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
 
-d4 $ note "<[a1 ~ a1 ~ e2 ~ a1 ~] [f1 ~ f1 ~ c2 ~ f1 ~] [c2 ~ c2 ~ g2 ~ c2 ~] [g1 ~ g1 ~ d2 ~ g1 ~]>" # s "dubsynth" # waveMix 0.3 # cutoff 280 # fenv 1.4 # drive 0.5 # sustain 0.2 # release 0.2 # lpf 1300 # gain 0.7 # verbSend 0 # ddSend 0
+d4 $ note "<[a1 ~ ~ ~ e2 ~ ~ ~] [f1 ~ ~ ~ c2 ~ ~ ~] [c2 ~ ~ ~ g2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~]>" # s "dubsynth" # waveMix 0.28 # cutoff 240 # fenv 1.2 # drive 0.45 # sustain 0.5 # release 0.6 # lpf 1100 # gain 0.68 # verbSend 0 # ddSend 0
 
-d5 $ slow 2 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]>" # s "hoRhodes" # gain 0.62 # cutoff 2800 # release 1.2 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0
+d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
-d6 $ slow 2 $ note "<[g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ c5 a4 g4 ~ ~] [g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ e5 ~ d5 c5 ~ ~] [a4 ~ c5 d5 e5 ~ d5 c5 ~ a4 g4 ~ ~ ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~ ~ ~ ~]>" # s "mars_synths_DrSample_80s_Piano" # n 0 # gain 0.72 # hpf 260 # lpf 8000 # verbSend 0.12 # room 0.35 # ddSend 0
+d6 $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ c5 a4 g4 ~ ~] [g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ e5 ~ d5 c5 ~ ~] [a4 ~ c5 d5 e5 ~ d5 c5 ~ a4 g4 ~ ~ ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
 
-d7 $ s "drumtraks:10(5,16)" # gain 0.3 # hpf 2000 # lpf 11000 # pan 0.45 # verbSend 0 # ddSend 0
+d7 $ silence
 
 d8 $ silence
 
 d9 $ silence
 
-d10 $ slow 2 $ note "<[d5 ~ e5 d5 c5 ~ f5 f5 ~ f5 f5 ~ d5 d5 d5 ~] [g4 ~ g4 g4 a4 a4 b4 b4 c5 ~ a4 c5 c5 ~ ~ ~]>" # s "pluck" # n 0 # gain 0.6 # hpf 320 # lpf 7000 # verbSend 0.12 # ddSend 0.2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d10 $ slow 4 $ sometimesBy 0.5 id $ note "<[d5 ~ ~ ~ c5 ~ ~ ~ f5 ~ ~ ~ ~ ~ ~ ~] [g4 ~ ~ ~ a4 ~ ~ ~ c5 ~ ~ ~ ~ ~ ~ ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
 
 d11 $ silence
 
