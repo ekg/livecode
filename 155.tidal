@@ -1,0 +1,86 @@
+-- 155: INSPECTOR GADGET — 5/4 DUB-TECHNO COVER.
+-- Source (from the collection): ~/tunepile/tabs-tidal/
+--   Edwards_Chris_-_Inspector_Gadget_Theme_Song.gp3-58ab70d6.tidal
+--   (# Inspector Gadget — Chris Edwards | tempo 140 bpm | meter 5/4 | key CMajor)
+-- Chosen because it is the most useful kind of "interesting": 5/4 at 140 bpm with a
+-- chromatic G# in the hook, i.e. it already has the lurch we have been building from
+-- euclids, and it is in C major so it drops straight onto 152's harmony.
+--
+-- METER MATH (why the cycle is 5 beats, not 4):
+--   the pile quantised the whole thing to 16 bars = 80 beats per cycle (cps 0.02917),
+--   which is unusable for a groove. Here ONE CYCLE = ONE 5/4 BAR:
+--     cps = (140/60)/5 = 0.46667   ->  each cycle = 5 beats = 2.143 s
+--   so the 20-step lanes below are 1/16th notes of a 5/4 bar, and `*5` = one hit per
+--   beat. The theme is two bars long, alternating one bar per cycle.
+--
+-- DRUMS IN 5/4: the "four on the floor" becomes FIVE on the floor (k808S*5), and the
+-- backbeat lands on beats 2 and 4 (a 5-slot lane: ~ s ~ s ~) -- the classic 5/4 rock
+-- lurch, which is exactly what the Gadget riff plays against.
+--
+-- Switchable like 153/154: `grunge`/`moist` are defined here, applied to the perc and
+-- left off the theme/bass, so this scene can be played clean or grunged.
+setcps (140/60/5)
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.05 sine)))
+
+let crush = pF "crush"
+
+let coarse = pF "coarse"
+
+let grunge = (# crush (slow 8 $ range 3 14 saw)) . (# coarse (slow 4 $ range 2 9 sine)) . (sometimesBy 0.35 (# shape (range 0.25 0.7 sine)))
+
+let moist = (sometimesBy 0.5 (# crush (slow 16 $ range 8 14 sine))) . (# shape (slow 8 $ range 0 0.3 sine))
+
+-- KICK: five on the floor (one per beat of the 5/4 bar), clean tone, carries the
+-- master modulation so the whole cover breathes with the drums.
+d1 $ grunge $ swing $ s "k808S*5" # gain 0.72 # shape 0.45 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.45 saw) # mCut (slow 16 $ range 3000 10000 sine)
+
+-- SNARE: 5 slots -> beats 2 and 4. Dry.
+d2 $ grunge $ swing $ s "~ s808b ~ s808b ~" # gain 0.6 # hpf 420 # lpf 9000 # release 0.08 # verbSend 0 # ddSend 0
+
+-- CLAP: one per bar, on beat 3 (the middle of the 5) -- the odd accent that makes 5/4
+-- read as 5 and not as a limping 4.
+d3 $ moist $ swing $ s "~ ~ c808 ~ ~" # gain 0.5 # hpf 320 # lpf 9000 # release 0.1 # verbSend 0 # ddSend 0
+
+-- BASS: the Gadget riff an octave down, 20-step lane (d e f g a f g# f g), dubsynth,
+-- short envelope. This is the hook's engine -- the G#2 is the theme's chromatic bite.
+d4 $ swing $ note "d2 ~ e2 f2 ~ g2 a2 ~ ~ f2 ~ ~ gs2 ~ ~ f2 ~ ~ g2 ~" # s "dubsynth" # waveMix 0.2 # cutoff 420 # fenv 2.2 # drive 0.4 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.5 # verbSend 0 # ddSend 0
+
+-- PAD: C - F - G - C (the hook is C major), wide and slow.
+d5 $ swing $ slow 4 $ note "<[c3,e3,g3] [f3,a3,c4] [g3,b3,d4] [c3,e3,g3]>" # s "hoRhodes" # gain 0.5 # cutoff 3200 # attack 0.06 # release 2.0 # lpf (range 1200 3200 $ slow 16 sine) # verbSend 0.25 # room 0.55 # size 0.6 # ddSend 0
+
+-- THE THEME (d6): two 5/4 bars, one bar per cycle. 20 steps each = 16ths of the 5/4
+-- bar. Transcribed from the pile file and re-spelled (its `~` grid kept, the phrase
+-- kept whole so the hook stays recognisable). Rhodes lead, short release: it stabs.
+d6 $ swing $ note "<[d4 ~ e4 f4 ~ g4 a4 ~ ~ f4 ~ ~ gs4 ~ ~ f4 ~ ~ g4 ~] [f4 ~ ~ d4 ~ e4 f4 ~ g4 a4 ~ ~ cs5 ~ ~ c5 ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 5200 # attack 0.006 # release 0.28 # lpf 6500 # verbSend 0.15 # room 0.5 # size 0.5 # ddSend 0.18 # lock 1 # delaytime (1/10) # delayfeedback 0.25
+
+-- CLOSED HATS: E(13,20) -- 13 in 20 is the densest figure that still has gaps in a
+-- 5/4 bar; rotation 1 pushes the accents off the kick.
+d7 $ grunge $ swing $ s "h808C(13,20,1)" # gain (slow 4 $ range 0.2 0.3 sine) # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- SHAKER: E(7,20,3), dry shimmer.
+d8 $ grunge $ swing $ s "sh808(7,20,3)" # gain 0.24 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0
+
+-- COWBELL: E(3,20,2) -- sparse 808 cowbell, the "gadget" chirp.
+d9 $ grunge $ swing $ s "cb808(3,20,2)" # gain 0.18 # hpf 700 # lpf 9000 # pan 0.34 # release 0.2 # verbSend 0 # ddSend 0
+
+-- SUB: two hits per 5/4 bar (beats 1 and 3.5 feel), real freqs, sine voice.
+d10 $ swing $ s "dubsub(2,5)" # gain 0.5 # note (slow 4 $ "<c1 f1 g1 c1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- PLUCKED STRINGS: E(5,20,2) on the C-major triad, answering the theme.
+d11 $ moist $ swing $ s "cp4(5,20,2)" # n 0 # note "<c5 e5 g5 e5 c5>" # gain 0.42 # hpf 300 # lpf 5000 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (1/10) # delayfeedback 0.25
+
+-- TOMS: E(5,20,3) rotated by iter 4, so the fill walks through the bar.
+d12 $ grunge $ swing $ iter 4 $ s "t808M(5,20,3)" # gain 0.32 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0
+
+-- STABS: offbeat chord stabs, muted every 4th cycle for air.
+d13 $ moist $ swing $ every 4 (# gain 0) $ note "<[c3,e3,g3] ~ [f3,a3,c4] ~ [g3,b3,d4] ~>" # s "sweetChords" # gain 0.36 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # size 0.55 # ddSend 0.1
+
+-- WOVEN PERC: three 808 voices woven (weave takes a LIST).
+d14 $ grunge $ swing $ weave 8 (s "sh808(7,20,3)" # gain 0.18) [s "t808H(5,20,2)" # gain 0.22, s "cn808(3,20,1)" # gain 0.24] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0
+
+d15 $ silence
+
+d16 $ silence
+
+-- END 155.tidal
