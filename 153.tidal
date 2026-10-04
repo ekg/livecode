@@ -1,0 +1,66 @@
+-- 153: F MINOR — HYPNOTIC TECHNO-DUB. Follows 152 (which was C minor / Seven Nation
+-- Army x Personal Jesus); this one is all-new material, no borrowed hooks, and the
+-- point is DENSITY AS A PATTERN: every rhythm layer's euclid count is itself a
+-- pattern, so the groove keeps re-shaping instead of locking.
+--   d1  kick      euclid "<4 4 4 5>" 8      - 4-on-the-floor that steps out to 5
+--   d4  bass      struct "t(5,16,1)"        - off-grid 16th bass, F minor walk
+--   d6  melody    euclidOff 7 16 3          - 7-in-16 prime-ish top line
+--   d11 strings   euclidOff 5 16 2          - plucked string answer (cp4)
+--   d12 toms      iter 4                    - the fill rotates one step per cycle
+--   d14 perc      weave 8 a [b, c]          - three 808 perc voices woven
+-- Global swing leans only the off-beats (the 4-floor sits on nudge=0, so it stays
+-- straight). NO VOICES anywhere in this set — texture is strings, 808 perc, synths.
+-- Space comes from REMOVING hits (the euclid gaps, the muted stab cycle), not reverb.
+setcps 0.6
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.05 sine)))
+
+-- KICK: 4-on-the-floor that occasionally steps to 5. Also carries the master
+-- modulation: a 32-cycle saturation swell and a 16-cycle lowpass bloom.
+d1 $ swing $ euclid "<4 4 4 5>" 8 $ s "k808S" # gain 0.95 # shape 0.5 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # mGain 0.92 # mSat (slow 32 $ range 0.15 0.45 saw) # mCut (slow 16 $ range 3000 10000 sine)
+
+-- CLAP: E(2,4,1) -> the backbeat, dry.
+d2 $ swing $ s "c808(2,4,1)" # gain 0.6 # hpf 320 # lpf 9000 # release 0.09 # verbSend 0 # ddSend 0
+
+-- OPEN HATS: offbeat lift, its level breathing over 4 cycles.
+d3 $ swing $ s "h808O(4,8,1)" # gain (slow 4 $ range 0.28 0.48 sine) # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0
+
+-- BASS: dubsynth on a 5-in-16 figure (struct samples the F-minor lane per hit, so
+-- the line moves instead of repeating). Short envelope keeps it a bass.
+d4 $ swing $ struct "t(5,16,1)" $ note "<f2 f2 ab2 c3 eb3 c3 ab2 f2>" # s "dubsynth" # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0
+
+-- PAD: Fm - Db - Eb - Cm, slow 4, filter breathing over 16 cycles.
+d5 $ swing $ slow 4 $ note "<[f3,ab3,c4] [db3,f3,ab3] [eb3,g3,bb3] [c3,eb3,g3]>" # s "hoRhodes" # gain 0.52 # cutoff 3000 # attack 0.06 # release 2.0 # lpf (range 1100 3000 $ slow 16 sine) # verbSend 0.25 # room 0.55 # size 0.6 # ddSend 0
+
+-- MELODY: DX100 sine on euclidOff 7 16 3 -- a long, prime-feeling top line.
+d6 $ swing $ euclidOff 7 16 3 $ note "<ab4 c5 eb5 f5 eb5 c5 ab4 f4>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.44 # hpf 400 # lpf 6000 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0.25 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+
+-- CLOSED HATS: E(15,16)/E(11,16,3)/E(13,16) with ply 2 rolls -- the creep.
+d7 $ swing $ ply 2 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.26 0.2>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0
+
+-- SHAKER: dry 16th shimmer, off-grid.
+d8 $ swing $ s "sh808(7,16,3)" # gain 0.26 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0
+
+-- COWBELL: sparse 808 cowbell, panned left -- a new colour for this scene.
+d9 $ swing $ s "cb808(5,16,2)" # gain 0.2 # hpf 700 # lpf 9000 # pan 0.34 # release 0.2 # verbSend 0 # ddSend 0
+
+-- SUB: dubsub on the roots, one per 4 cycles, real freqs (sine voice, no fart).
+d10 $ swing $ s "dubsub(4,8,1)" # note (slow 4 $ "<f1 db1 ab1 eb1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0
+
+-- PLUCKED STRINGS: cp4 (C4 sampled) on euclidOff 5 16 2, answering the sine melody.
+d11 $ swing $ euclidOff 5 16 2 $ note "<f4 ab4 c5 eb5 c5 ab4 f4 c5>" # s "cp4" # gain 0.46 # hpf 300 # lpf 5000 # pan 0.55 # verbSend 0.2 # room 0.45 # size 0.5 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+
+-- TOMS: iter 4 rotates the fill one step per cycle, so it never lands the same.
+d12 $ swing $ iter 4 $ s "t808M(5,16,3)" # gain 0.36 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0
+
+-- STABS: sweetChords offbeat, muted every 4th cycle to leave air.
+d13 $ swing $ every 4 (# gain 0) $ note "<[f3,ab3,c4] ~ [db3,f3,ab3] ~ [eb3,g3,bb3] ~>" # s "sweetChords" # gain 0.38 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # size 0.55 # ddSend 0.1
+
+-- WOVEN PERC: weave takes a LIST of patterns: weave 8 a [b, c] (three more voices).
+d14 $ swing $ weave 8 (s "sh808(7,16,3)" # gain 0.2) [s "t808H(5,16,2)" # gain 0.24, s "cn808(3,16,1)" # gain 0.26] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0
+
+d15 $ silence
+
+d16 $ silence
+
+-- END 153.tidal
