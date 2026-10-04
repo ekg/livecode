@@ -29,6 +29,15 @@
 --   the fix for the reverb-on-the-kick).
 -- Folders: 773 total in the sound library; scene uses 808bd, realclaps, cp,
 --   ovenclaps, hand, hh + project dubsynth/hoRhodes.
+-- Master chain (sc/dub_master.scd): hpf -> glue comp (ducked by kick) -> tape
+--   saturation -> tone -> soft limiter (Limiter.ar 0.79) + guaranteed ceiling.
+--   So compression/limiting IS on the master; `ceiling-used` in sc/master-meter.log
+--   is the limiter headroom. Gains below were set by EAR (melody 0.9..1.0,
+--   pad 0.9) because the meter only samples every 2 s and misses chord transients.
+-- Melody: slow 8 + stut 4 0.5 0.5 (8x slower than the original take).
+-- Pad (d9): F#m-D-A-E as wide inversions across octaves 3-5 — an earlier
+--   experiment replaced these with A7/D7/E7 "blues chords", which was a
+--   misreading (the ask was a blues FORM, not blues chords); reverted.
 setcps 0.5
 
 d1 $ s "808bd(3,8)" # n (slow 4 $ choose [0,1,2]) # gain 0.95 # shape 0.55 # hpf 42 # release 0.09 # verbSend 0 # ddSend 0
@@ -43,11 +52,11 @@ d5 $ note "fs1*16" # s "dubsynth" # waveMix 0.5 # cutoff 160 # fenv 1.0 # drive 
 
 d6 $ s "hand(7,16)" # n (choose [0,1,2,3]) # gain 0.35 # speed (slow 3 $ range 1 1.4 sine) # pan 0.4 # verbSend 0 # ddSend 0
 
-d7 $ stut 4 0.5 0.5 $ slow 16 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 128 $ range 1.15 1.4 saw) # cutoff 4400 # release 1.2 # verbSend 0 # ddSend 0
+d7 $ stut 4 0.5 0.5 $ slow 8 $ note "<[b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 gs4 a4 ~] [cs5 e5 fs5 e5 cs5 e5 fs5 e5 a4 b4 cs5 e5 b4 cs5 b4 ~] [e5 fs5 gs5 fs5 e5 cs5 b4 cs5 e5 fs5 e5 cs5 b4 a4 gs4 ~] [b4 e5 cs5 e5 b4 e5 cs5 b4 e5 cs5 b4 a4 ~ ~ ~ ~]>" # s "hoRhodes" # gain (slow 64 $ range 0.9 1.0 saw) # cutoff 4600 # release 0.9 # verbSend 0 # ddSend 0
 
 d8 $ silence
 
-d9 $ slow 2 $ n "<[fs3,a4,cs5] [d3,fs4,d5] [a3,e4,cs5] [e3,b4,gs5]>" # s "hoRhodes" # gain 1.3 # cutoff 4200 # attack 0.03 # sustain 4 # release 2.6 # verbSend 0 # ddSend 0
+d9 $ slow 2 $ n "<[fs3,a4,cs5] [d3,fs4,d5] [a3,e4,cs5] [e3,b4,gs5]>" # s "hoRhodes" # gain 1.15 # cutoff 4200 # attack 0.03 # sustain 4 # release 2.6 # verbSend 0.35 # room 0.6 # size 0.7 # verbT60 4 # verbDamp 0.4 # ddSend 0
 
 d10 $ silence
 
