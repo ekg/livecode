@@ -1,7 +1,11 @@
 -- 146: SCENE B — A MINOR MELODIC. Built from ~/tunepile hooks, made to move.
--- Where 145 is an all-13 grid with a backbeat bolted on, this one is a straight
--- 4-beat dance frame (kick on the floor, snare on 2 and 4, offbeat hats) with the
--- melody as the whole point. Key: A MINOR, chosen so the hooks are used verbatim
+-- Structure = the HYBRID that worked in 145: a plain 4-beat frame for the body
+--   (kick on the floor, snare on 2 and 4) with 13-subdivision detail and 13-token
+--   phrases on top. Straight 4/4 alone lost the character (an earlier version of
+--   this file had no 13 at all); all-13 alone had no backbeat. Both, layered:
+--     d1/d2  4/4 foundation          d3 hats (7,13), d7 cabasa (5,13,3)
+--     d6 melody and d10 counter-line: 13-TOKEN phrases, so the hook drifts
+--     against the 4-beat frame rather than sitting on it. Key: A MINOR, chosen so the hooks are used verbatim
 -- rather than transposed — both of these are natively in A minor / C major.
 --
 -- Hooks (tabs-tidal via ~/tunepile):
@@ -43,21 +47,21 @@ d1 $ s "808bd*4" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # d
 
 d2 $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0
 
-d3 $ s "[~ drumtraks:4]*2" # gain 0.26 # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
+d3 $ s "drumtraks:4(7,13)" # gain "0.42 0.24 0.3 0.26 0.36 0.24 0.3 0.26 0.34 0.24 0.3 0.26 0.32" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0
 
 d4 $ note "<[a1 ~ ~ ~ e2 ~ ~ ~] [f1 ~ ~ ~ c2 ~ ~ ~] [c2 ~ ~ ~ g2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~]>" # s "dubsynth" # waveMix 0.28 # cutoff 240 # fenv 1.2 # drive 0.45 # sustain 0.5 # release 0.6 # lpf 1100 # gain 0.68 # verbSend 0 # ddSend 0
 
 d5 $ slow 4 $ n "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]>" # s "hoRhodes" # gain 0.6 # cutoff 2200 # attack 0.05 # release 2.0 # verbSend 0.28 # room 0.5 # size 0.6 # ddSend 0
 
-d6 $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ c5 a4 g4 ~ ~] [g4 ~ c5 d5 ~ e5 ~ d5 c5 d5 ~ e5 ~ d5 c5 ~ ~] [a4 ~ c5 d5 e5 ~ d5 c5 ~ a4 g4 ~ ~ ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
+d6 $ slow 4 $ note "<[g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ c5 a4 g4] [g4 ~ c5 d5 ~ e5 d5 c5 d5 ~ e5 d5 c5] [a4 ~ c5 d5 e5 d5 c5 ~ a4 g4 ~ ~ ~] [g4 c5 d5 e5 d5 c5 a4 g4 ~ ~ ~ ~ ~]>" # s "hoRhodes" # gain 0.72 # cutoff 4200 # release 1.4 # verbSend 0.25 # room 0.5 # size 0.55 # ddSend 0
 
-d7 $ silence
+d7 $ s "drumtraks:0(5,13,3)" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0
 
 d8 $ silence
 
 d9 $ silence
 
-d10 $ slow 4 $ sometimesBy 0.5 id $ note "<[d5 ~ ~ ~ c5 ~ ~ ~ f5 ~ ~ ~ ~ ~ ~ ~] [g4 ~ ~ ~ a4 ~ ~ ~ c5 ~ ~ ~ ~ ~ ~ ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+d10 $ slow 4 $ sometimesBy 0.5 id $ note "<[d5 ~ ~ ~ c5 ~ ~ ~ f5 ~ ~ ~ ~] [g4 ~ ~ ~ a4 ~ ~ ~ c5 ~ ~ ~ ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # lock 1 # delaytime (3/16) # delayfeedback 0.2
 
 d11 $ silence
 
