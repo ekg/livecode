@@ -29,8 +29,9 @@
 --   `n (choose [...])` sometimes drew a vocal loop — the "mousey" squeak.
 -- Vocal feels (d14) — lpviz 169-200 are 2020_DD_Vox1..32. Fragments are taken
 --   with begin/end at speed 1 (natural pitch, no squeak), gated on 1-in-13 with an
---   occasional fast-2 double so they are INFREQUENT, and sent wet (verbSend 0.42
---   + dub delay 0.45 @3/16). begin/end are paired patterns so the window cannot
+--   occasional fast-2 double so they are INFREQUENT, and sent to a SMALL amount of space
+--   (verbSend 0.18, room 0.35, size 0.45 + dub delay 0.22 @3/16 — the earlier
+--   0.42/0.6/0.75 + 0.45 delay was overwhelming). begin/end are paired patterns so the window cannot
 --   invert. NOTE: sometimesBy is a pattern transform, so it wraps the pattern
 --   (`sometimesBy 0.3 (fast 2) $ s ...`) — it is NOT a `# param`.
 -- The sub (d4) is SILENCED: the bassline was carrying too much weight and mud;
@@ -74,4 +75,4 @@ d12 $ sometimesBy 0.3 (fast 2) $ loopAt 1 $ slice 13 "<[12 ~ 9 ~ 6 ~ 3 ~ 0 ~ 10 
 
 d13 $ silence
 
-d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0.42 # room 0.6 # size 0.75 # ddSend 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
+d14 $ sometimesBy 0.3 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ choose [169,170,175,180,186,192]) # begin "<0.05 0.30 0.55 0.75>" # end "<0.20 0.45 0.70 0.95>" # speed 1 # gain 0.62 # hpf 320 # lpf 7000 # pan 0.55 # verbSend 0.18 # room 0.35 # size 0.45 # ddSend 0.22 # lock 1 # delaytime (3/16) # delayfeedback 0.18
