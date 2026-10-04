@@ -47,9 +47,11 @@
 -- Vocal feels (d14) — a FORM, not a loop: `slow 8` per entry makes a six-section
 --   arc of verse / chorus / verse / bridge / chorus / chorus by stepping the Vox
 --   choice (169 -> 175 -> 169 -> 186 -> 175 -> 178) along with window and gain, so
---   each section gets its own voice and weight. Gain came down to 0.30-0.44 and
---   the band was narrowed (hpf 460 / lpf 4200) because the raw Vox loops were
---   harsh and too loud in the mix; the fast-2 doubling also dropped to 0.15.
+--   each section gets its own voice and weight. Gain landed at 0.42-0.58
+--   with hpf 380 / lpf 5600 and doubling 0.22 — midway between the first harsh
+--   setting (0.58-0.76, band to 7000, doubling 0.3) and a too-strong cut
+--   (0.30-0.44, band 460-4200, doubling 0.15). Splitting the difference in both
+--   level AND bandwidth is what made them sit without biting.
 --   Fragments are taken
 --   with begin/end at speed 1 (natural pitch, no squeak), gated on 1-in-13 with an
 --   occasional fast-2 double so they are INFREQUENT, and COMPLETELY DRY
@@ -98,7 +100,7 @@ d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0
 
 d13 $ s "p93drumA(2,13,4)" # gain 0.42 # hpf 200 # lpf 5200 # release 0.18 # verbSend 0 # ddSend 0
 
-d14 $ sometimesBy 0.15 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ "<169 175 169 186 175 178>") # begin (slow 8 $ "<0.05 0.10 0.05 0.30 0.12 0.05>") # end (slow 8 $ "<0.25 0.45 0.28 0.60 0.40 0.30>") # speed 1 # gain (slow 8 $ "<0.34 0.42 0.34 0.3 0.42 0.44>") # hpf 460 # lpf 4200 # pan 0.55 # verbSend 0 # ddSend 0
+d14 $ sometimesBy 0.22 (fast 2) $ s "lpviz(1,13,5)" # n (slow 8 $ "<169 175 169 186 175 178>") # begin (slow 8 $ "<0.05 0.10 0.05 0.30 0.12 0.05>") # end (slow 8 $ "<0.25 0.45 0.28 0.60 0.40 0.30>") # speed 1 # gain (slow 8 $ "<0.46 0.56 0.46 0.42 0.56 0.58>") # hpf 380 # lpf 5600 # pan 0.55 # verbSend 0 # ddSend 0
 
 d15 $ s "p93perc(1,13,7)" # gain 0.36 # hpf 400 # lpf 6200 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0
 
