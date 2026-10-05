@@ -1,0 +1,29 @@
+-- 159 — WINDOW SEAT. Lo-fi instrumental, 74 BPM, Dm9–G13–Cmaj9–Am9.
+-- @scene {"title":"Window Seat","cps":0.30833333333333335,"quantize":1}
+-- Load with /tidal scene load A 159.tidal. Restart explicitly to return to zero.
+-- Saving an active scene edits it without resetting either clock.
+{- @sc
+// All modulation is local to this deck; cycles is zero at its first bar.
+scene[\mod].value({ |cycles|
+    var breath = (cycles * (2pi / 16)).sin;
+    [4800 + (breath * 650), 0.12, 0.10, 0.95];
+});
+-}
+
+-- Dry, slightly lazy acoustic drums. Nudge is in seconds, not cycle fractions.
+d1 $ s "p70kick ~ ~ ~ ~ ~ p70kick ~ ~ ~ ~ p70kick ~ ~ ~ ~" # orbit 0 # gain 1.05 # speed 0.94 # lpf 2800 # verbSend 0 # ddSend 0
+
+d2 $ s "~ p70snare ~ p70snare" # orbit 1 # gain 0.90 # speed 0.9 # nudge 0.022 # hpf 180 # lpf 4200 # verbSend 0.06 # room 0.25 # verbT60 0.65 # ddSend 0
+
+d3 $ swingBy 0.16 8 $ s "p70hat*8" # orbit 2 # gain "0.30 0.16 0.26 0.14 0.29 0.18 0.24 0.13" # speed "1 0.94" # hpf 2400 # lpf 5700 # pan "0.43 0.57" # verbSend 0 # ddSend 0
+
+d4 $ every 4 (rotR 0.0625) $ s "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ p70soft ~" # orbit 3 # gain 0.30 # speed 0.88 # nudge 0.026 # lpf 3100 # verbSend 0 # ddSend 0
+
+-- Two-bar chord roots; a short sine bass stays beneath the keys.
+d5 $ struct "t ~ ~ t ~ ~ t ~" $ slow 2 $ n "<d2 g2 c2 a1>" # s "dubsub" # orbit 4 # gain 0.40 # amp 0.75 # drive 0.12 # pitchEnv 0 # sustain 0.25 # release 0.18 # lpf 420 # verbSend 0 # ddSend 0
+
+-- Rootless jazz voicings lifted an octave; restrained, bright Rhodes.
+d6 $ struct "t ~ ~ ~ ~ t ~ ~" $ slow 2 $ n "<[f4,a4,c5,e5] [f4,a4,b4,e5] [e4,g4,b4,d5] [g4,b4,c5,e5]>" # s "hoRhodes" # orbit 5 # gain 0.85 # amp 0.36 # cutoff 4300 # waveMix 0.08 # sustain 1.3 # release 1.7 # pan 0.46 # tape 0.1 # tapeWow 0.08 # tapeHiss 0 # verbSend 0.14 # room 0.4 # verbT60 1.8 # ddSend 0.06 # lock 1 # delaytime 0.125 # delayfeedback 0.22
+
+-- A small answering motif with plenty of empty space; no vocals.
+d7 $ swingBy 0.12 8 $ n "<[~ ~ e5 ~ d5 ~ a4 ~] [~ ~ ~ ~ c5 a4 ~ ~] [~ ~ d5 ~ b4 ~ g4 ~] [~ ~ ~ ~ e5 d5 ~ ~] [~ ~ b4 ~ d5 ~ e5 ~] [~ ~ ~ ~ g4 e4 ~ ~] [~ ~ e5 ~ c5 ~ b4 ~] [~ ~ ~ ~ a4 ~ ~ ~]>" # s "hoRhodes" # orbit 5 # gain 0.70 # cutoff 2800 # waveMix 0.05 # release 0.6 # pan 0.6 # verbSend 0.14 # room 0.4 # verbT60 1.8 # ddSend 0.06 # lock 1 # delaytime 0.125 # delayfeedback 0.22

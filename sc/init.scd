@@ -84,6 +84,7 @@ log.("dub FX install starting; server running: " ++ s.serverRunning
 
 // 1 ----------------------------------------------------------------- define
 loadStage.("define fx", sc ++ "/dub_fx.scd", \scLoadedFx);
+loadStage.("load retired FX cleanup", sc ++ "/prune_orbit_fx.scd", \pruneDirtFX);
 loadStage.("define master", sc ++ "/dub_master.scd", \scLoadedMaster);
 loadStage.("load param manifest", sc ++ "/params_gen.scd", \dirtParamGroups);
 loadStage.("load routing layer", sc ++ "/routing.scd", \scLoadedRouting);
@@ -146,12 +147,12 @@ stage.("verify defs and buses", {
 // THE fix: SuperDirt created every chain eagerly at ~dirt.start (stock fx,
 // outBus=0 → hardware). Properties set afterwards are dead letters. So: set
 // the FINAL globalEffects and outBus, then free the old chains and rebuild.
-// freeAll is safe: event synthGroups are created lazily per event (DirtEvent),
-// and buses survive; initNodeTree re-plays globalEffects with CURRENT values.
-// NB: initNodeTree never frees — it only adds (hence: freeAll first, always).
+// Global effects are SIBLINGS of orbit groups, not children. Releasing the
+// old effect objects before replacing the array is essential: freeSynths alone
+// cannot retire them. Custom global SynthDefs must honor gate with doneAction 2.
 stage.("rebuild orbit chains", {
 	~dirt.orbits.do { |orbit|
-		orbit.outBus = ~masterBus;
+		orbit.globalEffects.do(_.release);
 		if(~dspOrbitFx) {
 			orbit.globalEffects = [
 				GlobalDirtEffect(\dirt_dubdelay,
@@ -171,6 +172,7 @@ stage.("rebuild orbit chains", {
 				GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
 			];
 		};
+		orbit.outBus = ~masterBus;
 	};
 	// group-map overrides (routing layer): point mapped orbits at group buses
 	if(~routingEnabled and: { ~orbitGroupMap.notNil }) {
@@ -178,13 +180,12 @@ stage.("rebuild orbit chains", {
 			if(~groups[grp].notNil) { ~dirt.orbits[idx].outBus = ~groups[grp] };
 		};
 	};
-	// now the real rebuild. The outBus_ SETTER itself calls initNodeTree (see
-	// DirtOrbit.outBus_), so the property loop above already stacked chains —
-	// freeSynths is the sanctioned primitive: /n_free the whole orbit group
-	// (killing every stacked set inside), then initNodeTree rebuilds ONE clean
-	// set with the final properties.
+	// The setter replays globalEffects. freeSynths clears event groups and
+	// replays once more; gated release retires the previous sibling FX nodes.
+	// Wait past the server latency/release before interpreting live node counts.
 	~dirt.orbits.do { |orbit| orbit.freeSynths };
 	s.sync;
+	SystemClock.sched(s.latency + 0.5, { ~pruneDirtFX.value; nil });
 	log.("     % orbits rebuilt via freeSynths; 0->%  5->%  8->%".format(~dirt.orbits.size,
 		~dirt.orbits[0].outBus.index, ~dirt.orbits[5].outBus.index,
 		~dirt.orbits[8].outBus.index));
@@ -247,7 +248,7 @@ stage.("start master chain", {
 stage.("register tape module", {
 	~dirt.addModule(\tape, { |dirtEvent|
 		dirtEvent.sendSynth('dirt_tape' ++ ~dirt.numChannels,
-			[tape: ~tape, tapeHf: ~tapeHf, tapeHiss: ~tapeHiss, tapeWow: ~tapeWow,
+			[tape: ~tape, tapeHf: ~tapeHf ? 6500, tapeHiss: ~tapeHiss ? 0.015, tapeWow: ~tapeWow ? 0.3,
 			 out: ~out]);
 	}, { ~tape.notNil });
 });

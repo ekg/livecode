@@ -4,6 +4,8 @@ This is an example startup file. You can load it from your startup file
 */
 
 (
+// Preserve engine errors across recovery and avoid stdout pipe backpressure.
+Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
 // no s.reboot here: a fresh sclang is never booted, and reboot caused a boot race that cleanly killed the server
 	// configure the sound server: here you could add hardware specific options
 	// see http://doc.sccode.org/Classes/ServerOptions.html

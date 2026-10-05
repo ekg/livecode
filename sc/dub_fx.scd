@@ -20,7 +20,7 @@ boom, and a tape module for lo-fi character.
 var build = { |n, sfx|
 
 	// ---------------------------------------------------------------- SEND: reverb
-	SynthDef("dirt_dubverb" ++ sfx, { |dryBus, effectBus,
+	SynthDef("dirt_dubverb" ++ sfx, { |dryBus, effectBus, gate = 1,
 		verbSend = 0, room = 0,                 // `room` kept for compatibility
 		verbT60 = 6, verbDamp = 0.55, size = 0.9, verbEarly = 0.85,
 		verbHp = 320, verbPre = 0.03,           // HPF the send, pre-delay the wet
@@ -39,11 +39,13 @@ var build = { |n, sfx|
 			lowcut: verbLowcut, highcut: verbHighcut);
 		wet = LPF.ar(wet, verbTone);
 		wet = Splay.ar(wet.asArray, 0.6) * verbWidth;
-		Out.ar(effectBus, wet);
+		// GlobalDirtEffect.release sends gate=-1-releaseTime. Without this
+		// envelope every orbit rebuild leaked a permanently running JPverb.
+		Out.ar(effectBus, wet * EnvGen.kr(Env.asr(0.001, 1, 0.2), gate, doneAction: 2));
 	}).add;
 
 	// ---------------------------------------------------------------- SEND: dub delay
-	SynthDef("dirt_dubdelay" ++ sfx, { |dryBus, effectBus,
+	SynthDef("dirt_dubdelay" ++ sfx, { |dryBus, effectBus, gate = 1,
 		ddSend = 0,                             // send amount (0 = off)
 		delaytime = 0.375, delayfeedback = 0.45, delaySend = 1,  // compatible with dirt_delay params
 		ddLp = 2600, ddHp = 220,                // repeats get darker, never boom
@@ -67,7 +69,7 @@ var build = { |n, sfx|
 		tap = (tap * (1 + (ddDrive * 5))).tanh / (1 + (ddDrive * 1.6));
 		LocalOut.ar(tap * delayfeedback.clip(0, 0.94));
 		tap = tap * (1 - (ddDuck * Amplitude.kr(dry.asArray.sum / n, 0.004, 0.12).clip(0, 1)));
-		Out.ar(effectBus, tap);
+		Out.ar(effectBus, tap * EnvGen.kr(Env.asr(0.001, 1, 0.2), gate, doneAction: 2));
 	}).add;
 
 	// ------------------------------------------------- INSERT: per-event tape (lo-fi)
@@ -76,7 +78,7 @@ var build = { |n, sfx|
 		var wob = SinOsc.kr([0.6, 0.83], [0, 1.3]).range(1 - (tapeWow * 0.002), 1 + (tapeWow * 0.002));
 		sig = DelayC.ar(sig, 0.02, (0.004 * wob).clip(0.0005, 0.02));
 		sig = (sig * (1 + (tape * 4))).tanh / (1 + (tape * 1.4));
-		sig = LPF.ar(sig, tapeHf.lag(0.1));
+		sig = LPF.ar(sig, tapeHf.clip(100, 18000).lag(0.1));
 		sig = sig + (PinkNoise.ar(tapeHiss) * 0.5);
 		ReplaceOut.ar(out, sig);
 	}).add;
