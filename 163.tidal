@@ -1,0 +1,91 @@
+-- 163 — BLUE HOUR. Avant-garde jazz, 74 BPM, D dorian (modal/quartal), 64-cycle form.
+-- Tempo matches the 74 BPM lo-fi/acoustic pair (159/160/161) so it mixes directly.
+-- Material inspected in tunepile (never invented):
+--   * Groove/performance MIDI Dataset jazz take
+--     midi/groove/groove/drummer1/session1/47_jazz_102_beat_4-4.mid (CC-BY 4.0),
+--     parsed with a local SMF reader (mido absent). Its ride lands on a 12-grid per
+--     bar at {0,3,5,6,9,11} (beats 1,2, a-of-2, 3, 4, a-of-4), pedal hat on {3,9}
+--     (beats 2 and 4), a feathered kick on {0,5,8,11} (beat 1 + the "a" of 2/3/4),
+--     and snare comping spread across every grid slot. Re-noted 102 -> 74 BPM here
+--     and voiced with the h2ogm soft kit.
+--   * Harmony: quartal (fourth) stacks in D dorian, plus a bVI/Eb-lydian lift for
+--     tension. Built from the tunepile progression library's modal families
+--     chords/progressions.txt ("dorian-vamp", "lydian-dream").
+-- @scene {"title":"Blue Hour","cps":0.30833333333333335,"quantize":4}
+-- Inactive on save; load with /tidal scene load A 163.tidal to mix against 159/161.
+{- @sc
+// One owned writer; every movement is a function of scene-local cycles (no globals).
+scene[\mod].value({ |cycles|
+    var form  = cycles.mod(64);
+    var lift  = (form >= 16) * (form < 32);   // Eb-lydian tension arch
+    var space = (form >= 40) * (form < 48);   // drop-out / one distinct air pocket
+    var peak  = (form >= 48) * (form < 56);   // collective second crest
+    var exhale = form >= 56;
+    var arch  = (cycles * (2pi / 64)).sin;
+    var swell = (cycles * (2pi / 8)).sin;
+    [5400 + (arch * 1300) - (space * 2500) + (peak * 700) - (exhale * 2100),
+     0.10 + (lift * 0.05) + (peak * 0.06),
+     0.10 + (space * 0.15) + (arch * 0.05) + (peak * 0.04),
+     0.86 + (swell * 0.035) - (space * 0.06) + (peak * 0.05) - (exhale * 0.09)];
+});
+-}
+
+-- quartal voicings, 2 cycles each: Dm11 / Ebmaj7#11 lift / Dm11 / Cmaj9 answer
+let chords = (slow 2 "<[d4,g4,c5,f5] [ef4,af4,d5,g5] [d4,g4,c5,f5] [c4,f4,b4,e5]>") :: Pattern Note
+-- comping rhythm: displaced, off-kilter two-bar figure
+let compRhythm = ("<[t ~ ~ t ~ ~ ~ t] [~ ~ t ~ ~ t ~ ~]>") :: Pattern Bool
+-- modal walking-ish bass, 4 lines per bar; the bVI lift walks to Eb, answer to C
+let bassLine = ("<[d2 ~ f2 a2] [c3 ~ a2 f2] [ef2 ~ g2 bf2] [d3 ~ bf2 g2] [d2 f2 a2 c3] [d2 ~ e2 f2] [c2 e2 g2 b2] [c2 ~ g2 e2]>") :: Pattern Note
+-- lead: sparse, angular, wide intervals; long rests keep the air
+let leadLine = ("<[~ ~ a4 ~ ~ d5 ~ ~] [~ f5 ~ ~ e5 ~ ~ ~] [~ ~ g5 ~ ~ ~ d5 ~] [~ ~ ~ c5 ~ ~ a4 ~] [~ ~ b4 ~ d5 ~ f5 ~] [~ ~ ~ ~ e5 ~ ~ ~] [~ ~ a4 ~ ~ c5 ~ ~] [~ ~ ~ ~ d5 ~ ~ ~]>") :: Pattern Note
+-- vibraphone ghosts (sprvibe sample indices): d5 g4 c5 f5 eb5 ab4 b4 a4
+let vibeLine = ("<[14 ~ ~ ~ ~ ~ ~ ~] [~ ~ 7 ~ ~ ~ ~ ~] [~ ~ ~ 12 ~ ~ ~ ~] [~ ~ ~ ~ 17 ~ ~ ~] [~ 15 ~ ~ ~ 8 ~ ~] [~ ~ ~ ~ ~ ~ 11 ~] [~ ~ 16 ~ ~ ~ ~ ~] [~ ~ ~ ~ ~ 9 ~ ~]>") :: Pattern Note
+-- eerie electric keys: quartal dyads, one long stab per bar
+let keyPad = (slow 2 "<[d4,a4] [ef4,bf4] [d4,a4] [c4,g4]>") :: Pattern Note
+-- 64-cycle form gates, eight 8-cycle sections each
+let formGate = (slow 8 "<t t t t t t t f>") :: Pattern Bool
+let rideGate = (slow 8 "<t t t t t f t t>") :: Pattern Bool
+let leadGate = (slow 8 "<f f t t t f t t>") :: Pattern Bool
+let vibeGate = (slow 8 "<f t f t t f t t>") :: Pattern Bool
+let padGate  = (slow 8 "<f t f t t f t t>") :: Pattern Bool
+-- orbit-5 send bursts: one bar at the end of each section (15/31/47/59)
+let fxGate = ("<f!15 t f!15 t f!15 t f!11 t f!4>") :: Pattern Bool
+let fxSend = ("<0!15 0.30 0!15 0.30 0!15 0.28 0!11 0.32 0!4>") :: Pattern Double
+let fxFeedback = ("<0!15 0.28 0!15 0.30 0!15 0.30 0!11 0.34 0!4>") :: Pattern Double
+
+-- ORBIT 0: drums. The master sidechain ducks on orbit 0's dry bus, so the kick lives
+-- here and every drum lane stays send-free. Feathered kick from the corpus 12-grid.
+d1 $ mask formGate $ swingBy (1/6) 4 $ s "h2ogmbd:3 ~ ~ h2ogmbd:4 ~ h2ogmbd:4 ~ h2ogmbd:3" # orbit 0 # gain "0.95 ~ ~ 0.42 ~ 0.50 ~ 0.40" # speed 1 # begin 0 # end 1 # sustain 0.30 # lpf 2600 # verbSend 0 # room 0 # ddSend 0
+
+-- Ride "spang-a-lang": beats 1,2, a-of-2, 3, 4, a-of-4 (swingBy converts the straight
+-- off-8ths to the corpus's triplet "a"). Accents beat 1 and 3.
+d2 $ mask rideGate $ swingBy (1/6) 4 $ s "h2ogmcy:18 ~ h2ogmcy:18 h2ogmcy:18 h2ogmcy:18 ~ h2ogmcy:18 h2ogmcy:18" # orbit 0 # gain "0.44 ~ 0.30 0.24 0.42 ~ 0.30 0.24" # speed 1 # begin 0 # end 1 # sustain 0.16 # hpf 300 # lpf 9000 # verbSend 0.04 # room 0.20 # verbT60 0.8 # ddSend 0
+
+-- Brushed snare comping: soft snare, side stick and soft rimshot, off-beat and sparse.
+d3 $ mask formGate $ swingBy (1/6) 4 $ s "<[~ ~ h2ogmsn:8 ~ ~ ~ ~ h2ogmsn:3] [~ h2ogmsn:13 ~ ~ h2ogmsn:8 ~ ~ ~]>" # orbit 0 # gain "<[~ ~ 0.50 ~ ~ ~ ~ 0.34] [~ 0.40 ~ ~ 0.30 ~ ~ ~]>" # speed 1 # begin 0 # end 1 # sustain 0.14 # hpf 320 # lpf 5200 # pan "0.48 0.52" # verbSend 0.05 # room 0.22 # verbT60 0.8 # ddSend 0
+
+-- Pedal hi-hat on beats 2 and 4, the swing's quiet pulse.
+d4 $ mask formGate $ swingBy (1/6) 4 $ s "~ ~ h2ogmhh:13 ~ ~ ~ h2ogmhh:13 ~" # orbit 0 # gain "~ ~ 0.22 ~ ~ ~ 0.22 ~" # speed 1 # begin 0 # end 1 # sustain 0.05 # hpf 1200 # lpf 7000 # verbSend 0 # room 0 # ddSend 0
+
+-- ORBIT 1: bass, dry and solid. dubsynth kept warm/round (low waveMix) under the keys.
+d5 $ mask formGate $ n bassLine # s "dubsynth" # orbit 1 # gain 0.52 # amp 0.7 # waveMix 0.28 # subMix 0.42 # subTone 0.30 # detune 0.06 # cutoff 520 # fenv 2.4 # res 0.28 # drive 0.30 # attack 0.006 # sustain 0.44 # release 0.20 # hpf 34 # lpf 900 # verbSend 0 # room 0 # ddSend 0
+
+-- ORBIT 2: comping keys into the dub delay, locked to a dotted 8th (0.1875 cycle).
+d6 $ mask formGate $ struct compRhythm $ n chords # s "hoRhodes" # orbit 2 # gain 0.62 # amp 0.34 # cutoff 3400 # waveMix 0.09 # pan "0.44 0.56" # sustain 1.1 # release 1.5 # delaytime 0.1875 # lock 1 # delayfeedback 0.30 # ddSend 0.34 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.60 # ddDuck 0.50 # verbSend 0.10 # room 0.35 # verbT60 1.6
+
+-- ORBIT 3: lead into the dub reverb, wetter, one distinct space (long T60 tail).
+d7 $ mask leadGate $ swingBy (1/6) 4 $ n leadLine # s "miLead" # orbit 3 # gain 0.50 # amp 0.5 # engine 12 # harm 0.42 # timbre 0.55 # morph 0.5 # cutoff 7000 # attack 0.02 # release 0.8 # sustain 0.50 # pan 0.58 # verbSend 0.42 # room 0.70 # verbT60 3.2 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1
+
+-- ORBIT 4: textures with tape + delay. Ghost vibraphone shadowing the quartal voicings.
+d8 $ mask vibeGate $ swingBy (1/6) 4 $ n vibeLine # s "sprvibe" # orbit 4 # gain 0.34 # speed 1 # begin 0 # end 1 # sustain 0.5 # release 0.4 # hpf 200 # lpf 9000 # pan "0.35 0.65" # tape 0.28 # tapeWow 0.22 # tapeHiss 0.012 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddSend 0.16 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.40 # verbT60 2.0
+
+-- Eerie electric keys on the same taped orbit: one long dyad per bar, dusty and slow.
+d9 $ mask padGate $ struct "t ~ ~ ~" $ n keyPad # s "sweetChords" # orbit 4 # gain 0.40 # amp 0.5 # cutoff 3600 # fmIndex 1.3 # ratio 1.5 # drive 1.2 # sub 0.4 # width 0.8 # attack 0.30 # release 2.4 # sustain 1.8 # pan "0.40 0.60" # tape 0.20 # tapeWow 0.18 # tapeHiss 0.010 # delaytime 0.1875 # lock 1 # delayfeedback 0.24 # ddSend 0.20 # ddHp 500 # ddLp 4000 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.20 # room 0.50 # verbT60 2.6
+
+-- ORBIT 5: send bursts only. A short reversed vibes swell throws high send into the
+-- delay and reverb; feedback stays bounded at <= 0.34.
+d10 $ mask fxGate $ struct "~ ~ ~ t" $ s "sprvibe:31" # speed (-1) # begin 0.05 # end 0.45 # sustain 0.20 # orbit 5 # gain 0.16 # hpf 900 # lpf 7000 # pan "0.20 0.80" # ddSend fxSend # delayfeedback fxFeedback # delaytime 0.1875 # lock 1 # ddHp 800 # ddLp 5000 # ddDrive 0.12 # ddWow 0.08 # ddCross 0.60 # ddDuck 0.55 # verbSend 0.40 # room 0.85 # verbT60 4.5
+
+-- Silent reset clock on orbit 5: every event forces every send back to 0 (gain 0), so no
+-- throw can latch across a rest on the shared orbit.
+d11 $ s "sprvibe:0*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 800 # ddLp 5000 # ddDrive 0.12 # ddWow 0.08 # ddCross 0.60 # ddDuck 0.55 # verbSend 0 # room 0 # tape 0

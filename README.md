@@ -42,6 +42,7 @@ do
 - `160.tidal` — Rain on the Platform, 74 BPM.
 - `161.tidal` — Night Cassette, corpus-derived lo-fi hip-hop, 74 BPM.
 - `162.tidal` — Prism Pressure, MARS/Loopmasters broken techno, 132 BPM.
+- `163.tidal` — Blue Hour, avant-garde modal jazz, 74 BPM; voice-per-orbit FX.
 - `arrangements/159-breakdown.tidal` — eight-bar breakdown, two-bar drum break,
   then the exact saved Window Seat groove; see `arrangements/README.md`.
 
