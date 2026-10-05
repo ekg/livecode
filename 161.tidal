@@ -1,0 +1,39 @@
+-- 161 — NIGHT CASSETTE. Lo-fi hip-hop instrumental, 74 BPM, F major (Bb–Dm–Gm–C).
+-- Drum groove adapted from the Magenta Groove MIDI Dataset hiphop take
+-- drummer3/session2/25_hiphop_92_beat_4-4.mid (CC-BY 4.0): its kick placements
+-- (bar A: 1, 1.75, 3.5, 4.25, 4.75; bar B: 1, 3.25) and hat velocity accents,
+-- re-noted at 74 BPM. Chords from tunepile chords/progressions.txt
+-- "royal-road-progressions — key of f", revoiced rootless in the mid band.
+-- Melody: the opening motif of Chopin's Nocturne Op. 15 No. 1 in F major
+-- (MAESTRO 2015/MIDI-Unprocessed_R1_D1-9-12_mid--AUDIO-from_mp3_12_R1_2015_wav--3.midi)
+-- — the c-f rise, e-d sigh and f-g-a climb — sparsified into an answer.
+-- No vocals. Drums forward, keys below the 0.85/0.36 reference balance.
+-- @scene {"title":"Night Cassette","cps":0.30833333333333335,"quantize":1}
+-- Inactive on save; load with /tidal scene load B 161.tidal to mix against 159.
+{- @sc
+scene[\mod].value({ |cycles|
+    var drift = (cycles * (2pi / 32)).sin;
+    var shimmer = (cycles * (2pi / 9)).sin;
+    [3100 + (drift * 620) + (shimmer * 70), 0.11, 0.13, 0.95];
+});
+-}
+
+-- Corpus kick pocket, two bars: busy first bar, laid-back answer second bar.
+d1 $ s "<[p70kick ~ ~ p70kick ~ ~ ~ ~ ~ ~ p70kick ~ ~ p70kick ~ p70kick] [p70kick ~ ~ ~ ~ ~ ~ ~ ~ p70kick ~ ~ ~ ~ ~ ~]>" # orbit 0 # gain "<[1.05 ~ ~ 0.78 ~ ~ ~ ~ ~ ~ 0.92 ~ ~ 0.85 ~ 0.68] [1.0 ~ ~ ~ ~ ~ ~ ~ ~ 0.82 ~ ~ ~ ~ ~ ~]>" # speed 0.92 # lpf 2800 # verbSend 0 # ddSend 0
+
+d2 $ s "<[~ ~ ~ ~ p70snare ~ ~ ~ ~ ~ ~ ~ p70snare ~ ~ ~] [~ ~ ~ ~ p70snare ~ ~ ~ ~ ~ ~ ~ p70snare ~ ~ p70soft]>" # orbit 1 # gain "<[~ ~ ~ ~ 0.95 ~ ~ ~ ~ ~ ~ ~ 0.95 ~ ~ ~] [~ ~ ~ ~ 0.95 ~ ~ ~ ~ ~ ~ ~ 0.93 ~ ~ 0.25]>" # speed 0.88 # nudge 0.024 # hpf 200 # lpf 4500 # verbSend 0.06 # room 0.28 # verbT60 0.7 # ddSend 0
+
+-- Swung 16th hats (velocity map from the corpus take), a hole on beat 3 of bar B.
+d3 $ swingBy 0.15 8 $ s "<[p70hat*16] [p70hat p70hat p70hat p70hat p70hat p70hat p70hat p70hat ~ ~ ~ ~ p70hat ~ p70hat p70hat]>" # orbit 2 # gain "<[0.32 0.10 0.22 0.09 0.33 0.11 0.24 0.10 0.32 0.10 0.23 0.09 0.31 0.12 0.25 0.13] [0.33 0.10 0.22 0.09 0.32 0.11 0.23 0.10 ~ ~ ~ ~ 0.31 0.11 0.26 0.15]>" # speed 0.94 # hpf 2300 # lpf 6000 # pan "0.46 0.54" # verbSend 0 # ddSend 0
+
+-- A soft low body-knock once per two bars, leading into the snare.
+d4 $ s "<[~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~] [~ ~ ~ p70body ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~]>" # orbit 3 # gain 0.2 # speed 0.9 # nudge 0.02 # lpf 800 # verbSend 0 # ddSend 0
+
+-- Half-note roots on the dub sub (as1 = Bb1), understated beneath the keys.
+d5 $ struct "t ~ ~ ~ t ~ ~ ~" $ slow 2 $ n "<as1 d2 g1 c2>" # s "dubsub" # orbit 4 # gain 0.42 # amp 0.75 # drive 0.12 # pitchEnv 0 # sustain 0.25 # release 0.18 # lpf 420 # verbSend 0 # ddSend 0
+
+-- Rootless mid-band voicings: Bbmaj9, Dm9, Gm9, C9; restrained, dusty Rhodes.
+d6 $ struct "t ~ ~ t ~ ~ ~ t" $ slow 2 $ n "<[f4,a4,c5,d5] [f4,a4,c5,e5] [as4,d5,f5,a5] [as4,d5,e5,g5]>" # s "hoRhodes" # orbit 5 # gain 0.84 # amp 0.34 # cutoff 3900 # waveMix 0.07 # sustain 1.3 # release 1.6 # pan 0.48 # tape 0.12 # tapeWow 0.09 # tapeHiss 0 # verbSend 0.12 # room 0.35 # verbT60 1.9 # ddSend 0.05 # lock 1 # delaytime 0.1875 # delayfeedback 0.18
+
+-- The nocturne motif as a sparse answering phrase, swung; dotted-8th dub echo.
+d7 $ swingBy 0.12 4 $ n "<[c5 ~ ~ f5 ~ ~ ~ ~] [~ ~ ~ ~ e5 ~ d5 ~] [~ ~ ~ ~ ~ ~ a4 ~] [~ ~ c5 ~ ~ ~ ~ ~] [f5 ~ g5 ~ ~ a5 ~ ~] [~ ~ ~ ~ g5 ~ f5 ~] [~ e5 ~ d5 ~ ~ c5 ~] [~ ~ ~ ~ f5 ~ ~ ~]>" # s "hoRhodes" # orbit 5 # gain 0.66 # cutoff 2600 # waveMix 0.05 # release 0.6 # pan 0.62 # verbSend 0.12 # room 0.35 # verbT60 1.7 # ddSend 0.05 # lock 1 # delaytime 0.1875 # delayfeedback 0.18

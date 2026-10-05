@@ -15,6 +15,19 @@ the architecture and the gotchas.
 From Tidal: `# orbit N` for grouping; `dd*` delay, `verb*` reverb, `m*` master,
 `tape*` lo-fi module params. Instruments take their pitch in `n` (not `note`).
 
+## Offline checks must not contact the live server
+
+Do **not** launch bare `sclang` as an "offline" syntax test while this stack is
+running. Its default localhost server uses UDP **57110**, the live server's
+port, and interpreter shutdown can send `/quit` to that server. An attempted
+worker stub check may have caused a stack restart this way. A file in `/tmp`
+is not process/network isolation.
+
+Use parser and pure `runghc`/`queryArc` checks for offline Tidal validation.
+SC tests require a genuinely isolated startup/configuration and server port,
+or an explicitly authorized check through the existing `tidal_sc` transport.
+Do not boot, restart or evaluate live patterns just to validate a draft.
+
 ## Adding a parameter, effect or instrument (the recipe)
 
 Built so it needs no thought and cannot be done half-way:
@@ -23,16 +36,17 @@ Built so it needs no thought and cannot be done half-way:
 1. add the name to the right group line in **`sc/params.tsv`** (`name` or `name:f|i|s`)
 2. run **`tools/sc_params.py`** — regenerates the `let` block in `BootTidal.hs`
    and `sc/params_gen.scd`
-3. restart the Tidal REPL (the boot file is read only at spawn): `tidal_repl`
-   tool, or `ps -eo pid,args | awk '/ghci-scri/ {print $1}' | xargs kill`
+3. restart the Tidal REPL with `tidal_repl` (the boot file is read only at
+   spawn); do not kill unrelated interpreters
 4. in SuperCollider, either use it in a SynthDef you are already editing, or add
    it to that effect's list in `sc/init.scd`
 
 **Adding an effect:** write the SynthDef in `sc/dub_fx.scd` (global effects are
 looked up as `name ++ numChannels`, per-event modules as bare `name`), add a line
-to `params.tsv`, add a `GlobalDirtEffect` to `sc/init.scd`, restart sclang
-(`pkill -x sclang`, respawns on the next eval) — or use `tidal_sc` to
-`this.executeFile` it live once the plugin is reloaded.
+to `params.tsv`, add a `GlobalDirtEffect` to `sc/init.scd`, then apply it with
+`tidal_sc_reload` when a live routing change is authorized. If a full restart
+is necessary, use `tidal_restart`, which owns process teardown and REPL
+reconnection; never use a blind `pkill`.
 
 **Verification is built in.** `sc/boot.log` records every boot: which SynthDefs
 exist, the measured level of each instrument, and whether the master chain passes
@@ -50,14 +64,9 @@ UGen; pass bus *indices* not `Bus` objects; custom synths take pitch in `n`, not
 The running REPL is long-lived and holds whatever `BootTidal.hs` contained when
 it was spawned. If only *some* params are missing, the REPL predates the current
 file — declare them live (`tidal_param`, or `let x = pF "x"`), or restart the
-REPL (`tidal_repl`). Do not assume an earlier `pkill` worked: the binary is
-`ghc-9.4.7`, so match the boot file on the command line:
-
-    ps -eo pid,args | awk '/ghci-scri/ {print $1}' | xargs -r kill
-
-and confirm it is gone with `ps -eo pid,comm | awk '$2 ~ /^ghc-/'` (this exact
-mistake — a `pkill -x ghci` that silently matched nothing — meant a REPL loaded
-on Sep 20 was still serving evals days later).
+REPL (`tidal_repl`). The binary is `ghc-9.4.7`, not `ghci`; an earlier
+`pkill -x ghci` silently missed it and left an old boot file running for days.
+Use the owned restart tool rather than process-name guesses.
 
 ## The `m*` master params are inert (by design)
 

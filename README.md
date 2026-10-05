@@ -35,3 +35,17 @@ do
   --d3 silence
   --d4 silence
 ```
+
+## Saved scenes
+
+- `159.tidal` — Window Seat, 74 BPM.
+- `160.tidal` — Rain on the Platform, 74 BPM.
+- `161.tidal` — Night Cassette, corpus-derived lo-fi hip-hop, 74 BPM.
+- `162.tidal` — Prism Pressure, MARS/Loopmasters broken techno, 132 BPM.
+- `arrangements/159-breakdown.tidal` — eight-bar breakdown, two-bar drum break,
+  then the exact saved Window Seat groove; see `arrangements/README.md`.
+
+These are scene files: use `/tidal scene load A <file>`, not raw whole-file
+REPL evaluation. New scenes remain inactive until loaded. Both audible decks
+share tempo; stop the other deck before switching between 74 and 132 BPM.
+New compositions have offline validation but still need a live listening pass.

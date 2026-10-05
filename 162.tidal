@@ -1,0 +1,86 @@
+-- 162 — PRISM PRESSURE. Freeform / prismatic broken techno, 132 BPM, C minor.
+-- @scene {"title":"Prism Pressure","cps":0.55,"quantize":4}
+-- A 64-cycle machine: seed 0–7 / ignite 8–15 / wall 16–31 / air 32–39 /
+-- rebuild 40–47 / crest 48–55 / fracture 56–59 / exhale 60–63. Then morph/repeat.
+-- Tempo differs from the current 74 BPM: stop the other deck before a tempo restart.
+{- @sc
+// One owned writer; all movement follows scene-local cycles, no global master.
+scene[\mod].value({ |cycles|
+    var phase = cycles.mod(64);
+    var air = (phase >= 32) * (phase < 40);
+    var exhale = (phase >= 60);
+    var bloom = ((phase >= 14) * (phase < 16)) + ((phase >= 46) * (phase < 48));
+    var pulse = (cycles * 2pi).cos;
+    var arch = (cycles * (2pi / 16)).sin;
+    [6900 + (arch * 1500) - (air * 2100) - (exhale * 2600),
+     0.07 + (bloom * 0.07), bloom * 0.11,
+     0.76 - (pulse * 0.025) - (air * 0.035) - (exhale * 0.07)];
+});
+-}
+
+-- Named sources verified against the startup's sorted, zero-based banks.
+-- Prophet/Strings filename C3 actually centres near 261 Hz (C4 in MIDI notation).
+-- Playback 0.5 therefore puts the chord body near C3; Drift C1 is near 65 Hz/C2.
+-- Roots every four bars: Cm7 / Abmaj7 / Fm7 / Gm7; all voices share this centre.
+let rootShift = slow 4 "<0 -4 -7 -5>" :: Pattern Double
+let chordRate = fmap (\x -> 0.5 * (2 ** (x / 12))) (slow 4 "<[0,3,7,10] [-4,0,3,7] [-7,-4,0,3] [-5,-2,2,5]>")
+let bassRate = fmap (\x -> 2 ** (x / 12)) ("0 ~ 0 7 ~ 0 12 ~" |+ rootShift)
+let prismRate = fmap (\x -> 0.5 * (2 ** (x / 12))) ("12 ~ 7 14 ~ 19 7 [~ 12]" |+ rootShift)
+let haloRate = fmap (\x -> 2 ** (x / 12)) ("<[0,7] [7,14]>" |+ rootShift)
+let drumGate = slow 4 "<f!2 t!6 f!2 t!5 f>"
+let wallGate = slow 8 "<f f t t f t t f>"
+let keyGate = slow 8 "<f t t t f t t f>"
+let haloGate = slow 8 "<t f t f t f t t>"
+let arpGate = slow 4 "<f t t t t t t t f f t t t t t f>"
+let kickGrid = ifp (\c -> c `mod` 64 >= 60) (const "t ~ ~ ~ ~ ~ ~ ~") id $ ifp (\c -> (c `mod` 64 >= 4 && c `mod` 64 < 8) || (c `mod` 64 >= 40 && c `mod` 64 < 44) || (c `mod` 64 >= 56 && c `mod` 64 < 60)) (const "t ~ ~ t ~ ~ t ~") id $ sew drumGate "t ~ t ~ t ~ t ~" "t ~ ~ ~ t ~ ~ ~"
+let kickLevel = slow 8 "<0.57 0.64 0.66 0.63 0.48 0.61 0.66 0.50>"
+-- Only orbit 5 owns dub sends. Every note AND the silent reset clock agree.
+-- Off at every other bar; no send can latch over the 32–39 vacuum or 60–63 exit.
+let fxGate = "<f!15 t f!15 t f!15 t f!11 t f!4>"
+let fxSend = "<0!15 0.26 0!15 0.30 0!15 0.26 0!11 0.28 0!4>"
+let fxFeedback = "<0!15 0.30 0!15 0.32 0!15 0.30 0!11 0.32 0!4>"
+
+-- ORBIT 0: dry foundation. Medium 909 tape kick, not a full-volume master shove.
+d1 $ struct kickGrid $ s "mars_kits_909_Clean:1" # orbit 0 # gain kickLevel # speed 1 # begin 0 # end 1 # sustain 0.34 # lpf 3100 # ddSend 0 # verbSend 0 # room 0
+
+-- Syncopated sampled bass; the long source is ENVELOPE-CAPPED, never left running.
+d2 $ every 8 (within (0.75,1) rev) $ speed bassRate # s "mars_synths_DrSample_Drift_Bass:1" # orbit 0 # gain (slow 8 "<0.30 0.34 0.35 0.32 0.23 0.32 0.35 0.26>") # begin 0 # end 0.08 # sustain 0.19 # hpf 32 # lpf 620 # shape 0.08 # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 1: always dry shared controls; damage belongs to individual events.
+d3 $ mask drumGate $ every 8 (within (0.75,1) (stutWith 2 0.03125 (|* gain 0.58))) $ s "~ mars_kits_909_Clean:5 ~ mars_kits_909_Clean:5" # orbit 1 # gain 0.39 # begin 0 # end 0.38 # sustain 0.22 # hpf 520 # lpf 7600 # crush 16 # shape 0 # ddSend 0 # verbSend 0 # room 0
+
+d4 $ mask drumGate $ every 4 (within (0.75,1) (# crush 6)) $ every 8 (within (0.875,1) (stutWith 3 0.015625 ((|* gain 0.55) . (# speed 1.5)))) $ swingBy 0.10 8 $ s "mars_kits_909_Clean:3*8" # orbit 1 # gain "0.22 0.12 0.18 0.11 0.21 0.13 0.18 0.10" # speed "1 1.06 0.94 1" # pan "0.35 0.65" # sustain 0.06 # hpf 2800 # lpf 10500 # crush 16 # ddSend 0 # verbSend 0 # room 0
+
+d5 $ mask wallGate $ every 3 (rotR 0.0625) $ every 8 (within (0.5,0.75) (# vowel "o")) $ s "mars_kits_909_Clean:9(5,16,2)" # orbit 1 # gain 0.19 # speed "1 0.75 1.5" # sustain 0.065 # pan "0.72 0.28" # hpf 1200 # lpf 5800 # shape 0 # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 2: harmonic slabs, then a real empty-space answer. No piano layer.
+d6 $ mask keyGate $ every 8 (within (0.375,0.5) ((# crush 9) . (# shape 0.20))) $ struct "t ~ ~ t ~ ~ ~ ~" $ s "mars_synths_DrSample_Prophet_Chorus:1" # speed chordRate # orbit 2 # gain 0.17 # begin 0.025 # end 0.19 # sustain 0.31 # hpf 150 # lpf (slow 8 "<2400 3700 5000 4100 2200 4500 5700 2600>") # pan "0.40 0.60" # crush 16 # shape 0 # ddSend 0 # verbSend 0 # room 0
+
+d7 $ mask haloGate $ struct "t ~ ~ ~" $ s "mars_synths_DrSample_Strings:1" # speed haloRate # orbit 2 # gain 0.11 # begin 0.04 # end 0.22 # sustain 1.05 # hpf 420 # lpf 5200 # pan "0.25 0.75" # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 3: the recurring broken-eighth prism. Reverse/formants are isolated surprises.
+d8 $ mask arpGate $ every 8 (within (0.75,1) (stutWith 3 0.03125 ((|* gain 0.56) . (|* speed (-1))))) $ every 5 (within (0.25,0.5) (# vowel "a")) $ speed prismRate # s "mars_synths_DrSample_Prophet_Chorus:1" # orbit 3 # gain "0.19 0.13 0.16 0.12" # begin "0.06 0.22 0.38 0.14" # end "0.085 0.245 0.405 0.165" # sustain 0.115 # hpf 700 # lpf "4800 6200 3900 7600" # pan "0.22 0.78 0.38 0.62" # shape 0 # ddSend 0 # verbSend 0 # room 0
+
+d9 $ mask wallGate $ every 16 (within (0.5,0.75) (stutWith 2 0.0625 ((|* gain 0.5) . (# crush 7)))) $ struct "~ ~ ~ t ~ ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~" $ s "mars_synths_DrSample_Strings:1" # speed (fmap (\x -> 2 ** (x / 12)) ("<19 14 12 7>" |+ rootShift)) # orbit 3 # gain 0.10 # begin 0.12 # end 0.16 # sustain 0.18 # hpf 1400 # lpf 7800 # pan "0.8 0.2" # crush 16 # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 4: inspected Loopmasters percussion, remixed against the pitched wall.
+-- LPViz 45 = 2020_DD_123_PercLp26.wav (1 bar/123); 298 = PH 126 PercLp4.
+-- No tonal loop is arbitrarily claimed to be in key. Slices remain in [0,1].
+d10 $ mask drumGate $ every 4 (within (0.5,0.75) ((# crush 8) . (|* speed (-1)))) $ slice 16 "0 ~ 4 7 ~ 10 12 [14 15]" $ s "lpviz:45" # orbit 4 # gain 0.21 # speed (132/123) # sustain 0.10 # hpf 850 # lpf 6500 # pan "0.32 0.68" # crush 16 # shape 0 # ddSend 0 # verbSend 0 # room 0
+
+-- LPMR 341 = GHATAM 02.wav (audio-only order): seven steps become metallic once/6.
+-- The inspected waveform dies early: remix its HEAD, not arbitrary silent tail slices.
+d11 $ mask wallGate $ every 6 (within (0.5,0.75) ((# coarse 4) . (# crush 5))) $ s "lpmr:341 ~ lpmr:341 lpmr:341 ~ lpmr:341 lpmr:341" # orbit 4 # gain 0.18 # speed "1 0.75 1.5" # begin "0.02 0.06 0.12 0.18" # end "0.06 0.10 0.16 0.22" # sustain 0.055 # hpf 600 # lpf 5100 # pan "0.70 0.30" # coarse 0 # crush 16 # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 5: four one-bar pressure valves per 64; bounded feedback, explicit resets.
+-- Chord-derived reverse sparks at 15/31/47/59; no random decisions on replay.
+d12 $ mask fxGate $ stutWith 3 0.03125 ((|* gain 0.5) . (|* speed 2)) $ struct "~ ~ ~ t" $ s "mars_synths_DrSample_Prophet_Chorus:1" # speed (fmap (\x -> -0.5 * (2 ** (x / 12))) (rootShift + 7)) # orbit 5 # gain 0.16 # begin 0.24 # end 0.28 # sustain 0.14 # hpf 1100 # lpf 6100 # crush 7 # shape 0.18 # pan "0.15 0.85" # ddSend fxSend # delayfeedback fxFeedback # delaytime 0.09375 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.10 # ddWow 0.06 # ddCross 0.65 # ddDuck 0.55 # verbSend 0 # room 0
+
+d13 $ mask fxGate $ within (0.5,1) (chop 4) $ s "~ lpviz:298" # orbit 5 # gain 0.16 # speed (-(132/126)) # begin 0.50 # end 0.75 # sustain 0.09 # hpf 1700 # lpf 7200 # crush 6 # pan "0.85 0.15" # ddSend fxSend # delayfeedback fxFeedback # delaytime 0.09375 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.10 # ddWow 0.06 # ddCross 0.65 # ddDuck 0.55 # verbSend 0 # room 0
+
+-- A low tom does not claim concert pitch: short, filtered punctuation only.
+d14 $ mask wallGate $ every 4 (within (0.75,1) (stutWith 2 0.0625 (|* gain 0.55))) $ s "~ ~ ~ ~ ~ ~ mars_kits_606_Clean:12 ~" # orbit 1 # gain 0.16 # speed 0.8 # begin 0 # end 0.10 # sustain 0.09 # hpf 220 # lpf 1800 # ddSend 0 # verbSend 0 # room 0
+
+-- Silent control events, eight per bar: reset even if the musical lane rests.
+-- This clock belongs ONLY to the FX orbit, never sends another lane's dry signal.
+d16 $ s "mars_kits_909_Clean:3*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend fxSend # delayfeedback fxFeedback # delaytime 0.09375 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.10 # ddWow 0.06 # ddCross 0.65 # ddDuck 0.55 # verbSend 0 # room 0
