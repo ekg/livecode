@@ -32,7 +32,7 @@ LESSONS THAT SHAPED THIS FILE (all paid for in hours, 2026-09-25):
 Orbit layout after boot (see also routing.scd):
   group buses: drums/bass/music/fx, summed into the master bus, which feeds
   the master chain (dub_master.scd) and then hardware. Orbits map to groups
-  via ~orbitGroupMap (all 12 orbits are assigned).
+  via ~orbitGroupMap (every orbit is assigned: the 12-block repeats).
 
 Flags (sc/flags.scd overrides the defaults below):
   ~dspOrbitFx      use our dub chain instead of stock delay/reverb

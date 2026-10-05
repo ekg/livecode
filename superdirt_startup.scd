@@ -30,7 +30,10 @@ Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
         ~dirt.loadSoundFiles("/home/erik/sounds/*");
         ~dirt.loadSoundFiles("/home/erik/sounds/mars_symlinks/*");
 		// s.sync; // optionally: wait for samples to be read
-		~dirt.start(57120, 0 ! 12);   // start listening on port 57120, create two busses each sending audio to channel 0
+		~dirt.start(57120, 0 ! 24);   // 4 scene channels x 6 local orbits — MUST match
+		// sc/scene-mixer.json ({"channels":4,"orbits":6}), which the plugin reads.
+		// SuperDirt fixes the orbit count here at boot: too few orbits and the
+		// plugin refuses to install the mixer rather than mis-routing events.
 		// our DSP layer: dub delay + dub reverb per orbit, master chain, extra
 		// instruments. Defined here (not in the pi-tidal plugin) because sclang
 		// runs this file on every boot — see sc/init.scd for the architecture.
@@ -43,6 +46,10 @@ Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
 			~d4 = ~dirt.orbits[3]; ~d5 = ~dirt.orbits[4]; ~d6 = ~dirt.orbits[5];
 			~d7 = ~dirt.orbits[6]; ~d8 = ~dirt.orbits[7]; ~d9 = ~dirt.orbits[8];
 			~d10 = ~dirt.orbits[9]; ~d11 = ~dirt.orbits[10]; ~d12 = ~dirt.orbits[11];
+			~d13 = ~dirt.orbits[12]; ~d14 = ~dirt.orbits[13]; ~d15 = ~dirt.orbits[14];
+			~d16 = ~dirt.orbits[15]; ~d17 = ~dirt.orbits[16]; ~d18 = ~dirt.orbits[17];
+			~d19 = ~dirt.orbits[18]; ~d20 = ~dirt.orbits[19]; ~d21 = ~dirt.orbits[20];
+			~d22 = ~dirt.orbits[21]; ~d23 = ~dirt.orbits[22]; ~d24 = ~dirt.orbits[23];
 		);
 	};
 	s.latency = 0.3; // increase this if you get "late" messages

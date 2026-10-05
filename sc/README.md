@@ -28,6 +28,25 @@ SC tests require a genuinely isolated startup/configuration and server port,
 or an explicitly authorized check through the existing `tidal_sc` transport.
 Do not boot, restart or evaluate live patterns just to validate a draft.
 
+## Orbit count and scene channels
+
+SuperDirt's orbit count is fixed when it boots, from the out-bus list in
+`superdirt_startup.scd`: `~dirt.start(57120, 0 ! (channels * orbits))`. It is
+currently **24** (4 scene channels x 6 local orbits).
+
+- `sc/scene-mixer.json` declares the same geometry (`{"channels":4,"orbits":6}`)
+  and is what the pi-tidal plugin reads (env vars `PI_TIDAL_SCENE_CHANNELS` /
+  `PI_TIDAL_SCENE_ORBITS` override it; default 2 x 6).
+- Scene mode gives each channel six *consecutive* orbits (channel 0 -> 0-5,
+  channel 1 -> 6-11, ...), re-pointing them at that channel's mixer bus.
+- `sc/routing.scd` maps **every** orbit to a group bus (the 12-block repeats for
+  higher indices); an unmapped orbit bypasses group processing entirely, which
+  is the "two-tier mix" trap.
+- The boot self-test fires one event per orbit, so 24 orbits means a slower boot
+  and ~72 per-orbit FX synths. Change the number in both files together and
+  restart the stack — the plugin refuses to install the mixer if the running
+  server has too few orbits.
+
 ## Adding a parameter, effect or instrument (the recipe)
 
 Built so it needs no thought and cannot be done half-way:

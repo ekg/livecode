@@ -167,11 +167,17 @@ var n = 2;
 // ---------------------------------------------------------------- API
 // orbit -> group (explicit map: `this` inside a Function is NOT the enclosing
 // Event, which is what made the first version hang the boot)
-// all 12 orbits assigned: kit (0-3) drums, bass (4), keys/voices (5-7) music,
-// extras (8-11) fx. Full coverage avoids the two-tier mix where unmapped
-// orbits bypass the group processing entirely.
+// Blocks of 12: kit (0-3) drums, bass (4), keys/voices (5-7) music, extras
+// (8-11) fx. Full coverage avoids the two-tier mix where unmapped orbits bypass
+// the group processing entirely. Scene mode needs SIX consecutive orbits per
+// channel (4 channels => 24 orbits), so every orbit must be mapped: the 12-block
+// repeats for higher indices. Keep this in step with the orbit list in
+// superdirt_startup.scd and sc/scene-mixer.json in this repo.
 ~orbitGroupMap = (0: \drums, 1: \drums, 2: \drums, 3: \drums, 4: \bass,
 	5: \music, 6: \music, 7: \music, 8: \fx, 9: \fx, 10: \fx, 11: \fx);
+~dirt.orbits.do { |orbit, i|
+	if(i >= 12) { ~orbitGroupMap = ~orbitGroupMap.put(i, ~orbitGroupMap[i % 12]) };
+};
 
 ~route = (
 	assign: ~orbitGroupMap,
