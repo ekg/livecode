@@ -1,0 +1,79 @@
+-- 168 — WARM MACHINE. 74 BPM, D major area, one cycle = one bar. Weird, warm, evolving.
+--
+-- HARMONY — chords/progressions.txt, family royal-road-progressions, key d, VERBATIM:
+--   Gmaj9 -> Bm9 -> Em9 -> A9   (the "royal road": IV - vi - ii - V, back to I)
+--   found via: tools/search.sh --source chords 'royal-road' 'key:d' --body
+--   Warm and loopable; the corpus supplies the voicings, I only place them.
+--
+-- BEATS — the wild part, and it is all Tidal structure rather than new samples:
+--   * the kick's euclid CHANGES every bar (t(3,8) -> t(4,8) -> t(5,8) -> t(6,8) ...),
+--     so the floor is never quite the same two bars running;
+--   * a rimshot sits on a 13-grid — an odd prime that will not line up with the kick;
+--   * hats stutter with stutWith instead of a tight flam (a 13ms offset reads as a
+--     click, not a flam: that lesson is already in 152's history);
+--   * the lead's Plaits ENGINE changes every bar (string / chord / modal / wavetable),
+--     which changes its whole character, not just its pitch.
+--
+-- KIT — every bank index checked against the real sorted listing before use:
+--   k808S=kick, s808b=snare, h808O/C/P + sh808=hats, t808M/H=toms, cn808=conga,
+--   h2ogm*:3/8/13/18=Kick-Soft/Snare-Soft/SnareRimshot-Soft/Ride-Soft.
+--
+-- Orbit map (owner lanes carry the orbit-global FX; siblings repeat or omit them):
+--   0 drums dry (orbit 0 is the master's SIDECHAIN DETECTOR) | 1 bass dry |
+--   2 chords into the dub delay | 3 lead into reverb | 4 texture through tape |
+--   5 send accents + silent reset clock. All pitched lanes carry keyShift 0.
+-- @scene {"title":"Warm Machine","cps":0.30833333333333335,"quantize":4}
+{- @sc
+// 64-cycle form: A(0-15) sparse - B(16-31) opens up - C(32-47) bright/dry - D(48-63) exhale.
+// Because this drives the CHANNEL tone/wet/gain, the arrangement breathes without
+// touching any global master control.
+scene[\mod].value({ |cycles|
+    var c = cycles.mod(64);
+    // NB: sclang variable names must start lowercase - `A`/`B`/`C`/`D` are class names,
+    // and using them as vars makes the whole SC block fail to compile.
+    var secA = (c >= 0) * (c < 16);
+    var secB = (c >= 16) * (c < 32);
+    var secC = (c >= 32) * (c < 48);
+    var secD = (c >= 48);
+    var arch = (cycles * (2pi / 64)).sin;
+    var breathe = (cycles * (2pi / 9)).sin;
+    [3200 + (arch * 1600) + (secC * 1400) - (secA * 1200) - (secD * 900),
+     0.09 + (secB * 0.07) + (secD * 0.04) + (breathe * 0.01),
+     0.12 + (secB * 0.10) + (secD * 0.06),
+     0.90 + (arch * 0.035) - (secA * 0.10) - (secD * 0.08)];
+});
+-}
+
+-- ORBIT 0: the floor, dry. Euclid changes every bar; gain breathes over 8.
+-- The kick's euclid now walks PRIME grids as well as even ones (13 is the fun one:
+-- it never lines up with the 8 or the 4, so the floor keeps surprising you).
+d1 $ struct "<t(3,8) t(5,13) t(4,8) t(6,13,3) t(5,8) t(4,13) t(6,8) t(7,13,5)>" $ every 8 (within (0.75,1) (# crush 5)) $ s "k808S" # orbit 0 # gain (slow 8 $ range 0.52 0.72 sine) # shape 0.35 # hpf 62 # lpf 3200 # release 0.09 # verbSend 0 # ddSend 0 # room 0
+
+d2 $ struct "<t(5,13,3) t(7,13,5) t(5,13,3) t(3,13)>" $ sometimesBy 0.25 (# crush 9) $ s "h2ogmsn:13" # orbit 0 # gain (slow 4 $ range 0.26 0.40 saw) # hpf 300 # lpf 6200 # pan (slow 8 $ range 0.35 0.65 sine) # release 0.07 # verbSend 0.05 # room 0.25 # verbT60 0.8 # ddSend 0
+
+d3 $ degradeBy 0.2 $ sometimesBy 0.3 (stutWith 2 0.125 (|* gain 0.55)) $ swingBy 0.12 8 $ s "sh808(7,16,3)" # orbit 0 # gain (slow 8 $ range 0.13 0.30 saw) # hpf 2600 # lpf 12000 # pan (slow 16 $ range 0.3 0.7 sine) # release 0.05 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: bass, dry and warm. A five-step figure against a three-step floor.
+d5 $ struct "<t(3,8) t(5,16,2) t(4,8) t(3,8) t(5,8) t(4,8) t(3,8) t(5,16,2)>" $ n (slow 8 $ "<d1 d1 a1 g1 b1 a1 g1 e1>") # s "dubsynth" # orbit 1 # gain 0.5 # amp 0.7 # waveMix 0.14 # subMix 0.45 # subTone 0.3 # detune 0.05 # cutoff 460 # fenv 1.7 # res 0.2 # drive 0.14 # attack 0.008 # sustain 0.32 # release 0.22 # hpf 34 # lpf 760 # keyShift 0 # verbSend 0 # ddSend 0
+
+d6 $ s "dubsub(2,5)" # orbit 1 # note (slow 8 $ "<d1 a1 g1 e1>") # drive 0.1 # pitchEnv 0.2 # legato 1.2 # sustain 0.24 # release 0.2 # amp 0.85 # gain 0.34 # hpf 32 # lpf 180 # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the royal road, one corpus voicing per bar, into the dotted-8th dub delay.
+-- Evolution comes from rotation and a slow gain breathe, not from rewriting the chords.
+d7 $ every 3 (rotR 0.125) $ every 8 (within (0.5,0.75) (jux rev)) $ cat [note "g3 g4 b4 d5 fs5 a5", note "b3 b4 d5 fs5 a5 cs6", note "e3 e4 g4 b4 d5 fs5", note "a3 a4 cs5 e5 g5 b5"] # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.52 0.66 sine) # amp 0.34 # cutoff 3600 # waveMix 0.1 # sustain 1.2 # release 1.7 # pan 0.46 # keyShift 0 # vib 0.06 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.30 # ddSend 0.30 # ddHp 900 # ddLp 4200 # ddDrive 0.07 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.4 # verbT60 1.8
+
+-- ORBIT 3: the lead. Engine changes every bar, so its VOICE morphs, not just its notes.
+d8 $ every 4 (within (0.75,1) (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 1.5)))) $ n "<a4 ~ cs5 ~ e5 ~ fs5 g5 ~ e5 ~ cs5 ~ a4 ~>" # s "miLead" # orbit 3 # gain 0.46 # amp 0.42 # engine "<11 6 12 5>" # harm (slow 8 $ range 0.3 0.6 sine) # timbre (slow 16 $ range 0.2 0.8 saw) # morph (slow 16 $ range 0 1 sine) # cutoff 7600 # attack 0.02 # release 0.7 # sustain 0.45 # pan 0.6 # keyShift 0 # vib 0.2 # vibRate 5.2 # trem 0.08 # tremRate 4.0 # verbSend 0.34 # room 0.68 # verbT60 2.8 # ddSend 0 # delayfeedback 0
+
+-- ORBIT 4: texture through tape. An inspected Loopmasters percussion loop, resliced,
+-- with occasional reversal; the vowel param works on SAMPLES (not on custom synths).
+d9 $ every 5 (within (0.5,0.75) (|* speed (-1))) $ slice 16 "0 3 ~ 7 11 ~ 14" $ s "lpviz:45" # orbit 4 # gain (slow 8 $ range 0.16 0.26 sine) # speed (slow 16 $ range 0.9 1.15 sine) # sustain 0.1 # hpf 900 # lpf 6800 # pan (slow 8 $ range 0.3 0.7 sine) # crush 16 # shape 0 # tape 0.3 # tapeWow 0.2 # tapeHiss 0.006 # ddSend 0.14 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
+
+-- A formant-coloured glass ghost: vowel works here because this is a sample.
+d10 $ every 6 (within (0.25,0.5) (# vowel "<a o e>")) $ degradeBy 0.3 $ s "sprvibe(3,8,2)" # n 0 # note "<d5 fs5 a5 b5 a5 fs5 e5 d5>" # orbit 4 # gain 0.2 # begin 0 # end 0.5 # hpf 400 # lpf 9000 # release 0.4 # pan (slow 4 $ range 0.25 0.75 sine) # tape 0.2 # tapeWow 0.14 # ddSend 0.1 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.16 # room 0.45 # verbT60 2.2
+
+-- ORBIT 5: one delay throw on the last bar of every 8, and a silent reset clock so no
+-- send can latch across a rest on this orbit. whenmod 8 7 = cycles where c mod 8 >= 7.
+d11 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ struct "~ ~ ~ t" $ s "t808H" # orbit 5 # gain 0.2 # hpf 700 # lpf 7200 # sustain 0.2 # release 0.3 # pan "0.2 0.8" # ddSend 0.32 # delayfeedback 0.32 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.3 # room 0.6 # verbT60 2.6
+
+d12 $ s "h2ogmhh:13*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
