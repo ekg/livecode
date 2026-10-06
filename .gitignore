@@ -10,3 +10,7 @@ tests/reports/
 albums/**/*.flac
 albums/**/*.mp3
 albums/**/*.opus
+sc/engine.log
+sc/scene-diagnostic.log
+sc/spectrum.log
+session.id

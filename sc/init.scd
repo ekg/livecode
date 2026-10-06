@@ -110,6 +110,11 @@ stage.("load project samples", {
 stage.("load project voices", {
 	["chords", "mi", "dubsynth", "orkrhodes", "horhodes"].do { |f| this.executeFile(sc ++ "/" ++ f ++ ".scd") };
 });
+stage.("load mix metering", {
+	// Defines \piBandMeter and ~spectrumStart/~spectrumReport/~spectrumStop only;
+	// no meter synth runs until ~spectrumStart.value is called. See sc/README.md.
+	this.executeFile(sc ++ "/spectrum.scd");
+});
 stage.("verify project sounds", {
 	// fail LOUDLY: a missing alias here is exactly the silent-mix bug above.
 	var names = [\p70kick, \p70snare, \p70soft, \p70hat, \p70rhodes, \p76bass, \sh808,

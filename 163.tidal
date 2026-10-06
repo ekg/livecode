@@ -71,16 +71,16 @@ d4 $ mask formGate $ swingBy (1/6) 4 $ s "~ ~ h2ogmhh:13 ~ ~ ~ h2ogmhh:13 ~" # o
 d5 $ mask formGate $ n bassLine # s "dubsynth" # orbit 1 # gain 0.52 # amp 0.7 # waveMix 0.28 # subMix 0.42 # subTone 0.30 # detune 0.06 # cutoff 520 # fenv 2.4 # res 0.28 # drive 0.30 # attack 0.006 # sustain 0.44 # release 0.20 # hpf 34 # lpf 900 # verbSend 0 # room 0 # ddSend 0
 
 -- ORBIT 2: comping keys into the dub delay, locked to a dotted 8th (0.1875 cycle).
-d6 $ mask formGate $ struct compRhythm $ n chords # s "hoRhodes" # orbit 2 # gain 0.62 # amp 0.34 # cutoff 3400 # waveMix 0.09 # pan "0.44 0.56" # sustain 1.1 # release 1.5 # delaytime 0.1875 # lock 1 # delayfeedback 0.30 # ddSend 0.34 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.60 # ddDuck 0.50 # verbSend 0.10 # room 0.35 # verbT60 1.6
+d6 $ mask formGate $ struct compRhythm $ n chords # s "hoRhodes" # orbit 2 # gain 0.62 # amp 0.34 # cutoff 3400 # waveMix 0.09 # vib 0.07 # vibRate 4.4 # trem 0.12 # tremRate 3.6 # pan "0.44 0.56" # sustain 1.1 # release 1.5 # delaytime 0.1875 # lock 1 # delayfeedback 0.30 # ddSend 0.34 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.60 # ddDuck 0.50 # verbSend 0.10 # room 0.35 # verbT60 1.6
 
 -- ORBIT 3: lead into the dub reverb, wetter, one distinct space (long T60 tail).
-d7 $ mask leadGate $ swingBy (1/6) 4 $ n leadLine # s "miLead" # orbit 3 # gain 0.50 # amp 0.5 # engine 12 # harm 0.42 # timbre 0.55 # morph 0.5 # cutoff 7000 # attack 0.02 # release 0.8 # sustain 0.50 # pan 0.58 # verbSend 0.42 # room 0.70 # verbT60 3.2 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1
+d7 $ mask leadGate $ swingBy (1/6) 4 $ n leadLine # s "miLead" # orbit 3 # gain 0.50 # amp 0.5 # engine 12 # harm 0.42 # timbre 0.55 # morph 0.5 # cutoff 7000 # vib 0.22 # vibRate 5.4 # trem 0.10 # tremRate 4.2 # attack 0.02 # release 0.8 # sustain 0.50 # pan 0.58 # verbSend 0.42 # room 0.70 # verbT60 3.2 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1
 
 -- ORBIT 4: textures with tape + delay. Ghost vibraphone shadowing the quartal voicings.
 d8 $ mask vibeGate $ swingBy (1/6) 4 $ n vibeLine # s "sprvibe" # orbit 4 # gain 0.34 # speed 1 # begin 0 # end 1 # sustain 0.5 # release 0.4 # hpf 200 # lpf 9000 # pan "0.35 0.65" # tape 0.28 # tapeWow 0.22 # tapeHiss 0.012 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddSend 0.16 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.40 # verbT60 2.0
 
 -- Eerie electric keys on the same taped orbit: one long dyad per bar, dusty and slow.
-d9 $ mask padGate $ struct "t ~ ~ ~" $ n keyPad # s "sweetChords" # orbit 4 # gain 0.40 # amp 0.5 # cutoff 3600 # fmIndex 1.3 # ratio 1.5 # drive 1.2 # sub 0.4 # width 0.8 # attack 0.30 # release 2.4 # sustain 1.8 # pan "0.40 0.60" # tape 0.20 # tapeWow 0.18 # tapeHiss 0.010 # delaytime 0.1875 # lock 1 # delayfeedback 0.24 # ddSend 0.20 # ddHp 500 # ddLp 4000 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.20 # room 0.50 # verbT60 2.6
+d9 $ mask padGate $ struct "t ~ ~ ~" $ n keyPad # s "sweetChords" # orbit 4 # gain 0.40 # amp 0.5 # cutoff 3600 # fmIndex 1.3 # ratio 1.5 # drive 1.2 # sub 0.4 # width 0.8 # vib 0.04 # vibRate 2.2 # trem 0.20 # tremRate 1.6 # attack 0.30 # release 2.4 # sustain 1.8 # pan "0.40 0.60" # tape 0.20 # tapeWow 0.18 # tapeHiss 0.010 # delaytime 0.1875 # lock 1 # delayfeedback 0.24 # ddSend 0.20 # ddHp 500 # ddLp 4000 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.20 # room 0.50 # verbT60 2.6
 
 -- ORBIT 5: send bursts only. A short reversed vibes swell throws high send into the
 -- delay and reverb; feedback stays bounded at <= 0.34.

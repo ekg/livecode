@@ -16,6 +16,15 @@ Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
 	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
 	s.options.numInputBusChannels = 0; // output-only Tidal stack: never create PipeWire mic capture ports
 	s.options.useSystemClock = false; // SC 3.13 default (true) makes scsynth exit cleanly with pipewire-jack
+	// Dropout headroom. This engine deliberately runs WITHOUT realtime priority
+	// (see tools/scsynth-log.sh: a non-RT PipeWire client, rtprio=0) to avoid the
+	// inherited 200ms RTTIME SIGKILL, so its audio callback competes with normal
+	// scheduling. The default blockSize of 64 gives the callback only ~1.3ms of
+	// CPU per block; 256 gives ~5.3ms for the same DSP, which is the real fix for
+	// dropouts under load. The added latency is inaudible next to s.latency = 0.3.
+	// hardwareBufferSize is NOT set on purpose: with pipewire-jack the period size
+	// comes from the PipeWire graph, so scsynth's value would be ignored.
+	s.options.blockSize = 256;
 	// boot the server and start SuperDirt
 	s.waitForBoot {
 		~dirt.stop; // stop any old ones, avoid duplicate dirt (if it is nil, this won't do anything)

@@ -8,7 +8,7 @@
 	['dirt_dubverb', [\verbSend, \room, \verbT60, \verbDamp, \size, \verbEarly, \verbHp, \verbPre, \verbLow, \verbHigh, \verbLowcut, \verbHighcut, \verbTone, \verbMod, \verbWidth]],
 	['dirt_tape', [\tape, \tapeWow, \tapeHf, \tapeHiss]],
 	['dirt_monitor', [\limitertype]],
-	['instrument', [\cutoff, \fenv, \res, \drive, \sub, \spread, \attack, \pitchEnv, \detune, \fmix, \wavemix]],
+	['instrument', [\cutoff, \fenv, \res, \drive, \sub, \spread, \attack, \pitchEnv, \detune, \fmix, \wavemix, \vib, \vibRate, \trem, \tremRate, \keyShift]],
 	['dubsynth', [\waveMix, \subMix, \subTone, \spread]],
 	['miLead', [\engine, \harm, \timbre, \morph, \level, \lpgColour]],
 	['sweetChords', [\fmIndex, \ratio, \drive, \sub, \width]],

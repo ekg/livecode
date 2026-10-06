@@ -1,0 +1,62 @@
+-- Source: /home/erik/livecode/152.tidal (read-only conversion).
+-- 152: TECHNO MASHUP — SEVEN NATION ARMY (hook) x PERSONAL JESUS (bass).
+-- @scene {"title":"TECHNO MASHUP — SEVEN NATION ARMY (hook) x PERSONAL JESUS (bass)","cps":0.5833,"quantize":2}
+-- Quantize 2: align two-bar phrase / chord cell; no transport IO.
+-- Chosen section: actual single executable checkpoint, not historical header aspirations.
+-- Inert m* dropped; silence lanes omitted. Notes/rhythm/gain and existing sends preserved.
+-- Orbit-global competing writers removed; all lanes repeat their owner values identically.
+-- Provenance: Real material dug from ~/tunepile/tabs-tidal (50347 pile files, searched with fielded terms):
+-- Provenance: A) The White Stripes — Seven Nation Army (bass-guitar riff, E minor, 120 BPM)
+-- Provenance: ~/tunepile/tabs-tidal/White_Stripes_-_Seven_Nation_Army.gp3-445e143a.tidal
+-- Provenance: B) Depeche Mode — Personal Jesus (G/Bb bass pump, G minor, 135 BPM)
+-- Provenance: ~/tunepile/tabs-tidal/Depeche_Mode_-_Personal_Jesus.gp3-e3c49508.tidal
+-- Provenance: RECONCILED to ONE key + tempo: C natural minor at 140 BPM (cps 0.5833).
+-- Provenance: A: E minor -> C minor = DOWN 4 semitones. Riff E3 E3 G3 E3 D3 C3 B2 -> C3 C3 Eb3 C3 Bb2 Ab2 G2,
+-- Provenance: lifted +1 octave into lead register: c4 c4 ef4 c4 bf3 af3 g3. Kept whole, under `slow 2`.
+-- Provenance: B: G minor -> C minor = UP 5 semitones. G2 Bb2 -> C3 Eb3, dropped -1 octave to bass register
+-- Provenance: c2/ef2; the G/Bb quarter pump becomes a relentless 16th-note C/Eb driver.
+-- Provenance: A's 120 BPM and B's 135 BPM are both fitted to the one floor tempo, 140 BPM.
+-- Provenance: TECHNO FRAME: 4/4; four-on-the-floor k808S; offbeat open hats h808O; c808 clap + s808b snare on
+-- Provenance: 2 & 4; driving 16th dubsynth bass; a long 32-cycle master filter opening + tape saturation.
+-- Provenance: NO VOICES anywhere: texture is bowed strings, 808 perc and synths only.
+-- BALANCE PASS (2026-10-06) - driven by sc/spectrum.scd band metering, not by ear.
+-- Two problems, both measured as the master's band shares (sub|bass|lowmid|mid|highmid|top):
+--   1. The kick owned the mix: k808S with hpf 46 at gain 0.9 put 81% of band energy below
+--      60Hz - and because orbit 0 is the master's SIDECHAIN DETECTOR, that kick also ducked
+--      every other channel. Fix: gain 0.9 -> 0.6, hpf 46 -> 95, release 0.09 -> 0.07.
+--      Result: 81 15 2 1 0 0  ->  21 49 22 6 2 1.
+--   2. The bass rasped ("broken speaker / appliance"): dubsub drive 0.6 means 4x gain into
+--      tanh, and dubsynth drive 0.35 means 2.4x - saturation harmonics on a 4/8 sub pattern.
+--      Fix: dubsub drive 0.6 -> 0.08, pitchEnv 0.5 -> 0.22, legato 1.6 -> 1.2;
+--           dubsynth drive 0.35 -> 0.10, res 0.18 (the 0.35 default was ringing on every
+--           16th), waveMix 0.18 -> 0.12, fenv 2.2 -> 1.5.
+--      Result: 21 49 22 6 2 1  ->  5 56 23 12 4 2  (the mid band rose as the mask lifted).
+-- The harsher earlier version was liked too - the RAW values, to restore in one edit:
+--   d1  k808S(4,8) gain 0.9 shape 0.6 hpf 46 release 0.09 ; k808S(7,16) gain 0.24 hpf 70 release 0.05
+--   d4  dubsynth waveMix 0.18 cutoff 420 fenv 2.2 drive 0.35 sustain 0.16 release 0.14 lpf 1800 gain 0.6
+--   d10 dubsub drive 0.6 pitchEnv 0.5 legato 1.6 sustain 0.28 release 0.25 amp 0.85 gain 0.6 hpf 26 lpf 210
+-- Note the drive knob is a tanh saturator: (1 + drive*5) in dubsub, (1 + drive*4) in dubsynth,
+-- so it is a gain-into-saturation control, not a tasteful flavour amount.
+-- Meter: ~spectrumStart.value / ~spectrumReport.value; the table also lands in sc/spectrum.log.
+-- Orbit 0: d1,d3,d7,d12; kick/drum sidechain detector; dry sends; global owner d1.
+-- Orbit 1: d4,d10; bass/sub (dry except approved 145 tail); global owner d4.
+-- Orbit 2: d6,d9,d13; keys/stabs/vibes: dub delay; global owner d9.
+-- Orbit 3: d5,d11; lead/wet snare/strings: reverb; global owner d5.
+-- Orbit 4: d8,d14; percussion/texture: tape; global owner d8.
+-- Orbit 5: d2; send accents: isolated delay; reset clock; global owner d2.
+d1 $ stack [s "k808S(4,8)" # gain 0.6 # shape 0.6 # hpf 95 # release 0.07, s "k808S(7,16)" # gain 0.18 # hpf 120 # release 0.05] # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d2 $ sometimesBy 0.35 (off 0.015625 (fast 2)) $ euclidOff 7 16 1 $ s "c808" # gain 0.55 # hpf 260 # lpf 9000 # pan (slow 4 $ range 0.2 0.8 saw) # speed 1.25 # verbSend 0.15 # room 0.45 # ddSend 0.25 # orbit 5 # size 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
+d3 $ s "h808O(4,8,1)" # gain "<0.5 0.42>" # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d4 $ note "c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2" # s "dubsynth" # waveMix 0.12 # cutoff 380 # fenv 1.5 # res 0.18 # drive 0.10 # sustain 0.16 # release 0.14 # lpf 1700 # gain 0.5 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d5 $ slow 2 $ note "c4 ~ ~ ~ ~ ~ c4 ~ ef4 ~ ~ c4 ~ ~ bf3 ~ af3 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.7 # cutoff 5200 # attack 0.006 # release 0.3 # lpf 6500 # verbSend 0.15 # room 0.5 # ddSend 0.15 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
+d6 $ slow 4 $ note "<[c3,ef3,g3] [af2,c3,ef3] [ef3,g3,bf3] [bf2,d3,f3]>" # s "hoRhodes" # gain 0.5 # cutoff 3200 # attack 0.06 # release 2.2 # lpf (range 1000 2600 $ slow 16 sine) # verbSend 0.25 # room 0.55 # ddSend 0 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d7 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.28 0.22>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d8 $ s "sh808(7,16,3)" # gain 0.28 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d9 $ s "mars_synths_DX100_Vibes(3,8,2)" # n 0 # note "<c5 ef5 g5 bf5 g5 ef5 d5 c5>" # gain 0.42 # hpf 300 # lpf 5500 # verbSend 0.2 # ddSend 0.2 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d10 $ s "dubsub(4,8,1)" # note (slow 4 $ "<c1 af1 ef1 bf1>") # drive 0.08 # pitchEnv 0.22 # legato 1.2 # sustain 0.26 # release 0.22 # amp 0.85 # gain 0.5 # hpf 30 # lpf 190 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d11 $ slow 2 $ s "cb3" # speed 1 # gain 0.42 # hpf 140 # lpf 2400 # attack 0.4 # release 3 # verbSend 0.22 # room 0.6 # ddSend 0 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
+d12 $ s "t808M(5,16,3)" # gain 0.4 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d13 $ every 4 (# gain 0) $ note "<[c3,ef3,g3] ~ [af2,c3,ef3] ~ [ef3,g3,bf3] ~ [bf2,d3,f3] ~>" # s "sweetChords" # gain 0.4 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # ddSend 0.1 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d14 $ weave 8 (s "sh808(7,16,3)" # gain 0.22) [s "t808H(5,16,2)" # gain 0.26, s "cn808(3,16,1)" # gain 0.28] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+-- d16: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
+d16 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # size 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35

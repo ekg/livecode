@@ -68,6 +68,11 @@ let pitchEnv = pF "pitchEnv"
 let detune = pF "detune"
 let fmix = pF "fmix"
 let wavemix = pF "wavemix"
+let vib = pF "vib"
+let vibRate = pF "vibRate"
+let trem = pF "trem"
+let tremRate = pF "tremRate"
+let keyShift = pF "keyShift"
 
 -- dubsynth
 let waveMix = pF "waveMix"

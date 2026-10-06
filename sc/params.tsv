@@ -17,7 +17,7 @@ dirt_dubverb	verbSend room verbT60 verbDamp size verbEarly verbHp verbPre verbLo
 dirt_tape	tape tapeWow tapeHf tapeHiss
 dirt_monitor	limitertype:i
 
-instrument	cutoff fenv res drive sub spread attack pitchEnv detune fmix wavemix
+instrument	cutoff fenv res drive sub spread attack pitchEnv detune fmix wavemix vib vibRate trem tremRate keyShift
 
 dubsynth	waveMix:f subMix:f subTone:f spread:f
 miLead	engine:i harm:f timbre:f morph:f level:f lpgColour:f

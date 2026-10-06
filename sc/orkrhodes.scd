@@ -7,16 +7,19 @@
 (
 SynthDef(\orkRhodes, { |out = 0, freq = 440, sustain = 1, pan = 0, amp = 0.4,
     cutoff = 3200, res = 0.5, attack = 0.014, release = 0.55,
-    waveMix = 0.35|
+    waveMix = 0.35, keyShift = 0, vib = 0, vibRate = 5.2, trem = 0, tremRate = 4.4|
+    // +/-`vib` semitones at `vibRate` Hz, tremolo depth `trem` at `tremRate` Hz.
+    var f = freq * (2 ** (keyShift.clip(-24, 24) / 12)) * (1 + (SinOsc.kr(vibRate.clip(0.05, 12)) * vib.clip(0, 2) * 0.0595));
+    var tremolo = 1 - (trem.clip(0, 1) * (1 - SinOsc.kr(tremRate.clip(0.01, 20))) * 0.5);
     var env = EnvGen.kr(
         Env.perc(attack.clip(0.002, 0.2),
             (sustain * 0.45 + release).clip(0.3, 3.4), 1, -4), doneAction: 2);
-    var pulse = Pulse.ar(freq * [1, 2.pow(33.5 / 12)], [0.23, 0.115],
+    var pulse = Pulse.ar(f * [1, 2.pow(33.5 / 12)], [0.23, 0.115],
         [0.8, waveMix.clip(0, 0.65)]).sum;
     var sig = BLowPass4.ar(pulse,
-        (freq * 2 + cutoff.clip(400, 9000) * env).clip(70, 12000),
+        (f * 2 + cutoff.clip(400, 9000) * env).clip(70, 12000),
         res.clip(0.2, 0.85));
-    sig = (sig + (SinOsc.ar(freq) * 0.36)) * env * amp * 0.34;
+    sig = (sig + (SinOsc.ar(f) * 0.36)) * env * amp * 0.34 * tremolo;
     Out.ar(out, DirtPan.ar(sig, ~dirt.numChannels, pan));
 }).add;
 ~dirt.soundLibrary.addSynth(\orkRhodes,

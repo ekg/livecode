@@ -1,0 +1,44 @@
+-- @scene {"title":"Seventeen Windows","cps":0.30833333333333335,"quantize":4}
+-- 74 BPM, one cycle = one 4/4 bar; D dorian (all naturals).
+-- Quantize 4 aligns the D/G/C/A harmony; the 17-grid is a subdivision, NOT 17/8.
+-- New slow-funk dub: the 29/34 odd-grid piano world meets 39's binary shadows.
+-- 40's funk ghosts become a reply to 49's and-of-three kick, not a copied take.
+-- 41's D-F#-G harmonium contour becomes D-F-G and grows new modal answers.
+-- 36's wooden tok moves off the melody into tape; lpviz:310 is really a short FX.
+-- 64-bar form: floor / odd entry / lead / dense / hinge / echo pocket / return / exhale.
+-- No master modulation or transport IO; pitched synth lanes explicitly keyShift 0.
+let floorGate = (slow 8 "<t t t t t f t t>") :: Pattern Bool
+let shimmerGate = (slow 8 "<f t f t f t t f>") :: Pattern Bool
+let leadGate = (slow 8 "<f f t t t f t t>") :: Pattern Bool
+let oddGate = (slow 8 "<f t t t t t t f>") :: Pattern Bool
+let dustGate = (slow 8 "<t f f t t t f t>") :: Pattern Bool
+let windowBits = "t t f t f f t f t f f t f t f f" :: Pattern Bool
+let bassWalk = "<[d2 ~ ~ a2 ~ ~ c3 ~] [g2 ~ ~ d3 ~ b2 ~ ~] [c2 ~ ~ g2 ~ ~ e2 ~] [a1 ~ ~ e2 ~ g2 a2 ~]>" :: Pattern Note
+let windowChords = "<[d3,f3,a3,c4,e4] [g3,b3,d4,f4,a4] [c3,e3,g3,b3,d4] [a3,c4,e4,g4,b4]>" :: Pattern Note
+let windowLead = (slow 4 "<[d5 ~ f5 g5 ~ a5 ~ e5] [g5 ~ d5 ~ b4 ~ a4 ~] [e5 g5 ~ d5 ~ b4 ~ c5] [a4 ~ c5 e5 ~ g5 e5 d5]>") :: Pattern Note
+-- Single owner d13 clocks the send window: last quarter of every eighth bar.
+-- 256 slots over eight cycles; four open ticks, then explicit zero send/feedback.
+let burstSend = (slow 8 "0!248 0.48!4 0!4") :: Pattern Double
+let burstVerb = (slow 8 "0!248 0.36!4 0!4") :: Pattern Double
+let burstFeedback = (slow 8 "0!248 0.38!4 0!4") :: Pattern Double
+let throwBar = "<f f f f f f f t>" :: Pattern Bool
+-- Orbit 0 owner d1: dry drum bus for the master sidechain; no other FX writer.
+d1 $ mask floorGate $ swingBy (1/12) 2 $ s "<[bd:0 ~ ~ ~ ~ bd:0 ~ ~] [bd:0 ~ ~ bd:0 ~ bd:0 ~ ~]>" # orbit 0 # gain "0.94 0.84" # begin 0 # end 1 # speed 1 # sustain 0.18 # lpf 1700 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+d2 $ mask floorGate $ swingBy (1/12) 2 $ s "~ ~ sn:0 ~ ~ ~ sn:0 ~" # orbit 0 # gain 0.80 # begin 0 # end 1 # speed 1 # sustain 0.14 # hpf 250 # lpf 4800
+d3 $ mask floorGate $ swingBy (1/12) 2 $ struct "t(7,17,<3 6 3 8>)" $ s "hh:0" # orbit 0 # gain "0.66 0.50 0.58 0.48" # begin 0 # end 0.18 # speed 1 # sustain 0.07 # hpf 2400 # pan "0.45 0.55"
+d4 $ mask floorGate $ swingBy (1/12) 2 $ s "<[~ ~ ~ ~ ~ sn:0 sn:0 ~ ~ ~ ~ ~ ~ sn:0 ~ ~] [~ ~ ~ sn:0 ~ ~ ~ ~ ~ ~ ~ sn:0 ~ ~ ~ sn:0]>" # orbit 0 # gain "<[0.34 0.42 0.57] [0.38 0.50 0.44]>" # begin 0 # end 0.7 # speed 1 # sustain 0.09 # hpf 450 # lpf 3600
+-- Orbit 1 owner d5: dry rounded synth bass; the walking answer is wholly new.
+d5 $ mask floorGate $ swingBy (1/12) 2 $ note bassWalk # s "dubsynth" # keyShift 0 # orbit 1 # gain 0.83 # amp 0.60 # waveMix 0.16 # subMix 0.24 # subTone 0.35 # detune 0.04 # cutoff 470 # fenv 1.8 # res 0.30 # drive 0.22 # attack 0.006 # sustain 0.28 # hpf 35 # lpf 850 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+-- Orbit 2 owner d6: fifth-coloured D/G/C/A keys into a bounded off-grid 5/12 echo.
+d6 $ mask floorGate $ swingBy (1/12) 2 $ struct "t(3,8,<1 3>)" $ note windowChords # s "hoRhodes" # keyShift 0 # orbit 2 # gain (slow 32 $ range 0.72 0.84 sine) # amp 0.32 # cutoff (slow 16 $ range 1800 3300 sine) # waveMix 0.10 # sustain 0.55 # release 0.70 # pan 0.43 # ddSend 0.28 # delaySend 1 # lock 1 # delaytime (5/12) # delayfeedback 0.32 # ddHp 700 # ddLp 3100 # ddDrive 0.08 # ddWow 0.12 # ddCross 0.65 # ddDuck 0.50 # verbSend 0 # room 0
+d7 $ mask shimmerGate $ every 4 rev $ struct "t(3,17,8)" $ note "<[a4,e5] [d5,a5] [g4,d5] [e5,b5]>" # s "hoRhodes" # keyShift 0 # orbit 2 # gain (slow 32 $ range 0.68 0.78 cosine) # amp 0.24 # cutoff 2800 # waveMix 0.08 # sustain 0.35 # release 0.60 # pan 0.62
+-- Orbit 3 owner d8: modal string lead, long breathing phrase in its own reverb.
+d8 $ mask leadGate $ swingBy (1/12) 2 $ note windowLead # s "miLead" # keyShift 0 # orbit 3 # gain 0.77 # amp 0.44 # engine 11 # harm 0.32 # timbre 0.42 # morph 0.38 # cutoff 4700 # vib 0.10 # vibRate 4.8 # attack 0.012 # sustain 0.45 # release 0.70 # pan 0.57 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0.34 # room 0 # size 0.76 # verbT60 3.4 # verbHp 650 # verbTone 4400 # verbDamp 0.60
+-- Orbit 4 owner d9: wooden 5-against-17, tape is per-event (not an orbit global).
+d9 $ mask oddGate $ every 8 rev $ struct "t(5,17,<0 4 7 2>)" $ s "tok:0" # orbit 4 # gain "0.73 0.61 0.65" # begin 0 # end 1 # speed 1 # sustain 0.12 # hpf 700 # lpf 3900 # pan (slow 8 $ range 0.25 0.65 sine) # tape 0.22 # tapeWow 0.18 # tapeHf 4200 # tapeHiss 0 # ddSend 0 # delaySend 0 # delayfeedback 0 # verbSend 0 # room 0
+d10 $ mask dustGate $ slow 2 $ s "lpviz:310 ~ ~ lpviz:310 ~ ~ ~ ~" # orbit 4 # gain 0.66 # begin (slow 2 "<0.08 0.32>") # end (slow 2 "<0.30 0.56>") # speed 0.8 # sustain 0.22 # hpf 1800 # lpf 5100 # pan "0.30 0.70" # tape 0.28 # tapeWow 0.24 # tapeHf 3800 # tapeHiss 0
+d11 $ mask oddGate $ mask (slow 2 windowBits) $ struct windowBits $ s "click:0" # orbit 4 # gain 0.63 # begin 0 # end 1 # speed 1 # sustain 0.035 # hpf 4200 # pan 0.72 # tape 0.16 # tapeWow 0.12 # tapeHf 5400 # tapeHiss 0
+-- Orbit 5: d12 supplies sound ONLY; d13 alone owns ALL global FX, including resets.
+d12 $ mask throwBar $ struct "~ ~ ~ t" $ s "lpviz:310" # orbit 5 # gain 0.70 # begin 0.10 # end 0.55 # speed (-1) # sustain 0.22 # hpf 1200 # lpf 4200 # pan "0.22 0.78"
+-- Gain-zero clock stays non-empty even in dropout bars; zero sends cannot latch.
+d13 $ s "click:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # speed 1 # sustain 0.001 # ddSend burstSend # delaySend 1 # lock 1 # delaytime 0.1875 # delayfeedback burstFeedback # ddHp 900 # ddLp 3400 # ddDrive 0.10 # ddWow 0.16 # ddCross 0.75 # ddDuck 0.55 # verbSend burstVerb # room 0 # size 0.82 # verbT60 3.8 # verbHp 800 # verbTone 3800 # verbDamp 0.65

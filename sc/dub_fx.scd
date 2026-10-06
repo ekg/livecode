@@ -87,10 +87,10 @@ var build = { |n, sfx|
 	SynthDef("dubchord" ++ sfx, { |out, freq = 220, sustain = 1, pan = 0,
 		detune = 0.14, cutoff = 700, fenv = 3.2, res = 0.35, drive = 0.35,
 		sub = 0.35, spread = 0.7, attack = 0.004, amp = 0.5,
-		speed = 1, accelerate = 0, sustain2|
+		speed = 1, accelerate = 0, sustain2, keyShift = 0|
 		var env = EnvGen.kr(Env.linen(attack, sustain * 0.65, sustain * 2.4, 1, -3), doneAction: 2);
 		var fmod = EnvGen.kr(Env.perc(0.002, 0.28), levelScale: fenv);
-		var base = freq * DirtFreqScale.kr(speed, accelerate, sustain);
+		var base = freq * (2 ** (keyShift.clip(-24, 24) / 12)) * DirtFreqScale.kr(speed, accelerate, sustain);
 		var osc = Saw.ar(base * [0.5, 1 - detune, 1, 1 + detune]) * [0.5, 0.7, 1, 0.7];
 		var sig = osc.sum;
 		sig = RLPF.ar(sig, (cutoff * (1 + fmod)).clip(40, 17000), res.clip(0.05, 0.95));
@@ -104,9 +104,9 @@ var build = { |n, sfx|
 	// ---------------------------------------------------------------- instrument: sub
 	SynthDef("dubsub" ++ sfx, { |out, freq = 55, sustain = 1, pan = 0,
 		drive = 0.45, amp = 0.8, pitchEnv = 0.6, decay2 = 0.1,
-		speed = 1, accelerate = 0|
+		speed = 1, accelerate = 0, keyShift = 0|
 		var env = EnvGen.kr(Env.linen(0.008, sustain * 0.8, sustain * 1.8, 1, -4), doneAction: 2);
-		var f = freq * DirtFreqScale.kr(speed, accelerate, sustain)
+		var f = freq * (2 ** (keyShift.clip(-24, 24) / 12)) * DirtFreqScale.kr(speed, accelerate, sustain)
 			* (1 + (EnvGen.kr(Env.perc(0.002, 0.12)) * pitchEnv));
 		var sig = SinOsc.ar(f) + (SinOsc.ar(f * 2) * 0.12);
 		sig = (sig * (1 + (drive * 5))).tanh;
@@ -117,9 +117,9 @@ var build = { |n, sfx|
 	// -------------------------------------------------------- instrument: tape stab
 	SynthDef("tapestab" ++ sfx, { |out, freq = 440, sustain = 0.3, pan = 0,
 		cutoff = 1800, res = 0.4, drive = 0.5, amp = 0.4,
-		speed = 1, accelerate = 0|
+		speed = 1, accelerate = 0, keyShift = 0|
 		var env = EnvGen.kr(Env.perc(0.002, sustain * 2.2, 1, -4), doneAction: 2);
-		var base = freq * DirtFreqScale.kr(speed, accelerate, sustain);
+		var base = freq * (2 ** (keyShift.clip(-24, 24) / 12)) * DirtFreqScale.kr(speed, accelerate, sustain);
 		var sig = LFTri.ar(base) + (Saw.ar(base * 1.005) * 0.6);
 		sig = RLPF.ar(sig, cutoff, res.clip(0.05, 0.95));
 		sig = (sig * (1 + (drive * 4))).tanh * 0.5;

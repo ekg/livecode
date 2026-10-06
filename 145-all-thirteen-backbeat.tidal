@@ -1,0 +1,57 @@
+-- Source: /home/erik/livecode/145.tidal (read-only conversion).
+-- 145: ALL THIRTEEN + BACKBEAT — every layer on a 13 grid, half-time, sample-based voices.
+-- @scene {"title":"ALL THIRTEEN + BACKBEAT","cps":0.5,"quantize":1}
+-- Quantize 1: single-bar foundation; no transport IO.
+-- Chosen section: actual single executable checkpoint, not historical header aspirations.
+-- Inert m* dropped; silence lanes omitted. Notes/rhythm/gain and existing sends preserved.
+-- Orbit-global competing writers removed; all lanes repeat their owner values identically.
+-- d4 is active despite header silence claim; parent waived bass-dry preference to preserve ddSend 0.25.
+-- Provenance: Melody (d6) — RHCP "Under the Bridge" (1991) verse line from ~/tunepile; the
+-- Provenance: whole line is F# minor (gs fs e cs, no accidentals). Mars DX100_Marimba at
+-- Provenance: n 0. For SAMPLE melodies `note` IS playback speed: keep the line above ~fs4
+-- Provenance: (gs3/fs3 dragged the sample to molasses) and do not jump an octave up
+-- Provenance: (`|+ note 12` = 2x speed = the squeak).
+-- Provenance: Chords (d9) — SILENCED. It was mars_synths_OB_Strings: an 8-chord progression
+-- Provenance: (F#m D Bm C#m / A E Bm C#m) at slow 4, so each chord held for four bars.
+-- Provenance: The "bassy chord farting along" that survived every hunt was THIS: for a
+-- Provenance: SAMPLE, `note` is playback speed, and the low voicings had roots at b3/a3
+-- Provenance: (~220-246 Hz) while the sample's own root is ~C4 — so those chords played the
+-- Provenance: string machine at 0.6-0.7x, and its tape/chorus wobble stretched into a slow
+-- Provenance: unstable low triad. Third time this trap has bitten (marimba dragging at gs3,
+-- Provenance: the +12 squeak, now this): a sampled voice must stay near its natural register.
+-- Provenance: To bring a pad back: keep every root at fs4 or above, or pick a sample with a
+-- Provenance: lower root, or use a synth voice instead of a sample.
+-- Provenance: Earlier history, kept for the reverb lesson: it was the only wet element and
+-- Provenance: kept swamping the mix (verbSend 0.55 -> 0.22, room 0.45, size 0.5, T60 3.2);
+-- Provenance: with a sparse kit one big reverb reads as "reverb on everything".
+-- Provenance: Drums (d5, d11-d13) — real drum loops, see LOOPS.md for the pNN alias map:
+-- Provenance: p93drumB = "300 breaks/12", p94brkB a Funky break, p93drumA the breaklots
+-- Provenance: loop played whole. These replaced lpmr/lpviz for the cutups: those packs are
+-- Provenance: the WHOLE loopmaster libraries (vocals and FX included) indexed only by n, so
+-- Provenance: `n (choose [...])` sometimes drew a vocal loop — the "mousey" squeak.
+-- Provenance: Vocal feels (d14) — chopped into SINGLE UTTERANCES, not a repeated phrase. The
+-- Provenance: first version repeated one window of one loop every cycle, which read as
+-- Provenance: "repetition everywhere". Now:
+-- Orbit 0: d1,d2,d3,d8,d10; kick/drum sidechain detector; dry sends; global owner d1.
+-- Orbit 1: d4; bass/sub (dry except approved 145 tail); global owner d4.
+-- Orbit 2: unused; keys/stabs/vibes: dub delay.
+-- Orbit 3: d6; lead/wet snare/strings: reverb; global owner d6.
+-- Orbit 4: d5,d7,d11,d12,d13,d15,d16; percussion/texture: tape; global owner d5.
+-- Orbit 5: d14; send accents: isolated delay; reset clock; global owner d14.
+d1 $ s "808bd*4" # gain 0.85 # shape 0.5 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d2 $ s "~ drumtraks:9 ~ drumtraks:9" # gain 0.8 # hpf 420 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d3 $ s "drumtraks:4(5,13)" # gain "0.5 0.3 0.3 0.42 0.3 0.42 0.5 0.3 0.3 0.42 0.3 0.3 0.42" # hpf 1800 # lpf 8000 # pan 0.6 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d4 $ note "<[fs2 ~ ~ fs2 ~ a2 ~ ~ fs2 ~ e2 ~ ~] [fs2 ~ ~ fs2 ~ cs3 ~ ~ a2 ~ fs2 ~ ~]>" # s "dubsynth" # waveMix 0.35 # cutoff 240 # fenv 1.6 # drive 0.6 # sustain 0.16 # release 0.25 # lpf 1100 # gain 0.62 # ddSend 0.25 # verbSend 0 # orbit 1 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+d5 $ s "breaks165(1,13,9)" # gain 0.6 # hpf 250 # lpf 5500 # release 0.18 # ddSend 0 # verbSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d6 $ slow 4 $ note "<[gs4 ~ gs4 fs4 ~ e4 e4 cs4 ~ e4 cs4 fs4 e4 ~ gs4 ~] [gs4 ~ fs4 e4 ~ cs4 e4 cs4 fs4 ~ e4 gs4 fs4 gs4 ~ ~] [gs4 fs4 gs4 e4 ~ gs4 cs4 e4 ~ cs4 fs4 e4 ~ e4 ~ ~] [gs4 ~ gs4 fs4 e4 ~ cs4 ~ e4 cs4 fs4 ~ e4 e4 gs4 ~]>" # s "mars_synths_DX100_Marimba" # n 0 # gain 0.75 # hpf 420 # lpf 9000 # verbSend 0 # ddSend 0 # orbit 3 # delayfeedback 0
+d7 $ s "drumtraks:10(3,13,6)" # gain 0.34 # hpf 2000 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d8 $ s "~ ~ ~ drumtraks:1" # gain 0.62 # hpf 750 # lpf 7200 # release 0.09 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d10 $ s "[~ drumtraks:5]*2" # gain 0.28 # hpf 2600 # lpf 11000 # pan 0.5 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d11 $ s "p93drumB(1,13,2)" # gain 0.5 # speed 0.95 # hpf 180 # lpf 5200 # release 0.18 # ddSend 0 # verbSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d12 $ s "p94brkB(1,13,11)" # gain 0.45 # speed 0.95 # hpf 220 # lpf 5000 # pan 0.4 # release 0.18 # ddSend 0 # verbSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d13 $ s "p93drumA(2,13,4)" # gain 0.42 # hpf 200 # lpf 5200 # release 0.18 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d14 $ s "lpviz(2,13,1)" # n (slow 8 $ "<169 170 171 172 175 176 177 178 180 182 186 188>") # begin "0.05 0.30 0.55 0.12 0.40 0.68 0.22 0.50 0.15 0.35 0.60 0.25 0.45" # end "0.16 0.40 0.66 0.24 0.52 0.78 0.32 0.62 0.28 0.48 0.72 0.38 0.58" # speed "<0.5 1 1 1>" # gain (slow 8 $ "<0.50 0.44 0.54 0.46 0.52 0.42 0.50 0.45 0.54 0.47 0.50 0.43>") # hpf 380 # lpf 5600 # pan 0.55 # verbSend 0 # ddSend 0 # orbit 5 # delayfeedback 0
+d15 $ s "p93perc(1,13,7)" # gain 0.36 # hpf 400 # lpf 6200 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d16 $ s "p94brkD(1,13,4)" # gain 0.34 # hpf 260 # lpf 5000 # release 0.16 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+-- d9: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
+d9 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # delayfeedback 0

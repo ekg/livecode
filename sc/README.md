@@ -47,6 +47,43 @@ currently **24** (4 scene channels x 6 local orbits).
   restart the stack — the plugin refuses to install the mixer if the running
   server has too few orbits.
 
+## Measuring the mix (not guessing it)
+
+`sc/spectrum.scd` answers "who owns the low end?" with numbers. Broadband RMS
+cannot see that a kick is 80% of the energy — it only sees that the total is loud,
+which is exactly why a sub-heavy kick keeps overwhelming mixes here.
+
+```supercollider
+this.executeFile("/home/erik/livecode/sc/spectrum.scd");
+~spectrumStart.value;    // meters master + every live scene channel bus
+// wait a moment: the Amplitude followers need audio blocks to build up
+~spectrumReport.value;   // also appends the table to sc/spectrum.log
+~spectrumStop.value;     // free the meter synths when done
+```
+
+Bands are sub 30-60, bass 60-150, lowmid 150-400, mid 400-1.5k, highmid
+1.5-5k, top 5k-16k, plus a broadband RMS per source. Separately metering each
+scene **channel** is the point: when several tracks play at once it shows which
+one is hogging the low end, which the master's own meter can never tell you.
+
+Worked example from `152-techno-mashup.tidal` — kick `hpf 46 -> 95` and a shorter
+release changed the master's band shares from `81 15 2 1 0 0` to `31 43 19 5 2 1`.
+
+Two honest caveats:
+
+- **No A-weighting.** Energy shares naturally favour bass — real music usually has
+  most energy down low, so treat the numbers as *relative* feedback (did it move?)
+  rather than absolute targets. A rule of thumb that has held here: a kick whose
+  sub band exceeds ~50% of band energy is dominating, and its `hpf` is usually the
+  reason. Raising `hpf` moves energy from sub into bass/low-mid without losing punch.
+- The master's absolute dB column comes from the project's existing `~meterBus`,
+  which is a slow follower and reads low/unstable — trust the band *shares* and the
+  ceiling-use warning, not that dB figure.
+
+Remember the coupling that makes kicks doubly dangerous: **orbit 0's dry bus is the
+master's sidechain detector**, so a loud orbit-0 kick ducks every other channel.
+Fixing the kick's spectrum therefore also buys back headroom for everything else.
+
 ## Adding a parameter, effect or instrument (the recipe)
 
 Built so it needs no thought and cannot be done half-way:

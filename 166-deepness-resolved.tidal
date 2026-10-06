@@ -1,0 +1,98 @@
+-- NEW-DEEPNESS-RESOLVED -- dub stepper in A natural minor at 74 BPM (cps 0.30833333333333335).
+-- Tempo: 74 BPM matches the lo-fi/acoustic pair (159/160/161/163, incl. Blue Hour), so this
+-- scene mixes directly against the current set without a tempo ride.
+-- Key: A natural minor -- the same seven naturals as C major and as Blue Hour's D dorian,
+-- so stacked decks stay consonant while the root colour differs.
+-- Form: 64 cycles, eight 8-cycle sections: intro / groove / groove+snare / lift / space /
+-- crest / crest / exhale. The bass walk is the constant; everything else gates around it.
+-- PROVENANCE (all read in /home/erik/livecode, never invented):
+--   * 3.tidal, "beyyo" 15-Aug-22 "deepness" checkpoint (75 BPM): d1/d2/d3 were ONE reggae
+--     stab, n 329, as a speed canon -- forward speed 2, rev+rotR(1/8) speed 2, jux
+--     rev+rotR(3/8) speed 4, all "chop 8 $ loopAt 2". The n 329 of a 142-file bank wraps
+--     to reggae:45 = dub_clip1.wav (1.06 s, verified against the sorted audio-only
+--     listing): this scene re-plays that exact resolved clip as the same three-voice canon.
+--     Deviation: speed is applied inside loopAt (net x1 / x1 / x2) so at 74 BPM the stab
+--     reads at near-natural pitch instead of the session's net x2 / x2 / x4.
+--   * 3.tidal, "beyyo" 19:28 16-Aug-22: the micro-jitter swing
+--     "nudge (fast 7 \"-0.005 0.005 0.002 -0.003\")" and the 808oh hat on struct t(11,16,14)
+--     with gain flutter (fast 9) and speed flutter (fast 19) -- reused verbatim here.
+--   * 0.tidal, 02-Jan-22 11:30 session: "struct \"~ t ~ t\" $ s \"lpmr\" # 197" -- the
+--     dholak loop reused on d11. lpmr:197 resolves on the audio-only sorted listing to
+--     DHOLAK_120bpm_G.wav (4.00 s). NOTE: lpmr holds 81 non-audio .mid/.MID files; in the
+--     naive all-entries listing this sample sits at index 204, NOT 197. SuperDirt skips
+--     non-audio files, so 197 is the live index. Retimed 120->74 BPM with speed 0.6167.
+--   * 11.tidal, Section D "Blues Shuffle": the four-bar walking bass with chromatic
+--     turns, re-voiced from C into A natural minor on the project's dubsynth voice.
+--   * 2.tidal, 06-Apr-22 "soundscape!": lpviz slice/chop/loopAt texture with a slow
+--     crush staircase "<4 5 7 9>" -- reused on d10 (lpviz:392 = 2020_P_126_ PercLp2.wav,
+--     the same atmospheric layer used by 16.tidal/19.tidal).
+--   * 9.tidal: struct discipline for percussion (t(3,8) shapes), scaled down for the dholak.
+--   * 163.tidal (Blue Hour, read as the modern scene contract): orbit roles, one owner
+--     lane per orbit for FX params, and the orbit-5 burst + gain-0 reset pair.
+--   * FLAG: the early archive's workhorse drum bank cpu2 (0/1/3/14.tidal) is NOT in the
+--     current sound set (neither /home/erik/sounds nor the Dirt-Samples quark); the era's
+--     other kick, 808bd n 3/4, replaces it on d1.
+-- @scene {"title":"Deepness, Resolved","cps":0.30833333333333335,"quantize":4}
+-- Quantize 4: start on a 4-cycle (4-bar) phrase boundary so the 8-cycle section gates and
+-- the cycle-locked dotted-8th delay (delaytime 0.1875, lock 1) stay bar-aligned with the
+-- rest of the running set.
+{- @sc
+// One writer; every movement is a pure function of scene-local cycles.
+scene[\mod].value({ |cycles|
+    var form   = cycles.mod(64);
+    var drums  = (form >= 8) * (form < 32);   // groove body
+    var lift   = (form >= 24) * (form < 32);   // dholak + lead enter
+    var space  = (form >= 32) * (form < 40);   // drums drop out, bass walks alone
+    var crest  = (form >= 40) * (form < 56);   // full canon crest
+    var exhale = form >= 56;                   // slow exhale
+    var arch  = (cycles * (2pi / 64)).sin;
+    var swell = (cycles * (2pi / 16)).sin;
+    [3200 + (arch * 900) - (space * 1400) + (crest * 500) - (exhale * 1500) - (drums * 200),
+     0.08 + (lift * 0.05) + (crest * 0.05),
+     0.10 + (space * 0.12) + (arch * 0.04) + (crest * 0.03) - (exhale * 0.06),
+     0.88 + (swell * 0.03) - (space * 0.05) + (crest * 0.04) - (exhale * 0.08)];
+});
+-}
+-- beyyo micro-jitter swing (3.tidal 16-Aug-22), applied to drums, bass, canon, lead, dholak
+let swing = (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+-- 64-cycle section gates, one step per 8-cycle section (0..7)
+let kickGate = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let snareGate = (slow 8 "<f f t t f t t f>") :: Pattern Bool
+let stabGate = (slow 8 "<t t t t f t t f>") :: Pattern Bool
+let leadGate = (slow 8 "<f f f t f t t f>") :: Pattern Bool
+let texGate = (slow 8 "<t f t t f t t t>") :: Pattern Bool
+let percGate = (slow 8 "<f f f t f t t f>") :: Pattern Bool
+-- orbit-5 throw at the end of each 8-cycle section (cycles 15/31/47/59), as in Blue Hour
+let fxGate = ("<f!15 t f!15 t f!15 t f!11 t f!4>") :: Pattern Bool
+-- walking dub bass, A natural minor, one bar per step (from 11.tidal Section D shape)
+let bassLine = ("<[a2 ~ c3 e3] [b2 ~ c3 e3] [f3 ~ e3 d3] [c3 ~ b2 a2] [a2 c3 e3 g3] [a3 ~ g3 e3] [f3 ~ d3 b2] [e3 ~ c3 a2]>") :: Pattern Note
+-- sparse lead, A minor around the written c5 centre, two hits per bar
+let leadLine = ("<[~ ~ e5 ~ ~ c5 ~ ~] [~ a4 ~ ~ ~ ~ g5 ~] [~ ~ b4 ~ ~ e5 ~ ~] [~ ~ ~ ~ c5 ~ ~ a4] [~ ~ c5 ~ ~ e5 ~ ~] [~ b4 ~ ~ ~ g5 ~ ~] [~ ~ a4 ~ c5 ~ ~ ~] [~ ~ ~ e5 ~ ~ ~ ~]>") :: Pattern Note
+-- ORBIT 0: drums, dry (master sidechain reads orbit 0's dry bus). Owner lane d1 carries the
+-- orbit sends at 0; d2/d3 omit them so the zeros persist.
+d1 $ mask kickGate $ swing $ s "808bd:4(3,8)" # orbit 0 # gain 0.95 # hpf 40 # lpf 480 # sustain 0.28 # verbSend 0 # room 0 # ddSend 0
+d2 $ mask hatGate $ swing $ s "808oh:0(11,16,14)" # orbit 0 # gain (fast 9 "0.5 0.47 0.53") # speed (fast 19 "1 0.97 1.03") # hpf 6000 # lpf 11000 # sustain 0.06
+d3 $ mask snareGate $ swing $ s "<[~ ~ sd:1 ~ ~ ~ sd:1 ~] [~ ~ sd:1 ~ ~ ~ [sd:1, realclaps:2] ~]>" # orbit 0 # gain "<[~ ~ 0.5 ~ ~ ~ 0.44 ~] [~ ~ 0.5 ~ ~ ~ 0.48 ~]>" # hpf 400 # lpf 7000 # sustain 0.12 # pan 0.45
+-- ORBIT 1: bass, dry. The walk is the constant of the form. Written names sound per the
+-- project convention (c5 = middle C), so this sits at MIDI 33-45. NOTE: stock Tidal 1.10.1
+-- defines lpf = cutoff (one control, right side wins), so this lane sets ONLY cutoff 420 --
+-- an lpf after it would silently override the dubsynth filter envelope.
+d5 $ swing $ note bassLine # s "dubsynth" # orbit 1 # keyShift 0 # gain 0.5 # amp 0.8 # waveMix 0.24 # subMix 0.42 # subTone 0.3 # spread 0.6 # detune 0.05 # cutoff 420 # fenv 2.2 # res 0.3 # drive 0.32 # attack 0.006 # vib 0.03 # vibRate 4.2 # sustain 0.55 # hpf 32 # verbSend 0 # room 0 # ddSend 0
+-- ORBIT 2: the deepness speed canon of reggae:45 (dub_clip1.wav) into the dub delay.
+-- Owner lane d6 carries the orbit FX params; d7/d8 omit them (values persist from d6).
+d6 $ mask stabGate $ swing $ chop 8 $ loopAt 2 $ s "reggae:45" # speed 2 # orbit 2 # gain 0.6 # pan 0.4 # delaytime 0.1875 # lock 1 # delayfeedback 0.34 # ddSend 0.4 # ddHp 700 # ddLp 4500 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.35 # verbT60 1.8
+d7 $ mask stabGate $ swing $ rev $ rotR (1/8) $ chop 8 $ loopAt 2 $ s "reggae:45" # speed 2 # orbit 2 # gain 0.5 # pan 0.62
+d8 $ mask stabGate $ swing $ jux rev $ rotR (3/8) $ chop 8 $ loopAt 2 $ s "reggae:45" # speed 4 # orbit 2 # gain 0.36 # hpf 500 # lpf 9000
+-- ORBIT 3: lead into the dub reverb, one long tail.
+d9 $ mask leadGate $ swing $ note leadLine # s "superpiano" # orbit 3 # keyShift 0 # gain 0.4 # velocity 0.65 # sustain 0.9 # release 0.4 # pan 0.58 # verbSend 0.46 # room 0.72 # verbT60 3.4 # delaytime 0.1875 # lock 1 # delayfeedback 0 # ddSend 0
+-- ORBIT 4: texture through tape. Owner d10 carries the orbit-global dd*/verb* params;
+-- dholak d11 omits those (values persist from d10) but carries its own per-event tape
+-- settings -- dirt_tape is a per-event insert module (gated on ~tape.notNil in init.scd),
+-- not an orbit-global effect, so per-lane values are safe here as in Blue Hour d8/d9.
+d10 $ mask texGate $ every 3 (rev) $ slice 16 "<0 3 7 12> <14 9 5 2>" $ loopAt 2 $ s "lpviz:392" # speed 0.98 # orbit 4 # gain 0.42 # crush (slow 8 "<4 5 7 9>") # hpf 300 # lpf 3200 # pan (slow 16 $ range 0.3 0.7 sine) # tape 0.22 # tapeWow 0.2 # tapeHiss 0.012 # tapeHf (slow 16 $ range 4500 7500 sine) # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddSend 0.12 # ddHp 600 # ddLp 4200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.16 # room 0.4 # verbT60 2.4
+d11 $ mask percGate $ swing $ struct "t(3,8)" $ s "lpmr:197" # orbit 4 # speed 0.6167 # gain 0.24 # hpf 180 # lpf 6000 # pan 0.68 # sustain 0.5 # tape 0.15 # tapeWow 0.18 # tapeHiss 0.008
+-- ORBIT 5: send bursts. The reversed dub clip throws into delay+reverb once per section;
+-- d14 is the silent gain-0 reset clock that returns every send to zero between throws.
+d13 $ mask fxGate $ struct "~ ~ ~ t" $ s "reggae:45" # orbit 5 # speed (-1) # begin 0.05 # end 0.45 # sustain 0.25 # gain 0.15 # hpf 500 # lpf 8000 # pan (range 0.2 0.8 sine) # delaytime 0.1875 # lock 1 # delayfeedback 0.42 # ddHp 700 # ddLp 4500 # ddDrive 0.12 # ddWow 0.08 # ddCross 0.6 # ddDuck 0.55 # ddSend 0.5 # verbSend 0.55 # room 0.85 # verbT60 4.5
+d14 $ s "reggae:45*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # tape 0 # delaytime 0.1875 # lock 1 # delayfeedback 0.42 # ddHp 700 # ddLp 4500 # ddDrive 0.12 # ddWow 0.08 # ddCross 0.6 # ddDuck 0.55 # verbT60 4.5

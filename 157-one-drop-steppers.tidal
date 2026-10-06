@@ -1,0 +1,70 @@
+-- Source: /home/erik/livecode/157.tidal (read-only conversion).
+-- 157: DUB REGGAE — ONE-DROP / STEPPERS. Radically different from the rest of the set:
+-- @scene {"title":"DUB REGGAE — ONE-DROP / STEPPERS","cps":0.5,"quantize":4}
+-- Quantize 4: align four-bar harmonic / density cell; no transport IO.
+-- Chosen section: actual single executable checkpoint, not historical header aspirations.
+-- Inert m* dropped; silence lanes omitted. Notes/rhythm/gain and existing sends preserved.
+-- Orbit-global competing writers removed; all lanes repeat their owner values identically.
+-- Actual kick repeats 4 bars (STEPPERS every fourth), not the claimed eight-bar gated kick.
+-- d7 has no skank rhythm/dropout gate; ghost gain differs from prose. No composition repairs.
+-- Heavy feedback capped at 0.6; orbit 5 has a gain-0 send reset clock.
+-- Provenance: RHYTHMIC REFERENCE — the real human reggae performance:
+-- Provenance: ~/tunepile/midi/groove/groove/drummer1/session1/184_reggae_78_beat_4-4.mid
+-- Provenance: (Magenta Groove corpus; info.csv: drummer1/session1/184, style "reggae",
+-- Provenance: bpm 78, beat, 4/4. Also cross-checked 201_reggae-slow_64_beat and
+-- Provenance: drummer5/session2/5_reggae_126_beat.) Read with a hand-rolled MIDI parser
+-- Provenance: (mido is not installed), GM drum map: 36=kick, 37=cross-stick/side-stick,
+-- Provenance: 38=snare (appears only in the fills), 42=hi-hat, 44=hi-hat pedal/downbeat.
+-- Provenance: Aggregated over 16 bars on a 16th grid the file reads:
+-- Provenance: 36 kick      ....x.......x...   -> beats 2 and 4, NO kick on beat 1 (the "drop")
+-- Provenance: 37 stick     ....x..xo.oox.o.   -> lands WITH the kick (kick+cross-stick pair)
+-- Provenance: 38 snare     ........o.....o.   -> fills only (185/186/187/188 are the fills)
+-- Provenance: 42 hi-hat    xxx.xox.xxxoxoxo   -> continuous 8ths, not a 16th roll
+-- Provenance: 22 shaker    ..x...xo..x...oo   -> the offbeats (the "&") -- the one-drop space
+-- Provenance: (22/26 are registry-specific low voices in this e-kit; 22 is squarely on the
+-- Provenance: offbeat 8ths, i.e. the "skank" hat.)
+-- Provenance: DERIVED LANES (what I transcribed; note the kick is sparse and NEVER on beat 1):
+-- Provenance: 8-slot kick   ~ ~ x ~ ~ ~ x ~
+-- Provenance: 8-slot stick  ~ ~ x ~ ~ ~ x ~
+-- Provenance: 8-slot hat    x ~ x ~ x ~ x ~
+-- Provenance: 8-slot offb   ~ x ~ x ~ x ~ x
+-- Provenance: The performance pairs kick+cross-stick and drops the downbeat -> I re-frame that
+-- Provenance: pairing onto beat 3 for the canonical ONE-DROP below, and use the same "drop the
+-- Provenance: one" space (sparse kick, offbeat hats, no 16ths).
+-- Provenance: MELODIC SOURCE — the horn line (d8):
+-- Provenance: "Concrete Jungle" — Bob Marley & The Wailers  (E minor, 94 bpm, 4/4)
+-- Provenance: pile path: ~/tunepile/tabs-tidal/Marley_Bob_-_Concrete_Jungle.gp4-e29e644e.tidal
+-- Provenance: (header: key EMinor, 94 bpm). Its guitar-1 head is the E-minor riff
+-- Provenance: e4 d4 a3 g3 e3 / a3 b3 c4 e3 and the later descent e4 e4 e4 b3 b3 b3 a3 g3 fs3 e3.
+-- Provenance: TRANSPOSITION: none needed — the tune is already E minor and my dub bass sits on
+-- Provenance: E/A/C/G (i-iv-VI-III), so I only re-barred the 16-bar pile grid into one 8-slot lane
+-- Provenance: per bar and thinned it to the calm upper notes: e4 d4 a3 g3 / e3 a3 c4 / e4 g4 /
+-- Provenance: b3 d4 g3. Nothing shifted > an octave.
+-- Provenance: DROPOUT MAP (8-bar frame; bass is the constant, kick keeps the one-drop):
+-- Provenance: bar 1  full
+-- Provenance: bar 2  full
+-- Orbit 0: d1,d3,d4,d11; kick/drum sidechain detector; dry sends; global owner d1.
+-- Orbit 1: d5,d6; bass/sub (dry except approved 145 tail); global owner d5.
+-- Orbit 2: d7,d9; keys/stabs/vibes: dub delay; global owner d7.
+-- Orbit 3: d8; lead/wet snare/strings: reverb; global owner d8.
+-- Orbit 4: d10,d14; percussion/texture: tape; global owner d10.
+-- Orbit 5: d2,d12,d13; send accents: isolated delay; reset clock; global owner d12.
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.03 sine)))
+let lofi = (# tape (slow 8 $ range 0.06 0.2 sine)) . (# tapeWow 0.3) . (# tapeHf (slow 16 $ range 4500 7500 sine)) . (# tapeHiss 0)
+let drown = (# verbSend 0.45)
+d1 $ lofi $ swing $ s "<[~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [~ ~ ~ ~ k808S ~ ~ ~] [k808S ~ k808S ~ k808S ~ k808S ~]>" # gain 0.85 # shape 0.4 # hpf 55 # lpf 6000 # release 0.08 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d2 $ drown $ lofi $ swing $ s "~ ~ ~ ~ s808b ~ ~ ~" # gain "<0.6 0.6 0.6 0.6 0.6 0 0.6 0.75>" # hpf 400 # lpf 9000 # release 0.12 # ddSend "<0 0 0 0 0.55 0 0 0>" # orbit 5 # lock 1 # delaytime "<0.1875 0.1875 0.1875 0.375 0.1875 0.125 0.1875 0.1875>" # delayfeedback "<0.5 0.5 0.5 0.6 0.5 0.45 0.5 0.6>" # ddWow 0.35 # ddLp (slow 8 $ range 1500 5000 saw) # ddHp (slow 8 $ range 200 900 sine) # ddDrive 0.35 # ddCross 0.6 # size 0.9 # verbT60 8 # verbTone 4000
+d3 $ lofi $ swing $ degradeBy 0.3 $ s "~ h808P ~ h808C ~ h808P ~ h808C" # gain "<0.24 0.24 0.24 0.24 0.24 0 0.24 0.28>" # hpf 2500 # lpf (slow 8 $ range 7000 11000 saw) # pan (slow 8 $ range 0.55 0.7 sine) # release 0.04 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d4 $ lofi $ swing $ s "<[~ sh808 ~ ~ ~ sh808 ~ ~] [~ ~ sh808 ~ ~ ~ sh808 ~]>" # gain "<0.22 0.22 0.22 0.22 0.22 0 0.22 0.24>" # hpf 3500 # lpf 12000 # pan 0.4 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d5 $ lofi $ swing $ s "dubsub" # note "<[e1 ~ ~ ~ e1 ~ ~ ~] [a1 ~ ~ a1 ~ ~ ~ ~] [c2 ~ ~ ~ c2 ~ ~ ~] [g1 ~ ~ ~ d2 ~ ~ ~]>" # drive 0.55 # pitchEnv 0.5 # legato 1.5 # sustain 0.3 # release 0.25 # amp 0.85 # gain 0.52 # hpf 26 # lpf 220 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d6 $ lofi $ swing $ s "dubsynth" # note "<[~ ~ e2 ~ ~ ~ g2 ~] [~ ~ a2 ~ ~ ~ c3 ~] [~ ~ e3 ~ ~ ~ c3 ~] [~ ~ d3 ~ ~ ~ g2 ~]>" # waveMix 0.2 # cutoff (slow 16 $ range 300 640 sine) # fenv 2.2 # drive 0.4 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.42 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d7 $ drown $ lofi $ swing $ note "<[e3,g3,b3] [e3,g3,b3] [a3,c4,e4] [a3,c4,e4] [c4,e4,g4] [c4,e4,g4] [g3,b3,d4] [g3,b3,d4]>" # s "miLead" # engine 11 # harm 0.55 # timbre 0.45 # morph 0.25 # level 0.7 # lpgColour 0.5 # gain 0.55 # lpf (slow 16 $ range 2200 4200 sine) # release 0.35 # pan (slow 8 $ range 0.45 0.6 sine) # ddSend "<0 0.3 0 0.25 0 0.25 0 0.4>" # orbit 2 # lock 1 # delaytime 0.1875 # delayfeedback 0.5 # ddWow 0.2 # size (slow 16 $ range 0.7 0.95 sine) # verbT60 (slow 16 $ range 4 8 sine) # verbTone (slow 16 $ range 3500 8000 sine) # verbHp 300 # verbLow 0.3
+d8 $ drown $ lofi $ swing $ s "hoRhodes" # note "<[e4 ~ ~ d4 ~ a3 ~ g3] [~ e3 ~ ~ a3 ~ c4 ~] [~ ~ e4 ~ g4 ~ e4 ~] [~ b3 ~ d4 ~ g3 ~ ~]>" # gain "<0.42 0.42 0 0.42 0 0.42 0.42 0.46>" # cutoff 4600 # attack 0.006 # release 0.3 # hpf 300 # lpf (slow 16 $ range 3000 8000 sine) # ddSend "<0 0.35 0 0 0 0.3 0 0>" # orbit 3 # lock 1 # delaytime 0.1875 # delayfeedback 0.55 # size (slow 16 $ range 0.7 0.95 sine) # verbT60 (slow 16 $ range 4 8 sine) # verbTone (slow 16 $ range 3500 8000 sine) # verbHp 300 # verbLow 0.3
+d9 $ lofi $ swing $ s "mars_synths_DX100_Vibes" # n 0 # note "<[~ e4 ~ e4 ~ e4 ~ e4] [~ a4 ~ a4 ~ a4 ~ a4] [~ c5 ~ c5 ~ c5 ~ c5] [~ b4 ~ b4 ~ b4 ~ b4]>" # gain "<0.3 0.3 0 0.3 0 0.3 0.3 0.32>" # hpf 500 # lpf (slow 16 $ range 3000 8000 sine) # release 0.12 # pan (slow 8 $ range 0.3 0.45 sine) # verbSend (slow 16 $ range 0.12 0.3 sine) # ddSend 0.1 # orbit 2 # lock 1 # delaytime 0.1875 # delayfeedback 0.5 # ddWow 0.2 # size (slow 16 $ range 0.7 0.95 sine) # verbT60 (slow 16 $ range 4 8 sine) # verbTone (slow 16 $ range 3500 8000 sine) # verbHp 300 # verbLow 0.3
+d10 $ lofi $ swing $ s "<[p93perc ~ ~ ~ cb808 ~ ~ ~] [~ ~ p93perc ~ ~ ~ cb808 ~]>" # gain "<0.16 0.16 0.16 0.16 0.16 0 0.16 0.2>" # hpf 700 # lpf 9000 # pan (slow 8 $ range 0.3 0.65 sine) # release 0.2 # verbSend 0.15 # ddSend "<0 0 0.4 0 0 0 0 0>" # orbit 4 # lock 1 # delaytime 0.1875 # delayfeedback 0.45
+d11 $ lofi $ swing $ s "~ ~ ~ ~ ~ ~ [t808M,t808Lo] t808H" # gain "<0 0 0 0 0 0 0 0.3>" # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d12 $ lofi $ swing $ s "cp4" # n 0 # note "<[~ e5 ~ e5 ~ e5 ~ e5] [~ a4 ~ a4 ~ a4 ~ a4] [~ c5 ~ c5 ~ c5 ~ c5] [~ b4 ~ b4 ~ b4 ~ b4]>" # gain 0.3 # hpf 400 # lpf (slow 8 $ range 2500 6000 saw) # release 0.25 # ddSend "<0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.85>" # orbit 5 # lock 1 # delaytime "<0.1875 0.1875 0.1875 0.375 0.1875 0.125 0.1875 0.1875>" # delayfeedback "<0.5 0.5 0.5 0.6 0.5 0.45 0.5 0.6>" # ddWow 0.35 # ddLp (slow 8 $ range 1500 5000 saw) # ddHp (slow 8 $ range 200 900 sine) # ddDrive 0.35 # ddCross 0.6 # size 0.9 # verbT60 8 # verbTone 4000
+d13 $ lofi $ swing $ s "cb4" # n 0 # note "<[b4 ~ ~ b4 ~ ~ ~ ~] [b4 ~ ~ b4 ~ ~ ~ ~] [d5 ~ ~ d5 ~ ~ ~ ~] [b4 ~ ~ b4 ~ ~ ~ ~]>" # gain "<0.26 0 0 0.24 0 0 0.28 0>" # hpf 300 # lpf 5000 # sustain 0.5 # release 1.5 # verbSend 0.6 # ddSend "<0 0 0.7 0 0.6 0 0 0>" # orbit 5 # lock 1 # delaytime "<0.1875 0.1875 0.1875 0.375 0.1875 0.125 0.1875 0.1875>" # delayfeedback "<0.5 0.5 0.5 0.6 0.5 0.45 0.5 0.6>" # ddWow 0.35 # ddLp (slow 8 $ range 1500 5000 saw) # ddHp (slow 8 $ range 200 900 sine) # ddDrive 0.35 # ddCross 0.6 # size 0.9 # verbT60 8 # verbTone 4000
+d14 $ lofi $ swing $ weave 8 (s "sh808(7,16,3)" # gain 0.16) [s "t808H(5,16,2)" # gain 0.16, s "cn808(3,16,1)" # gain 0.18] # pan (slow 8 $ range 0.25 0.75 sine) # hpf 900 # lpf 11000 # verbSend 0.12 # ddSend 0.1 # orbit 4 # lock 1 # delaytime 0.1875 # delayfeedback 0.45
+-- d16: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
+d16 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # lock 1 # delaytime "<0.1875 0.1875 0.1875 0.375 0.1875 0.125 0.1875 0.1875>" # delayfeedback "<0.5 0.5 0.5 0.6 0.5 0.45 0.5 0.6>" # ddWow 0.35 # ddLp (slow 8 $ range 1500 5000 saw) # ddHp (slow 8 $ range 200 900 sine) # ddDrive 0.35 # ddCross 0.6 # size 0.9 # verbT60 8 # verbTone 4000

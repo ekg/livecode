@@ -1,0 +1,48 @@
+-- Source: /home/erik/livecode/156.tidal (read-only conversion).
+-- 156: E MINOR — WILD DENSE MELODIC (the left-turn of the set). No F minor, no C minor.
+-- @scene {"title":"E MINOR — WILD DENSE MELODIC (the left-turn of the set)","cps":0.5,"quantize":4}
+-- Quantize 4: align four-bar harmonic / density cell; no transport IO.
+-- Chosen section: actual single executable checkpoint, not historical header aspirations.
+-- Inert m* dropped; silence lanes omitted. Notes/rhythm/gain and existing sends preserved.
+-- Orbit-global competing writers removed; all lanes repeat their owner values identically.
+-- Provenance: MELODIC SOURCES (dug out of the pile, see report):
+-- Provenance: * HOOK (d6) = "The Maids Of Mitchellstown" (Irish reel, EMinor, 4/4, 120 bpm)
+-- Provenance: ~/tunepile/tabs-tidal/Irish_-_the_Maids_Of_Mitchellstown.gp4-1079a8aa.tidal
+-- Provenance: The pile quantised it to a 16-bar grid of 8th notes; I kept the first 4 bars
+-- Provenance: (the head) and split them into one 8-slot lane per bar. Its `d4 a4 g4 e4 fs4`
+-- Provenance: material is ALREADY E minor, so it needed no transposition — only re-barring.
+-- Provenance: * BASS (d4) = the walking line under "Nardis" (Miles Davis, EMinor, 4/4, 120 bpm)
+-- Provenance: ~/tunepile/tabs-tidal/Davis_Miles_-_Nardis.gp4-128d1eb1.tidal
+-- Provenance: Pile bass = e2 f2 b2 c3 a2 f2 e2 (Em-F-Bm-C-Am-F-Em). I added g2 for the Gmaj
+-- Provenance: turnaround -> e2 f2 b2 c3 a2 f2 e2 g2, still in E minor, one octave untouched.
+-- Provenance: * PAD/ARP (d5, d11) = a Nardis-flavoured Em-F-G-Am vamp, spelt from the pile's
+-- Provenance: chord track ([e4,b4,e5,g5] -> [f...] -> [g...] -> [a...]) rewritten as triads
+-- Provenance: in the C4-C5 band.
+-- Provenance: WHY cps 0.5: one cycle = one 4/4 bar at 120 bpm (2 s). Both source tunes are 120 bpm
+-- Orbit 0: d1,d2,d12; kick/drum sidechain detector; dry sends; global owner d1.
+-- Orbit 1: d4,d10; bass/sub (dry except approved 145 tail); global owner d4.
+-- Orbit 2: d5,d9,d13; keys/stabs/vibes: dub delay; global owner d9.
+-- Orbit 3: d6,d11; lead/wet snare/strings: reverb; global owner d6.
+-- Orbit 4: d7,d8,d14; percussion/texture: tape; global owner d7.
+-- Orbit 5: d3; send accents: isolated delay; reset clock; global owner d3.
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.05 sine)))
+let crush = pF "crush"
+let coarse = pF "coarse"
+let grunge = (# crush (slow 8 $ range 3 14 saw)) . (# coarse (slow 4 $ range 2 9 sine)) . (sometimesBy 0.35 (# shape (range 0.25 0.7 sine)))
+let moist = (sometimesBy 0.5 (# crush (slow 16 $ range 8 14 sine))) . (# shape (slow 8 $ range 0 0.3 sine))
+d1 $ grunge $ swing $ euclid "<4 4 4 5>" 8 $ s "k808S" # gain 0.8 # shape 0.5 # hpf 55 # lpf 7000 # release 0.08 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d2 $ swing $ struct "0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0" $ s "s808b" # gain 0.6 # hpf 420 # lpf 9000 # release 0.08 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d3 $ moist $ swing $ struct "t(3,7,2)" $ s "c808" # gain 0.42 # hpf 300 # lpf 9000 # release 0.1 # verbSend (slow 16 $ range 0.05 0.2 sine) # ddSend (slow 8 $ range 0.08 0.22 saw) # orbit 5 # size (slow 16 $ range 0.4 0.8 sine) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.5 sine)
+d4 $ moist $ swing $ struct "t(5,16,1)" $ note "<e2 f2 b2 c3 a2 f2 e2 g2>" # s "dubsynth" # waveMix 0.2 # cutoff (slow 16 $ range 300 640 sine) # fenv 2.2 # drive 0.4 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.5 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d5 $ swing $ slow 4 $ note "<[e3,g3,b3] [f3,a3,c4] [g3,b3,d4] [a3,c4,e4]>" # s "hoRhodes" # gain 0.5 # cutoff 3200 # attack 0.06 # release 2.0 # lpf (range 1200 3400 $ slow 16 sine) # verbSend (slow 16 $ range 0.15 0.4 sine) # room 0.55 # ddSend 0 # orbit 2 # size 0.55 # lock 1 # delaytime (slow 8 $ range 0.09375 0.1875 saw) # delayfeedback (slow 16 $ range 0.25 0.6 sine)
+d6 $ swing $ sometimesBy 0.25 (fast 2) $ note "<[d4 ~ ~ ~ a4 ~ g4 ~] [e4 ~ fs4 ~ g4 ~ e4 ~] [a4 ~ b4 ~ g4 ~ e4 ~] [c5 ~ a4 ~ g4 ~ e4 ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.44 # hpf 400 # lpf (slow 16 $ range 2500 8000 sine) # verbSend (slow 16 $ range 0.1 0.35 sine) # room 0.5 # ddSend (slow 8 $ range 0.1 0.35 saw) # orbit 3 # size (slow 32 $ range 0.4 0.7 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.6 sine)
+d7 $ grunge $ swing $ ply 2 $ s "<h808C(13,16,1) h808P(11,16,3)>" # gain (slow 4 $ range 0.2 0.32 sine) # hpf 2200 # lpf (slow 8 $ range 6000 9500 saw) # pan (slow 8 $ range 0.35 0.65 sine) # verbSend 0.1 # ddSend 0.1 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # lock 1 # delaytime (slow 8 $ range 0.0625 0.125 saw) # delayfeedback 0.25
+d8 $ grunge $ swing $ s "sh808(7,13,3)" # gain 0.24 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # lock 1 # delaytime (slow 8 $ range 0.0625 0.125 saw) # delayfeedback 0.25
+d9 $ swing $ struct "t(7,16,1)" $ note "<e4 g4 b4 d5 b4 g4 e5 d5>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.34 # hpf 500 # lpf (slow 16 $ range 3000 9000 sine) # verbSend 0.2 # room 0.5 # ddSend (slow 8 $ range 0.15 0.4 saw) # orbit 2 # size 0.55 # lock 1 # delaytime (slow 8 $ range 0.09375 0.1875 saw) # delayfeedback (slow 16 $ range 0.25 0.6 sine)
+d10 $ swing $ s "dubsub(2,8,1)" # note (slow 4 $ "<e1 f1 g1 a1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.46 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d11 $ moist $ swing $ arp "updown" $ note "<[e4,g4,b4] [f4,a4,c5] [g4,b4,d5] [e4,a4,c5]>" # s "cp4" # n 0 # gain 0.42 # hpf 300 # lpf (slow 8 $ range 2500 6000 saw) # pan (slow 8 $ range 0.3 0.7 sine) # release 0.3 # verbSend (slow 16 $ range 0.15 0.3 sine) # room 0.45 # ddSend 0.18 # orbit 3 # size (slow 32 $ range 0.4 0.7 saw) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.6 sine)
+d12 $ grunge $ swing $ iter 4 $ struct "t(5,16,3)" $ s "t808M" # gain 0.34 # hpf 120 # lpf (slow 8 $ range 2500 5000 saw) # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d13 $ moist $ swing $ every 4 (# gain 0) $ note "<[e3,g3,b3] ~ [a3,c4,e4] ~ [f3,a3,c4] ~ [g3,b3,d4] ~>" # s "sweetChords" # gain 0.36 # lpf (slow 16 $ range 2200 4200 sine) # release 0.2 # verbSend 0.2 # room 0.5 # ddSend 0.1 # orbit 2 # size 0.55 # lock 1 # delaytime (slow 8 $ range 0.09375 0.1875 saw) # delayfeedback (slow 16 $ range 0.25 0.6 sine)
+d14 $ grunge $ swing $ weave 8 (s "t808H(5,13,2)" # gain 0.22) [s "cn808(3,8,1)" # gain 0.24, s "h808O(7,20,3)" # gain 0.2] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0.12 # ddSend 0.12 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # lock 1 # delaytime (slow 8 $ range 0.0625 0.125 saw) # delayfeedback 0.25
+-- d16: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
+d16 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # size (slow 16 $ range 0.4 0.8 sine) # lock 1 # delaytime (slow 8 $ range 0.0625 0.1875 saw) # delayfeedback (slow 16 $ range 0.2 0.5 sine)

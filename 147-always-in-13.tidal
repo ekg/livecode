@@ -1,0 +1,29 @@
+-- Source: /home/erik/livecode/147.tidal (read-only conversion).
+-- 147.tidal — SCENE C: ALWAYS IN 13
+-- @scene {"title":"SCENE C: ALWAYS IN 13","cps":0.46,"quantize":2}
+-- Quantize 2: align two-bar phrase / chord cell; no transport IO.
+-- Chosen section: actual single executable checkpoint, not historical header aspirations.
+-- Inert m* dropped; silence lanes omitted. Notes/rhythm/gain and existing sends preserved.
+-- Orbit-global competing writers removed; all lanes repeat their owner values identically.
+-- Orbit 0: d1,d2,d3; kick/drum sidechain detector; dry sends; global owner d1.
+-- Orbit 1: d4,d13; bass/sub (dry except approved 145 tail); global owner d4.
+-- Orbit 2: d5,d10; keys/stabs/vibes: dub delay; global owner d10.
+-- Orbit 3: d6,d12,d14; lead/wet snare/strings: reverb; global owner d12.
+-- Orbit 4: d7,d11; percussion/texture: tape; global owner d7.
+-- Orbit 5: d8; send accents: isolated delay; reset clock; global owner d8.
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
+d1 $ swing $ s "808bd(5,13)" # gain 0.9 # shape 0.6 # hpf 46 # release 0.09 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d2 $ swing $ s "drumtraks:9(4,13)" # gain 0.75 # hpf 420 # shape 0.2 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d3 $ swing $ s "drumtraks:4(11,13)" # gain "0.3 0.2 0.24 0.2 0.28 0.2 0.24 0.2 0.3 0.2 0.24 0.2 0.26" # hpf 2000 # lpf 9000 # pan 0.6 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d8 $ swing $ s "drumtraks:1(2,13,7)" # gain 0.5 # hpf 300 # verbSend 0.2 # room 0.4 # ddSend 0.2 # orbit 5 # size 0.45 # delayfeedback 0
+d4 $ swing $ s "dubsynth(5,13)" # note (slow 4 $ "<d2 d2 f2 g2 a2 f2 g2 a2 d2 d2 c2 a1 d2>") # waveMix 0.18 # cutoff 420 # fenv 2.2 # drive 0.35 # sustain 0.16 # release 0.14 # lpf 1800 # gain 0.6 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d5 $ swing $ slow 2 $ note "<[d4,f4,a4] [d4,f4,a4] [g3,bf3,d4] [a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,bf3,d4] [a3,c4,e4]>" # s "hoRhodes" # gain 0.55 # cutoff 3800 # release 1.4 # verbSend 0.25 # room 0.5 # ddSend 0 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+d6 $ swing $ slow 2 $ note "<[~ a4 d5 ~ f5 ~ e5 d5] [~ f5 a5 ~ d5 ~ a4 f4] [~ g4 bf4 ~ d5 ~ c5 bf4] [~ a4 c5 ~ e5 ~ d5 c5]>" # s "hoRhodes" # gain 0.7 # cutoff 4200 # release 1.0 # verbSend 0.25 # room 0.5 # ddSend 0 # orbit 3 # size 0.6 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+d7 $ swing $ s "<drumtraks:0(7,13,3) drumtraks:0(5,13,7) drumtraks:0(9,13)>" # gain 0.26 # hpf 2400 # lpf 10000 # pan 0.45 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d10 $ swing $ slow 2 $ note "<[~ d5 ~ ~ a4 ~ ~ f5 ~ ~ ~ e5 ~] [~ f5 ~ ~ d5 ~ ~ a5 ~ ~ ~ g5 ~]>" # s "mars_synths_DX100_Vibes" # n 0 # gain 0.5 # hpf 300 # lpf 5000 # verbSend 0.2 # ddSend 0.15 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.2
+d11 $ swing $ s "p93perc(3,13)" # gain 0.32 # hpf 500 # lpf 6500 # pan 0.42 # release 0.2 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
+d12 $ swing $ every 4 (fast 2) $ slow 2 $ note "<[a5 ~ ~ f5 ~ g5 a5 ~ ~ e5 ~ ~] [d5 ~ ~ f5 ~ a5 ~ ~ g5 ~ ~]>" # s "mars_synths_DX100_Sine" # n 0 # gain 0.4 # hpf 400 # lpf 6000 # verbSend 0.3 # room 0.5 # ddSend 0.25 # orbit 3 # size 0.6 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+d13 $ swing $ s "<dubsub(5,13) dubsub(5,13,3) dubsub(5,13,7) dubsub(5,13,10)>" # note (slow 4 $ "<d1 bf1 f1 c2 g1 a1 d1 bf1>") # drive 0.6 # pitchEnv 0.5 # legato 1.6 # sustain 0.28 # release 0.25 # amp 0.85 # gain 0.6 # hpf 26 # lpf 210 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d14 $ swing $ euclidOff 5 13 3 $ note "<d4 f4 a4 c5 f4 a4>" # s "cp4" # gain 0.5 # hpf 300 # lpf 5200 # pan 0.55 # verbSend 0.2 # room 0.45 # ddSend 0.15 # orbit 3 # size 0.6 # lock 1 # delaytime (3/16) # delayfeedback 0.3
+-- d16: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
+d16 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # size 0.45 # delayfeedback 0
