@@ -45,18 +45,29 @@
 -- Orbit 4: d8,d14; percussion/texture: tape; global owner d8.
 -- Orbit 5: d2; send accents: isolated delay; reset clock; global owner d2.
 d1 $ stack [s "k808S(4,8)" # gain 0.6 # shape 0.6 # hpf 95 # release 0.07, s "k808S(7,16)" # gain 0.18 # hpf 120 # release 0.05] # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
-d2 $ sometimesBy 0.35 (off 0.015625 (fast 2)) $ euclidOff 7 16 1 $ s "c808" # gain 0.55 # hpf 260 # lpf 9000 # pan (slow 4 $ range 0.2 0.8 saw) # speed 1.25 # verbSend 0.15 # room 0.45 # ddSend 0.25 # orbit 5 # size 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
-d3 $ s "h808O(4,8,1)" # gain "<0.5 0.42>" # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
-d4 $ note "c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2" # s "dubsynth" # waveMix 0.12 # cutoff 380 # fenv 1.5 # res 0.18 # drive 0.10 # sustain 0.16 # release 0.14 # lpf 1700 # gain 0.5 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
-d5 $ slow 2 $ note "c4 ~ ~ ~ ~ ~ c4 ~ ef4 ~ ~ c4 ~ ~ bf3 ~ af3 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.7 # cutoff 5200 # attack 0.006 # release 0.3 # lpf 6500 # verbSend 0.15 # room 0.5 # ddSend 0.15 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
-d6 $ slow 4 $ note "<[c3,ef3,g3] [af2,c3,ef3] [ef3,g3,bf3] [bf2,d3,f3]>" # s "hoRhodes" # gain 0.5 # cutoff 3200 # attack 0.06 # release 2.2 # lpf (range 1000 2600 $ slow 16 sine) # verbSend 0.25 # room 0.55 # ddSend 0 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
-d7 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.28 0.22>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+-- The clap's `off 0.015625 (fast 2)` retriggered it ~13ms later: too tight to read as a
+-- flam, so it sounded like a click/tick on every hit. Widened to 1/16 cycle (~107ms).
+d2 $ sometimesBy 0.35 (off 0.0625 (fast 2)) $ euclidOff 7 16 1 $ s "c808" # gain 0.55 # hpf 260 # lpf 9000 # pan (slow 4 $ range 0.2 0.8 saw) # speed 1.25 # verbSend 0.15 # room 0.45 # ddSend 0.25 # orbit 5 # size 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35
+d3 $ s "h808O(4,8,1)" # gain "<0.62 0.52>" # hpf 1800 # lpf 11000 # pan 0.58 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
+d4 $ note "c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2 c2 c2 c2 ef2" # s "dubsynth" # waveMix 0.12 # cutoff 380 # fenv 1.5 # res 0.18 # drive 0.20 # sustain 0.16 # release 0.14 # lpf 1700 # gain 0.5 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+d5 $ slow 2 $ note "c4 ~ ~ ~ ~ ~ c4 ~ ef4 ~ ~ c4 ~ ~ bf3 ~ af3 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.85 # cutoff 5200 # attack 0.006 # release 0.3 # lpf 6500 # verbSend 0.15 # room 0.5 # ddSend 0.15 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
+-- CHORDS FROM TUNEPILE (chords/progressions.txt, found via tools/search.sh --source chords 'key:ds'):
+--   family i-bVII-IV-rock-minor, key ds  =  Cm / Ab / Eb / Eb, taken verbatim (one chord per cycle).
+--   key ds is Eb-major/C-minor spelling (three flats), so this needed NO transposition.
+--   The corpus spells flats sharp-wise: ds = Eb, as = Ab, gs = G#.
+d6 $ cat [note "c3 c4 ds4 g4 as4 d5", note "as3 as4 d5 f5 gs5 c6", note "ds3 ds4 g4 as4 d5 f5", note "ds3 ds4 g4 as4 d5 f5"] # s "hoRhodes" # gain 1.0 # cutoff 3200 # attack 0.06 # release 2.2 # lpf (range 2200 5200 $ slow 16 sine) # verbSend 0.25 # room 0.55 # ddSend 0 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d7 $ s "<h808C(15,16) h808C(11,16,3) h808P(13,16)>" # gain "<0.45 0.36>" # hpf 2200 # lpf 9500 # pan 0.6 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
 d8 $ s "sh808(7,16,3)" # gain 0.28 # hpf 3000 # lpf 12000 # pan 0.42 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
-d9 $ s "mars_synths_DX100_Vibes(3,8,2)" # n 0 # note "<c5 ef5 g5 bf5 g5 ef5 d5 c5>" # gain 0.42 # hpf 300 # lpf 5500 # verbSend 0.2 # ddSend 0.2 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
-d10 $ s "dubsub(4,8,1)" # note (slow 4 $ "<c1 af1 ef1 bf1>") # drive 0.08 # pitchEnv 0.22 # legato 1.2 # sustain 0.26 # release 0.22 # amp 0.85 # gain 0.5 # hpf 30 # lpf 190 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
-d11 $ slow 2 $ s "cb3" # speed 1 # gain 0.42 # hpf 140 # lpf 2400 # attack 0.4 # release 3 # verbSend 0.22 # room 0.6 # ddSend 0 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
+d9 $ s "mars_synths_DX100_Vibes(3,8,2)" # n 0 # note "<c5 ef5 g5 bf5 g5 ef5 d5 c5>" # gain 0.72 # hpf 300 # lpf 7200 # verbSend 0.2 # ddSend 0.2 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+d10 $ s "dubsub(4,8,1)" # note (slow 4 $ "<c1 af1 ef1 bf1>") # drive 0.18 # pitchEnv 0.22 # legato 1.2 # sustain 0.26 # release 0.22 # amp 0.85 # gain 0.32 # hpf 30 # lpf 190 # verbSend 0 # ddSend 0 # orbit 1 # delayfeedback 0
+-- cb3 is 05_C3_bowed_long.wav: a 5.75s BOWED sample. Fired every 2 cycles (~3.4s) with
+-- release 3 it overlapped itself into a smearing low drone - the "weird sample".
+-- Now clipped to its first 1.4s with a short release, quieter and darker.
+d11 $ slow 2 $ s "cb3" # speed 1 # begin 0 # end 0.25 # gain 0.30 # hpf 140 # lpf 700 # attack 0.4 # release 0.8 # verbSend 0.22 # room 0.6 # ddSend 0 # orbit 3 # size 0.5 # lock 1 # delaytime (3/16) # delayfeedback 0.22
 d12 $ s "t808M(5,16,3)" # gain 0.4 # hpf 120 # lpf 4500 # pan 0.45 # release 0.25 # verbSend 0 # ddSend 0 # orbit 0 # delayfeedback 0
-d13 $ every 4 (# gain 0) $ note "<[c3,ef3,g3] ~ [af2,c3,ef3] ~ [ef3,g3,bf3] ~ [bf2,d3,f3] ~>" # s "sweetChords" # gain 0.4 # lpf 3200 # release 0.2 # verbSend 0.2 # room 0.5 # ddSend 0.1 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
+-- second tunepile progression for the stabs: family minor-ii-V-i, key ds = Fm / Ab / Cm / Cm, verbatim,
+-- shortened by release 0.2 so the 6-note stacks read as stabs rather than pads.
+d13 $ every 4 (# gain 0) $ cat [note "f3 f4 gs4 c5 ds5 g5", note "as3 as4 d5 f5 gs5 c6", note "c3 c4 ds4 g4 as4 d5", note "c3 c4 ds4 g4 as4 d5"] # s "sweetChords" # gain 0.70 # lpf 5200 # release 0.2 # verbSend 0.2 # room 0.5 # ddSend 0.1 # orbit 2 # lock 1 # delaytime (3/16) # delayfeedback 0.25
 d14 $ weave 8 (s "sh808(7,16,3)" # gain 0.22) [s "t808H(5,16,2)" # gain 0.26, s "cn808(3,16,1)" # gain 0.28] # pan (slow 8 $ range 0.2 0.8 sine) # hpf 900 # lpf 11000 # verbSend 0 # ddSend 0 # orbit 4 # tape 0.16 # tapeWow 0.12 # tapeHiss 0 # delayfeedback 0
 -- d16: gain-0 reset controls at 32 events/cycle; owner global sweeps retained, sends return to zero.
 d16 $ s "808bd:0*32" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0 # room 0 # size 0.45 # lock 1 # delaytime (3/16) # delayfeedback 0.35

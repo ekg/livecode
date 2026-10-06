@@ -40,11 +40,14 @@ SynthDef(\piBandMeter, { |in = 0, out = 0, rmsOut = 0|
     // passed as a SynthDef argument is a UGen at build time, not a number.
     var sig = In.ar(in, 2);
     var mono = sig.asArray.sum * 0.5;
-    // Amplitude.kr is an RMS-ish follower; slowish times so readings stop flickering
+    // Amplitude.kr is an RMS-ish follower. Window length matters: with a short window
+    // a single report lands wherever it lands relative to the kick and the same track
+    // reads 13% sub in one snapshot and 72% in the next (measured). Balance needs a
+    // window longer than a beat, so this is deliberately slow (~2.5s release).
     bands.do { |pair, i|
-        Out.kr(out + i, Amplitude.kr(BPF.ar(mono, pair[0], pair[1]), 0.02, 0.35));
+        Out.kr(out + i, Amplitude.kr(BPF.ar(mono, pair[0], pair[1]), 0.25, 2.5));
     };
-    Out.kr(rmsOut, Amplitude.kr(mono, 0.02, 0.35));
+    Out.kr(rmsOut, Amplitude.kr(mono, 0.25, 2.5));
 }).add;
 
 ~spectrumBands = bands;
@@ -117,5 +120,46 @@ SynthDef(\piBandMeter, { |in = 0, out = 0, rmsOut = 0|
     };
 };
 
-"sc/spectrum.scd loaded: ~spectrumStart.value | ~spectrumReport.value | ~spectrumStop.value".postln;
+// A single ~spectrumReport samples one moment. Scenes whose form gates lanes in and
+// out swing a lot over a 32-64 cycle arrangement (measured on 152: sub 13% -> 72%
+// at different points in the form), so balance questions need a MEAN over time.
+// Writes to sc/spectrum.log because a Routine's output is not returned to the caller.
+~spectrumReportAvg = { |seconds = 15, interval = 1.0|
+    var names = ~spectrumNames, stride = ~spectrumStride;
+    if(~spectrumBus.isNil or: { names.isNil }) {
+        "spectrum: not started - run ~spectrumStart.value first".postln;
+    } {
+        var samples = 0, acc, rmsAcc;
+        acc = Array.fill(names.size * 6, 0);
+        rmsAcc = Array.fill(names.size, 0);
+        Routine({
+            while { samples < (seconds / interval).round.asInteger } {
+                var i = 0;
+                while { i < names.size } {
+                    var k = 0;
+                    while { k < 6 } {
+                        acc[i * 6 + k] = acc[i * 6 + k] + ~spectrumBus.subBus(i * stride + k).getSynchronous;
+                        k = k + 1;
+                    };
+                    rmsAcc[i] = rmsAcc[i] + ~spectrumBus.subBus(i * stride + 6).getSynchronous;
+                    i = i + 1;
+                };
+                samples = samples + 1;
+                interval.wait;
+            };
+            write.("--- AVERAGED over % s (% samples) ---".format(seconds, samples));
+            names.do { |name, i|
+                var b = (0..5).collect { |k| acc[i * 6 + k] / samples };
+                var total = b.sum.max(1e-9);
+                var shares = (0..5).collect { |k| (b[k] / total * 100).round(1) };
+                write.(pad.(name, 8) ++ "rms " ++ pad.(db.(rmsAcc[i] / samples).asString, 8)
+                    ++ "low-end " ++ pad.(((b[0] + b[1]) / total * 100).round(1).asString ++ "%", 8)
+                    ++ "shares " ++ shares.join(" "));
+            };
+        }).play;
+        "averaging % s of audio; the mean lands in sc/spectrum.log".format(seconds).postln;
+    };
+};
+
+"sc/spectrum.scd loaded: ~spectrumStart | ~spectrumReport | ~spectrumReportAvg | ~spectrumStop".postln;
 )
