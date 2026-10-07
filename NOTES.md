@@ -48,6 +48,12 @@ Conventions:
 - **171 Ghost Machines** — sample-first: rolandtr909 + oberheimdmx + linn9000 layered
   kick walking `bossdr660` bd variants, `akaixr10` perc scanned with `irand`, `end`
   modulation on hats, `p93arp` slice, `lpviz`/`p94brkA` texture.
+- **171 rework (in the jam)** — the pad read as a straight, dominating 2-bar drone. Fixed:
+  8-bar harmony with secondary motion (ii-V-I-vi | IV-V/vi-ii-V); pad is now RHYTHMIC
+  stabs (`struct "<t(3,8) t(4,8) t(5,8) t(6,8)>"`), gain down 0.66 -> 0.54, release 1.8 -> 0.7;
+  layered polyrhythm: 3-against-4 chord-tone hemiola (d14, `struct "t(3,8)"`), 5-in-16
+  shaker (d15), and the moistpeace `{}%n` polymetric cell `{nperc jamblock ebongos}%16`
+  (d16). Verdict: "now we cooking".
 
 **INCIDENT — piercing high-frequency self-oscillation (fixed)**
 - Cause 1 (design): I wired Tidal `m*` to the master by instantiating `dirt_masterctl`
