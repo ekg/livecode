@@ -1,0 +1,86 @@
+-- 169 — AMBER HOURS. Lo-fi house, ~118 BPM, D major area. Warm, very melodic, it breathes.
+--
+-- HARMONY — tunepile chords/progressions.txt, family lo-fi-loop-dm7-g7-cmaj7-am7, key d, VERBATIM:
+--   Em9 -> A9 -> Dmaj9 -> Bm9   (ii - V - I - vi in D; the "lo-fi loop")
+--   found via: ~/tunepile/tools/search.sh 'title:lo-fi-loop*' --body
+--   The corpus supplies the six-note voicings; I only place them. Key d (one sharp
+--   family, F#/C#) keeps this consonant with 163/168 when decks are stacked.
+--
+-- MELODY — tunepile abc/air, "Banished to America" (Rice-Walsh manuscript, trad./PD),
+--   K:D, M:4/4. Recovered with livecode/tools/abc_to_tidal_melody.py, then HAND-CORRECTED
+--   for the key signature the converter ignores (every f/c -> fs/cs). 64 sixteenths =
+--   exactly four bars, played over four cycles. It phrases out: gain dips at each 8.
+--
+-- BEAT — the four-on-floor is mine, but the *feel* is taken from the tunepile Groove MIDI
+--   dance/disco + soul performances (120/105 BPM, humanized): swung closed hats, offbeat
+--   shaker, claps on 2 and 4. Kit names checked against 168's sorted listing (k808S=kick,
+--   s808b=snare/clap, h808C/O=hats, sh808=shaker).
+--
+-- LOW END is the project's recurring failure, so it is deliberately lean here: the kick is
+--   hpf'd at 55 with a 90 ms release, the bass has no dubsub layer and is band-limited to
+--   38-620 Hz. sc/spectrum.scd is the way to check it, not the ears.
+--
+-- Orbit map (owner lane carries the orbit-global FX; siblings repeat or omit):
+--   0 drums dry (orbit 0 is the master's SIDECHAIN DETECTOR) | 1 bass dry |
+--   2 the lo-fi chords into the dub delay | 3 the lead into reverb | 4 texture through tape |
+--   5 send accents + silent reset clock. All pitched lanes carry keyShift 0.
+-- @scene {"title":"Amber Hours","cps":0.49166666666666664,"quantize":4}
+{- @sc
+// 64-cycle form: A(0-7) intro - B(8-23) groove - C(24-31) lift - D(32-39) breakdown, drums
+// and bass OUT - E(40-55) drop - F(56-63) outro. Drives the CHANNEL tone/sat/wet/gain only,
+// so the arrangement breathes without touching any global master control.
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(64);
+    var intro = (form < 8);
+    var brk = (form >= 32) * (form < 40);
+    var drop = (form >= 40) * (form < 56);
+    var outro = (form >= 56);
+    var arch = (cycles * (2pi / 64)).sin;
+    [3200 + (arch * 1400) + (brk * 1600) - (intro * 1200) - (outro * 900),
+     0.10 + (drop * 0.06) + (brk * 0.03),
+     0.12 + (brk * 0.20) + (intro * 0.05),
+     1.0 + (arch * 0.04) - (intro * 0.05) - (outro * 0.10)];
+});
+-}
+
+-- section gates: one step per 8-cycle section (0..7). Breakdown = section 4.
+let kickGate  = (slow 8 "<t t t t f t t f>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let percGate  = (slow 8 "<f f t t f f t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let texGate   = (slow 8 "<t f t t t f t t>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
+-- micro-jitter swing (fast nudging, as in 147/166): tiny alternating time offsets
+let swing = (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+-- the lo-fi loop voicings, verbatim from tunepile (one bar each)
+let lofiChords = "<[e3,e4,g4,b4,d5,fs5] [a3,a4,cs5,e5,g5,b5] [d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6]>" :: Pattern Note
+-- offbeat house bass on the roots E A D B
+let bassLine = "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" :: Pattern Note
+-- "Banished to America", 4 bars of 16ths, key-corrected for K:D
+let melody = (slow 4 "b4 cs5 d5 e5 a4 fs4 g4 fs4 a4 g4 g4 fs4 d4 ~ d4 ~ d4 e4 fs4 e4 a4 fs4 g4 fs4 a4 cs5 d5 cs5 cs5 e5 d5 ~ d4 e4 fs4 e4 a4 fs4 g4 fs4 a4 cs5 d5 cs5 cs5 e5 d5 ~ fs5 e5 d5 e5 a4 fs4 g4 fs4 a4 g4 g4 fs4 d4 ~ d4 ~") :: Pattern Note
+
+-- ORBIT 0: the floor, dry. Orbit 0 is the master's sidechain detector, so keep it dry.
+d1 $ mask kickGate $ swing $ s "k808S(4,4)" # orbit 0 # gain (slow 8 $ range 0.72 0.84 sine) # shape 0.3 # hpf 55 # lpf 3800 # release 0.09 # verbSend 0 # ddSend 0
+d2 $ mask clapGate $ swing $ struct "f t f t" $ s "s808b" # orbit 0 # gain 0.54 # hpf 320 # lpf 6500 # pan 0.5 # release 0.08 # verbSend 0.06 # room 0.25 # ddSend 0
+d3 $ mask hatGate $ swing $ swingBy 0.06 4 $ degradeBy 0.05 $ s "h808C(8,16,2)" # orbit 0 # gain (slow 4 $ range 0.17 0.27 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # ddSend 0
+d4 $ mask percGate $ swing $ s "sh808(5,16,4)" # orbit 0 # gain 0.19 # hpf 5000 # lpf 11000 # pan 0.62 # release 0.05 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: bass, dry and lean (no dubsub layer). Sometimes pops the octave.
+d5 $ mask bassGate $ swing $ sometimesBy 0.15 (|+ note 12) $ note bassLine # s "dubsynth" # orbit 1 # gain 0.62 # amp 0.7 # waveMix 0.16 # subMix 0.3 # subTone 0.3 # detune 0.05 # cutoff 440 # fenv 1.8 # res 0.2 # drive 0.16 # attack 0.006 # sustain 0.3 # release 0.18 # hpf 38 # lpf 620 # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the lo-fi loop, warm into the dotted-8th dub delay. Rotation, not rewriting.
+d6 $ mask chordGate $ swing $ every 3 (rotR 0.125) $ note lofiChords # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.62 0.74 sine) # amp 0.32 # cutoff 3600 # waveMix 0.1 # sustain 1.1 # release 1.6 # pan 0.44 # keyShift 0 # vib 0.05 # vibRate 4.4 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # ddSend 0.28 # ddHp 900 # ddLp 4200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.4 # verbT60 1.8
+
+-- ORBIT 3: the lead. The air's four-bar phrase; gain dips at each 8 so it phrases out
+-- instead of looping flat. Occasional double-time echo at the end of a phrase.
+d7 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ every 16 (within (0.5,1) (|+ note 12)) $ note melody # s "superpiano" # orbit 3 # gain (slow 8 $ range 0.46 0.56 sine) # velocity 0.7 # sustain 0.35 # release 0.5 # pan 0.56 # keyShift 0 # verbSend 0.32 # room 0.7 # verbT60 2.6 # delaytime 0.1875 # lock 1 # delayfeedback 0 # ddSend 0
+
+-- ORBIT 4: a soft glass ghost through tape, doubling the upper chord tones for air.
+d8 $ mask texGate $ swing $ slow 2 $ note "<[d5,fs5,a5] [cs5,e5,a5] [d5,fs5,cs6] [b4,d5,fs5]>" # s "sprvibe" # n 0 # orbit 4 # gain 0.2 # hpf 500 # lpf 9000 # release 0.6 # pan 0.6 # tape 0.22 # tapeWow 0.15 # tapeHiss 0.004 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.18 # room 0.5 # verbT60 2.4
+
+-- ORBIT 5: one open-hat throw at the end of every 8, and a silent reset clock so no send
+-- can latch across a rest on this orbit. whenmod 8 7 = cycles where c mod 8 >= 7.
+d9 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "h808O" # orbit 5 # gain 0.18 # hpf 900 # lpf 8000 # sustain 0.2 # release 0.3 # pan "0.3 0.7" # ddSend 0.3 # delayfeedback 0.3 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.28 # room 0.6 # verbT60 2.4
+d10 $ s "h808C*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
