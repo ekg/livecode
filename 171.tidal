@@ -33,7 +33,7 @@ scene[\mod].value({ |cycles|
     var drift = (cycles * (2pi / 13)).sin;
     [3400 + (arch * 2000) + (brk * 1500) - (intro * 1500) - (outro * 1000) + (drift * 250),
      0.14 + (drop * 0.10) + (brk * 0.06),
-     0.10 + (brk * 0.24),
+     0.0,
      1.0 + (arch * 0.04) - (intro * 0.06) - (outro * 0.10)];
 });
 -}
@@ -46,21 +46,23 @@ let bassGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
 let texGate   = (slow 8 "<t t t t f t t t>") :: Pattern Bool
 let padGate   = (slow 8 "<t t t t t t t t>") :: Pattern Bool
 let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
-let swing = (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
+let shuffle = swingBy (1/6) 8
+let shuffle4 = swingBy (1/6) 4
 -- 8-bar harmony with secondary motion (ii-V-I-vi | IV-V/vi-ii-V) so it progresses, not loops
 let pad = "<[e3,g4,b4,d5] [a3,cs5,e5,g5] [d3,fs4,a4,cs5] [b3,d5,fs5,a5] [g3,b4,d5,fs5] [fs3,a4,cs5,fs5] [e3,g4,b4,d5] [a3,cs5,e5,g5]>" :: Pattern Note
 -- upper chord-tone cluster for the 3-against-4 hemiola layer
 let hemiola = "<[b4,d5,fs5] [a4,cs5,e5] [g4,b4,d5] [fs4,a4,cs5]>" :: Pattern Note
 
 -- ORBIT 0: the floor. THREE machines stacked for the kick, then the 660 walks its bd variants.
-d1 $ mask kickGate $ swing $ stack [s "rolandtr909:0(4,4)", s "oberheimdmx:0(4,4)" # gain 0.7, s "linn9000:0(4,4)" # gain 0.55] # orbit 0 # gain (slow 8 $ range 0.7 0.82 sine) # shape 0.35 # hpf 58 # lpf 4200 # release 0.09 # verbSend 0 # ddSend 0
-d2 $ mask clapGate $ swing $ s "bossdr660(4,4)" # n (slow 8 "<0 17 0 18 0 19 0 20>") # orbit 0 # gain 0.5 # shape 0.4 # hpf 60 # lpf 3600 # release 0.1 # verbSend 0 # ddSend 0
-d3 $ mask clapGate $ swing $ struct "f t f t" $ s "alesissr16:1" # orbit 0 # gain 0.44 # hpf 320 # lpf 6500 # pan 0.5 # release 0.08 # verbSend 0.06 # room 0.25 # ddSend 0
+d1 $ mask kickGate $ swing $ sometimesBy 0.25 (off 0.0625 (# gain 0.35)) $ stack [s "rolandtr909:0(4,4)", s "oberheimdmx:0(4,4)" # gain 0.7, s "linn9000:0(4,4)" # gain 0.55] # orbit 0 # gain (slow 8 $ range 0.7 0.82 sine) # shape 0.35 # hpf 58 # lpf (slow 16 $ range 3200 4600 sine) # release 0.09 # verbSend 0 # room 0 # ddSend 0
+d2 $ mask clapGate $ swing $ degradeBy 0.12 $ sometimesBy 0.3 (# speed "<1 1.5>") $ s "bossdr660(4,4)" # n (slow 8 "<0 17 0 18 0 19 0 20>") # orbit 0 # gain 0.46 # shape 0.4 # hpf 60 # lpf 3600 # pan (slow 8 $ range 0.45 0.55 sine) # release 0.1 # verbSend 0 # room 0 # ddSend 0
+d3 $ mask clapGate $ shuffle4 $ whenmod 8 7 (spreadr ($) [fast 2, (# hpf 900), fast 3, (# pan 0.3)]) $ struct "f t f t" $ s "bossdr660" # n 21 # orbit 0 # gain 0.44 # hpf 320 # lpf 6500 # pan (slow 8 $ range 0.42 0.58 sine) # release 0.08 # verbSend 0 # room 0 # ddSend 0
 -- hats: the bank's closed hat, and `end` truncates it differently every cycle (a scan)
-d4 $ mask hatGate $ swing $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ s "rolandtr909:2(8,16,2)" # end (slow 4 $ range 0.25 0.7 saw) # orbit 0 # gain (slow 4 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # ddSend 0
+d4 $ mask hatGate $ shuffle $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ sometimesBy 0.2 (fast 4) $ s "rolandtr909:2(8,16,2)" # end (slow 4 $ range 0.25 0.7 saw) # orbit 0 # gain (slow 4 $ range 0.16 0.28 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # room 0 # ddSend 0
 
 -- ORBIT 1: sub bass, dry, lean. Roots E A D B over the 4-bar pad.
-d5 $ mask bassGate $ swing $ note "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" # s "dubsub" # orbit 1 # drive 0.4 # pitchEnv 0.35 # legato 1.4 # sustain 0.26 # release 0.2 # amp 0.8 # gain 0.5 # hpf 36 # lpf 250 # keyShift 0 # verbSend 0 # ddSend 0
+d5 $ mask bassGate $ swing $ sometimesBy "0 0.3 0.1 0.5" (|+ note 12) $ note "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" # s "dubsub" # orbit 1 # drive 0.4 # pitchEnv 0.35 # legato 1.4 # sustain 0.26 # release 0.2 # amp 0.8 # gain 0.5 # hpf 36 # lpf (slow 16 $ range 190 300 sine) # keyShift 0 # verbSend 0 # room 0 # ddSend 0
 
 -- ORBIT 2: the pad on the FM voice, into the dub delay, log-swept across the form.
 d6 $ mask padGate $ swing $ struct "<t(3,8) t(4,8) t(5,8) t(6,8)>" $ off 0.25 (# gain 0.55) $ note pad # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.4 0.54 sine) # amp 0.3 # cutoff (slow 16 $ rangex 1400 6000 saw) # fmIndex 1.1 # ratio 2 # drive 1.3 # sub 0.3 # width 0.7 # attack 0.02 # release 0.7 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.32 # ddSend 0.3 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.4 # verbT60 1.8
@@ -83,3 +85,5 @@ d13 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.00
 d15 $ mask percGate $ swing $ struct "t(5,16)" $ s "nperc" # n (irand 4) # orbit 4 # gain 0.14 # hpf 4000 # lpf 12000 # pan (slow 4 $ range 0.35 0.65 sine) # release 0.05 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
 -- polymetric, moistpeace {}%n: a 3-sample cell read at 16th rate -> 3-against-4, always drifting
 d16 $ mask texGate $ swing $ s "{nperc jamblock ebongos}%16" # orbit 4 # gain 0.1 # hpf 3500 # lpf 12000 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.04 # tape 0.22 # tapeWow 0.15 # tapeHiss 0.003
+-- crazier hats: a second 16th stream whose 3-sample cell drifts; doubles every 4th bar
+d10 $ mask hatGate $ shuffle $ every 4 (within (0.75,1) (fast 2)) $ s "{rolandtr909:2 akaixr10:2 jamblock}%16" # orbit 0 # gain 0.1 # hpf 7000 # lpf 13000 # pan (slow 8 $ range 0.35 0.65 sine) # release 0.03 # verbSend 0 # room 0 # ddSend 0
