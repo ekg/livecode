@@ -33,7 +33,7 @@ scene[\mod].value({ |cycles|
     var drift = (cycles * (2pi / 13)).sin;
     [3400 + (arch * 2000) + (brk * 1500) - (intro * 1500) - (outro * 1000) + (drift * 250),
      0.14 + (drop * 0.10) + (brk * 0.06),
-     0.0,
+     0.22,
      1.0 + (arch * 0.04) - (intro * 0.06) - (outro * 0.10)];
 });
 -}
@@ -71,7 +71,7 @@ d6 $ mask padGate $ swing $ struct "<t(2,8) t(3,8) t(4,8) t(3,8)>" $ off 0.25 (#
 d14 $ mask leadGate $ swing $ every 16 (within (0.5,1) (stutWith 2 0.125 (|* gain 0.5))) $ note line # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.42 0.58 sine) # amp 0.3 # cutoff (slow 16 $ rangex 3000 7000 saw) # sustain 0.3 # release 0.5 # pan (slow 8 $ range 0.4 0.7 sine) # keyShift 0 # vib 0.05 # vibRate 5.0
 
 -- ORBIT 3: a sampled arp (p93arp) chopped, with end walking the chop so the figure morphs.
-d7 $ mask leadGate $ swing $ every 32 (rev) $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ slice 8 "<0 2 4 7 5 3 6 1 0 4 2 7 3 5 1 6>" $ s "p93arp" # orbit 3 # gain (slow 13 $ range 0.62 0.8 sine) # speed (slow 16 $ range 0.95 1.1 sine) # hpf 300 # lpf (slow 16 $ rangex 4500 9000 saw) # pan (slow 8 $ range 0.45 0.7 sine) # release 0.4 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
+d7 $ mask leadGate $ swing $ every 32 (rev) $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ slice 8 "<0 2 4 7 5 3 6 1 0 4 2 7 3 5 1 6>" $ s "p93arp" # orbit 3 # gain (slow 13 $ range 0.8 1.0 sine) # speed (slow 16 $ range 0.95 1.1 sine) # hpf 300 # lpf (slow 16 $ rangex 4500 9000 saw) # pan (slow 8 $ range 0.45 0.7 sine) # release 0.4 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
 
 -- ORBIT 4: machines through tape. A different bank each bar, index-scanned; the `irand`
 -- block never repeats a voice. A spreadr fill fires on the last bar of every 8.
