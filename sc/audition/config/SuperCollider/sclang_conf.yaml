@@ -1,0 +1,9 @@
+includePaths:
+    -   /home/erik/.local/share/SuperCollider/downloaded-quarks/Vowel
+    -   /home/erik/.local/share/SuperCollider/downloaded-quarks/Dirt-Samples
+    -   /home/erik/.local/share/SuperCollider/downloaded-quarks/SuperDirt
+    -   /home/erik/livecode/sc/audition/classes
+excludePaths:
+    []
+postInlineWarnings: false
+excludeDefaultPaths: false

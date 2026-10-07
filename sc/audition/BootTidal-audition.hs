@@ -1,0 +1,114 @@
+:set -fno-warn-orphans -Wno-type-defaults -XMultiParamTypeClasses -XOverloadedStrings
+:set prompt ""
+
+-- Import the boot functions/aliases, plus the target/config helpers needed to
+-- point the SuperDirt OSC target at the audition stack's port.
+import Sound.Tidal.Boot
+import Sound.Tidal.Stream.Target (superdirtTarget, superdirtShape)
+import Sound.Tidal.Config (defaultConfig)
+
+default (Rational, Integer, Double, Pattern String)
+
+-- Same as the live BootTidal.hs (mkTidal's defaults: oLatency 0.05,
+-- 127.0.0.1, defaultConfig) except oPort = 57121 — the audition SuperDirt.
+-- Nothing sent from this REPL can reach the live SuperDirt on 57120.
+tidalInst <- mkTidalWith [(superdirtTarget { oLatency = 0.05, oAddress = "127.0.0.1", oPort = 57121 }, [superdirtShape])] defaultConfig
+
+instance Tidally where tidal = tidalInst
+-- BEGIN GENERATED PARAMS (tools/sc_params.py from sc/params.tsv)
+-- One binding per line: a multi-line `let` block is silently dropped
+-- when the file is loaded from a ghci script (-ghci-script).
+
+-- dirt_dubdelay
+let ddSend = pF "ddSend"
+let ddLp = pF "ddLp"
+let ddHp = pF "ddHp"
+let ddDrive = pF "ddDrive"
+let ddWow = pF "ddWow"
+let ddCross = pF "ddCross"
+let ddDuck = pF "ddDuck"
+let delaytime = pF "delaytime"
+let delayfeedback = pF "delayfeedback"
+let delaySend = pF "delaySend"
+let lock = pI "lock"
+let cps = pF "cps"
+
+-- dirt_dubverb
+let verbSend = pF "verbSend"
+let room = pF "room"
+let verbT60 = pF "verbT60"
+let verbDamp = pF "verbDamp"
+let size = pF "size"
+let verbEarly = pF "verbEarly"
+let verbHp = pF "verbHp"
+let verbPre = pF "verbPre"
+let verbLow = pF "verbLow"
+let verbHigh = pF "verbHigh"
+let verbLowcut = pF "verbLowcut"
+let verbHighcut = pF "verbHighcut"
+let verbTone = pF "verbTone"
+let verbMod = pF "verbMod"
+let verbWidth = pF "verbWidth"
+
+-- dirt_tape
+let tape = pF "tape"
+let tapeWow = pF "tapeWow"
+let tapeHf = pF "tapeHf"
+let tapeHiss = pF "tapeHiss"
+
+-- dirt_monitor
+let limitertype = pI "limitertype"
+
+-- instrument
+let cutoff = pF "cutoff"
+let fenv = pF "fenv"
+let res = pF "res"
+let drive = pF "drive"
+let sub = pF "sub"
+let spread = pF "spread"
+let attack = pF "attack"
+let pitchEnv = pF "pitchEnv"
+let detune = pF "detune"
+let fmix = pF "fmix"
+let wavemix = pF "wavemix"
+let vib = pF "vib"
+let vibRate = pF "vibRate"
+let trem = pF "trem"
+let tremRate = pF "tremRate"
+let keyShift = pF "keyShift"
+
+-- dubsynth
+let waveMix = pF "waveMix"
+let subMix = pF "subMix"
+let subTone = pF "subTone"
+let spread = pF "spread"
+
+-- miLead
+let engine = pI "engine"
+let harm = pF "harm"
+let timbre = pF "timbre"
+let morph = pF "morph"
+let level = pF "level"
+let lpgColour = pF "lpgColour"
+
+-- sweetChords
+let fmIndex = pF "fmIndex"
+let ratio = pF "ratio"
+let drive = pF "drive"
+let sub = pF "sub"
+let width = pF "width"
+
+-- master_inert
+let mGain = pF "mGain"
+let mGlue = pF "mGlue"
+let mSat = pF "mSat"
+let mCut = pF "mCut"
+let mDuck = pF "mDuck"
+let mHpf = pF "mHpf"
+let mThresh = pF "mThresh"
+let mWidth = pF "mWidth"
+
+-- END GENERATED PARAMS
+
+:set prompt "tidal> "
+:set prompt-cont ""

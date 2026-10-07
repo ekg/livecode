@@ -13,4 +13,13 @@ albums/**/*.opus
 sc/engine.log
 sc/scene-diagnostic.log
 sc/spectrum.log
+# audition stack: generated at runtime (stack state, jobs, reports, logs)
+sc/audition/runtime/
+sc/audition/run/
+sc/audition/jobs/
+sc/audition/reports/
+sc/audition/boot.log
+sc/audition/engine.log
+sc/audition/sclang.log
+sc/audition/ready
 session.id
