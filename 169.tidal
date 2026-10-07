@@ -71,7 +71,7 @@ d4 $ mask percGate $ swing $ s "sh808(5,16,4)" # orbit 0 # gain 0.19 # hpf 5000 
 d5 $ mask bassGate $ swing $ sometimesBy 0.15 (|+ note 12) $ note bassLine # s "dubsynth" # orbit 1 # gain 0.62 # amp 0.7 # waveMix 0.16 # subMix 0.3 # subTone 0.3 # detune 0.05 # cutoff 440 # fenv 1.8 # res 0.2 # drive 0.16 # attack 0.006 # sustain 0.3 # release 0.18 # hpf 38 # lpf 620 # keyShift 0 # verbSend 0 # ddSend 0
 
 -- ORBIT 2: the lo-fi loop, warm into the dotted-8th dub delay. Rotation, not rewriting.
-d6 $ mask chordGate $ swing $ every 3 (rotR 0.125) $ note lofiChords # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.62 0.74 sine) # amp 0.32 # cutoff 3600 # waveMix 0.1 # sustain 1.1 # release 1.6 # pan 0.44 # keyShift 0 # vib 0.05 # vibRate 4.4 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # ddSend 0.28 # ddHp 900 # ddLp 4200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.4 # verbT60 1.8
+d6 $ mask chordGate $ swing $ every 3 (rotR 0.125) $ whenmod 16 14 (stutWith 2 0.0625 (|* gain 0.5)) $ sometimesBy 0.2 (off 0.0625 (# lpf 2500)) $ note lofiChords # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.62 0.74 sine) # amp 0.32 # cutoff (slow 16 $ rangex 1200 5500 saw) # waveMix 0.1 # sustain 1.1 # release 1.6 # pan (slow 8 $ range 0.36 0.52 sine) # keyShift 0 # vib 0.05 # vibRate 4.4 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # ddSend 0.28 # ddHp 900 # ddLp 4200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.4 # verbT60 1.8
 
 -- ORBIT 3: the lead. The air's four-bar phrase; gain dips at each 8 so it phrases out
 -- instead of looping flat. Occasional double-time echo at the end of a phrase.

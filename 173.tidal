@@ -1,0 +1,58 @@
+-- 173 — GOLDMINE. Minimal (5 parts), 118 BPM (cps 0.4917) so it mixes with 169-172.
+-- Drawn from the OLD archive (archive/*.evals.tidal, 0-100.tidal), not from the new scenes:
+--   * `swingBy (1/12) 4` — the old swung 8th feel (used all through 146-158 and 0.tidal)
+--   * the `gtr` idiom: a dense note line through `note`, with vowel + crush + swing
+--   * the glitch idiom: VECTORIZED `stut "<n n n>" "<fb>" "<t>"` over a mouth bank
+--     (# s "<glitch glitch2 mouth>" # n "t(<3 5 9>,16,<0 1 2 3>)" in the archive)
+--   * `tabla2 $ struct "t(<7 3>,16,<0 4>)"` nested Euclid -> here a tom bank
+--   * `lpviz # n 66 # loopAt 1` with a speed/gain saw dissolve (0.tidal late section)
+-- Only 5 lanes; the archive source names gtr/glitch/mouth/tabla2 are gone from the current
+-- sound set, so the closest live equivalents are used: gtrm, bbox (mouth), lpviz, toms.
+--
+-- Orbit map: 0 drums dry | 1 bass dry | 3 the guitar line | 4 texture/loops | 5 accents.
+-- @scene {"title":"Goldmine","cps":0.49166666666666664,"quantize":4}
+{- @sc
+// 64-cycle form: A(0-7) intro - B(8-31) - C(32-39) breakdown - D(40-55) drop - E(56-63) outro.
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(64);
+    var intro = (form < 8);
+    var brk = (form >= 32) * (form < 40);
+    var drop = (form >= 40) * (form < 56);
+    var outro = (form >= 56);
+    var arch = (cycles * (2pi / 64)).sin;
+    [2600 + (arch * 1500) + (brk * 1200) - (intro * 900) - (outro * 700),
+     0.10 + (drop * 0.07) + (brk * 0.04),
+     0.06 + (brk * 0.16) + (intro * 0.05),
+     1.4 + (arch * 0.04) - (intro * 0.05) - (outro * 0.09)];
+});
+-}
+
+let kickGate = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let bassGate = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let leadGate = (slow 8 "<f f t t t t t f>") :: Pattern Bool
+let texGate  = (slow 8 "<t t t t f t t t>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+-- the archive swing: a swung 8th (1/12 of a cycle on the offbeats)
+let swing = swingBy (1/12) 4
+-- MELODY from the pile: Portishead "Mysterions" riff (walk:tabs-tidal), transposed down a
+-- semitone to A minor so it sits with the bass. Found via:
+--   ~/tunepile/tools/search.sh --source walk:tabs-tidal 'Mysterions' --body
+let gtrLine = (slow 4 "a3 e4 a4 e5 e5 a3 as3 fs4 b4 f5 a3 e4 a4 e5 e5 a3 as3 fs4 b4 f5") :: Pattern Note
+-- a cool minor chord loop: Am7 - Fmaj7 - Cmaj7 - G7 (one bar each)
+let chords = "<[a3,c4,e4,g4] [f3,a3,c4,e4] [c3,e3,g3,b3] [g3,b3,d4,f4]>" :: Pattern Note
+
+-- ORBIT 0: the floor. One machine, dry (orbit 0 is the master's sidechain detector).
+d1 $ mask kickGate $ swing $ s "rolandtr606:0(4,4)" # orbit 0 # gain (slow 8 $ range 0.4 0.5 sine) # shape 0.3 # hpf 50 # lpf 3800 # release 0.1 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: bass, dry. The old offbeat root motion.
+d5 $ mask bassGate $ swing $ note "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" # s "dubsub" # orbit 1 # drive 0.35 # pitchEnv 0.3 # legato 1.2 # sustain 0.3 # release 0.25 # amp 0.8 # gain 0.7 # hpf 36 # lpf 320 # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 3: the guitar line, archive style - vowel + a sine crush sweep + the 1/12 swing.
+d6 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 3 0.0625 (|* gain 0.5))) $ sometimesBy 0.25 (stut 4 0.7 0.0625) $ note gtrLine # s "gtrm" # n 0 # orbit 3 # gain (slow 8 $ range 0.7 0.9 sine) # speed (slow 6 $ range 0.95 1.05 sine) # lpf (slow 5 $ range 3000 6500 sine) # legato 0.6 # release 0.5 # pan (slow 11 $ range 0.44 0.58 sine) # verbSend 0.28 # room 0.6 # verbT60 2.4 # ddSend 0
+-- ORBIT 2: the chord loop, plucked, into a slow log filter sweep; off-layered an 8th.
+d7 $ mask chordGate $ swing $ every 4 (sometimesBy 0.3 (off 0.125 (# gain 0.5))) $ note chords # s "cpluck" # n 4 # orbit 2 # gain (slow 16 $ range 0.6 0.8 sine) # lpf (slow 16 $ rangex 2000 6500 saw) # release 1.0 # pan 0.44 # verbSend 0.25 # room 0.55 # verbT60 2.2
+
+-- ORBIT 4: the glitch/mouth idiom, VECTORIZED stut, Euclid n (archive 1025/1063/1105).
+d9 $ mask texGate $ stut "<3 9 5 7>" "<0.6 0.45 0.8 0.3>" "<1/8 1/12 1/16 1/6>" $ s "bbox" # n "t(<3 5 9>,16,<0 1 2 3>)" # orbit 4 # gain 0.55 # room 0.4 # size 0.85 # lpf 4000 # hpf 200 # legato 0.5 # pan (slow 9 $ range 0.42 0.58 sine) # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003 # verbSend 0.2
+-- the lpviz loopAt dissolve: speed and gain falling away on a saw (0.tidal late section)
+d10 $ mask texGate $ swing $ every 3 (within (0.5,1) (|* speed (-1))) $ loopAt 1 $ s "lpviz" # n 66 # orbit 4 # gain (slow 8 $ range 0.75 0.5 saw) # speed (slow 8 $ range 1 0.75 saw) # hpf 300 # lpf (slow 8 $ range 4000 8000 sine) # pan (slow 8 $ range 0.3 0.7 sine) # tape 0.28 # tapeWow 0.2 # tapeHiss 0.004
