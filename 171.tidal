@@ -44,7 +44,7 @@ let hatGate   = (slow 8 "<f t t t f t t t>") :: Pattern Bool
 let percGate  = (slow 8 "<t f t t t f t t>") :: Pattern Bool
 let bassGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
 let texGate   = (slow 8 "<t t t t f t t t>") :: Pattern Bool
-let padGate   = (slow 8 "<f f f f f f f f>") :: Pattern Bool
+let padGate   = (slow 8 "<f f t t t t t t>") :: Pattern Bool
 let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
 let swing = (# nudge (fast 8 $ "0 1" * (slow 16 $ range 0 0.06 sine)))
 let shuffle = swingBy (1/6) 8
@@ -56,11 +56,11 @@ let pad = "<[e3,g4,b4,d5] [a3,cs5,e5,g5] [d3,fs4,a4,cs5] [b3,d5,fs5,a5] [g3,b4,d
 let line = (slow 4 "b4 d5 fs5 a5 cs6 a5 fs5 d5 b4 cs5 e5 g5 b5 g5 e5 cs5 fs4 a4 cs5 e5 g5 e5 cs5 a4 g4 b4 d5 fs5 a5 fs5 d5 b4") :: Pattern Note
 
 -- ORBIT 0: the floor. THREE machines stacked for the kick, then the 660 walks its bd variants.
-d1 $ mask kickGate $ swing $ sometimesBy 0.15 (off 0.0625 (# gain 0.3)) $ stack [s "rolandtr909:0(4,4)", s "oberheimdmx:0(4,4)" # gain 0.7, s "linn9000:0(4,4)" # gain 0.4] # orbit 0 # gain (slow 8 $ range 0.4 0.5 sine) # shape 0.35 # hpf 58 # lpf (slow 16 $ range 3200 4600 sine) # release 0.09 # verbSend 0 # room 0 # ddSend 0
-d2 $ mask clapGate $ swing $ degradeBy 0.12 $ sometimesBy 0.3 (# speed "<1 1.5>") $ s "bossdr660(4,4)" # n (slow 8 "<0 17 0 18 0 19 0 20>") # orbit 0 # gain 0.38 # shape 0.4 # hpf 60 # lpf 3600 # pan (slow 8 $ range 0.45 0.55 sine) # release 0.1 # verbSend 0 # room 0 # ddSend 0
+d1 $ mask kickGate $ swing $ stack [(sometimesBy "0 0.3 0 0.5" (fast 2) $ sometimesBy 0.15 (off 0.0625 (# gain 0.3)) $ struct "<t(3,8) t(3,8) t(5,8) t(3,8)>" $ stack [s "rolandtr909:0" # gain (slow 8 $ range 0.4 0.5 sine), s "oberheimdmx:0" # gain (slow 8 $ range 0.26 0.34 sine)] # shape 0.35 # hpf 58 # lpf (slow 16 $ range 3200 4600 sine) # release 0.09), (struct "t(4,4)" $ s "h2ogmbd" # gain 0.5 # shape 0.2 # hpf 50 # lpf 2600 # release 0.1)] # orbit 0 # verbSend 0 # room 0 # ddSend 0
+d2 $ mask clapGate $ swing $ degradeBy 0.12 $ sometimesBy 0.3 (# speed "<1 1.5>") $ s "bossdr660(3,8)" # n (slow 8 "<0 17 0 18 0 19 0 20>") # orbit 0 # gain 0.38 # shape 0.4 # hpf 60 # lpf 3600 # pan (slow 8 $ range 0.45 0.55 sine) # release 0.1 # verbSend 0 # room 0 # ddSend 0
 d3 $ mask clapGate $ shuffle4 $ whenmod 8 7 (spreadr ($) [fast 2, (# hpf 900), fast 3, (# pan 0.3)]) $ struct "f t f t" $ s "bossdr660" # n 21 # orbit 0 # gain 0.44 # hpf 320 # lpf 6500 # pan (slow 8 $ range 0.42 0.58 sine) # release 0.08 # verbSend 0 # room 0 # ddSend 0
 -- hats: the bank's closed hat, and `end` truncates it differently every cycle (a scan)
-d4 $ mask hatGate $ shuffle $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ sometimesBy 0.2 (fast 4) $ s "rolandtr909:2(8,16,2)" # end (slow 4 $ range 0.25 0.7 saw) # orbit 0 # gain (slow 8 $ range 0.22 0.34 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # room 0 # ddSend 0
+d4 $ mask hatGate $ shuffle $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ sometimesBy 0.2 (fast 4) $ struct "t(8,16,2)" $ s "[rolandtr909:2|rolandtr909:3|akaixr10:2]" # end (slow 4 $ range 0.25 0.7 saw) # orbit 0 # gain (slow 8 $ range 0.22 0.34 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # room 0 # ddSend 0
 
 -- ORBIT 1: sub bass, dry, lean. Roots E A D B over the 4-bar pad.
 d5 $ mask bassGate $ swing $ sometimesBy "0 0.3 0.1 0.5" (|+ note 12) $ note "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" # s "dubsub" # orbit 1 # drive 0.4 # pitchEnv 0.35 # legato 1.4 # sustain 0.26 # release 0.2 # amp 0.8 # gain 0.44 # hpf 36 # lpf (slow 16 $ range 190 300 sine) # keyShift 0 # verbSend 0 # room 0 # ddSend 0
@@ -80,7 +80,9 @@ d9 $ mask texGate $ swing $ every 3 (within (0.5,1) (|* speed (-1))) $ slice 16 
 
 -- ORBIT 5: a break throws once per 8; a shaker bank holds the off-grid; silent reset clock.
 d11 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "p94brkA" # orbit 5 # begin 0.02 # end 0.2 # gain (slow 16 $ range 0.34 0.48 sine) # hpf 400 # lpf 7000 # pan "0.3 0.7" # ddSend 0.34 # delayfeedback 0.34 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.26 # room 0.6 # verbT60 2.4
-d12 $ swing $ s "guira(7,16,3)" # orbit 5 # gain (slow 9 $ range 0.28 0.42 sine) # hpf 5000 # lpf 12000 # pan 0.62 # release 0.05 # ddSend 0.08 # delayfeedback 0.2 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
+-- CRAZY PERC (moistpeace): random-choice sample per event, single-hit Euclid at NEGATIVE
+-- positions, and pattern-driven fast for cross-tempo glitches; perlin pan.
+d12 $ mask percGate $ swing $ stack [struct "t(3,16,2)" $ s "[nperc|jamblock|ebongos|quinto|tumba]" # gain 0.26 # pan perlin, s "guira(1,16,[0,-3,-7,-15])" # gain 0.2 # pan 0.4, fast "<4 2 4 [2|8]>" $ s "tarola" # gain 0.16 # pan 0.62] # orbit 4 # hpf 4000 # lpf (slow 8 $ rangex 8000 14000 saw) # release 0.05 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
 -- CHOPPED BREAK (moistpeace): 300-breaks p93drumB layered with lpviz drum loop n48,
 -- sliced into 16 and RE-ORDERED across a 16-step sequence, doubled every 4th bar, reversed
 -- in the back half, with a while-gated burst; crushed + taped. (Was the silent reset clock;
