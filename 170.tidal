@@ -1,0 +1,87 @@
+-- 170 — NIGHT BUS. Lo-fi house companion to 169; same tempo (118 BPM, cps 0.4917) so the
+-- two decks share ONE clock and mix in the A/B pair without a tempo ride.
+--
+-- IDEAS FROM moistpeace — "AMCJ 深層ライブコーディング" seminar notes (note.com/moistpeace
+-- /n/n4fe107779a54), first half. Techniques reused here, not text:
+--   * off x (function)          — layer a delayed transformed copy instead of adding a voice
+--   * spreadr ($) [functions]   — a fill picks ONE random transform per cycle (drums, last bar)
+--   * rangex lo hi saw          — LOG filter sweep across the form (chords + lead)
+--   * sometimesBy "0 0.2 ..."   — pattern the probability, keep the downbeat stable (hats)
+--   * Euclid with rotation       — the 909 kit and shaker sit on (k,n,offset) grids
+--
+-- HARMONY — tunepile chords/progressions.txt in key d, two families spliced into an 8-BAR
+--   cycle (169 was 4):  Em9 A9 Dmaj9 Bm9 (ii-V-I-vi-jazz) | Gmaj9 Bm9 Em9 A9 (royal-road).
+--   Voicings verbatim from the corpus. Longer cycle + secondary motion = less "2-bar loop".
+--   found via: ~/tunepile/tools/search.sh 'key:d' --source chords --body
+--
+-- PALETTE is deliberately different from 169: sweetChords (FM) here vs hoRhodes there;
+--   miLead (Plaits) lead vs superpiano; dubsub vs dubsynth; and real SAMPLES this time —
+--   the rolandtr909 drum-machine bank (MAP.md stable slots 0=bd 1=sd 2=hh 3=oh 4=cp) and
+--   guira shaker, plus lpviz texture. 169 used almost no samples.
+--
+-- MASTER EFFECTS: the global dub chain (hpf -> glue/duck -> tape sat -> tone -> limiter)
+--   is set from SC, not from Tidal (m* is inert; see sc/README.md). Play with it live:
+--   ~masterSet.value(\mCut, 3000) etc. or write ~masterCtlBus directly.
+--
+-- Orbit map: 0 drums dry (sidechain detector) | 1 bass dry | 2 chords -> dub delay |
+--   3 lead -> reverb | 4 texture through tape | 5 send accents + silent reset clock.
+-- @scene {"title":"Night Bus","cps":0.49166666666666664,"quantize":4}
+{- @sc
+// 64-cycle form: A(0-7) intro - B(8-31) groove - C(32-39) breakdown (drums+bass OUT) -
+// D(40-55) drop - E(56-63) outro. Channel tone/sat/wet/gain only; no global master moves.
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(64);
+    var intro = (form < 8);
+    var brk = (form >= 32) * (form < 40);
+    var drop = (form >= 40) * (form < 56);
+    var outro = (form >= 56);
+    var arch = (cycles * (2pi / 64)).sin;
+    var slow = (cycles * (2pi / 21)).sin;
+    [3000 + (arch * 1800) + (brk * 1800) - (intro * 1400) - (outro * 800) + (slow * 300),
+     0.12 + (drop * 0.08) + (brk * 0.05),
+     0.10 + (brk * 0.22) + (intro * 0.04),
+     1.0 + (arch * 0.04) - (intro * 0.06) - (outro * 0.10)];
+});
+-}
+
+-- section gates: one step per 8-cycle section (0..7). Breakdown = section 4.
+let kickGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let percGate  = (slow 8 "<f f t t f f t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let texGate   = (slow 8 "<t t f t t t t t>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
+-- micro-jitter swing (fast nudging, as in 169/166), on every lane
+let swing = (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+-- 8-bar harmony, TunePile voicings verbatim: ii-V-I-vi | IV-vi-ii-V
+let prog = "<[e3,e4,g4,b4,d5,fs5] [a3,a4,cs5,e5,g5,b5] [d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6] [g3,g4,b4,d5,fs5,a5] [b3,b4,d5,fs5,a5,cs6] [e3,e4,g4,b4,d5,fs5] [a3,a4,cs5,e5,g5,b5]>" :: Pattern Note
+-- offbeat sub-bass on the roots E A D B G B E A
+let bassLine = "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2] [~ g2 ~ g2 ~ g2 ~ g2] [~ b2 ~ b2 ~ b2 ~ b2] [~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2]>" :: Pattern Note
+-- a spacious 8-bar hook (8th grid), written to leave holes for the chords
+let hook = cat ["~ ~ fs5 ~ d5 ~ ~ ~", "cs5 ~ ~ e5 ~ ~ a5 ~", "~ d5 ~ fs5 ~ ~ a5 ~", "~ b4 ~ d5 fs5 ~ ~ ~", "~ g4 b4 ~ d5 ~ ~ ~", "~ b4 d5 ~ fs5 ~ a5 ~", "~ ~ e5 ~ d5 ~ cs5 ~", "~ ~ cs5 e5 ~ ~ a4 ~"] :: Pattern Note
+
+-- ORBIT 0: 909 floor, dry (orbit 0 is the master's sidechain detector).
+d1 $ mask kickGate $ swing $ s "rolandtr909:0(4,4)" # orbit 0 # gain (slow 8 $ range 0.72 0.84 sine) # shape 0.3 # hpf 58 # lpf 4200 # release 0.09 # verbSend 0 # ddSend 0
+d2 $ mask clapGate $ swing $ struct "f t f t" $ s "rolandtr909:4" # orbit 0 # gain 0.5 # hpf 320 # lpf 6500 # pan 0.5 # release 0.09 # verbSend 0.06 # room 0.25 # ddSend 0
+d3 $ mask hatGate $ swing $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ s "rolandtr909:2(8,16,2)" # orbit 0 # gain (slow 4 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # ddSend 0
+-- shaker + a spreadr fill on the last bar of every 8 (moistpeace)
+d4 $ mask percGate $ whenmod 8 7 (spreadr ($) [fast 2, (# hpf 800), fast 4, (# pan 0.3)]) $ swing $ s "guira(5,16,4)" # orbit 0 # gain 0.16 # hpf 4000 # lpf 11000 # pan 0.62 # release 0.05 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: sub bass, dry and lean, sometimes pops the octave.
+d5 $ mask bassGate $ swing $ sometimesBy 0.12 (|+ note 12) $ note bassLine # s "dubsub" # orbit 1 # drive 0.4 # pitchEnv 0.4 # legato 1.4 # sustain 0.26 # release 0.2 # amp 0.8 # gain 0.5 # hpf 36 # lpf 240 # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the 8-bar harmony on the FM voice, into the dotted-8th dub delay, with a log
+-- filter sweep across the form (rangex). off-layers a delayed fifth on the 4th bar.
+d6 $ mask chordGate $ swing $ every 4 (off 0.25 (# gain 0.6)) $ note prog # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.5 0.66 sine) # amp 0.3 # cutoff (slow 16 $ rangex 1400 6000 saw) # fmIndex 1.1 # ratio 2 # drive 1.3 # sub 0.3 # width 0.7 # attack 0.02 # release 1.8 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.32 # ddSend 0.3 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.4 # verbT60 1.8
+
+-- ORBIT 3: the hook on the Plaits lead, engine morphing bar to bar, into reverb.
+d7 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ note hook # s "miLead" # orbit 3 # gain (slow 8 $ range 0.38 0.48 sine) # amp 0.4 # engine "<11 6 12 5>" # harm (slow 8 $ range 0.3 0.6 sine) # timbre (slow 16 $ range 0.2 0.8 saw) # morph (slow 16 $ range 0 1 sine) # cutoff (slow 16 $ rangex 4000 9000 saw) # attack 0.02 # release 0.7 # sustain 0.45 # pan 0.58 # keyShift 0 # vib 0.18 # vibRate 5.0 # trem 0.06 # tremRate 4.0 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
+
+-- ORBIT 4: lpviz texture through tape, occasionally reversed. A sample, unlike 169's synth.
+d8 $ mask texGate $ swing $ every 5 (within (0.5,0.75) (|* speed (-1))) $ slice 16 "0 3 ~ 7 11 ~ 14" $ s "lpviz:45" # orbit 4 # gain 0.16 # speed (slow 16 $ range 0.9 1.15 sine) # sustain 0.1 # hpf 900 # lpf 6800 # pan (slow 8 $ range 0.3 0.7 sine) # crush 16 # tape 0.3 # tapeWow 0.2 # tapeHiss 0.005 # ddSend 0.14 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
+
+-- ORBIT 5: an open-hat throw at the end of every 8, and a silent reset clock.
+d9 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "rolandtr909:3" # orbit 5 # gain 0.18 # hpf 900 # lpf 8000 # sustain 0.2 # release 0.3 # pan "0.3 0.7" # ddSend 0.3 # delayfeedback 0.3 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.28 # room 0.6 # verbT60 2.4
+d10 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
