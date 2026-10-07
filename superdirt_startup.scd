@@ -16,12 +16,13 @@ Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
 	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
 	s.options.numInputBusChannels = 0; // output-only Tidal stack: never create PipeWire mic capture ports
 	s.options.useSystemClock = false; // SC 3.13 default (true) makes scsynth exit cleanly with pipewire-jack
-	// Dropout headroom. This engine deliberately runs WITHOUT realtime priority
-	// (see tools/scsynth-log.sh: a non-RT PipeWire client, rtprio=0) to avoid the
-	// inherited 200ms RTTIME SIGKILL, so its audio callback competes with normal
-	// scheduling. The default blockSize of 64 gives the callback only ~1.3ms of
-	// CPU per block; 256 gives ~5.3ms for the same DSP, which is the real fix for
-	// dropouts under load. The added latency is inaudible next to s.latency = 0.3.
+	// Dropout headroom. The engine now runs WITH realtime priority for its
+	// PipeWire data loop (tools/scsynth-log.sh no longer clamps rtprio; the user
+	// is in the audio/realtime groups, so module-rt grants RT directly and the
+	// session's RLIMIT_RTTIME is unlimited). The larger blockSize is still kept:
+	// default 64 gives the callback only ~1.3ms of CPU per block; 256 gives
+	// ~5.3ms for the same DSP, and the added latency is inaudible next to
+	// s.latency = 0.3.
 	// hardwareBufferSize is NOT set on purpose: with pipewire-jack the period size
 	// comes from the PipeWire graph, so scsynth's value would be ignored.
 	s.options.blockSize = 256;
@@ -38,6 +39,13 @@ Server.program = Platform.userHomeDir ++ "/livecode/tools/scsynth-log.sh";
 		// for example: ~dirt.loadSoundFiles("/Users/myUserName/Dirt/samples/*");
         ~dirt.loadSoundFiles("/home/erik/sounds/*");
         ~dirt.loadSoundFiles("/home/erik/sounds/mars_symlinks/*");
+        // 73 drum-machine banks built by ~/samples/build_drum_banks.py from
+        // tidal-drum-machines. Kept OUTSIDE ~/sounds on purpose: a container dir
+        // inside the glob above would also be scanned as one bogus bank (that is
+        // what happens to mars_symlinks). Map: ~/drummachines/MAP.md
+        //   s "rolandtr909" # n "0 1 2 3"   -- slots 0=bd 1=sd 2=hh 3=oh, stable
+        //   across every bank; missing voices are silent placeholders, not shifts.
+        ~dirt.loadSoundFiles("/home/erik/drummachines/*");
 		// s.sync; // optionally: wait for samples to be read
 		~dirt.start(57120, 0 ! 24);   // 4 scene channels x 6 local orbits — MUST match
 		// sc/scene-mixer.json ({"channels":4,"orbits":6}), which the plugin reads.
