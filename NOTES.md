@@ -54,6 +54,12 @@ Conventions:
   layered polyrhythm: 3-against-4 chord-tone hemiola (d14, `struct "t(3,8)"`), 5-in-16
   shaker (d15), and the moistpeace `{}%n` polymetric cell `{nperc jamblock ebongos}%16`
   (d16). Verdict: "now we cooking".
+- **171 drum pass** — repo sine-drift swing + `swingBy (1/6)` shuffle, ghost kicks, `spreadr`
+  fill, extra polymetric hat stream (d10); all drum lanes dry. Scene-mode reverb is a
+  deck-wide `FreeVerb2` in `pi-tidal/sc/scenes.scd` (no per-lane send, no delay), so the
+  kick is only dry with deck `wet = 0`.
+- **Take saved**: `recordings/ghost-machines-171-20261007-0945.flac` (~42 s), wav deleted.
+  Verdict: "it's rad". Commit `5d343b0`.
 
 **INCIDENT — piercing high-frequency self-oscillation (fixed)**
 - Cause 1 (design): I wired Tidal `m*` to the master by instantiating `dirt_masterctl`
