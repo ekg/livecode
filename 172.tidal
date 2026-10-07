@@ -1,0 +1,120 @@
+-- 172 — SUBMERGED. Deep dub techno, 118 BPM (cps 0.4917) so it shares ONE clock with
+-- 169/170/171 and mixes on the A/B pair without a tempo ride.
+--
+-- MATERIAL — SAMPLE-FIRST. No sweetChords / hoRhodes / miLead / dubsub (the synths the
+-- recent scenes leaned on). The core is LOOPS chopped/sliced/scanned plus drum-machine
+-- banks, one sample bass and one sampled chord voice:
+--   * loops (LOOPS.md aliases, verified): p93drumA = breaklots/01 Track01 (chopped orders),
+--     p94brkC = loopmaster "Phat 11 A 111bpm" (begin/end SCAN of one file),
+--     p94brkD = loopmaster "2step 5 130bpm" (throw accent).
+--   * drum-machine banks scanned through their variant blocks (drummachines/MAP.md slots):
+--     rolandtr606/rolandtr909/rolandtr808 (bd/hh/sh), bossdr550+oberheimdmx (kick weight),
+--     bossdr660 rim 5 + variants 147-150, rolandtr727 perc 18-26, linn9000 toms 6/7/8 + 17/18,
+--     akaixr10 perc 41-54 via irand; oberheimdmx bd layered under the kick.
+--   * flbass n 0 (a C2 bass-guitar sample) — pitch set ONLY with `speed` (see note below).
+--   * cpluck n 4/n 8 (plucked cello C3/C4) — the chord + lead voice, pitched with `speed`.
+--   * strum (guitar chord strums) for the offbeat dub skank; nperc/guira/jamblock/tumba/
+--     quinto/tarola shakers & hand-percussion.
+--
+-- NOTE ON PITCHED SAMPLES: LOOPS.md warns that for samples `note` IS playback speed, and
+-- the working repos use both note and n on samples. To be unambiguous here, pitch is set
+-- ONLY through `speed` (rate = speed * freq/60.midicps, so n selects the file at natural
+-- pitch and speed transposes by ratio), never through `note` on a sample.
+--
+-- HARMONY — tunepile chords/progressions.txt, key d, families aeolian-descend [d] +
+-- dorian-vamp [d], spliced into an 8-BAR cycle so it progresses rather than loops:
+--   Bm9 A9 Gmaj9 F#m(maj7) Em9 Gmaj9 Bm9 A9   (voicings verbatim, re-spelled as semitone
+--   ratios from the cpluck C3/C4 samples). Found via:
+--   ~/tunepile/tools/search.sh 'key:d' --source chords --body -n 30
+--   Also cited: minor-ii-V-i [d] (Em9/A9/Bm9) supplies the same Em9/A9 shapes.
+--
+-- moistpeace (note.com/moistpeace/n/n4fe107779a54) applied hardcore: {}%n polymetric cells
+-- (d16), Euclid with rotation (d2 t(3,8,2), d3 8,16,2, d12 7,16,3, d15 t(5,16)), whenmod
+-- fills (d3 spreadr, d11 stutWith), with-sections via mask gates, `while` conditional FX
+-- (d9), off-layers (d7), patterned sometimesBy "..." (d3/d4), range/rangex/saw/sine sweeps,
+-- irand/perlin, swingBy shuffle, and stack[] layering with per-layer FX (d1/d4/d6).
+--
+-- SCENE-MODE FX: the per-deck reverb is a deck-wide FreeVerb2 and lane-level dd/verb are
+-- INERT (scene mode bypasses each orbit's dryBus; see sc/README.md). So character comes
+-- from sample choice, filter, chop, tape, speed and `vowel`; the wet column is the only
+-- real reverb. The dd/verb params below are kept only so the intent is legible.
+--
+-- Orbit map: 0 drums dry (master sidechain detector) | 1 bass dry | 2 chords/stabs |
+--   3 lead | 4 texture/loops | 5 send accents + silent gain-0 reset clock.
+-- @scene {"title":"Submerged","cps":0.49166666666666664,"quantize":4}
+{- @sc
+// 64-cycle form: A(0-7) intro - B(8-23) groove - C(24-31) lift - D(32-39) breakdown
+// (drums OUT, the loops keep whispering) - E(40-55) drop - F(56-63) outro.
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(64);
+    var intro = (form < 8);
+    var brk = (form >= 32) * (form < 40);
+    var drop = (form >= 40) * (form < 56);
+    var outro = (form >= 56);
+    var arch = (cycles * (2pi / 64)).sin;
+    var slow = (cycles * (2pi / 17)).sin;
+    [2600 + (arch * 1200) - (intro * 900) + (brk * 800) - (outro * 600) + (slow * 250),
+     0.13 + (drop * 0.09) + (brk * 0.05),
+     (brk * 0.40) + (intro * 0.06) + (outro * 0.12),
+     1.0 + (arch * 0.04) - (intro * 0.05) - (outro * 0.08)];
+});
+-}
+
+-- section gates: one step per 8-cycle section (0..7). Breakdown = section 4.
+let kickGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let percGate  = (slow 8 "<f t t t t t t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
+let texGate   = (slow 8 "<t t t t f t t t>") :: Pattern Bool
+-- micro-jitter swing (fast nudging, as in 169/170/171) + a swung 8th feel (moistpeace swingBy)
+let swing = (# nudge (fast 7 "-0.005 0.005 0.002 -0.003"))
+let shuffle = swingBy (1/6) 8
+-- 8-bar harmony, TunePile key-d voicings re-spelled as semitone RATIOS from a C reference
+-- (aeolian-descend [d] Bm9 A9 Gmaj9 F#m(maj7) + dorian-vamp [d] Em9 Gmaj9).
+let bLow  = "<0.943 0.841 0.749 0.707 0.630 0.749 0.943 0.841>" :: Pattern Double
+let bMid  = "<1.122 1.059 0.943 0.841 0.749 0.943 1.122 1.059>" :: Pattern Double
+let bHigh = "<1.414 1.260 1.122 1.059 0.943 1.122 1.414 1.260>" :: Pattern Double
+let bassRoot = (bLow * 2) :: Pattern Double
+-- sparse 8-bar dub hook (8th grid), left-hand holes for the echoes; degrees in key d.
+let leadHook = (cat ["~ 1.682 ~ ~ 1.414 ~ ~ ~", "~ ~ 1.260 ~ ~ 1.122 ~ ~", "~ 1.414 ~ ~ 1.682 ~ ~ ~", "~ ~ 1.122 ~ ~ ~ 1.260 ~", "~ 1.498 ~ ~ 1.414 ~ ~ ~", "~ ~ 1.260 ~ ~ 1.059 ~ ~", "~ 1.122 ~ ~ 1.414 ~ ~ ~", "~ ~ 1.682 ~ ~ ~ ~ ~"]) :: Pattern Double
+
+-- ORBIT 0: the floor. THREE machines stacked for the kick (606 body + 808 + 550 weight).
+d1 $ mask kickGate $ swing $ stack [s "rolandtr606:0(4,4)" # gain 0.85, s "rolandtr808:0(4,4)" # gain 0.5, s "bossdr550:0(4,4)" # gain 0.42, s "oberheimdmx:0(4,4)" # gain 0.55] # orbit 0 # shape 0.32 # hpf 48 # lpf (slow 16 $ range 3200 5200 sine) # release 0.1 # verbSend 0 # ddSend 0
+-- rim/clap: Euclid t(3,8,2), scanning bossdr660's rim 5 into its 147-150 variant block.
+d2 $ mask clapGate $ swing $ struct "t(3,8,2)" $ s "bossdr660" # n (slow 8 "<5 147 5 148 5 149 5 150>") # orbit 0 # gain 0.4 # hpf 320 # lpf 6500 # pan (slow 8 $ range 0.44 0.56 sine) # release 0.08 # verbSend 0 # ddSend 0
+-- hats: 909 hh on 8,16,2; `end` truncates the file differently every cycle (a SCAN); a
+-- moistpeace spreadr fill fires on the last bar of every 8.
+d3 $ mask hatGate $ shuffle $ whenmod 8 7 (spreadr ($) [fast 2, (# pan 0.28), fast 3]) $ s "rolandtr909:2(8,16,2)" # end (slow 4 $ range 0.2 0.65 saw) # orbit 0 # gain (slow 4 $ range 0.14 0.24 sine) # hpf 7000 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # ddSend 0
+-- hand-perc: guira Euclid + tr727 perc + akaixr10 perc scanned with irand; sometimesBy doubles.
+d4 $ mask percGate $ swing $ sometimesBy "0 0.2 0.1 0.5" (fast 2) $ stack [s "guira(7,16,3)" # gain 0.11 # hpf 5000 # lpf 12000, s "rolandtr727" # n (18 + irand 9) # gain 0.13 # hpf 3000 # lpf 9000, s "akaixr10" # n (41 + irand 14) # gain 0.12 # hpf 500 # lpf 9000] # orbit 0 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.05 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: bass, dry and lean. flbass n 0 (C2 sample), pitch carried by `speed` only.
+d5 $ mask bassGate $ swing $ sometimesBy 0.15 (|+ speed 0.05) $ s "flbass" # n 0 # speed bassRoot # orbit 1 # gain (slow 8 $ range 0.34 0.44 sine) # shape 0.06 # hpf 40 # lpf (slow 16 $ range 180 300 sine) # legato 1.2 # sustain 0.28 # release 0.18 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the chord bed. cpluck C3 stacked into bMid/bHigh, moving struct, log filter sweep.
+d6 $ mask chordGate $ swing $ struct "<t(3,8) t(4,8) t(5,8) t(6,8)>" $ stack [s "cpluck" # n 4 # speed bMid, s "cpluck" # n 4 # speed bHigh] # orbit 2 # gain (slow 32 $ range 0.3 0.42 sine) # amp 0.4 # lpf (slow 16 $ rangex 1200 5200 saw) # hpf 180 # attack 0.02 # release 1.4 # pan 0.42 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # ddSend 0.26 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.45 # verbT60 2.0
+-- the offbeat dub SKANK: a guitar strum (strum), off-layered by an 8th.
+d7 $ mask chordGate $ swing $ every 2 (off 0.25 (# gain 0.5)) $ struct "t(4,8,2)" $ s "strum" # n (irand 7) # orbit 2 # gain 0.28 # hpf 300 # lpf 4600 # pan (slow 8 $ range 0.35 0.65 sine) # release 0.3 # speed (slow 16 $ range 0.98 1.06 sine) # ddSend 0.22 # delaytime 0.1875 # lock 1 # delayfeedback 0.28 # ddHp 800 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.12 # room 0.4 # verbT60 1.9
+-- polyrhythm: a 3-against-4 chord-tone hemiola up high, quiet (cpluck C4).
+d14 $ mask chordGate $ swing $ struct "t(3,8)" $ s "cpluck" # n 8 # speed bHigh # orbit 2 # gain 0.16 # amp 0.35 # lpf 4200 # hpf 400 # release 0.5 # pan (slow 8 $ range 0.4 0.72 sine)
+
+-- ORBIT 3: the lead. cpluck C4, the sparse hook, dotted-8th echo on the stut at every 8.
+d8 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ s "cpluck" # n 8 # speed leadHook # orbit 3 # gain (slow 8 $ range 0.3 0.42 sine) # amp 0.4 # lpf (slow 16 $ rangex 2600 7000 saw) # hpf 300 # release 0.5 # pan 0.58 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
+
+-- ORBIT 4: loops through tape. p93drumA chopped into new orders; `while` fires crush.
+d9 $ mask texGate $ swing $ while "t f f t f t t f" (# crush 5) $ every 3 (within (0.5,1) (|* speed (-1))) $ slice 16 "<0 3 7 11 14 2 9 5>" $ s "p93drumA" # orbit 4 # gain 0.17 # hpf 120 # lpf (slow 8 $ range 4000 8000 sine) # pan (slow 8 $ range 0.3 0.7 sine) # crush 16 # tape 0.3 # tapeWow 0.2 # tapeHiss 0.004 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
+-- p94brkC, ONE file made into a moving array of timbres: begin/end walk it (the SCAN).
+d10 $ mask texGate $ swing $ loopAt 2 $ s "p94brkC" # end (slow 8 $ range 0.35 0.95 saw) # begin (slow 16 $ range 0.05 0.25 sine) # vowel "<a e o>" # orbit 4 # gain 0.15 # speed (slow 16 $ range 0.92 1.08 sine) # hpf 200 # lpf 6000 # pan (slow 8 $ range 0.3 0.7 sine) # tape 0.3 # tapeWow 0.18 # tapeHiss 0.003 # ddSend 0.14 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
+-- linn9000 toms, Euclid 5-in-16, walking the tom voices and their variant blocks.
+d15 $ mask texGate $ swing $ struct "t(5,16)" $ s "linn9000" # n (slow 8 "<6 17 7 18 8 17 6 8>") # orbit 4 # gain 0.14 # hpf 200 # lpf 5000 # pan (range 0.3 0.7 perlin) # release 0.1 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
+-- polymetric, moistpeace {}%n: a 3-sample cell read at 16th rate -> 3-against-4, drifting.
+d16 $ mask texGate $ swing $ s "{jamblock tumba tarola}%16" # orbit 4 # gain 0.1 # hpf 3500 # lpf 12000 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.04 # tape 0.22 # tapeWow 0.15 # tapeHiss 0.003
+
+-- ORBIT 5: a break throws once per 8 via stutWith; a 808 shaker holds the off-grid; a
+-- silent gain-0 reset clock makes the orbit-5 delay/reverb consensus explicit.
+d11 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "p94brkD" # orbit 5 # begin 0.02 # end 0.22 # gain 0.16 # hpf 400 # lpf 7000 # pan "0.3 0.7" # ddSend 0.34 # delayfeedback 0.34 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.26 # room 0.6 # verbT60 2.4
+d12 $ swing $ s "rolandtr808:12(7,16,3)" # orbit 5 # gain 0.12 # hpf 5000 # lpf 12000 # pan 0.62 # release 0.05 # ddSend 0.08 # delayfeedback 0.2 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
+d13 $ s "rolandtr606:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
