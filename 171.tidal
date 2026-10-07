@@ -85,7 +85,7 @@ d12 $ swing $ s "guira(7,16,3)" # orbit 5 # gain (slow 9 $ range 0.28 0.42 sine)
 -- sliced into 16 and RE-ORDERED across a 16-step sequence, doubled every 4th bar, reversed
 -- in the back half, with a while-gated burst; crushed + taped. (Was the silent reset clock;
 -- that role is inert in scene mode since per-orbit sends do not run.)
-d13 $ mask percGate $ swing $ while "f f f t" (fast 2) $ sometimesBy "0 0.25 0.1 0.5" (fast 2) $ every 4 (within (0.5,1) (|* speed (-1))) $ slice 16 "<0 3 6 1 9 12 4 7 14 2 11 5 8 15 10 13>" $ stack [s "p93drumB", s "lpviz" # n 48 # speed 0.94] # orbit 4 # gain (slow 8 $ range 0.3 0.46 sine) # hpf 180 # lpf (slow 16 $ rangex 3000 9000 saw) # pan (slow 8 $ range 0.3 0.7 sine) # crush 12 # tape 0.25 # tapeWow 0.18 # tapeHiss 0.004 # release 0.08
+d13 $ mask percGate $ swing $ while "f f f t" (fast 2) $ sometimesBy "0 0.25 0.1 0.5" (fast 2) $ every 4 (within (0.5,1) (|* speed (-1))) $ slice 16 "0 3 6 1 9 12 4 7 14 2 11 5 8 15 10 13" $ stack [s "p93drumB", s "lpviz" # n 48 # speed 0.94] # orbit 4 # gain (slow 8 $ range 0.3 0.46 sine) # hpf 180 # lpf (slow 16 $ rangex 3000 9000 saw) # pan (slow 8 $ range 0.3 0.7 sine) # crush 12 # tape 0.25 # tapeWow 0.18 # tapeHiss 0.004 # release 0.08
 -- polyrhythm 2: 5-in-16 shaker against the 4-on-floor; per-event tape only (d8 owns orbit 4's dd/verb)
 d15 $ mask percGate $ swing $ struct "t(5,16)" $ s "nperc" # n (irand 4) # orbit 4 # gain (slow 7 $ range 0.3 0.44 sine) # hpf 4000 # lpf (slow 8 $ rangex 8000 13000 saw) # pan (slow 4 $ range 0.35 0.65 sine) # release 0.05 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
 -- polymetric, moistpeace {}%n: a 3-sample cell read at 16th rate -> 3-against-4, always drifting
