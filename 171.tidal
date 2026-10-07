@@ -52,7 +52,8 @@ let shuffle4 = swingBy (1/6) 4
 -- 8-bar harmony with secondary motion (ii-V-I-vi | IV-V/vi-ii-V) so it progresses, not loops
 let pad = "<[e3,g4,b4,d5] [a3,cs5,e5,g5] [d3,fs4,a4,cs5] [b3,d5,fs5,a5] [g3,b4,d5,fs5] [fs3,a4,cs5,fs5] [e3,g4,b4,d5] [a3,cs5,e5,g5]>" :: Pattern Note
 -- upper chord-tone cluster for the 3-against-4 hemiola layer
-let hemiola = "<[b4,d5,fs5] [a4,cs5,e5] [g4,b4,d5] [fs4,a4,cs5]>" :: Pattern Note
+-- long melodic line (8 notes/cycle over 4 cycles); implies the harmony now the pad is muted
+let line = (slow 4 "b4 d5 fs5 a5 cs6 a5 fs5 d5 b4 cs5 e5 g5 b5 g5 e5 cs5 fs4 a4 cs5 e5 g5 e5 cs5 a4 g4 b4 d5 fs5 a5 fs5 d5 b4") :: Pattern Note
 
 -- ORBIT 0: the floor. THREE machines stacked for the kick, then the 660 walks its bd variants.
 d1 $ mask kickGate $ swing $ sometimesBy 0.15 (off 0.0625 (# gain 0.3)) $ stack [s "rolandtr909:0(4,4)", s "oberheimdmx:0(4,4)" # gain 0.7, s "linn9000:0(4,4)" # gain 0.55] # orbit 0 # gain (slow 8 $ range 0.55 0.66 sine) # shape 0.35 # hpf 58 # lpf (slow 16 $ range 3200 4600 sine) # release 0.09 # verbSend 0 # room 0 # ddSend 0
@@ -67,22 +68,26 @@ d5 $ mask bassGate $ swing $ sometimesBy "0 0.3 0.1 0.5" (|+ note 12) $ note "<[
 -- ORBIT 2: the pad on the FM voice, into the dub delay, log-swept across the form.
 d6 $ mask padGate $ swing $ struct "<t(2,8) t(3,8) t(4,8) t(3,8)>" $ off 0.25 (# gain 0.5) $ note pad # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.22 0.32 sine) # amp 0.3 # cutoff (slow 16 $ rangex 1400 6000 saw) # fmIndex 1.1 # ratio 2 # drive 1.3 # sub 0.3 # width 0.7 # attack 0.02 # release 0.7 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.32 # ddSend 0.3 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.4 # verbT60 1.8
 -- polyrhythm 1: 3-against-4 chord-tone hemiola, upper register, quiet (no orbit FX: d6 owns them)
-d14 $ mask padGate $ swing $ struct "t(3,8)" $ note hemiola # s "hoRhodes" # orbit 2 # gain (slow 11 $ range 0.44 0.62 sine) # amp 0.3 # cutoff 4200 # sustain 0.25 # release 0.5 # pan (slow 8 $ range 0.4 0.72 sine) # keyShift 0 # vib 0.04 # vibRate 5.0
+d14 $ mask leadGate $ swing $ every 16 (within (0.5,1) (stutWith 2 0.125 (|* gain 0.5))) $ note line # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.42 0.58 sine) # amp 0.3 # cutoff (slow 16 $ rangex 3000 7000 saw) # sustain 0.3 # release 0.5 # pan (slow 8 $ range 0.4 0.7 sine) # keyShift 0 # vib 0.05 # vibRate 5.0
 
 -- ORBIT 3: a sampled arp (p93arp) chopped, with end walking the chop so the figure morphs.
-d7 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ slice 8 "<0 2 4 7>" $ s "p93arp" # orbit 3 # gain (slow 13 $ range 0.62 0.8 sine) # speed (slow 16 $ range 0.95 1.1 sine) # hpf 300 # lpf 7000 # pan 0.58 # release 0.4 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
+d7 $ mask leadGate $ swing $ every 32 (rev) $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ slice 8 "<0 2 4 7 5 3 6 1 0 4 2 7 3 5 1 6>" $ s "p93arp" # orbit 3 # gain (slow 13 $ range 0.62 0.8 sine) # speed (slow 16 $ range 0.95 1.1 sine) # hpf 300 # lpf (slow 16 $ rangex 4500 9000 saw) # pan (slow 8 $ range 0.45 0.7 sine) # release 0.4 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
 
 -- ORBIT 4: machines through tape. A different bank each bar, index-scanned; the `irand`
 -- block never repeats a voice. A spreadr fill fires on the last bar of every 8.
-d8 $ mask percGate $ whenmod 8 7 (spreadr ($) [fast 2, (# hpf 900), fast 3, (# pan 0.3)]) $ swing $ s "akaixr10" # n (41 + irand 14) # orbit 4 # gain (slow 16 $ range 0.48 0.64 sine) # hpf 500 # lpf 9000 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.12 # tape 0.28 # tapeWow 0.2 # tapeHiss 0.005 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
+d8 $ mask percGate $ whenmod 8 7 (spreadr ($) [fast 2, (# hpf 900), fast 3, (# pan 0.3)]) $ swing $ s "akaixr10" # n (41 + irand 14) # orbit 4 # gain (slow 16 $ range 0.48 0.64 sine) # hpf 500 # lpf (slow 16 $ rangex 5000 11000 saw) # pan (slow 8 $ range 0.3 0.7 sine) # release 0.12 # tape 0.28 # tapeWow 0.2 # tapeHiss 0.005 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
 d9 $ mask texGate $ swing $ every 3 (within (0.5,1) (|* speed (-1))) $ slice 16 "<0 3 7 11 14>" $ s "lpviz:45" # orbit 4 # gain (slow 21 $ range 0.4 0.58 sine) # speed (slow 16 $ range 0.9 1.15 sine) # sustain 0.1 # hpf 1000 # lpf 7000 # pan (slow 8 $ range 0.3 0.7 sine) # crush 16 # tape 0.3 # tapeWow 0.2 # tapeHiss 0.004 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.14 # room 0.42 # verbT60 2.0
 
 -- ORBIT 5: a break throws once per 8; a shaker bank holds the off-grid; silent reset clock.
 d11 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "p94brkA" # orbit 5 # begin 0.02 # end 0.2 # gain (slow 16 $ range 0.34 0.48 sine) # hpf 400 # lpf 7000 # pan "0.3 0.7" # ddSend 0.34 # delayfeedback 0.34 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.1 # ddWow 0.06 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.26 # room 0.6 # verbT60 2.4
 d12 $ swing $ s "guira(7,16,3)" # orbit 5 # gain (slow 9 $ range 0.28 0.42 sine) # hpf 5000 # lpf 12000 # pan 0.62 # release 0.05 # ddSend 0.08 # delayfeedback 0.2 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
-d13 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
+-- CHOPPED BREAK (moistpeace): 300-breaks p93drumB layered with lpviz drum loop n48,
+-- sliced into 16 and RE-ORDERED across a 16-step sequence, doubled every 4th bar, reversed
+-- in the back half, with a while-gated burst; crushed + taped. (Was the silent reset clock;
+-- that role is inert in scene mode since per-orbit sends do not run.)
+d13 $ mask percGate $ swing $ while "f f f t" (fast 2) $ sometimesBy "0 0.25 0.1 0.5" (fast 2) $ every 4 (within (0.5,1) (|* speed (-1))) $ slice 16 "<0 3 6 1 9 12 4 7 14 2 11 5 8 15 10 13>" $ stack [s "p93drumB", s "lpviz" # n 48 # speed 0.94] # orbit 4 # gain (slow 8 $ range 0.3 0.46 sine) # hpf 180 # lpf (slow 16 $ rangex 3000 9000 saw) # pan (slow 8 $ range 0.3 0.7 sine) # crush 12 # tape 0.25 # tapeWow 0.18 # tapeHiss 0.004 # release 0.08
 -- polyrhythm 2: 5-in-16 shaker against the 4-on-floor; per-event tape only (d8 owns orbit 4's dd/verb)
-d15 $ mask percGate $ swing $ struct "t(5,16)" $ s "nperc" # n (irand 4) # orbit 4 # gain (slow 7 $ range 0.3 0.44 sine) # hpf 4000 # lpf 12000 # pan (slow 4 $ range 0.35 0.65 sine) # release 0.05 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
+d15 $ mask percGate $ swing $ struct "t(5,16)" $ s "nperc" # n (irand 4) # orbit 4 # gain (slow 7 $ range 0.3 0.44 sine) # hpf 4000 # lpf (slow 8 $ rangex 8000 13000 saw) # pan (slow 4 $ range 0.35 0.65 sine) # release 0.05 # tape 0.2 # tapeWow 0.15 # tapeHiss 0.003
 -- polymetric, moistpeace {}%n: a 3-sample cell read at 16th rate -> 3-against-4, always drifting
 d16 $ mask texGate $ swing $ s "{nperc jamblock ebongos}%16" # orbit 4 # gain (slow 13 $ range 0.3 0.48 sine) # hpf 3500 # lpf 12000 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.04 # tape 0.22 # tapeWow 0.15 # tapeHiss 0.003
 -- crazier hats: a second 16th stream whose 3-sample cell drifts; doubles every 4th bar
