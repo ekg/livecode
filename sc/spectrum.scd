@@ -161,5 +161,95 @@ SynthDef(\piBandMeter, { |in = 0, out = 0, rmsOut = 0|
     };
 };
 
-"sc/spectrum.scd loaded: ~spectrumStart | ~spectrumReport | ~spectrumReportAvg | ~spectrumStop".postln;
+// --------------------------------------------------------------------------
+// PER-ORBIT SCAN — intensity + dominant frequency, one compact line per orbit.
+//
+// The channel meter above answers "who owns the low end" at channel resolution.
+// This answers "what is each ORBIT emitting, and where is its energy" — the finest
+// view available, because an orbit's dryBus is per-orbit and pre-FX (verified: the
+// boot self-test has always read orbit.dryBus). That is exactly the feedback needed
+// while DRAFTING a scene: load it on a MUTED deck (a muted deck still runs its
+// clocks, orbits and effects), scan its orbits, read the distribution, then fade in.
+//
+// One \piOrbitScan per orbit publishes 6 band amps + rms + a spectral centroid to a
+// control bus. The centroid is a band-weighted mean (sum(centre*band)/sum(band)), not
+// an FFT: cheap, and honest enough to say "this orbit's energy sits around 300 Hz".
+// ~orbitScanReport prints only orbits above a floor, so the answer stays a handful
+// of tokens rather than 24 lines. Metering only; never writes audio.
+SynthDef(\piOrbitScan, { |in = 0, out = 0|
+    var sig = In.ar(in, 2);
+    var mono = sig.asArray.sum * 0.5;
+    // fast-ish (0.05/0.3) so a single kick still shows up, unlike the slow balance meter
+    var amps = bands.collect { |pair| Amplitude.kr(BPF.ar(mono, pair[0], pair[1]), 0.05, 0.3) };
+    var total = amps.sum + 1e-9;
+    var centroid = (amps * bands.collect(_[0])).sum / total;
+    var rms = Amplitude.kr(mono, 0.05, 0.3);
+    amps.do { |a, i| Out.kr(out + i, a) };
+    Out.kr(out + 6, rms);
+    Out.kr(out + 7, centroid);
+}).add;
+
+~orbitScanStride = 8;
+~orbitScanStop = {
+    if(~orbitScanMeters.notNil) { ~orbitScanMeters.do(_.free) };
+    ~orbitScanMeters = nil;
+};
+// count = how many physical orbits to watch (default: first 12 = the A/B pair).
+~orbitScanStart = { |count = 12|
+    ~orbitScanStop.value;
+    ~orbitScanBus = Bus.control(s, count * ~orbitScanStride);
+    ~orbitScanMeters = (0..(count - 1)).collect { |i|
+        Synth(\piOrbitScan, [\in, ~dirt.orbits[i].dryBus.index,
+            \out, ~orbitScanBus.index + (i * ~orbitScanStride)], addAction: \addToTail);
+    };
+    ~orbitScanCount = count;
+    ~orbitScanNames = (0..(count - 1)).collect { |i| "o" ++ i.asString.padLeft(2, "0") };
+    "orbit scan: metering % orbit dryBus(es) 0-%. NOTE: exact per-orbit only in LEGACY\n    routing; SCENE mode bypasses dryBus, so use ~deckScanStart there. Followers need a beat\n    to build - read a moment later.".format(count, count - 1).postln;
+};
+
+// scene-mode finest view: the master bus plus each live scene CHANNEL bus.
+~deckScanStart = {
+    var list = [["master", ~masterBus.index]];
+    ((~piSceneManager ? (buses: nil))[\buses]) !? { |buses|
+        buses.do { |bus, i| if(bus.notNil) { list = list.add(["ch" ++ i, bus.index]) } };
+    };
+    ~orbitScanStop.value;
+    ~orbitScanBus = Bus.control(s, list.size * ~orbitScanStride);
+    ~orbitScanMeters = list.collect { |pair, i|
+        Synth(\piOrbitScan, [\in, pair[1],
+            \out, ~orbitScanBus.index + (i * ~orbitScanStride)], addAction: \addToTail);
+    };
+    ~orbitScanCount = list.size;
+    ~orbitScanNames = list.collect(_[0]);
+    "deck scan: metering % (master + scene channels). Read a moment later.".format(~orbitScanNames.join(" ")).postln;
+};
+
+// compact one-line-per-orbit report; only orbits above floorDb are shown (unless all: true).
+~orbitScanReport = { |floorDb = -58, all = false|
+    var stride = ~orbitScanStride;
+    if(~orbitScanBus.isNil) {
+        "orbit scan: not started - run ~orbitScanStart.value first".postln;
+    } {
+        var lines = List.new;
+        lines.add("--- orbit scan " ++ Date.getDate.stamp ++ "  (rms / dominant Hz / L-M-H %)");
+        (0..(~orbitScanCount - 1)).do { |i|
+            var b = (0..5).collect { |k| ~orbitScanBus.subBus(i * stride + k).getSynchronous };
+            var rms = ~orbitScanBus.subBus(i * stride + 6).getSynchronous;
+            var dom = ~orbitScanBus.subBus(i * stride + 7).getSynchronous;
+            var db = 20 * log10(rms + 1e-9);
+            if(all or: { db > floorDb }) {
+                var total = b.sum.max(1e-9);
+                var low = ((b[0] + b[1]) / total * 100).round.asInteger;
+                var mid = ((b[2] + b[3]) / total * 100).round.asInteger;
+                var hi = ((b[4] + b[5]) / total * 100).round.asInteger;
+                lines.add("%  %dB  %Hz  %/%/%".format(
+                    ~orbitScanNames[i].padRight(6), db.round.asInteger, dom.round.asInteger, low, mid, hi));
+            };
+        };
+        lines.do(_.postln);
+        lines[1..];
+    };
+};
+
+"sc/spectrum.scd loaded: ~spectrumStart | ~spectrumReport | ~spectrumReportAvg | ~spectrumStop | ~orbitScanStart | ~deckScanStart | ~orbitScanReport | ~orbitScanStop".postln;
 )

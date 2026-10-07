@@ -10,4 +10,8 @@
 ~dspEnabled = true;
 ~dspOrbitFx = true;
 ~routingEnabled = true;
-~selftestEnabled = true;
+// OFF by default: the boot self-test fired a `bd` on every orbit, and orbits 5-11
+// map to the music/fx GROUPS whose aux sends are 0.3-0.55, so the boot kicks came
+// out reverbed and delayed for no reason. It is a diagnostic, not music. Turn it
+// back on (then restart) only when hunting a silent-mix bug.
+~selftestEnabled = false;

@@ -75,7 +75,7 @@ var loadStage = { |name, path, sentinel|
 // ---------------------------------------------------------------------------
 ~dspOrbitFx = true;
 ~routingEnabled = true;
-~selftestEnabled = true;
+~selftestEnabled = false;
 if(File.exists(sc ++ "/flags.scd")) { this.executeFile(sc ++ "/flags.scd") };
 log.("dub FX install starting; server running: " ++ s.serverRunning
 	++ "   orbitFx: " ++ ~dspOrbitFx
@@ -156,7 +156,7 @@ stage.("verify defs and buses", {
 // old effect objects before replacing the array is essential: freeSynths alone
 // cannot retire them. Custom global SynthDefs must honor gate with doneAction 2.
 stage.("rebuild orbit chains", {
-	~dirt.orbits.do { |orbit|
+	~dirt.orbits.do { |orbit, idx|
 		orbit.globalEffects.do(_.release);
 		if(~dspOrbitFx) {
 			orbit.globalEffects = [
@@ -169,6 +169,17 @@ stage.("rebuild orbit chains", {
 					 \verbHighcut, \verbTone, \verbMod, \verbWidth]),
 				GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
 			];
+			// Tidal m* -> master bridge: dirt_masterctl writes the m* params into
+			// ~masterCtlBus, which Ndef(\dubMaster) reads each block. It must be a
+			// SINGLE writer, or every orbit's instance would overwrite the bus with
+			// its own (stale) defaults each control cycle. So only orbit 0 carries
+			// it: put master moves on an orbit-0 lane, e.g.
+			//   d1 $ s "bd" # orbit 0 # mCut (slow 16 $ range 600 9000 sine)
+			if(idx == 0) {
+				orbit.globalEffects = orbit.globalEffects.add(
+					GlobalDirtEffect(\dirt_masterctl,
+						[\mGain, \mGlue, \mSat, \mCut, \mDuck, \mHpf, \mThresh, \mWidth]).alwaysRun_(true));
+			};
 		} {
 			orbit.globalEffects = [
 				GlobalDirtEffect(\dirt_delay,
