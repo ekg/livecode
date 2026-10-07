@@ -52,10 +52,12 @@ let shuffle4 = swingBy (1/6) 4
 -- 8-bar harmony with secondary motion (ii-V-I-vi | IV-V/vi-ii-V) so it progresses, not loops
 let pad = "<[e3,g4,b4,d5] [a3,cs5,e5,g5] [d3,fs4,a4,cs5] [b3,d5,fs5,a5] [g3,b4,d5,fs5] [fs3,a4,cs5,fs5] [e3,g4,b4,d5] [a3,cs5,e5,g5]>" :: Pattern Note
 -- upper chord-tone cluster for the 3-against-4 hemiola layer
--- MELODY from TunePile: "Music for a Found Harmonium" (Simon Jeffes), K:D, first 4 bars,
--- key-corrected (f->fs, c->cs). 64 sixteenths over 8 cycles = one bar per cycle, matching
--- the 8-bar harmony. Found via: ~/tunepile/tools/search.sh 'key:D' --source abc
-let harmonium = (slow 8 "d4 g4 d4 d4 d4 g4 d4 d4 d4 g4 d4 d4 d4 cs4 d4 d4 d4 cs4 d4 cs4 d4 cs4 d4 cs4 d4 e4 d4 g4 d4 d4 d4 ~ fs4 e4 fs4 e4 fs4 e4 e4 ~ fs4 e4 fs4 e4 fs4 e4 e4 ~ fs4 d4 fs4 d4 fs4 d4 e4 fs4 e4 fs4 e4 fs4 e4 fs4 e4 fs4") :: Pattern Note
+-- MELODY from the PILE (TunePile search, walk:tabs-tidal = ~50k Tidal-formatted tabs):
+-- Massive Attack - Teardrop, the iconic hook 'a4 a4 e5 a4 d5 a4 d5 e5 ...' (a4/d5/e5
+-- are all diatonic to D, so it sits on 171's harmony). Found via:
+--   ~/tunepile/tools/search.sh --source walk:tabs-tidal 'Teardrop' --body
+-- It is played two ways: a straight, recognisable statement, and a Euclid-recut ghost.
+let teardrop = (slow 2 "a4 a4 e5 a4 d5 a4 d5 e5 a4 a4 e5 a4 d5 a4") :: Pattern Note
 
 -- ORBIT 0: the floor. THREE machines stacked for the kick, then the 660 walks its bd variants.
 d1 $ mask kickGate $ swing $ stack [(sometimesBy "0 0.3 0 0.5" (fast 2) $ sometimesBy 0.15 (off 0.0625 (# gain 0.3)) $ struct "<t(3,8) t(3,8) t(5,8) t(3,8)>" $ stack [s "rolandtr909:0" # gain (slow 8 $ range 0.4 0.5 sine), s "oberheimdmx:0" # gain (slow 8 $ range 0.26 0.34 sine)] # shape 0.35 # hpf 58 # lpf (slow 16 $ range 3200 4600 sine) # release 0.09), (struct "t(4,4)" $ s "h2ogmbd" # gain 0.5 # shape 0.2 # hpf 50 # lpf 2600 # release 0.1)] # orbit 0 # verbSend 0 # room 0 # ddSend 0
@@ -70,7 +72,7 @@ d5 $ mask bassGate $ swing $ sometimesBy "0 0.3 0.1 0.5" (|+ note 12) $ note "<[
 -- ORBIT 2: the pad on the FM voice, into the dub delay, log-swept across the form.
 d6 $ mask padGate $ swing $ struct "<t(2,8) t(3,8) t(4,8) t(3,8)>" $ off 0.25 (# gain 0.5) $ note pad # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.22 0.32 sine) # amp 0.3 # cutoff (slow 16 $ rangex 1400 6000 saw) # fmIndex 1.1 # ratio 2 # drive 1.3 # sub 0.3 # width 0.7 # attack 0.02 # release 0.7 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.32 # ddSend 0.3 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.4 # verbT60 1.8
 -- polyrhythm 1: 3-against-4 chord-tone hemiola, upper register, quiet (no orbit FX: d6 owns them)
-d14 $ mask leadGate $ swing $ whenmod 16 8 (fast 2) $ sometimesBy "0 0.2 0.1 0.5" (off 0.125 (# gain 0.5)) $ struct "<t(5,13) t(7,16,2) t(4,11) t(6,13,3)>" $ note harmonium # s "superpiano" # orbit 3 # gain (slow 16 $ range 0.5 0.7 sine) # velocity 0.7 # cutoff (slow 16 $ rangex 3000 8000 saw) # sustain 0.3 # release 0.4 # pan (slow 8 $ range 0.4 0.7 sine) # keyShift 0 # verbSend 0.3 # room 0.6 # verbT60 2.6
+d14 $ mask leadGate $ swing $ whenmod 16 8 (fast 2) $ stack [note teardrop # s "superpiano" # gain (slow 16 $ range 0.5 0.65 sine) # velocity 0.7 # cutoff (slow 16 $ rangex 3500 8000 saw) # sustain 0.25 # release 0.35 # pan 0.5, struct "<t(5,13) t(7,16,2) t(4,11) t(6,13,3)>" $ sometimesBy "0 0.2 0.1 0.5" (off 0.125 (# gain 0.5)) $ note teardrop # s "superpiano" # gain 0.3 # cutoff (slow 16 $ rangex 3000 9000 saw) # sustain 0.2 # release 0.3 # pan 0.62] # orbit 3 # keyShift 0 # verbSend 0.3 # room 0.6 # verbT60 2.6
 
 -- ORBIT 3: a sampled arp (p93arp) chopped, with end walking the chop so the figure morphs.
 d7 $ mask leadGate $ swing $ every 32 (rev) $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ slice 8 "<0 2 4 7 5 3 6 1 0 4 2 7 3 5 1 6>" $ s "p93arp" # orbit 3 # gain (slow 13 $ range 0.8 1.0 sine) # speed (slow 16 $ range 0.95 1.1 sine) # hpf 300 # lpf (slow 16 $ rangex 4500 9000 saw) # pan (slow 8 $ range 0.45 0.7 sine) # release 0.4 # verbSend 0.3 # room 0.66 # verbT60 2.6 # ddSend 0
