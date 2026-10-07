@@ -76,6 +76,11 @@ Conventions:
   master stays sclang-side (`~masterCtlBus.set` / `~masterSet`).
 
 **Open**
+- **Synth-count "leak" explained**: the global FX count is exactly right (24 each), so
+  voices are not leaking — the rise is **orphaned orbit-FX nodes from scene rebuilds**
+  (each `edit`/`restart` rebuilds 24 orbits x 3 FX). Fix without stopping music:
+  `~pruneDirtFX.value` (591 -> 211 synths, 12622 -> 5787 ugens, uninterrupted). Call it
+  after scene edits, or cap the number of re-evaluations. `tidal_panic` is the bigger reset.
 - `m*` from Tidal: unwired, and unsafe as a global effect. Needs a different design
   (single non-accumulating writer) if wanted.
 - Per-orbit metering in scene mode: not available (see above).
