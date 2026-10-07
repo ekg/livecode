@@ -99,8 +99,17 @@ Ndef(\dubMaster, {
 	// parse error — and a parse error in a file run through executeFile is
 	// SILENT: no error is thrown, executeFile returns nil, and the whole file is
 	// a no-op. That single line killed this file on every boot for a whole day.
-	var rms, lvl;
+	var rms, lvl, dl, dtap, dFb, dWet, dTime;
 	var sig = HPF.ar(dry, hpfF);
+	// DUB DELAY (contained feedback, NOT a bus loop): LocalIn/LocalOut rings out, the
+	// repeats darken, and the controls are live on the Ndef. dFb < 0.95 keeps it stable.
+	dFb = \dFb.kr(0.7, 0.3);
+	dWet = \dWet.kr(0.4, 0.3);
+	dTime = \dTime.kr(0.375, 0.5);
+	dl = LocalIn.ar(n) * dFb.clip(0, 0.95);
+	dtap = LPF.ar(HPF.ar(DelayC.ar(sig + dl, 2.5, dTime), 220), 2800);
+	LocalOut.ar(dtap);
+	sig = sig + (dtap * dWet);
 	sig = Compander.ar(sig, sig,
 		thresh: thresh, slopeBelow: 1, slopeAbove: glue.max(0.05),
 		clampTime: 0.008, relaxTime: 0.22);
