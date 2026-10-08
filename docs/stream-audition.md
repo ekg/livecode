@@ -119,19 +119,63 @@ broadcasts the newest frame.
   "channels": 2,
   "frameMs": 20,
   "sink": "tidal_stream",
-  "sourceNode": "tidal_stream"
+  "sourceNode": "tidal_stream",
+  "outputs": { "ws-pcm": { "enabled": true } }
 }
 ```
 
 - `enabled:false` ⇒ `tidal-stream-sink.service` and `tidal-stream.service`
   are stopped/disabled; nothing is created, no ports bound.
 - `enabled:true` ⇒ sink + daemon started. CLI verbs:
-  `enable | disable | start | stop | status | url`.
+  `enable | disable | start | stop | status | url | output on|off <name> | outputs`.
 - `status` must print, as parseable lines: sink present?, source linked?,
   listeners, frames/sec, dropped-frame count, `source: up|down`.
 - `url` prints the WS URL and, if the box is in a tailnet, the
   `tailscale serve`-style hostname/URL when available (best-effort, never a
   hard failure).
+
+### Outputs (frozen v1 — the fan-out)
+
+One capture, N outputs. `streamd` slices the `pw-record` stream into frames
+once and hands the same frame to every **active** output, so outputs are
+independent consumers of one source. The source is never dropped to protect an
+output; only `ws-pcm`'s own per-connection queue is bounded (drop-oldest).
+
+Config `outputs.<name>.enabled` is the boot state. `ws-pcm` defaults to on and
+every other output defaults to off, so pre-refactor behaviour is unchanged.
+`bind`/`port`/`token` stay at top level for backward compatibility (they are
+`ws-pcm`'s and the status/control server's settings).
+
+Runtime toggling — **no restart, the capture and the other outputs keep
+running**:
+
+```
+POST /control?token=<token>   {"output":"icecast","action":"on|off","persist":true}
+  200 -> {ok:true, output:{…}, status:{…}}     404 -> {ok:false, error, outputs:[names]}
+stream-ctl output on|off <name>     # drives the above; falls back to config if the daemon is down
+stream-ctl outputs                 # per-output: enabled / active / listeners / dropped
+```
+
+`status` (HTTP and CLI) reports each output:
+`output: <name> enabled=<bool> active=<bool>`. The HTTP `/status` JSON carries
+the same as an `outputs` array of `{name, enabled, active, …}`.
+
+**Output module interface** (how lane 5 adds one): register a plain object with
+`streamd`'s `registerOutput()`:
+
+```
+name                              stable id, also the config key under outputs
+settings                          from outputSettings(name, defaults)
+active                            true while started; onFrame only runs when active
+async start() / async stop()      idempotent, must not throw
+onFrame(msg)                      once per emitted 20 ms frame while active
+handleHttp(url, req, res) -> bool  return true when a route was handled
+handleUpgrade(url, req, socket) -> bool  return true when the upgrade was handled
+status() -> {name, enabled, active, …extra}
+```
+
+The registered `ws-pcm` output is the reference implementation (it owns the
+WebSocket upgrade, the player page, and the drop-oldest queue).
 
 ### Audition job / report protocol (frozen v1)
 
