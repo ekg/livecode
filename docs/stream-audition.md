@@ -87,7 +87,14 @@ broadcasts the newest frame.
 
 ### Client playout contract
 
-- Ring buffer, adaptive target fill `Fₜ = clamp(3 × jitterEst, 60ms, 250ms)`.
+- Ring buffer, adaptive target fill
+  `Fₜ = clamp(3 × jitterEst, fillFloorMs, 250ms)`. `fillFloorMs` (default 60) is
+  advertised in `/status` and can be changed live by the player's latency
+  profile (low 30 / normal 60 / stable 120). Raising it **re-primes** the
+  buffer, so the control really adds buffering rather than only claiming it;
+  lowering it needs no re-prime (the drop rules shed). Frame geometry
+  (`frameMs`, `rate`, `channels`) is also read from `/status` — the client must
+  NOT hardcode 20 ms, or tuning the server silently desyncs it.
 - `F_max = Fₜ + 80ms`, `F_min = 20ms`.
 - fill > `F_max` → **drop oldest** to `Fₜ` (this is "requeue").
 - fill > `Fₜ + 20 ms` → **slow convergence**: drop one 20 ms frame, at most one
@@ -127,6 +134,7 @@ broadcasts the newest frame.
   "rate": 48000,
   "channels": 2,
   "frameMs": 20,
+  "fillFloorMs": 60,
   "sink": "tidal_stream",
   "sourceNode": "tidal_stream",
   "outputs": { "ws-pcm": { "enabled": true } }
