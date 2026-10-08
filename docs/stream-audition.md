@@ -358,6 +358,20 @@ this document:
    amplitude `0.605530`. General rule for this file: *the source pushing bytes is
    not evidence a listener can decode* — verify an output by decoding it, not by
    reading its status.
+8. **The audition runner must unmute the slot under test.** The scene mixer
+   installs with gains `[1, 0, …]`, so rendering into slot 1+ without raising
+   that slot's gain writes into a MUTED channel: the job then reports all-zero
+   bands/`key:null` as `ok:true` — a false "this deck is silent" verdict for
+   exactly the channels worth auditioning into. Fixed by calling
+   `~piSceneAPI[\gains]` per job. It slipped through because the lane-3 selftest
+   only ever auditioned into slot 0; the selftest now covers a non-zero slot.
+9. **Isolation checks must not compare files the live stack rewrites.**
+   `sc/master-meter.log` is rewritten by the live stack's own ceiling meter
+   every 2 s while it runs, so an mtime comparison over `sc/*.log` passes only
+   when the live stack is idle (measured: the file still grows ~165 B/6 s with
+   no audition job running). The check now covers boot.log/engine.log/
+   spectrum.log/ctl.log/state.scd and positively asserts the audition wrote its
+   own private graph log.
 
 ## Open questions for the operator (not blocking lanes 1–2)
 
