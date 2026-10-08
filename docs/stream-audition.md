@@ -414,6 +414,19 @@ this document:
     and decoding them back to PCM with non-zero amplitude of the expected tone.
     Both flags look like noise and are load-bearing; a unit test asserts they
     are present so removing them fails the suite.
+12. **`canPlayType` lies about HLS in Chrome — prefer hls.js when MSE exists.**
+    `audio.canPlayType('application/vnd.apple.mpegurl')` returns a NON-EMPTY
+    string in Chrome/Chromium, which cannot play HLS natively. Testing native
+    first therefore selects a path that loads nothing: measured `mode: native`,
+    `readyState: 0`, indefinitely (and a play button that does nothing). The
+    page now prefers hls.js whenever `Hls.isSupported()` (MSE present) and only
+    falls back to native otherwise — the order hls.js documents. With hls.js
+    1.7.3 it plays: `readyState 4`, 12 segments, 0 errors, and reports **13 s
+    behind live**, which is HLS's structural floor (7 buffered 2 s segments),
+    not a defect. The player page is served by streamd itself at `/hls.html`
+    with hls.js vendored at `/hls.min.js`, so no CDN and no internet are needed
+    — a page that silently fails without internet would be the same class of
+    bug as the rest of this list.
 
 ## Open questions for the operator
 
