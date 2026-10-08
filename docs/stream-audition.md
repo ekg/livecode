@@ -90,6 +90,15 @@ broadcasts the newest frame.
 - Ring buffer, adaptive target fill `Fₜ = clamp(3 × jitterEst, 60ms, 250ms)`.
 - `F_max = Fₜ + 80ms`, `F_min = 20ms`.
 - fill > `F_max` → **drop oldest** to `Fₜ` (this is "requeue").
+- fill > `Fₜ + 20 ms` → **slow convergence**: drop one 20 ms frame, at most one
+  per 400 ms, until back within one frame of `Fₜ`. Without this rule the client
+  can only shed latency above `F_max`, so a one-off disturbance (a capture
+  restart, a network hiccup) leaves the playout parked anywhere in
+  `(Fₜ, F_max]` permanently — fill cannot fall on its own, because consumption
+  only matches production. Frame-aligned drops match the server's granularity
+  and are the least audible way to shed latency. VERIFIED: after a killed
+  capture, fill went from stuck at 105.7 ms to 43.5 ms, with the drop counter
+  settling (no continuous trickle).
 - fill < `F_min` → silence-pad and refill to `Fₜ` (this is "restart").
 - `flags.discontinuity` set → hard resync: flush, refill to `Fₜ`.
 - Jitter estimate = EWMA of `(arrivalMs - previousArrivalMs)` deviation,
