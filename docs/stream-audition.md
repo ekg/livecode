@@ -235,8 +235,12 @@ fields; it must not rename or remove any above.
 
 **Live comparison (frozen live.json v1).** `diffVsLive.available` is true only
 when `sc/audition/reports/live.json` exists AND carries comparable 6-band
-readings. The file is written by lane 4's `snapshotLive` from inside the live
-sclang; lane 3 reads it opportunistically and must never touch the live stack.
+readings AND is younger than **15 minutes** — a snapshot is a point-in-time
+measurement and nothing else expires it, so a stale one would silently keep
+powering comparisons against a mix that has since changed (the note names the
+age on success, and the reason on refusal). The file is written by lane 4's
+`snapshotLive` from inside the live sclang; lane 3 reads it opportunistically
+and must never touch the live stack.
 
 ```jsonc
 { "id":"live","source":"live","ok":true,"state":"done",
