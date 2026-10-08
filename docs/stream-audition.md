@@ -372,8 +372,32 @@ this document:
    no audition job running). The check now covers boot.log/engine.log/
    spectrum.log/ctl.log/state.scd and positively asserts the audition wrote its
    own private graph log.
+10. **WAN/tailnet listening is exposed to transport stalls, and the server
+    cannot see them.** Measured from a remote tailnet host (DIRECT IPv6 path,
+    ~140 ms RTT): the stream delivers exactly 50 fps with small jitter (7.6 ms
+    EWMA) and ~0 net drift — the transport is fine on average. The arrival tail
+    is not: one 60 s window showed p99 149 ms, p99.9 390 ms, **max 450 ms**,
+    predicting ~4 underruns/min at ANY target from 60 to 260 ms (a longer target
+    only shortens each silence gap, it cannot prevent the stall). A separate
+    30 s window was clean (max 120 ms), so path quality varies. You cannot
+    buffer past a stall longer than the buffer without paying that latency all
+    the time. `stream-ctl status` reports the SERVER's view and cannot tell you
+    whether a remote client will glitch — use `tools/stream/probe.mjs` from the
+    machine that will actually listen.
+    Cautionary note: a hand-rolled simulator of this overstated underruns by
+    ~15x because it drained the buffer while repriming (when the client is
+    emitting silence and NOT consuming). The corrected model is what the probe
+    and this note report.
 
 ## Open questions for the operator (not blocking lanes 1–2)
+
+- **Should the fill target react to stalls?** The client's target uses an EWMA
+  (alpha 0.05) of arrival deviation, which barely moves on a one-off stall, so
+  Ft stays at its 60 ms floor. A peak-hold estimator (react to outliers, decay
+  back) was simulated to cut underruns substantially, but roughly doubled the
+  mean buffer — i.e. it buys stability with latency, which is the opposite of
+  this stream's stated goal. It needs a listening pass, so alpha = 0.05 stands
+  for now. See field note 10 for the measurements.
 
 - Opus mode for bandwidth-thrift tailnet/cellular use? (cheap to add behind
   `format`.)
