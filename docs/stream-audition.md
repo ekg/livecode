@@ -339,6 +339,16 @@ this document:
 6. **Audition graph `boot.log`** is a symlink to the audition-private log rather
    than a real file; live `sc/boot.log` mtime is unchanged across an audition
    boot (verified).
+7. **Icecast needs an explicit `-content_type`.** ffmpeg's icecast output does
+   not declare one by default, so the mount is served as `audio/mpeg`; every
+   listener (ffplay, ffmpeg, VLC) then demuxes the Ogg/Opus stream as MP3 and
+   fails with `Header missing` — **while the source looks perfectly healthy**
+   (`connected:true`, `bytesOut` climbing, Icecast reporting a live mount). This
+   was caught only by decoding a real `icecast2` mount back out; the module now
+   passes `-content_type audio/ogg`, and a `vol 0.6` tone reads back at
+   amplitude `0.605530`. General rule for this file: *the source pushing bytes is
+   not evidence a listener can decode* — verify an output by decoding it, not by
+   reading its status.
 
 ## Open questions for the operator (not blocking lanes 1–2)
 
