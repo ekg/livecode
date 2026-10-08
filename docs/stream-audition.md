@@ -401,8 +401,32 @@ this document:
     emitting silence and NOT consuming). The corrected model is what the probe
     and this note report.
 
-## Open questions for the operator (not blocking lanes 1–2)
+11. **Opus needs a non-blocking ffmpeg probe AND a short Ogg page duration.**
+    Two independent ffmpeg defaults make a ws-opus chain useless while every
+    counter still looks plausible. (a) `avformat_find_stream_info()` blocks on a
+    realtime raw-s16le pipe: ffmpeg emitted nothing for the first ~4.3 s
+    (measured); `-probesize 32 -analyzeduration 0` before `-i` drops that to
+    ~104 ms. (b) the Ogg muxer's default `page_duration` is 1 s, so packets
+    burst ~50 per chunk and a CORRECT at-most-2-packets drop-oldest queue then
+    discards ~48 of every 50 (measured `packetsOut 267` vs `dropped 282` — more
+    dropped than sent). `-page_duration 20000` (one 20 ms packet per page) fixes
+    it: 49 packets/s, `dropped` ~0-2. Verified by re-muxing the captured packets
+    and decoding them back to PCM with non-zero amplitude of the expected tone.
+    Both flags look like noise and are load-bearing; a unit test asserts they
+    are present so removing them fails the suite.
 
+## Open questions for the operator
+
+- **`ws-opus` client pacing.** The server side is verified (49 packets/s, correct
+  OpusHead, `dropped` ~0-2, decode-back proven), but in a real browser the Opus
+  path measured **300 underruns and ~1.5 s of dropped audio over ~4 minutes at
+  29.8 ms jitter**, versus ~0 underruns and ~2 ms jitter for `ws-pcm` on the same
+  source — while the decoded audio itself is correct (real OpusHead, frames
+  flowing, `seq` climbing). WebCodecs delivery is bursting, which the fill
+  controller sees as alternating overfill and starvation. It needs client-side
+  pacing (release decoded PCM to the worklet at a steady cadence rather than on
+  arrival) before it is recommended. PCM remains the low-latency path; icecast
+  remains the play-anywhere path.
 - **Should the fill target react to stalls?** The client's target uses an EWMA
   (alpha 0.05) of arrival deviation, which barely moves on a one-off stall, so
   Ft stays at its 60 ms floor. A peak-hold estimator (react to outliers, decay
@@ -410,9 +434,10 @@ this document:
   mean buffer — i.e. it buys stability with latency, which is the opposite of
   this stream's stated goal. It needs a listening pass, so alpha = 0.05 stands
   for now. See field note 10 for the measurements.
-
-- Opus mode for bandwidth-thrift tailnet/cellular use? (cheap to add behind
-  `format`.)
-- Icecast/HLS secondary output for third-party players (VLC/phone)?
-- Audition scope: isolated render + numeric compare (default) vs mirroring
-  the live decks for in-context audition (lane 3 decision).
+- **Audition scope**: isolated render + numeric compare (default) vs mirroring
+  the live decks for in-context audition.
+- **Playout changes still want a listening pass.** Two things in the client shed
+  or insert audio rather than just moving targets: the slow-convergence drop
+  rule (field note 8's sibling, item 8 above describes the audition gap — see
+  the client playout contract) and any future Opus pacing. Both are measured and
+  unit-tested, but nobody has heard them.
