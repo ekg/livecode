@@ -1,0 +1,107 @@
+-- 174 — SING IT BACK TO THE RHYTHM. Deep house, 124 BPM (cps 0.51667). A long,
+-- slowly-evolving SIXTEEN-bar chord cycle out of TunePile, carrying a two-song mashup,
+-- dressed with heavy algorithmic modulation in the manner of moistpeace.
+--
+-- MASHUP — two songs reconciled to ONE key (A minor) and ONE tempo (124 BPM):
+--   A) Snap — "Rhythm Is A Dancer" (124 BPM, A minor) — the poly-synth hook contour and the
+--      syncopated house bass pulse. Source:
+--      ~/tunepile/tabs-tidal/Snap_-_Rhythm_Is_A_Dancer.gp4-0e4a8a1e.tidal
+--      found via: ~/tunepile/tools/search.sh --source walk:tabs-tidal 'Rhythm Is A'
+--   B) Moloko — "Sing It Back" (123 BPM, Bb minor) — the vocal hook "as5 gs5 ds5 f5 ..."
+--      transposed DOWN 1 semitone into A minor -> "g5 g5 d5 e5 ...". Source:
+--      ~/tunepile/tabs-tidal/Moloko_-_Sing_It_Back.gp3-d8c80a99.tidal
+--      found via: ~/tunepile/tools/search.sh --source walk:tabs-tidal 'Sing It Back'
+--   Reconciliation: 123/124 BPM -> the one floor tempo, 124. Bb minor -> A minor, -1 semitone.
+--
+-- HARMONY — TunePile chords/progressions.txt, key of c (= A minor, NO transposition), four
+--   families spliced into a SIXTEEN-bar cycle so the changes keep moving rather than looping:
+--      [aeolian-descend] Am9 G9 Fmaj9 E9 | [lo-fi-loop] Dm9 G9 Cmaj9 Am9 |
+--      [iv-V-III-VI-andalus] Fmaj9 G9 E9 Am9 | [royal-road] Fmaj9 Am9 Dm9 G9
+--   Voicings verbatim (6-note root/3/5/7/9 stacks, one chord per bar).
+--   found via: ~/tunepile/tools/search.sh --source chords 'key:c' --body
+--
+-- MOISTPEACE treatment (seminar: note.com/moistpeace/n/n4fe107779a54) — the melody is no
+--   longer a fixed riff: the arp is GENERATED from the live chords with `arp "<up down updown>"`
+--   so it can never be out of key, and every lane is shaped by `off`, `chunk`, `spreadr`,
+--   `sometimesBy`, `rangex` log-sweeps, Euclid rotations and coprime `every` periods so no two
+--   modulations land together. Melodies are PHRASED (a line, then a rest) and swung.
+--
+-- NOTE ON DELAY: the master dub delay (Ndef(\dubMaster) \dWet) is set to 0 for this rendition
+--   (it was washing the whole mix). Per-lane delay survives only on the melodic orbit.
+--
+-- ORBIT MAP: 0 drums dry (sidechain detector) | 1 sub bass dry | 2 chords -> dub delay |
+--   3 hooks -> reverb | 4 texture through tape | 5 accents + silent reset clock.
+-- @scene {"title":"Sing It Back to the Rhythm","cps":0.5166666666666667,"quantize":4}
+{- @sc
+// CHANNEL modulation with three coprime periods (64 form arc, 21 drift, 7 wobble, 13 micro)
+// so tone / saturation / wet / gain never peak together. Breakdown lifts wet, intro darkens.
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(64);
+    var intro = (form < 8);
+    var brk = (form >= 32) * (form < 40);
+    var drop = (form >= 40) * (form < 56);
+    var outro = (form >= 56);
+    var arch = (cycles * (2pi / 64)).sin;
+    var drift = (cycles * (2pi / 21)).sin;
+    var wob = (cycles * (2pi / 7)).sin;
+    var micro = (cycles * (2pi / 13)).sin;
+    [2400 + (arch * 1900) + (brk * 1400) - (intro * 1200) - (outro * 800) + (drift * 350) + (wob * 180),
+     0.10 + (drop * 0.08) + (brk * 0.05) + (wob.abs * 0.03),
+     0.04 + (brk * 0.10) + (intro * 0.02) + (micro.abs * 0.03),
+     1.04 + (arch * 0.04) - (intro * 0.06) - (outro * 0.10) + (wob * 0.02)];
+});
+-}
+
+-- section gates: one step per 8-cycle section (0..7).
+let kickGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let percGate  = (slow 8 "<f f t t f f t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+let arpGate   = (slow 8 "<f f t f f t f f>") :: Pattern Bool
+let voxGate   = (slow 8 "<f f f t t f t f>") :: Pattern Bool
+let texGate   = (slow 8 "<t f t t t f t t>") :: Pattern Bool
+-- swing: offbeat 8ths late, breathing on a slow sine; a 16th shuffle for hats + arp
+let swing = (# nudge (fast 8 "0 1" * (slow 8 $ range 0.04 0.08 sine)))
+let swing16 = (# nudge (fast 16 "0 1" * 0.03))
+-- melodic PHRASING: a line, then a pause. Two coprime masks so the melodies trade space.
+let arpPhr = (slow 1 "<t t f t f f t f>") :: Pattern Bool
+let voxPhr = (slow 1 "<f t f f t f f t>") :: Pattern Bool
+
+-- the SIXTEEN-bar harmony, TunePile voicings verbatim (one chord per cycle = one bar)
+let prog = "<[a3,a4,c5,e5,g5,b5] [g3,g4,b4,d5,f5,a5] [f3,f4,a4,c5,e5,g5] [e3,e4,g4,b4,d5,fs5] [d3,d4,f4,a4,c5,e5] [g3,g4,b4,d5,f5,a5] [c3,c4,e4,g4,b4,d5] [a3,a4,c5,e5,g5,b5] [f3,f4,a4,c5,e5,g5] [g3,g4,b4,d5,f5,a5] [e3,e4,g4,b4,d5,fs5] [a3,a4,c5,e5,g5,b5] [f3,f4,a4,c5,e5,g5] [a3,a4,c5,e5,g5,b5] [d3,d4,f4,a4,c5,e5] [g3,g4,b4,d5,f5,a5]>" :: Pattern Note
+-- bass roots, one per bar (A G F E | D G C A | F G E A | F A D G)
+let roots = "<a2 g2 f2 e2 d2 g2 c2 a2 f2 g2 e2 a2 f2 a2 d2 g2>" :: Pattern Note
+-- MOLOKO vocal hook, A minor, PHRASED over four bars: line - line - cadence - full-bar pause
+let singItBack = (slow 4 "g5 g5 d5 e5 e5 e5 ~ ~ f5 f5 f5 g5 f5 g5 ~ ~ f5 gs5 g5 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~") :: Pattern Note
+
+-- ORBIT 0: the floor, dry — orbit 0 is the master's sidechain detector.
+d1 $ mask kickGate $ sometimesBy "0 0.15 0 0.3" (fast 2) $ struct "t(4,4)" $ stack [s "rolandtr909:0" # gain (slow 8 $ range 0.5 0.6 sine) # shape 0.35, s "oberheimdmx:0" # gain (slow 8 $ range 0.24 0.3 sine) # shape 0.25] # orbit 0 # hpf 58 # lpf (slow 16 $ range 3400 4600 sine) # release 0.09 # verbSend 0 # ddSend 0
+d2 $ mask clapGate $ sometimesBy 0.3 (off 0.0625 (fast 2)) $ whenmod 8 7 (stutWith 2 0.03125 (|* gain 0.6)) $ struct "f t f t" $ s "rolandtr909:4" # orbit 0 # gain (slow 16 $ range 0.4 0.48 sine) # hpf 330 # lpf 6500 # pan (slow 8 $ range 0.45 0.55 sine) # release 0.1 # verbSend 0 # ddSend 0
+d3 $ mask hatGate $ swing16 $ sometimesBy "0 0.25 0.1 0.5" (fast 2) $ sometimesBy 0.12 (fast 4) $ s "rolandtr909:2(8,16,2)" # orbit 0 # gain (slow 4 $ range 0.13 0.21 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # verbSend 0 # ddSend 0
+d4 $ mask hatGate $ swing $ every 13 (within (0.5,1) (|* gain 0.5)) $ struct "~ t ~ t ~ t ~ t" $ s "rolandtr909:3" # orbit 0 # gain (slow 8 $ range 0.14 0.22 sine) # hpf 900 # lpf 9000 # pan (slow 16 $ range 0.42 0.58 sine) # sustain 0.18 # release 0.28 # verbSend 0 # ddSend 0
+d5 $ mask percGate $ swing16 $ sometimesBy 0.25 (fast 2) $ every 7 (spreadr ($) [fast 2, (# hpf 900), fast 4, (# pan 0.3)]) $ s "guira(5,16,4)" # orbit 0 # gain (slow 8 $ range 0.11 0.17 sine) # hpf 4500 # lpf 11000 # pan (slow 8 $ range 0.5 0.74 sine) # release 0.05 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: sub bass, dry and lean. Offbeat house pulse on the roots, octave pops, log-swept.
+d6 $ mask bassGate $ swing $ sometimesBy 0.12 (|+ note 12) $ every 7 (off 0.0625 (# gain 0.4)) $ struct "~ t ~ t ~ t ~ t" $ note roots # s "dubsub" # orbit 1 # drive 0.16 # pitchEnv 0.3 # legato 1.3 # sustain 0.24 # release 0.18 # amp 0.8 # gain (slow 16 $ range 0.46 0.54 sine) # hpf 34 # lpf (slow 16 $ rangex 180 340 saw) # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the SIXTEEN-bar harmony — rhythmic FM stabs, occasionally octave-jumped and
+-- shimmered an octave up; `off` adds a softer delayed copy. Log-swept across the form.
+d7 $ mask chordGate $ swing $ sometimesBy 0.15 (|+ note 12) $ every 16 (superimpose (|+ note 12)) $ every 11 (within (0.5,1) (|* gain 0.6)) $ struct "<t(2,8) t(3,8) t(4,8) [t(3,8) t(2,8)]>" $ off 0.25 (# gain 0.5) $ note prog # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.24 0.34 sine) # amp 0.3 # cutoff (slow 16 $ rangex 1200 5200 saw) # fmIndex 1.1 # ratio 2 # drive 1.3 # sub 0.3 # width 0.7 # attack 0.004 # sustain 0.08 # release 0.16 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # ddSend 0 # ddHp 900 # ddLp 4200 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.08 # room 0.4 # verbT60 1.8
+
+-- ORBIT 3: the two HOOKS, phrased and swung. d8 = arp GENERATED from the live chords
+-- (arp "<up down updown>"), so it is always in key; d9 = the MOLOKO vocal hook, softer.
+d8 $ mask arpGate $ mask arpPhr $ swing16 $ sometimesBy 0.2 (fast 2) $ every 9 (within (0.5,1) (|+ note 12)) $ note (arp "<up down updown>" (slow 2 prog)) # s "superpwm" # orbit 3 # gain (slow 16 $ range 0.12 0.2 sine) # amp 0.32 # hpf 400 # lpf (slow 16 $ rangex 1600 3200 saw) # attack 0.008 # release 0.5 # sustain 0.12 # pan (slow 8 $ range 0.45 0.65 sine) # keyShift 0 # vib 0.05 # vibRate 4.8 # verbSend 0.24 # room 0.68 # verbT60 2.8 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 900 # ddLp 4400 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5
+d9 $ mask voxGate $ mask voxPhr $ swing $ every 5 (within (0.5,1) (|* gain 0.6)) $ note singItBack # s "hoRhodes" # orbit 3 # gain (slow 8 $ range 0.56 0.68 sine) # amp 0.5 # cutoff (slow 16 $ rangex 1900 5600 saw) # waveMix 0.16 # release 1.0 # sustain 0.45 # pan 0.56 # keyShift 0 # vib 0.08 # vibRate 5.0 # verbSend 0.24 # room 0.68 # verbT60 2.8 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 900 # ddLp 4400 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5
+-- d13: a quiet glass shimmer, an octave-down arp of the chords, doubling the hooks sparingly.
+d13 $ mask arpGate $ mask arpPhr $ swing16 $ every 5 (within (0.5,1) (|* gain 0.5)) $ note (arp "down" (slow 4 prog)) # s "sprvibe" # orbit 3 # gain (slow 16 $ range 0.07 0.13 sine) # amp 0.3 # hpf 800 # lpf (slow 16 $ rangex 2600 5200 saw) # release 1.0 # sustain 0.3 # pan 0.62 # keyShift 0 # vib 0.06 # vibRate 5.2 # verbSend 0.24 # room 0.68 # verbT60 2.8 # ddSend 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # ddHp 900 # ddLp 4400 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5
+
+-- ORBIT 4: texture through tape — a sliced loop re-ordered and rate-scanned, plus a
+-- polymetric `{}%16` hand-perc cell that never repeats (moistpeace).
+d10 $ mask texGate $ swing $ chunk 8 (|* speed 0.5) $ every 17 (within (0.5,1) (|* speed (-1))) $ sometimesBy 0.3 (|* gain 0.6) $ slice 16 "<0 3 7 11 14 2 9 5>" $ s "lpviz:45" # orbit 4 # gain (slow 16 $ range 0.16 0.26 sine) # speed (slow 16 $ range 0.9 1.12 sine) # sustain 0.1 # hpf 1000 # lpf (slow 16 $ rangex 3000 7500 saw) # pan perlin # crush 16 # tape 0.28 # tapeWow 0.2 # tapeHiss 0.004 # ddSend 0 # delaytime 0.1875 # lock 1 # delayfeedback 0.22 # ddHp 700 # ddLp 5200 # ddDrive 0.06 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.12 # room 0.42 # verbT60 2.0
+d14 $ mask texGate $ swing $ sometimesBy "0 0.3 0.1 0.5" (fast 2) $ s "{nperc jamblock ebongos}%16" # orbit 4 # gain (slow 13 $ range 0.09 0.17 sine) # hpf 3500 # lpf 12000 # pan (slow 8 $ range 0.3 0.7 sine) # release 0.04 # tape 0.22 # tapeWow 0.15 # tapeHiss 0.003 # ddSend 0
+
+-- ORBIT 5: an open-hat throw at the end of every 8, and a silent reset clock (gain 0).
+d11 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ sometimesBy 0.3 (fast 2) $ struct "~ ~ ~ t" $ s "rolandtr909:3" # orbit 5 # gain 0.18 # hpf 900 # lpf 8000 # sustain 0.2 # release 0.3 # pan "0.3 0.7" # ddSend 0 # delayfeedback 0.3 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0.24 # room 0.6 # verbT60 2.4
+d12 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # delaytime 0.1875 # lock 1 # ddHp 900 # ddLp 4400 # ddDrive 0.08 # ddWow 0.05 # ddCross 0.6 # ddDuck 0.55 # verbSend 0 # room 0
