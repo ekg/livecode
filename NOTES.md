@@ -44,8 +44,10 @@ Conventions:
 - Evidence copied under `recordings/diagnostics-174/` (verified silent, tone,
   scene monitor WAVs and `diag-scene-comparison.json`); corresponding SC take
   `recordings/diag-scene-174-verified-20261013-1945.wav`.
-- Scene 174 is playing, stream service restored. Await operator confirmation
-  of whether the ~43 Hz crackle persists before declaring it resolved.
+- Operator confirms audio is **still corrupted after restart**, despite matching
+  digital captures. Artifact remains unresolved; matching taps do not establish
+  perceptually clean sound. At operator request, stopped deck A, panicked the
+  event nodes, and stopped the stream. Do not restart without authorization.
 - Evidence: `recordings/diag-controlled-tone-20261013-1944.wav`;
   temporary monitor captures `/tmp/diag-real-monitor-{silent,tone}.wav`.
 - Live master restored to dry (dWet=0), sat=0.06, knee=0.75, ceil=0.85;
