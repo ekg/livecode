@@ -12,6 +12,46 @@ Conventions:
 
 ---
 
+## 2026-10-13 — 174 audio-artifact investigation
+
+- Operator reports a narrow-pulse / crackling artifact around **43 Hz** during
+  scene 174. Treat as unresolved synthesis/audio-configuration fault until reproduced
+  and localized; the earlier ~35 Hz estimate is NOT a verified output measurement.
+- Prior diagnosis corrections: `pw-record --target <sink>` without
+  `stream.capture.sink=true` fell back to a microphone. Its clipping and pulse train
+  did **not** prove output clipping, extra PipeWire gain, or duplicate master output.
+  Ad-hoc summed-channel A2K probes were not true peak meters either.
+- Restarted owned SuperCollider/Tidal stack; no PipeWire rewiring. Verified actual
+  scsynth rate **48000**, synthesis block **256**, driver quantum **1024**.
+  Ndef bus 180 is internal; its monitor routes to hardware 0 normally.
+- Correct capture: `pw-record --target <sink-name> --properties
+  '{ stream.capture.sink = true }'`; verify both links originate at that sink.
+  A 12-second silent headphone-monitor capture peaked at 5.23e-13.
+- Controlled 997/1499 Hz stereo tone through the master: scsynth recording and
+  verified headphone monitor both peak **0.0231564**, same spectrum/RMS/sample
+  deltas; no 20–70 Hz artifact (band power about -204 dB). Transport does not
+  exhibit the claimed extra gain in this test.
+- Full scene test: 64.98 seconds of overlapping SC/headphone capture, aligned
+  by waveform correlation, matched entirely within **1e-7**. Difference RMS
+  **8.85e-11**, max **8.85e-8**; equal RMS **0.0287504**, no output clipping.
+  Entire SC take peak 0.304534; shorter monitor take peak 0.299981 (different
+  coverage, not gain). Largest sample delta 0.02073; no obvious block-edge
+  discontinuity concentration. No digital transport fault reproduced this run.
+- Low-band peaks vary with the music, not a demonstrated fixed 43 Hz clock.
+  Offline Tidal query confirms bass roots a2/g2/f2/e2 send note -27/-29/-31/-32:
+  with Dirt's MIDI-60 reference those are A1/G1/F1/E1 (55/49/44/41 Hz).
+  The bass's pitch envelope/drive is a candidate only; auditory A/B still needed.
+- Evidence copied under `recordings/diagnostics-174/` (verified silent, tone,
+  scene monitor WAVs and `diag-scene-comparison.json`); corresponding SC take
+  `recordings/diag-scene-174-verified-20261013-1945.wav`.
+- Scene 174 is playing, stream service restored. Await operator confirmation
+  of whether the ~43 Hz crackle persists before declaring it resolved.
+- Evidence: `recordings/diag-controlled-tone-20261013-1944.wav`;
+  temporary monitor captures `/tmp/diag-real-monitor-{silent,tone}.wav`.
+- Live master restored to dry (dWet=0), sat=0.06, knee=0.75, ceil=0.85;
+  eight control-bus slots explicitly set/read back. Do not interpret an immediate
+  asynchronous Bus.set/read race as proof of a competing bus writer.
+
 ## 2026-10-07
 
 **Toolchain / engine**
