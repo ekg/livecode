@@ -142,6 +142,12 @@ Known limitations of the isolated render:
 
 ## Isolation guarantees (why the live stack is safe)
 
+- **Audio links**: the audition JACK client is named `TidalAudition`, with
+  PipeWire `node.name=tidal_audition` and `node.autoconnect=false`. Its private
+  launcher clears `SC_JACK_DEFAULT_INPUTS/OUTPUTS`. A distinct server port alone
+  does **not** prevent WirePlumber restoring a remembered playback link: before
+  rendering, verify `pw-dump` contains zero links touching `tidal_audition`.
+  `tools/diagnose_174.py` fails closed if any such link exists.
 - **Ports**: the audition scsynth binds `57111` (sclang itself is launched with
   `-u 57121`, so its OSC listener and SuperDirt share `57121`). `57110`/`57120`
   are never bound.

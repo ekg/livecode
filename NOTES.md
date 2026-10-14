@@ -14,6 +14,41 @@ Conventions:
 
 ## 2026-10-13 — 174 audio-artifact investigation
 
+**Confirmed DSP bug and correction (auditory acceptance still pending)**
+- Scene mixer in `~/pi-tidal/sc/scenes.scd` used `1 + sat * 3`. SC binary
+  operators have equal precedence, evaluated left-to-right: at sat=0.13 this
+  evaluates to **3.39**, not **1.39**. At zero it is **3**, not **1**.
+  Thus a roughly 7.74–9.54 dB unintended boost drives the *combined mix* into
+  tanh, before the master tape/knee. This generates bass-rate intermodulation
+  without the final signal ever reaching full scale.
+- Fixed to `1 + (sat * 3)`, with a source regression test. Kept all buses,
+  physical links, channel weights, deliberate FX and limiter routing unchanged.
+  Installed the corrected SynthDef in the stopped live scene mixers without
+  resuming patterns. Positive-sat warmth remains; zero still applies unity-drive
+  tanh (not a promised hard bypass), but no longer the erroneous 3x drive.
+- Isolated SC two-tone test: 43/86 Hz bass + 997 Hz probe, shared identical input
+  for faulty/corrected branches. At bass amplitude 0.1, scene sidebands fall
+  **-27.56 -> -42.87 dBc** (15.31 dB improvement); modeled scene/master cascade
+  **-11.85 -> -25.69 dBc**. Linear reference below -98 dBc across the sweep.
+  This establishes a volume-dependent, 43-Hz-spaced distortion mechanism; it
+  does not alone prove the operator's perceived artifact is completely gone.
+- 64-second song renders: raw peaks 0.1085 / 0.1097; scene RMS 0.04654 / 0.01919;
+  master peaks 0.29437 / 0.15414 (faulty / corrected). Created a **level-matched**
+  corrected take (gain 2.3728, peak 0.36574) so listening is not confounded by
+  quieter playback. Files: `recordings/diagnostics-174/174-{buggy-audition,
+  fixed-audition,fixed-levelmatched}.wav`, `transfer-report.json`, and
+  `gain-comparison.json`.
+- Tests: 41 scene/controller tests pass; full plugin suite 97 pass / 3 skip /
+  1 blocked by missing `typebox` dependency in existing recovery test.
+- Also fixed audition isolation: its default JACK identity had auto-linked to
+  `tidal_main` contrary to its docs. Stopped it before test patterns; assigned
+  `TidalAudition`, `node.autoconnect=false`, cleared SC default port hints, and
+  verified **zero external links** before every render. No live links changed.
+- Reproduction: isolated `tidal_audition start`, then `python3 tools/diagnose_174.py`.
+  `sc/audition/test-mix-transfer.scd` runs only on port 57111; analyze its take
+  with `python3 tools/analyze_174_transfer.py`. Playback remains stopped until
+  operator approves a short listening check.
+
 - Operator reports a narrow-pulse / crackling artifact around **43 Hz** during
   scene 174. Treat as unresolved synthesis/audio-configuration fault until reproduced
   and localized; the earlier ~35 Hz estimate is NOT a verified output measurement.

@@ -35,6 +35,7 @@ s.options.numWireBufs = 2048;
 s.options.maxNodes = 1024 * 32;
 s.options.numOutputBusChannels = 2;
 s.options.numInputBusChannels = 0;   // headless: never create capture ports
+s.options.inDevice = "TidalAudition"; // distinct JACK identity; no live SC link restoration
 s.options.useSystemClock = false;    // matches the live file
 s.options.blockSize = 256;           // matches the live file
 s.latency = 0.3;
