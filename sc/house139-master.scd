@@ -1,7 +1,7 @@
 // Scene 139: near-unity live master. The patch itself carries the level.
 // Apply after SC boot: this.executeFile("/home/erik/livecode/sc/house139-master.scd");
 // No auto-normalizer. Mild glue only on loud transients; retain 0.79 safety
-// ceiling from dub_master.scd. 132's hotter master remains recallable.
+// ceiling from master-bus.scd + master-fx.scd. 132's hotter master remains recallable.
 (
 ~masterSet.(\mGain, 1.1);
 ~masterSet.(\mGlue, 0.72);

@@ -1,0 +1,100 @@
+-- 175 — TILT FLOOR. Original deep house, 124 BPM (cps 0.51667), A minor.
+--
+-- THE IDEA: one 16th grid, and every lane takes a DIFFERENT coprime rotation of it,
+-- so no two parts keep landing in the same squares. On top sits the TILT: the swing
+-- is not flat. The "and" of beat 2 leans 45%, the "and" of beat 4 leans 100%, beats
+-- 1 and 3 stay square — an asymmetric shrug instead of a metronome.
+--   kick     E(4,4)    unrotated — the only thing that does not move
+--   clap     backbeat with a 25 ms flam on alternate bars
+--   closed   E(9,16,4) rotated against the kick
+--   open     "~ ~ t ~ ~ ~ t t" — deliberately NOT the textbook offbeat
+--   tick     E(3,8,5)  a rim that drifts out of the kick's reach
+--   bass     "~ t ~ t t ~ t ~" — a skipping house pulse, not a straight roll
+--   stab     E(5,16,7) rotated, with an off copy for the tail
+--   hook     5-note A-minor motif, one line then a rest
+--
+-- HARMONY: a SIX-bar cycle, deliberately NOT a power of two, so the phrase never
+-- squares up with the 4/4 bar or the 8-bar section:
+--   Am9 - Fmaj9 - Dm9 - G9 - Cmaj9 - E7        (i  VI  iv  VII  III  V)
+-- Six bars x 8 = 48, against the 64-cycle form, so the changes land in a new place
+-- every pass through the arrangement.
+--
+-- ORBITS: 0 drums dry (orbit 0 is the master's sidechain detector) | 1 bass dry |
+--   2 stabs into the dub delay | 3 hook + glass into reverb | 4 texture through tape |
+--   5 accents + a silent reset clock so no send latches across a rest.
+-- @scene {"title":"Tilt Floor","cps":0.5166666666666667,"quantize":4}
+{- @sc
+// FLAT, by operator request. This block used to sine-modulate the channel tone,
+// put a tanh saturation on the channel (sat 0.13-0.25) and run FreeVerb on it
+// (wet 0.05-0.19). Heard at the desk as "vibrating / crunchy / weird": a
+// modulated reverb into a nonlinearity, on every sample of every bar. The
+// channel mixer is now a pass-through and the movement lives in the pattern.
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles| [18000, 0, 0, 1] });
+-}
+
+-- THE TILT. Offbeat 8ths late by an amount that depends on WHICH offbeat it is.
+let tilt   = (# nudge (fast 8 "0 0.45 0 1" * 0.07))
+let tilt16 = (# nudge (fast 16 "0 1" * 0.035))
+
+-- section gates: one step per 8-cycle section (8 steps = the 64-cycle form).
+let kickGate  = (slow 8 "<f t t t t t t t>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t t>") :: Pattern Bool
+let percGate  = (slow 8 "<f f f t f t t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t t t t t>") :: Pattern Bool
+let stabGate  = (slow 8 "<f t t t t t t t>") :: Pattern Bool
+let hookGate  = (slow 8 "<f f t f t f t f>") :: Pattern Bool
+let texGate   = (slow 8 "<t t f t t t f t>") :: Pattern Bool
+-- phrasing: the hook takes a line, then leaves. Two masks so hook and glass trade space.
+let hookPhr = (slow 1 "<t t f t f f t f>") :: Pattern Bool
+let glassPhr = (slow 1 "<f t f f t f f t>") :: Pattern Bool
+
+-- the SIX-bar harmony, one chord per bar, and the bass roots underneath it.
+let prog = "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [d3,f3,a3,c4,e4] [g3,b3,d4,f4,a4] [c3,e3,g3,b3,d4] [e3,gs3,b3,d4,e4]>" :: Pattern Note
+let roots = "<a2 f2 d2 g2 c2 e2>" :: Pattern Note
+-- the hook: five notes, then room to breathe. Line - line - cadence - full-bar rest.
+let hook = (slow 4 "e5 ~ a4 c5 b4 ~ ~ ~ c5 b4 a4 g4 ~ ~ ~ ~ e5 g5 a5 ~ ~ ~ ~ ~ b4 a4 g4 e4 ~ ~ ~ ~") :: Pattern Note
+
+-- ORBIT 0: the floor. Dry, and the ONLY lane with no rotation.
+-- ONE kick voice: the stacked drumtraks layer and the fast-2 double both read as
+-- "too much kick" on the desk. Single voice, lower gain, shorter shape.
+d1 $ mask kickGate $ struct "t(4,4)" $ tilt $ s "rolandtr909:0" # orbit 0 # gain 0.55 # hpf 66 # lpf 4200 # release 0.08 # verbSend 0 # ddSend 0
+
+-- ORBIT 0: clap on 2 and 4, with a 25 ms flam on alternate bars.
+d2 $ mask clapGate $ every 2 (off 0.025 (|* gain 0.55)) $ struct "f t f t" $ s "rolandtr909:4" # orbit 0 # gain (slow 16 $ range 0.4 0.5 sine) # hpf 340 # lpf 6800 # pan 0.5 # release 0.09 # verbSend 0 # ddSend 0
+
+-- ORBIT 0: closed hats on a rotated E(9,16) — nine hits, shifted by four.
+d3 $ mask hatGate $ tilt16 $ s "rolandtr909:2(9,16,4)" # orbit 0 # gain "0.15 0.1 0.12 0.17 0.1 0.13 0.11 0.16 0.1" # hpf 6800 # lpf 12500 # pan (slow 8 $ range 0.42 0.62 sine) # release 0.035 # verbSend 0 # ddSend 0
+
+-- ORBIT 0: open hat — my own figure, and it thickens every third bar.
+d4 $ mask hatGate $ tilt $ every 3 (fast 2) $ struct "~ ~ t ~ ~ ~ t t" $ s "<rolandtr909:3 808oh>" # orbit 0 # gain (slow 8 $ range 0.15 0.24 sine) # hpf 800 # lpf 9000 # sustain 0.16 # release 0.3 # pan 0.55 # verbSend 0 # ddSend 0
+
+-- ORBIT 0: a tick on E(3,8,5) — five of eight, so it drifts against the four.
+d5 $ mask percGate $ tilt16 $ s "808bd(3,8,5)" # orbit 0 # gain (slow 8 $ range 0.1 0.16 sine) # hpf 1400 # lpf 9000 # pan 0.62 # release 0.045 # verbSend 0 # ddSend 0
+
+-- ORBIT 1: bass. A skipping 16th pulse on the roots, octave pop at 10%, log-swept.
+d6 $ mask bassGate $ tilt16 $ sometimesBy 0.1 (|+ note 12) $ struct "~ t ~ t t ~ t ~" $ note roots # s "dubsub" # orbit 1 # drive 0.14 # pitchEnv 0.22 # legato 1.1 # sustain 0.16 # release 0.12 # amp 0.7 # gain (slow 16 $ range 0.32 0.4 sine) # hpf 52 # lpf (slow 32 $ rangex 160 420 saw) # keyShift 0 # verbSend 0 # ddSend 0
+
+-- ORBIT 2: the harmony as rhythmic FM stabs — rotated E(5,16), octave jump sometimes,
+-- with `off` laying a softer copy a quarter-cycle behind for the tail.
+d7 $ mask stabGate $ tilt $ sometimesBy 0.15 (|+ note 12) $ every 11 (within (0.5,1) (|* gain 0.6)) $ off 0.25 (# gain 0.45) $ struct "t(5,16,7)" $ note prog # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.22 0.3 sine) # amp 0.3 # cutoff (slow 64 $ rangex 700 5800 saw) # fmIndex 1.0 # ratio 2 # drive 1.2 # sub 0.3 # width 0.7 # attack 0.004 # sustain 0.1 # release 0.18 # detune 0.008 # pan 0.42 # keyShift 0 # vib 0.05 # vibRate 4.6 # delaytime 0.1875 # lock 1 # delayfeedback 0.16 # ddSend 0 # ddHp 900 # ddLp 4200 # ddDrive 0 # ddWow 0 # ddCross 0.6 # ddDuck 0 # verbSend 0 # room 0
+
+-- ORBIT 3: the hook — a line, then a rest, swung, never the same twice.
+d8 $ mask hookGate $ mask hookPhr $ tilt16 $ sometimesBy 0.2 (fast 2) $ note hook # s "superzow" # orbit 3 # gain (slow 16 $ range 0.2 0.3 sine) # amp 0.4 # hpf 500 # lpf (slow 32 $ rangex 1600 5400 saw) # attack 0.01 # release 0.45 # sustain 0.16 # pan (slow 8 $ range 0.44 0.62 sine) # keyShift 0 # vib 0.06 # vibRate 4.8 # verbSend 0 # room 0 # verbT60 2.8 # ddSend 0 # delaytime 0.1875 # lock 1 # delayfeedback 0
+
+-- ORBIT 3: a glass ghost, an octave-displaced arpeggio of the SAME chords, so it can
+-- never fall out of key. Trades space with the hook on a coprime mask.
+d9 $ mask hookGate $ mask glassPhr $ tilt16 $ every 5 (within (0.5,1) (|* gain 0.5)) $ note (arp "up" (slow 2 prog)) # s "sprvibe" # n 0 # orbit 3 # gain (slow 16 $ range 0.07 0.13 sine) # hpf 900 # lpf 9000 # release 0.6 # sustain 0.25 # pan 0.62 # verbSend 0 # room 0 # verbT60 2.6 # tape 0
+
+-- ORBIT 4: texture through tape — resliced loop, reordered, rate-scanned, reversed rarely.
+d10 $ mask texGate $ tilt $ chunk 6 (|* speed 0.6) $ every 6 (within (0.5,1) (|* speed (-1))) $ iter 3 $ slice 16 "<0 5 11 2 14 7 3 9>" $ s "lpviz:45" # orbit 4 # gain (slow 16 $ range 0.14 0.22 sine) # speed (slow 16 $ range 0.92 1.1 sine) # sustain 0.12 # hpf 1100 # lpf (slow 32 $ rangex 2200 7600 saw) # pan perlin # crush 0 # tape 0 # tapeHiss 0 # ddSend 0 # verbSend 0 # room 0
+
+-- ORBIT 4: a polymetric hand-perc cell — %12 against the 16th grid, so it walks.
+d11 $ mask percGate $ tilt16 $ sometimesBy 0.25 (fast 2) $ s "{guira ebongos}%12" # orbit 4 # gain (slow 13 $ range 0.08 0.15 sine) # hpf 3800 # lpf 12000 # pan (slow 8 $ range 0.3 0.72 sine) # release 0.04 # tape 0 # tapeHiss 0 # ddSend 0
+
+-- ORBIT 5: one open-hat throw near the end of every 8, stuttered into the delay.
+d12 $ whenmod 8 6 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 1.5))) $ tilt $ struct "~ ~ t ~" $ s "<rolandtr909:3 808oh>" # orbit 5 # gain 0.12 # hpf 900 # lpf 8200 # sustain 0.18 # release 0.28 # pan (slow 8 $ range 0.3 0.7 sine) # ddSend 0 # delaytime 0.1875 # lock 1 # delayfeedback 0 # ddHp 900 # ddLp 4400 # ddDrive 0 # ddWow 0 # ddCross 0.6 # ddDuck 0 # verbSend 0 # room 0 # verbT60 2.4
+
+-- ORBIT 5: the silent reset clock. gain 0, 1 ms of file, so no send can latch over a rest.
+d13 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # delayfeedback 0 # verbSend 0 # room 0

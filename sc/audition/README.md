@@ -170,7 +170,7 @@ Known limitations of the isolated render:
   | graph path | resolves to |
   |---|---|
   | `init.scd` graph root + `boot.log` | `sc/audition/boot.log` (via the mirror’s `boot.log` symlink) |
-  | `dub_master.scd` `~meterLog` | `sc/audition/runtime/home/livecode/sc/master-meter.log` |
+  | `master-bus.scd + master-fx.scd` `~meterLog` | `sc/audition/runtime/home/livecode/sc/master-meter.log` |
   | `spectrum.scd` `~spectrumLog` | `.../spectrum.log` |
   | `surface.scd` `~scStatePath` / `ctl.log` | `.../state.scd` / `.../ctl.log` |
 
@@ -199,6 +199,6 @@ scsynth is not linked to any physical output or to the `tidal_stream` tap.
 
 The four home-derived write targets are hardcoded in the graph. The clean
 long-term fix is to make the graph root env-overridable in `sc/init.scd`,
-`sc/dub_master.scd`, `sc/spectrum.scd` and `sc/surface.scd`, which would retire
+`sc/master-bus.scd + master-fx.scd`, `sc/spectrum.scd` and `sc/surface.scd`, which would retire
 the symlink tree. That is a contract/graph change and deliberately out of scope
 here.

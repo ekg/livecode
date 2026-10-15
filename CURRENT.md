@@ -1,9 +1,16 @@
 # Current jam state — LIVE
 
-**Scene: `118.tidal` (September pocket), 122 BPM.** Commit `08ea2cd` + init.scd autoload fix.
-Stack fully recovered: scsynth up, REPL fresh, all sample aliases auto-load at boot.
-Mix live: open70 base, drums 1.35 / bass 1.4 / music 1.25 / fx 0.9, master mGain 1.45.
-Peak measured 0.0795. Not recording.
+**Scene: `175.tidal` (TILT FLOOR), deck A, 124 BPM** (cps 0.51667), A minor. New original
+deep house scene: six-bar harmony, single 909 kick, all lane sends 0. Loaded with
+`/tidal scene load A 175.tidal`; edit with `tidal_scene edit` (phase preserved).
+Master is SIMPLIFIED and SPLIT: `sc/master-bus.scd` (bus + gain + meter; allocates buses,
+loaded once, never hot-reloaded) and `sc/master-fx.scd` (FX chain + `Ndef(\dubMaster)`;
+allocates nothing, re-runnable, DRY by default). Chain: `hpf 48 -> gain 8 -> clip 0.89`
+- no delay, no saturation, no tone filter, no duck, no compressor.
+`~masterVol.value(n)` sets the level; after a scene load or Ndef rebuild run
+`~masterReTail.value` so the reader sits after the writers.
+Measured SC-side: master rms 0.006-0.052, ceiling-use <= 4% (conservative - there is room).
+Not recording.
 
 **THE ROOT CAUSE OF THE LONG OUTAGE (fixed 2026-09-26):** `sc/samples*.scd` and
 `sc/{chords,mi,dubsynth}.scd` were never loaded at boot — only by hand in past
@@ -108,6 +115,8 @@ different loop material is in `~/samples/loopmaster_producer_essentials`
 | 99 | per-stream prime-interval treatments (no more coincident variation) |
 | 100 | **amp patterns for space — historical approved scene** |
 | 116–117 | broken-beat dance and space dub experiments; not the current requested direction |
-| 118 | September-inspired clipped dance pocket; Euclidean kick/snare/hat/shaker variations, Rhodes reduced and lengthened; validated, awaiting playback recovery |
+| 173 | minimal 5-part house from the old archive (swingBy, gtr idiom, vectorized stut) |
+| 174 | deep house mashup: Snap "Rhythm Is A Dancer" x Moloko "Sing It Back", 124 BPM |
+| 175 | **TILT FLOOR** - original deep house, 124 BPM, six-bar harmony, single 909 kick, dry lanes |
 
 Enjoy the ride, don't flatten it.

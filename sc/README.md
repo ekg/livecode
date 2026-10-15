@@ -7,8 +7,11 @@ the architecture and the gotchas.
 - `dub_fx.scd` — dub delay (filtered/saturated feedback, ducking), dub reverb
   (HPF'd send, pre-delay, JPverb with fast low-band decay), per-event tape module,
   instruments `dubchord` `dubsub` `tapestab`
-- `dub_master.scd` — master bus, control bus, `dirt_masterctl` param bridge,
-  `Ndef(\dubMaster)` chain (hpf → glue+duck → tape → tone → limiter)
+- `master-bus.scd` — master bus + control bus + gain + ceiling meter. Allocates the
+  buses, so it is loaded once at boot and NEVER hot-reloaded.
+- `master-fx.scd` — `dirt_masterctl` param bridge + `~masterFxChain` + `Ndef(\dubMaster)`
+  (hpf → gain → optional FX, **dry by default** → ceiling clip). Allocates nothing, so it
+  can be re-run on its own to change the FX while the track plays.
 - `selftest.scd` — boot-time instrument level check
 - `init.scd` — wires it all into SuperDirt, logs to `boot.log`
 
@@ -130,7 +133,7 @@ Use the owned restart tool rather than process-name guesses.
 pattern or old chunk referencing them still compiles) but they do **not** reach
 the audio: the Tidal -> control-bus -> Ndef bridge was removed after it proved
 unreliable (see pi-tidal/docs/sc-effects-and-routing.md). The master chain is
-configured in `sc/dub_master.scd`.
+configured in `sc/master-bus.scd` (bus, gain, meter) and `sc/master-fx.scd` (the FX chain).
 
 So: a pattern using `mGain` will run and simply not change the level. If master
 control from Tidal matters later, rebuild it as a plain `Synth` reading the bus

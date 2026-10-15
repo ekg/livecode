@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class AudioRecoveryTests(unittest.TestCase):
     def test_master_returns_audio_after_meter_writes(self):
-        source = (ROOT / 'sc/dub_master.scd').read_text()
+        source = (ROOT / 'sc/master-fx.scd').read_text()
         graph = source.split('Ndef(\\dubMaster, {', 1)[1].split('\n});', 1)[0]
         graph = re.sub(r'//[^\n]*', '', graph)
         self.assertRegex(graph.strip(), r'Splay\.ar\(sig\.asArray,.*\);$')

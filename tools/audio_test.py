@@ -322,7 +322,7 @@ def test_meter(sc: SC, out: pathlib.Path):
     """Is the SC-side meter alive? (our only trustworthy view of our own bus)"""
     log = REPO / "sc/master-meter.log"
     if not log.exists():
-        return False, {"log": str(log)}, ["no meter log — dub_master.scd did not start it"]
+        return False, {"log": str(log)}, ["no meter log — master-bus.scd + master-fx.scd did not start it"]
     age = time.time() - log.stat().st_mtime
     tail = log.read_text().strip().splitlines()[-1:]
     ok = age < 8

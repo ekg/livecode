@@ -31,7 +31,8 @@ LESSONS THAT SHAPED THIS FILE (all paid for in hours, 2026-09-25):
 
 Orbit layout after boot (see also routing.scd):
   group buses: drums/bass/music/fx, summed into the master bus, which feeds
-  the master chain (dub_master.scd) and then hardware. Orbits map to groups
+  the master chain (master-bus.scd = bus/gain/meter, master-fx.scd = the FX
+  chain + Ndef) and then hardware. Orbits map to groups
   via ~orbitGroupMap (every orbit is assigned: the 12-block repeats).
 
 Flags (sc/flags.scd overrides the defaults below):
@@ -85,7 +86,8 @@ log.("dub FX install starting; server running: " ++ s.serverRunning
 // 1 ----------------------------------------------------------------- define
 loadStage.("define fx", sc ++ "/dub_fx.scd", \scLoadedFx);
 loadStage.("load retired FX cleanup", sc ++ "/prune_orbit_fx.scd", \pruneDirtFX);
-loadStage.("define master", sc ++ "/dub_master.scd", \scLoadedMaster);
+loadStage.("define master bus", sc ++ "/master-bus.scd", \scLoadedMasterBus);
+loadStage.("define master fx chain", sc ++ "/master-fx.scd", \scLoadedMasterFx);
 loadStage.("load param manifest", sc ++ "/params_gen.scd", \dirtParamGroups);
 loadStage.("load routing layer", sc ++ "/routing.scd", \scLoadedRouting);
 loadStage.("load demo synth", sc ++ "/demo_synth.scd", \scLoadedDemo);
@@ -229,7 +231,7 @@ if(~routingEnabled) { stage.("start routing layer", {
 }) } { log.("     routing layer NOT started (~routingEnabled = false)") };
 
 // 4b ------------------------------------------------- start the master chain
-// The Ndef is DEFINED in dub_master.scd but NOT played there: scsynth zeroes
+// The Ndef is DEFINED in master-fx.scd but NOT played there: scsynth zeroes
 // internal audio buses at the start of every control cycle, so a node that
 // reads the master bus must execute AFTER the strips that write it. Playing
 // the Ndef here (after the strips exist) puts its group at the root tail,

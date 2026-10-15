@@ -1,6 +1,6 @@
 // mixservo.scd — automatic GROUP BALANCE for the mixing layer.
 //
-// WHY: the master chain (dub_master.scd) glues and limits the SUM, but nothing
+// WHY: the master chain (master-bus.scd + master-fx.scd) glues and limits the SUM, but nothing
 // balances layers RELATIVE to each other, and SuperDirt does not normalize
 // sample loudness - so a mars one-shot, dubsub and the p70 kit all arrive at
 // different levels and every blend has to be hand-set. That hand-setting was

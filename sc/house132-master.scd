@@ -8,7 +8,7 @@
 // sparse vocals
 // should stay sparse and the quiet bars should stay quiet. The threshold makes
 // glue engage only on the louder moments. Existing lookahead limiter and hard
-// ceiling remain in dub_master.scd. Offline two-pass LUFS normalization is
+// ceiling remain in master-bus.scd + master-fx.scd. Offline two-pass LUFS normalization is
 // tools/master.py, not something to chase on every live bar.
 (
 ~masterSet.(\mGain, 2.85);

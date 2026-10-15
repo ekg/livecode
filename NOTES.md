@@ -12,6 +12,64 @@ Conventions:
 
 ---
 
+## 2026-10-15 — 175 TILT FLOOR + the master chain dismantled, split, and one real trap
+
+**New scene: `175.tidal` (TILT FLOOR).** Original deep house, 124 BPM (cps 0.51667),
+A minor, one cycle = one bar. A SIX-bar harmony (Am9 Fmaj9 Dm9 G9 Cmaj9 E7) so the
+phrase never squares up with the 4-bar/8-bar grid; kick E(4,4) is the only lane with no
+rotation, and the other lanes sit on different coprime rotations of the 16th grid. Loaded
+on deck A; every sample/synth name checked against the live library first
+(`rolandtr909`, `drumtraks`, `808bd/oh`, `guira`, `ebongos`, `lpviz`, `sprvibe`,
+`dubsub`, `sweetChords`, `superzow`). Compiles and renders over 128 cycles
+(`tools/validate_scenes.py` PASS).
+
+**Desk-driven mix fixes (operator was listening the whole time).** "too much kick" -> the
+stacked `drumtraks:0` layer and the `sometimesBy 0.07 (fast 2)` double are gone, one 909
+voice at gain 0.55. "delay insane" -> lane sends cut to 0 and the master dub delay set to
+dWet 0. "it's basssssyy" -> master HPF 34 -> 62, kick HPF 66, bass lane hpf 52 / gain 0.36.
+
+**The master FX were removed, not tuned** (`sc/dub_master.scd` -> two files). The old chain
+was `hpf -> dub delay (feedback ring, tanh) -> glue compressor -> tape saturation -> tone
+-> kick duck -> soft knee -> limiter`. Every stage was something to be wrong at 2 a.m. The
+master is now `hpf -> gain -> clip2`.
+
+**Split, because the old file could not be changed safely.** It allocated `~masterBus` in
+its top half, so re-running it handed out new bus indices and the session went silent with
+no error. Now:
+- `sc/master-bus.scd` - buses + gain + meter. Allocates, so loaded ONCE at boot, never hot-reloaded.
+- `sc/master-fx.scd` - `dirt_masterctl` + `~masterFxChain` + `Ndef(\dubMaster)`. Allocates NOTHING,
+  so it is re-runnable while the track plays; ships DRY.
+
+**THE TRAP (cost an hour, documented at the top of `master-fx.scd`):** an FX helper whose
+feedback ring used `LocalIn.ar`/`LocalOut.ar`, called from inside `Ndef(\dubMaster)`, built
+with **no error and produced EXACT silence**: hardware bus 0.0, the Ndef's own meter pinned
+at 0.0, while the input bus measured real signal (up to 0.0194). It presents as "the reader
+runs before the writers" and as "the scene mixers are muted" - both were checked and both
+were FALSE (mixer `mix` = 1.0, orbits -> channel bus -> master all intact, synth count
+fluctuating 110->203 so events were arriving). Do not put LocalIn/LocalOut in the master
+Ndef; use a bus-based send/return or an acyclic insert.
+
+**Related, and also a trap:** the minimal rebuild used to get sound back dropped the
+`Out.kr` meter writes, so the meter read 0.0 again and looked like the same fault. Restored
+by re-running `master-fx.scd` + `~masterReTail`.
+
+**`~masterReTail` exists because ordering is not static.** scsynth zeroes internal buses
+each control cycle, so the reader must sit after the writers - but in scene mode the writers
+are the `piSceneMixer` synths in `~piSceneManager[\group]`, NOT the dirt group that
+`init.scd` re-tails into. Re-tail after every scene load / Ndef rebuild.
+
+**Where the "vibrating / crunchy" actually came from**: not the master. `piSceneMixer` runs
+`LPF -> (sig * (1 + sat*3)).tanh / (1 + sat) -> + FreeVerb2 * wet`, and 175's `{- @sc -}`
+block was sine-modulating `sat` 0.13-0.25, `wet` 0.05-0.19 and `tone` 2000-4400 with three
+coprime periods. A modulated reverb into a nonlinearity, on every sample of every bar. 175's
+block is now flat `[18000, 0, 0, 1]` and the `shape` values are gone.
+
+**Measured after**: SC-side master rms 0.006-0.052, ceiling-use <= 4%.
+
+**Unresolved:** the level is conservative (ceiling-use under 5%) - raise with
+`~masterVol.value(n)`; no level-matched listening pass yet; `tools/vidlearn/` (a venv) is
+untracked and deliberately not committed.
+
 ## 2026-10-13 — 174 audio-artifact investigation
 
 **Confirmed DSP bug and correction (auditory acceptance still pending)**
@@ -48,6 +106,13 @@ Conventions:
   `sc/audition/test-mix-transfer.scd` runs only on port 57111; analyze its take
   with `python3 tools/analyze_174_transfer.py`. Playback remains stopped until
   operator approves a short listening check.
+- Subsequent authorized playback: operator reports the mix is quiet/muddy and
+  **distortion returns despite the precedence correction**. The gain bug is real,
+  but the complete audible fault remains unresolved. Requested an adjustable
+  master compressor/limiter; those new changes have NOT been applied. Saved
+  existing settings in `sc/174-master.scd` as a checkpoint only. At operator's
+  latest stop request, shut down the scene, stream, REPL, sclang and scsynth;
+  ports 57110/57120 are closed. Leave unrelated microphone recording alone.
 
 - Operator reports a narrow-pulse / crackling artifact around **43 Hz** during
   scene 174. Treat as unresolved synthesis/audio-configuration fault until reproduced

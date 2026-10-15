@@ -38,7 +38,7 @@ Conventions that keep it simple:
 // SC are always looking at the same number.
 ~scSlots = ();
 
-// master chain: values live on the Ndef itself (dub_master.scd). ~masterSet is
+// master chain: values live on the Ndef itself (master-bus.scd + master-fx.scd). ~masterSet is
 // the single writer, so the surface and the audio cannot disagree.
 if(~masterVals.notNil) {
 	~masterVals.keys.asArray.do { |key|
