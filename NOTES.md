@@ -12,6 +12,60 @@ Conventions:
 
 ---
 
+## 2026-10-15 (later) — 176 THIRTEEN DOORS, the eval-path traps, and the watchdog
+
+**New scene `176.tidal` (THIRTEEN DOORS).** 124 BPM / A minor on purpose — same clock and key
+as 175 so the A/B pair crossfades with no tempo ride and no key clash. 16 lanes, orbits 0-5.
+The idea: a house floor with a prime-number room behind it. Four/4 for seven bars, then the
+eighth bar is THIRTEEN hits (`t(13,16,5)`), and a 13-grid tom roll (also offset 5) walks
+through it. A FIVE-bar harmony (i Am F C G Em) against EIGHT-bar sections; the form is 40
+cycles (`slow 5` gates x 8) so the changes land somewhere new every pass. A PHASE CANON
+instead of a riff: one 5-note cell, a copy reversed 2/16 late, an octave-up copy 3/16 late,
+`stutWith` copies, the whole thing rotated a 16th every 13 cycles. `%12` and `%7` polymetric
+cells; the melody is `arp`-ed out of the live chords so it cannot leave the key. Dub sends on
+bass/arp/canon/glass + a new random-note DUB PING lane (d15); intermittent reverb/delay via
+named recipes (`airRoom`/`airBig`/`echoTap`) on the clap, hats, perc, the 13-door and the
+texture; THE KICK IS ALWAYS DRY. Validates (`tools/validate_scenes.py` PASS).
+
+**Five traps, all of which cost real time today:**
+1. **A backslash in a Tidal LANE line does not survive the plugin's eval path.**
+   `sometimesBy 0.28 (\x -> x # ddSend 0.5 # ddHp 160)` reaches the REPL as a `#` SECTION
+   → "must have lower precedence than that of the operand". Fix: put the recipe in the
+   `let` block as a composition of single-`#` sections:
+   `let dubBass = (# ddSend 0.5) . (# delaytime (3/16)) . (# ddHp 160)`. Backslashes inside
+   `{- @sc -}` are fine — that block goes to sclang, not the REPL.
+2. **`tools/validate_scenes.py` passes both of those.** It compiles the lines in a ghci
+   session, so it cannot see the eval-path mangling, and it never sees the chunks the plugin
+   actually sends. It is a necessary gate, not a sufficient one.
+3. **A transform placed AFTER a lane's `# param` block does not type.**
+   `... # crush 12 $ sometimesBy 0.3 airBig` parses as `(lane # params) $ transform` → the
+   scene edit fails to compile and the WHOLE edit aborts (this is what dropped the audio
+   mid-set). Transforms (`sometimesBy`/`every`/`whenmod`/`stut`) must come BEFORE the `#`
+   chain.
+4. **A trailing `# ddSend 0` silently clobbers a conditional send** set earlier in the
+   chain. Put param additions after the transforms and do not re-assert dry defaults.
+5. **In the plugin's `{- @sc -}` block `cycles` is a UGen, not a number.** `UGen == Number`
+   is an OBJECT comparison that returns an sclang Boolean, and `false * 2500` is
+   "Message '*' not understood". Equality on a UGen must be written arithmetically:
+   `((form.mod(8) - 7).abs < 0.5)`.  (`>=`, `<`, `mod`, `*` are all fine on UGens.)
+
+**Shutdown: `s.quit` does not stick.** The engine exited cleanly (server exit code 0) and the
+plugin's watchdog revived the entire stack within ~30 s — new sclang, new scsynth, fresh
+`boot.log: done` — because reviving scsynth is exactly what it is built to do when
+`weSpawnedSclang` and sclang reported the exit. Keeping SuperCollider down requires ENDING THE
+PI SESSION (`session_shutdown` → `teardown`, and `closing = true` disables the watchdog);
+hand-killing pids loses that fight. Verified after the revival: no active streams, no scenes
+loaded, master meter 0.0 — the watchdog restores the STACK, not the music.
+
+**Deck weights:** `tidal_scene gain 1 1` sets `gains[1]` and the channel-1 mixer's own `mix`
+param 0 → 1 (verified with `/s_get`), and that `mix` is the channel's fade weight
+(`level = sqrt(mix)`), so the `gains` array IS the crossfade. Unresolved: deck B's channel bus
+measured very low (-150 → -120 dB) with correct routing (orbits 6-11 → bus 198) and gain 1,
+while `piSceneB`/`piSceneClockB` were confirmed streaming. Not explained yet.
+
+**Session artifacts:** 175 committed as `4930c68`. Take `recordings/tilt-floor-20261015-1033`
+— 665.1 s, WAV + FLAC, 6 markers (all stamped with git `4930c68`).
+
 ## 2026-10-15 — 175 TILT FLOOR + the master chain dismantled, split, and one real trap
 
 **New scene: `175.tidal` (TILT FLOOR).** Original deep house, 124 BPM (cps 0.51667),

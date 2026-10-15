@@ -1,0 +1,168 @@
+-- 176 — THIRTEEN DOORS. 124 BPM (cps 0.51667), A MINOR — same clock and key as 175 so
+-- the A/B pair can crossfade without a tempo ride and without a key clash.
+--
+-- THE IDEA, in one line: a house floor with a prime-number room behind it. The pulse
+-- stays 4/4 (it has to, to mix with 175), and everything ELSE is built on cycles that
+-- are coprime with it — so the mix breathes and re-phrases instead of looping.
+--
+--   1. THIRTEEN DOORS. The kick is 4/4 for seven bars, then the eighth bar is a
+--      THIRTEEN-hit bar: t(13,16,5). Every 8 bars a door opens, and a 13-grid tom roll
+--      (also 13, also offset 5) walks through it. Two 13s rotating against an 8 and a 4.
+--   2. A FIVE-BAR HARMONY against EIGHT-bar sections: Am - F - C - G - Em (i VI III VII v).
+--      5 and 8 are coprime, so the changes land in a new place every pass: the common
+--      period is 40 bars, and the form below is exactly 40 cycles long (slow 5 gates).
+--   3. A PHASE CANON, not a riff: one 5-note cell, entered at staggered offsets with
+--      `off`/`echo` — a copy reversed, a copy an octave up, a copy late — and the whole
+--      thing drifts a 16th every 13 cycles. Reich with a kick drum.
+--   4. POLYMETRIC CELLS as the "very Tidal" rhythm engine: a %12 hat cell and a %7
+--      perc cell measured against the 16th grid, so the bar never repeats the same way.
+--   5. GENERATED melody: d9 is not written, it is `arp`-ed out of the live chords, so it
+--      cannot leave A minor whatever the harmony does.
+--   6. SOUND: dry FLOOR, dub-sent MELODY AND BASS. The floor and the door stay completely
+--      dry (ddSend 0) so the pulse never smears; the bass, the arp, the canon, the glass and
+--      a new random-note ping (d15) all throw into the dub delay, randomised so the sends
+--      land on SOME notes, not all - that is where the depth comes from. 175 is dry-dry;
+--      176 is dry-floor/wet-melody, so the A->B crossfade is a move from clean to dubby.
+--      The channel block above still moves ONLY linear tone: no saturation, no reverb on the
+--      channel (that modulated-nonlinearity combination is what "vibrating/crunchy" was).
+--
+-- Every sample/synth name checked against the LIVE library before use (marimba, kalimba,
+-- glockenspiel, supermandolin and sosBell are NOT loaded on this box and are avoided).
+-- ORBITS: 0 floor dry | 1 bass dry | 2 harmony + arp | 3 the canon | 4 texture | 5 accents.
+-- @scene {"title":"Thirteen Doors","cps":0.5166666666666667,"quantize":4}
+{- @sc
+// FORM: 40 cycles = 8 sections of 5 (the gates below are slow 5) = 8 bars of harmony x 5.
+// LINEAR MODULATION ONLY. The channel mixer runs LPF -> tanh(sat) -> FreeVerb(wet), and
+// a modulated saturation into a modulated reverb is what "vibrating/crunchy" was (175's
+// post-mortem). So this block moves ONLY the tone: sat 0, wet 0, gain 1, and the sweep is
+// bounded and slow. Add no nonlinearity here.
+// NB: inside the plugin this block is built INSIDE a SynthDef, so `cycles` is a UGen, not
+// a number. UGen arithmetic is fine (`>=`, `<`, `mod`, `*`), but `UGen == Number` is an
+// OBJECT comparison that returns a sclang Boolean — and `false * 2500` is exactly the
+// "Message '*' not understood" that made the first two loads of this scene fail. Equality
+// on a UGen has to be written as an arithmetic test: |x - target| < 0.5.
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(40);
+    var open = (form >= 8) * (form < 32);
+    var doors = ((form.mod(8) - 7).abs < 0.5);
+    var arch = (cycles * (2pi / 40)).sin;
+    [7000 + (arch * 3500) + (open * 3000) + (doors * 2500), 0, 0, 1];
+});
+-}
+
+-- EVERY LANE CARRIES ITS OWN PERIOD, on purpose. The section gates below all share the
+-- same `slow 5` clock - that IS the form, and the sections are meant to change together -
+-- but the per-lane movement must not, or the whole mix breathes and resets as one lump
+-- (the documented "global stutter" lesson). So no two lanes share a sweep period: 8/16
+-- (floor) then 7, 9, 11, 12, 17, 19, 21, 22, 23, 25, 26, 27, 29, 32, 33, 44, 45. Nothing
+-- but the floor lands twice in the same place.
+
+-- gates: one step per 5-cycle section, so the form is 8 steps x 5 = 40 cycles.
+let kickGate = (slow 5 "<f t t t t t t t>") :: Pattern Bool
+let clapGate = (slow 5 "<f t t t t t t t>") :: Pattern Bool
+let hatGate  = (slow 5 "<f t t t t t t t>") :: Pattern Bool
+let percGate = (slow 5 "<f f t t f t t f>") :: Pattern Bool
+let doorGate = (slow 5 "<f f t f t t t t>") :: Pattern Bool
+let bassGate = (slow 5 "<f t t t t t t t>") :: Pattern Bool
+let subGate  = (slow 5 "<f t t t t t t f>") :: Pattern Bool
+let chordGate= (slow 5 "<f t t t t t t t>") :: Pattern Bool
+let arpGate  = (slow 5 "<f f t f t f t t>") :: Pattern Bool
+let canonGate= (slow 5 "<f f f t t f t t>") :: Pattern Bool
+let glassGate= (slow 5 "<f t f f t f f t>") :: Pattern Bool
+let texGate  = (slow 5 "<t t f t f t f t>") :: Pattern Bool
+-- phrasing: melodies take a line, then leave. Coprime masks so canon and glass trade space.
+let canonPhr = (slow 1 "<t t f t f f t f>") :: Pattern Bool
+let glassPhr = (slow 1 "<f t f f t f t f>") :: Pattern Bool
+-- THE TILT: the offbeat 8ths lean, and WHICH offbeat leans depends on the beat — the
+-- "and" of 2 moves 45%, the "and" of 4 moves 100%. Same asymmetric shrug as 175, on purpose:
+-- it is what makes the pair feel like one record when they crossfade.
+let tilt   = (# nudge (fast 8 "0 0.45 0 1" * 0.07))
+let tilt16 = (# nudge (fast 16 "0 1" * 0.035))
+
+-- DUB RECIPES.
+-- These exist because `\x -> x # a # b` CANNOT be written inline in a lane: a backslash in a
+-- Tidal line does not survive the plugin's eval path, so the REPL receives the multi-param
+-- body as a `#` SECTION and fails with "must have lower precedence than that of the
+-- operand". (The backslash in the {- @sc -} block is fine — that goes to sclang, not the
+-- REPL. And tools/validate_scenes.py passes either way, so it cannot see this.) Composition
+-- of single-`#` sections is the backslash-free way to say the same thing.
+let dubBass = (# ddSend 0.5) . (# delaytime (3/16)) . (# lock 1) . (# delayfeedback 0.45) . (# ddHp 160) . (# ddLp 1200) . (# ddDuck 0.4) . (# verbSend 0.12)
+let dubSub = (# ddSend 0.35) . (# delaytime (3/16)) . (# lock 1) . (# delayfeedback 0.35) . (# ddHp 120) . (# ddLp 800) . (# verbSend 0.1)
+let dubArp = (# ddSend 0.45) . (# delaytime (3/16)) . (# lock 1) . (# delayfeedback 0.4) . (# ddHp 300) . (# ddLp 2400) . (# verbSend 0.16)
+
+-- SPACE, also as recipes, and applied INTERMITTENTLY (sometimesBy / every / whenmod) rather
+-- than on every hit. A send that is always on is a longer sound, not space; a send that
+-- fires on a third of the notes is depth. The kick (d1) is never given either one.
+let airRoom = (# verbSend 0.3) . (# room 0.52) . (# verbT60 2.2) . (# size 0.6)
+let airBig = (# verbSend 0.46) . (# room 0.72) . (# verbT60 3.6) . (# size 0.82) . (# verbDamp 0.5)
+let echoTap = (# ddSend 0.4) . (# delaytime (3/16)) . (# lock 1) . (# delayfeedback 0.38) . (# ddHp 400) . (# ddLp 3400)
+
+-- the FIVE-bar harmony: i VI III VII v, one chord per bar, so it re-phrases against the
+-- 8-bar sections. Roots and a 5-note cell for the canon come from the same key.
+let prog5 = "<[a3,c4,e4,g4] [f3,a3,c4,e4] [c3,e3,g3,b3] [g3,b3,d4,f4] [e3,g3,b3,d4]>" :: Pattern Note
+let roots5 = "<a1 f1 c2 g1 e2>" :: Pattern Note
+let cell   = (slow 1 "a4 ~ c5 e5 ~ b4 ~") :: Pattern Note
+
+-- ORBIT 0 — THE FLOOR. Seven bars of four, then the eighth bar is THIRTEEN hits on a
+-- 16-grid, rotated 5. That is the whole trick of the track: the door.
+d1 $ mask kickGate $ struct "<t(4,4) t(4,4) t(4,4) t(4,4) t(4,4) t(4,4) t(4,4) t(13,16,5)>" $ tilt $ s "k808S" # orbit 0 # gain (slow 8 $ range 0.5 0.62 sine) # hpf 60 # lpf (slow 16 $ range 3400 4800 sine) # release 0.08 # verbSend 0 # ddSend 0
+
+-- ORBIT 0 — the backbeat, with a 31 ms flam on alternate bars, and it swaps voice every
+-- 4 bars so the two-bar phrase never quite settles.
+d2 $ mask clapGate $ every 2 (off 0.03125 (|* gain 0.55)) $ every 4 (off 0.0625 echoTap) $ sometimesBy 0.2 airRoom $ struct "f t f t" $ s "<rolandtr909:4 rolandtr909:4 rolandtr909:4 realclaps>" # orbit 0 # gain (slow 25 $ range 0.36 0.46 sine) # hpf 360 # lpf 7000 # pan 0.5 # release 0.09
+
+-- ORBIT 0 — %12 cell: twelve hits measured against the 16th grid, so each bar lands them
+-- somewhere new. The lean comes from the same tilt as the floor.
+d3 $ mask hatGate $ tilt16 $ sometimesBy 0.08 airRoom $ s "{rolandtr909:2 h808C}%12" # orbit 0 # gain (slow 12 $ range 0.11 0.17 sine) # hpf 6800 # lpf 12500 # pan (slow 7 $ range 0.4 0.62 sine) # release 0.035
+
+-- ORBIT 0 — E(5,16,3) hand perc: five of sixteen, rotated 3 — a prime against the four.
+d4 $ mask percGate $ tilt16 $ euclidOff 5 16 3 $ sometimesBy 0.22 airRoom $ s "<guira jamblock>" # orbit 0 # gain (slow 21 $ range 0.1 0.16 sine) # hpf 2600 # lpf 11000 # pan (slow 11 $ range 0.56 0.78 sine) # release 0.045
+
+-- ORBIT 0 — ORBIT THE DOOR ITSELF: 13 toms on the 16-grid, rotated 5, but audible in
+-- only one bar out of eight (gain pattern is the gate) — it arrives exactly when d1's
+-- kick turns into thirteen.
+d5 $ mask doorGate $ whenmod 8 7 airBig $ s "[ebongos|jamblock|rolandtr909:6](13,16,5)" # orbit 0 # gain "<0 0 0 0 0 0 0 0.34>" # hpf 900 # lpf 11000 # pan perlin # release 0.05
+
+-- ORBIT 0 — EXTRAS: one 13-grid hand-perc filler that only speaks in the door bar, given the
+-- same big room; this is the lane that tells you the door just opened rather than the kick.
+d16 $ mask doorGate $ sometimesBy 0.5 airBig $ s "perc(11,16,4)" # orbit 0 # gain 0.05 # hpf 1200 # lpf 9000 # pan (slow 30 $ range 0.34 0.66 sine) # release 0.06
+
+-- ORBIT 1 — the bass walks THIRTEEN steps against the four: 13 notes in 16 slots, rotated 5.
+d6 $ mask bassGate $ tilt16 $ euclidOff 13 16 5 $ every 11 (within (0.75,1) (slow 2)) $ sometimesBy 0.18 (|+ note (choose [0,0,12,3])) $ sometimesBy 0.3 (stut 4 0.5 (1/16)) $ sometimesBy 0.28 dubBass $ note "<a1 a1 c2 a1 g1 a1 e2 a1 a1 c2 g1 e2 a1>" # s "dubsub" # orbit 1 # drive 0.12 # pitchEnv 0.2 # legato 1.1 # sustain 0.14 # release 0.1 # amp 0.7 # gain (slow 16 $ range 0.3 0.38 sine) # hpf 54 # lpf 380 # keyShift 0
+
+-- ORBIT 1 — the sub answers on a 7-grid, so it interleaves with the 13 instead of doubling.
+d7 $ mask subGate $ tilt $ euclidOff 7 16 2 $ sometimesBy 0.3 (|+ note (choose [0,0,12,7])) $ sometimesBy 0.2 dubSub $ note roots5 # s "dubsynth" # orbit 1 # waveMix 0.16 # subMix 0.5 # subTone 0.3 # cutoff 420 # fenv 2 # drive 0.2 # sustain 0.13 # release 0.12 # gain (slow 9 $ range 0.34 0.44 sine) # hpf 40 # lpf 900 # keyShift 0
+
+-- ORBIT 2 — the harmony: five bars, seven stabs per bar (7 against 5), sometimes an octave
+-- up, with an `off` copy a quarter-cycle behind for the tail.
+d8 $ mask chordGate $ tilt $ sometimesBy 0.18 (|+ note 12) $ every 7 (within (0.5,1) (|* gain 0.6)) $ off 0.25 (# gain 0.4) $ struct "t(7,16,3)" $ note prog5 # s "sweetChords" # orbit 2 # gain (slow 32 $ range 0.2 0.28 sine) # amp 0.3 # cutoff (slow 45 $ range 900 4200 saw) # fmIndex 0.9 # ratio 2 # drive 1.0 # sub 0.28 # width 0.7 # attack 0.004 # sustain 0.09 # release 0.16 # detune 0.008 # pan 0.44 # keyShift 0 # vib 0.05 # vibRate 4.6
+
+-- ORBIT 2 — the melody is GENERATED, not written: `arp` reads the live five-bar chords, so
+-- it is always in key however the harmony moves. Phrased and swung.
+d9 $ mask arpGate $ tilt16 $ degradeBy 0.12 $ every 9 (within (0.5,1) (slow 2)) $ sometimesBy 0.2 (fast 2) $ sometimesBy 0.22 (|+ note (choose [0,0,3,7,12])) $ sometimesBy 0.35 dubArp $ iter 5 $ note (arp "<up down updown>" (slow 1 prog5)) # s "superpwm" # orbit 2 # gain (slow 16 $ range 0.11 0.19 sine) # amp 0.34 # hpf 420 # lpf (slow 26 $ rangex 1400 5200 saw) # attack 0.008 # release 0.4 # sustain 0.12 # pan (slow 8 $ range 0.42 0.64 sine) # keyShift 0 # vib 0.05 # vibRate 4.8
+
+-- ORBIT 3 — THE PHASE CANON. One 5-note cell becomes four voices: the entry, a reversed
+-- copy 2/16 late, an octave-up copy 3/16 late, and `echo` at a 16th — then the whole thing
+-- rotates a 16th every 13 cycles so the voices slide against each other and against the
+-- kick. The ENGINE changes every bar, so the voice MORPHS, not just the pitch.
+d10 $ mask canonGate $ mask canonPhr $ tilt16 $ every 13 (rotR 0.0625) $ sometimesBy 0.3 (stut 6 0.7 (1/32)) $ stutWith 2 0.0625 ((|* gain 0.5) . (|* speed 0.999)) $ sometimesBy 0.25 (stutWith 3 0.03125 ((|* gain 0.55) . (|* speed 1.5))) $ every 7 (within (0.5,0.75) (fast 2)) $ sometimesBy 0.18 (|+ note (choose [0,-5,12,7])) $ off 0.1875 (|+ note 12) $ off 0.125 rev $ note cell # s "miLead" # orbit 3 # gain (slow 44 $ range 0.16 0.24 sine) # amp 0.4 # engine "<0 6 11 5>" # harm (slow 22 $ range 0.35 0.6 sine) # timbre (slow 33 $ range 0.25 0.7 saw) # morph (slow 17 $ range 0.1 0.9 sine) # cutoff 7000 # attack 0.012 # release 0.5 # sustain 0.18 # pan (slow 8 $ range 0.4 0.6 sine) # keyShift 0 # vib 0.08 # vibRate 5.0 # ddSend 0.4 # delaytime (3/16) # lock 1 # delayfeedback 0.42 # ddHp 400 # ddLp 3200 # ddWow 0.06 # ddDuck 0.45 # verbSend 0.24 # room 0.5 # size 0.7 # verbT60 2.6
+
+-- ORBIT 3 — a glass doubling of the same chords, arp-ed DOWN, on a 7-grid, trading space
+-- with the canon on a coprime phrase mask.
+d11 $ mask glassGate $ mask glassPhr $ tilt16 $ degradeBy 0.2 $ every 5 (within (0.5,1) (|* gain 0.5)) $ sometimesBy 0.3 (chunk 2 rev) $ sometimesBy 0.3 (|* speed "<0.5 2 1.5 0.75>") $ sometimesBy 0.25 (stut 4 0.55 (1/16)) $ euclidOff 7 16 4 $ note (arp "down" (slow 2 prog5)) # s "sprvibe" # n 0 # orbit 3 # gain (slow 19 $ range 0.06 0.11 sine) # hpf 800 # lpf 9000 # release 0.5 # sustain 0.22 # pan 0.6 # begin 0 # end 0.6 # ddSend 0.4 # delaytime (3/16) # lock 1 # delayfeedback 0.5 # ddHp 600 # ddLp 2800 # verbSend 0.34 # room 0.6 # verbT60 2.4
+
+-- ORBIT 4 — texture: an odd slice order, reversed every 5, with `vowel` formants (vowel
+-- works on SAMPLES, not on the custom synths) — the machine talking to itself.
+d12 $ mask texGate $ tilt $ chunk 5 (|* speed 0.7) $ every 17 (within (0.5,1) (|* speed (-1))) $ sometimesBy 0.25 (# vowel "<a e o u>") $ iter 3 $ slice 16 "<0 6 13 3 9 15 1 11>" $ sometimesBy 0.3 airBig $ s "lpviz:45" # orbit 4 # gain (slow 23 $ range 0.13 0.2 sine) # speed (slow 16 $ range 0.94 1.08 sine) # sustain 0.11 # hpf 1200 # lpf (slow 29 $ rangex 2400 7400 saw) # pan perlin # crush 12
+
+-- ORBIT 5 — one accent throw, stuttered, near the end of every 8; and the silent reset
+-- clock on d14 so no send can latch across a rest.
+d13 $ whenmod 8 6 (stutWith 5 0.03125 ((|* gain 0.5) . (|* speed "<1 1.5 2>"))) $ sometimesBy 0.35 (stut 8 0.6 (1/32)) $ tilt $ struct "~ ~ t ~" $ s "<rolandtr909:3 808oh>" # orbit 5 # gain 0.15 # hpf 900 # lpf 8400 # sustain 0.18 # release 0.3 # pan (slow 27 $ range 0.32 0.68 sine) # ddSend 0.3 # delaytime (3/16) # lock 1 # delayfeedback 0.4 # ddHp 700 # ddLp 3600 # verbSend 0.2 # room 0.5
+
+-- ORBIT 2 — THE DUB PING. Random notes, random sample in the bank, random playback rate,
+-- heavily fed to the delay. This lane exists to answer the delay, not to carry the tune:
+-- degraded to a third of its hits so it pings and disappears.
+d15 $ mask canonGate $ tilt16 $ degradeBy 0.35 $ every 5 (rotR 0.125) $ sometimesBy 0.5 (fast 2) $ stutWith 4 0.0625 ((|* gain 0.5) . (|* speed 1.5)) $ sometimesBy 0.4 (|* speed (choose [0.5,0.75,1,1.5,2])) $ note (arp "up" (slow 1 prog5)) # s "arpy" # n (choose [0,1,2]) # orbit 2 # gain (slow 31 $ range 0.07 0.15 sine) # begin 0 # end 0.5 # hpf 700 # lpf 7000 # pan perlin # release 0.3 # sustain 0.18 # ddSend 0.8 # delaytime (3/16) # lock 1 # delayfeedback 0.58 # ddHp 500 # ddLp 3000 # ddDrive 0.1 # ddWow 0.08 # ddCross 0.6 # ddDuck 0.5 # verbSend 0.34 # room 0.6
+
+d14 $ s "rolandtr909:2*8" # orbit 5 # gain 0 # begin 0 # end 0.01 # sustain 0.001 # ddSend 0 # verbSend 0
