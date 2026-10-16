@@ -41,6 +41,15 @@ setcps 0.49166666666666664
 
 let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.09 sine)))
 
+-- NAMED SECTION-COMPOSITIONS. `whenmod 8 4 (# gain 0.32 # lpf 300)` is NOT valid Haskell: `#` is
+-- infixl 9, so `(# a # b)` tries to be two sections at one precedence and the REPL answers
+-- "must have lower precedence than that of the operand" — meaning the transform silently never
+-- applies and the break half never changes. An inline `\x -> ...` would work in GHCi but a
+-- backslash does not survive the plugin's eval path either. Composition of SINGLE-`#` sections
+-- is the only safe form:
+let darkenBass = (# gain 0.32) . (# lpf 300) . (# release 0.2) . (# legato 1)
+let thinPad = (# lpf 900) . (# dry 0.6)
+
 -- THE POCKET — one-drop: kick and snare land TOGETHER on beat 3, not four on the floor.
 d1 $ swing $ struct "~ ~ t ~" $ s "k808S" # gain (slow 8 $ range 0.74 0.86 sine) # velocity (slow 7 $ range 0.7 1 perlin) # shape 0.3 # hpf 55 # lpf 3800 # release 0.09 # nudge (slow 11 $ range (-0.006) 0.01 sine)
 
@@ -58,14 +67,14 @@ d3 $ degradeBy 0.1 $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4
 --     drums: whenmod 8 4 darkens and shortens it for the break half of the 8-bar form
 --     (gain 0.32, lpf 300, legato 1, release 0.2) so the same four notes turn into a stab
 --     under the cut-up drums, and then open back out for the dub half.
-d5 $ whenmod 8 4 (# gain 0.32 # lpf 300 # release 0.2 # legato 1) $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.3 (fast 2) $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note (-10)) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsub" # gain 0.48 # amp 0.72 # drive 0.06 # pitchEnv 0.05 # legato 1.6 # sustain 0.6 # release 1 # hpf 32 # lpf 520 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
+d5 $ whenmod 8 4 darkenBass $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.3 (fast 2) $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note (-10)) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsub" # gain 0.48 # amp 0.72 # drive 0.06 # pitchEnv 0.05 # legato 1.6 # sustain 0.6 # release 1 # hpf 32 # lpf 520 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
 
 -- THE SKANK — the offbeat chord stab, +2, late by design, into the dub delay.
 d7 $ slow 2 $ (|+ note 2) $ note "[a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.42 # amp 0.4 # velocity (slow 6 $ range 0.6 1 perlin) # hpf 300 # lpf 8000 # attack 0.004 # sustain 0.12 # release 0.3 # pan 0.55 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1 # room 0.4 # size 0.7 # dry 0.55 # nudge (slow 19 $ range 0.002 0.016 sine)
 
 -- THE SPACE — the progression on top, one chord per two bars, blooming: attack 0.5, release 3,
 -- room 0.75 / size 0.95 / dry 0.35, so it is mostly wet and reads as air rather than a layer.
-d4 $ slow 2 $ sometimesBy 0.1 (fast 2) $ every 3 (rotR 0.0625) $ note "<[d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6] [g3,g4,b4,d5,fs5,a5] [a3,a4,cs5,e5,g5,b5]>" # s "sweetChords" # gain (slow 9 $ range 0.3 0.42 sine) # amp 0.4 # attack 0.5 # release 3 # sustain 0.8 # cutoff 2400 # fmIndex 0.6 # sub 0.2 # width 0.8 # hpf 200 # lpf 9000 # pan (slow 13 $ range 0.42 0.58 sine) # room 0.75 # size 0.95 # dry 0.35
+d4 $ whenmod 8 4 thinPad $ slow 2 $ sometimesBy 0.1 (fast 2) $ every 3 (rotR 0.0625) $ note "<[d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6] [g3,g4,b4,d5,fs5,a5] [a3,a4,cs5,e5,g5,b5]>" # s "sweetChords" # gain (slow 9 $ range 0.3 0.42 sine) # amp 0.4 # attack 0.5 # release 3 # sustain 0.8 # cutoff 2400 # fmIndex 0.6 # sub 0.2 # width 0.8 # hpf 200 # lpf 9000 # pan (slow 13 $ range 0.42 0.58 sine) # room 0.75 # size 0.95 # dry 0.35
 
 -- d6, d8, d9, d10-d16: silent. They held, in order: 169's Rhodes chords, the sprvibe texture,
 -- the open-hat throw, the seven-player Euclidean drum circle (low drum, conga, shaker, wood,
