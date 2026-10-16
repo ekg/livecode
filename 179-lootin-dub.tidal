@@ -67,3 +67,38 @@ d4 $ slow 2 $ sometimesBy 0.1 (fast 2) $ every 3 (rotR 0.0625) $ note "<[d3,d4,f
 -- the open-hat throw, the seven-player Euclidean drum circle (low drum, conga, shaker, wood,
 -- claps, cowbell, toms), the humanip vocal and the p93arp line. Kept in the file's history, not
 -- in its signal path.
+
+-- ================= SIDE B — BREAKBEAT, evolving out of these drums ==========================
+-- This is the same track, not a second file: tempo, key, bass, pad and skank all continue.
+--
+-- HOW THE SEAM WORKS — trade the pocket, never cut:
+--   1. the breaks come in UNDER the one-drop, low and filtered. Nothing is stopped; the dub and
+--      the breakbeats overlap.
+--   2. then they TRADE on complementary 8-bar masks: the dub kit takes bars 1-4, the breaks
+--      bars 5-8. `mask "<t t t t f f f f>"` on d1/d2/d3 and `mask "<f f f f t t t t>"` on
+--      d6/d8/d9. Apply those four when you want the floor to change hands.
+--   3. the skank's delay tail rings across the join, which is what keeps it one piece of music.
+--
+-- RATE MATCHING: every break is matched with `speed (breakbpm / 118)`, NOT with `loopAt`,
+-- because `speed` keeps each slice mapped to its own slot while `loopAt 2` stretches the slices
+-- over two cycles and dilutes the metre (LOOPS.md). 108.5/118 = 0.92, 130/118 = 1.10.
+--
+-- THE MASHUP DEVICE: `{}%16` interleaves two banks step by step, so a single bar is two different
+-- recordings cut together. The re-chop layers then slice that result again on other
+-- subdivisions, so the bar keeps reshuffling without ever swapping the source.
+
+-- B1 THE SEED — the amen cuts (32 of them), sliced 16 and walked by a long rotating order, so a
+-- 16-bar figure comes out of one bar of audio. Enters under the dub at 0.3, high-passed so it
+-- sits above the bass.
+d6 $ slow 2 $ sometimesBy 0.25 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "amencutup" # gain 0.3 # hpf 90 # lpf 7000 # pan 0.5 # release 0.05 # room 0.15 # dry 0.85
+
+-- B2 THE SECOND BREAK — "Funky 6 A" at 108.5bpm, rate-matched to 0.92, chunk-reversed every 7
+-- bars and doubled on a fifth of the passes.
+d8 $ every 7 (chunk 8 rev) $ sometimesBy 0.2 (fast 2) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 1 $ s "p94brkA" # speed 0.92 # gain 0.34 # hpf 100 # lpf 7500 # pan 0.54 # release 0.05 # room 0.2 # dry 0.8
+
+-- B3 THE MASHUP — the two breaks interleaved step by step by `{}%16`, then striated every 5.
+d9 $ every 5 (striate 2) $ slice 8 "<0 2 5 7 1 4 6 3>" $ s "{amencutup p94brkA}%16" # speed 0.95 # gain 0.3 # hpf 120 # lpf 8000 # pan perlin # release 0.04 # dry 0.85
+
+-- B4 THE CUT-UP FILL — a breaklot chopped into eighths with the play window walked, thinned 20%
+-- and only on 2 bars in 8, so it is a fill rather than a fourth layer.
+d10 $ mask "<f f f t f f t f>" $ degradeBy 0.2 $ sometimesBy 0.3 (chop 8) $ slice 8 "0 5 2 7 1 6 3 4" $ loopAt 2 $ s "p93drumA" # speed 0.95 # gain 0.32 # hpf 140 # lpf 8500 # pan 0.46 # release 0.06 # room 0.25 # dry 0.8
