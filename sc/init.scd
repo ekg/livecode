@@ -86,8 +86,14 @@ log.("dub FX install starting; server running: " ++ s.serverRunning
 // 1 ----------------------------------------------------------------- define
 loadStage.("define fx", sc ++ "/dub_fx.scd", \scLoadedFx);
 loadStage.("load retired FX cleanup", sc ++ "/prune_orbit_fx.scd", \pruneDirtFX);
-loadStage.("define master bus", sc ++ "/master-bus.scd", \scLoadedMasterBus);
-loadStage.("define master fx chain", sc ++ "/master-fx.scd", \scLoadedMasterFx);
+// STOCK MODE (~dspEnabled = false): the master bus and the Ndef are NOT created, so
+// orbits write straight to hardware and nothing of ours is in the signal path.
+if(~dspEnabled) {
+	loadStage.("define master bus", sc ++ "/master-bus.scd", \scLoadedMasterBus);
+	loadStage.("define master fx chain", sc ++ "/master-fx.scd", \scLoadedMasterFx);
+} {
+	log.("     master chain NOT installed (~dspEnabled = false): orbits -> hardware");
+};
 loadStage.("load param manifest", sc ++ "/params_gen.scd", \dirtParamGroups);
 loadStage.("load routing layer", sc ++ "/routing.scd", \scLoadedRouting);
 loadStage.("load demo synth", sc ++ "/demo_synth.scd", \scLoadedDemo);
@@ -138,12 +144,15 @@ stage.("verify defs and buses", {
 	var have = SynthDescLib.global.synthDescs.keys.collect(_.asString);
 	var missing = want.reject { |w| have.includes(w) };
 	var busMissing = [];
-	// buses the graph needs — nil here means a file above silently failed
-	if(~masterBus.isNil) { busMissing = busMissing.add("~masterBus") };
-	[\drums, \bass, \music, \fx].do { |g|
-		if(~groups[g].isNil) { busMissing = busMissing.add("~groups." ++ g) } };
-	[\delay, \verb, \shimmer].do { |a|
-		if(~aux[a].isNil) { busMissing = busMissing.add("~aux." ++ a) } };
+	// buses the graph needs — nil here means a file above silently failed.
+	// In STOCK mode (~dspEnabled/~routingEnabled false) these are expected to be absent.
+	if(~dspEnabled and: { ~masterBus.isNil }) { busMissing = busMissing.add("~masterBus") };
+	if(~routingEnabled) {
+		[\drums, \bass, \music, \fx].do { |g|
+			if(~groups[g].isNil) { busMissing = busMissing.add("~groups." ++ g) } };
+		[\delay, \verb, \shimmer].do { |a|
+			if(~aux[a].isNil) { busMissing = busMissing.add("~aux." ++ a) } };
+	};
 	log.("     defs missing: " ++ if(missing.isEmpty) { "none" } { missing.join(" ") });
 	log.("     buses missing: " ++ if(busMissing.isEmpty) { "none" } { busMissing.join(" ") });
 	if(missing.notEmpty) { Error("missing defs: " ++ missing.join(" ")).throw };
@@ -184,7 +193,7 @@ stage.("rebuild orbit chains", {
 				GlobalDirtEffect(\dirt_monitor, [\limitertype]).alwaysRun_(true),
 			];
 		};
-		orbit.outBus = ~masterBus;
+		orbit.outBus = if(~dspEnabled, { ~masterBus }, { 0 });
 	};
 	// group-map overrides (routing layer): point mapped orbits at group buses
 	if(~routingEnabled and: { ~orbitGroupMap.notNil }) {
@@ -199,8 +208,9 @@ stage.("rebuild orbit chains", {
 	s.sync;
 	SystemClock.sched(s.latency + 0.5, { ~pruneDirtFX.value; nil });
 	log.("     % orbits rebuilt via freeSynths; 0->%  5->%  8->%".format(~dirt.orbits.size,
-		~dirt.orbits[0].outBus.index, ~dirt.orbits[5].outBus.index,
-		~dirt.orbits[8].outBus.index));
+		if(~dirt.orbits[0].outBus.isKindOf(Bus), { ~dirt.orbits[0].outBus.index }, { ~dirt.orbits[0].outBus }),
+		if(~dirt.orbits[5].outBus.isKindOf(Bus), { ~dirt.orbits[5].outBus.index }, { ~dirt.orbits[5].outBus }),
+		if(~dirt.orbits[8].outBus.isKindOf(Bus), { ~dirt.orbits[8].outBus.index }, { ~dirt.orbits[8].outBus })));
 });
 
 // 4 --------------------------------------------------- routing strips, LIVE
@@ -237,7 +247,7 @@ if(~routingEnabled) { stage.("start routing layer", {
 // the Ndef here (after the strips exist) puts its group at the root tail,
 // after the writers — the previous order (Ndef before strips) had it read a
 // forever-zero bus: “master chain dead” with meters and hardware at zero.
-stage.("start master chain", {
+if(~dspEnabled) { stage.("start master chain", {
 	// All of SuperDirt's orbit groups AND our strips live inside group 1 (the
 	// dirt group); the Ndef's synth group is created EARLY by something in the
 	// loadStage chain, so it executes BEFORE the strips and reads the master
@@ -254,7 +264,7 @@ stage.("start master chain", {
 		Error("Ndef dubMaster is not playing").throw
 	};
 	log.("     master chain: group moved after the strips, playing");
-});
+}); } { log.("     master chain NOT started (~dspEnabled = false)"); };
 
 // 5 ------------------------------------------------------------------ modules
 stage.("register tape module", {
@@ -313,9 +323,9 @@ if(~selftestEnabled) { stage.("audio self-test (per orbit)", {
 			synthH !? { synthH.free };
 			synthD = Synth(\bootPeak, [\in, orbit.dryBus.index, \out, ctlD.index],
 				s, \addToTail);
-			synthG = Synth(\bootPeak, [\in, orbit.outBus.index, \out, ctlG.index],
+			synthG = Synth(\bootPeak, [\in, if(orbit.outBus.isKindOf(Bus), { orbit.outBus.index }, { orbit.outBus }), \out, ctlG.index],
 				s, \addToTail);
-			synthM = Synth(\bootPeak, [\in, ~masterBus.index, \out, ctlM.index],
+			synthM = Synth(\bootPeak, [\in, if(~masterBus.notNil, { ~masterBus.index }, { 0 }), \out, ctlM.index],
 				s, \addToTail);
 			synthH = Synth(\bootPeak, [\in, 0, \out, ctlH.index],
 				s, \addToTail);
@@ -356,10 +366,10 @@ try {
 		orbitReport = ~orbitGroupMap.keys.asArray.sort.collect { |k| k.asString ++ ":" ++ ~orbitGroupMap[k].asString }.join(" ");
 		"group buses: " ++ orbitReport
 	} {
-		"master bus " ++ ~masterBus.index
+		"" ++ if(~masterBus.notNil, { "master bus " ++ ~masterBus.index }, { "hardware out (bus 0) - stock mode" })
 	});
 	log.("orbit fx:  " ++ ~dirt.orbits[0].globalEffects.collect(_.name).join(" -> "));
-	log.("master:    hpf -> glue(duck from orbit0) -> tape -> tone -> limiter");
+	log.("master:    " ++ if(~dspEnabled, { "hpf -> glue(duck from orbit0) -> tape -> tone -> limiter" }, { "NONE (stock mode)" }));
 	log.("instruments: dubchord dubsub tapestab;  module: tape");
 	log.("routing:   ~route[\orbit].value(i, \group) / ~route[\send].value / ~route[\levels].value");
 	log.("Tidal params: dd*  verb*  tape*  (room/delaytime/delayfeedback still work)");

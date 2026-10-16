@@ -54,10 +54,12 @@ SynthDef(\piBandMeter, { |in = 0, out = 0, rmsOut = 0|
 ~spectrumLabels = labels;
 ~spectrumRanges = ranges;
 
-// Sources: the master bus, then each rendered scene channel (if scene mode runs)
+// Sources: the master bus, then each rendered scene channel (if scene mode runs).
+// In STOCK mode there is no ~masterBus, so it is skipped rather than indexed to nil.
 ~spectrumSources = {
-    var list = [["master", ~masterBus.index]];
     var manager = ~piSceneManager;
+    var list = [];
+    if(~masterBus.notNil) { list = list.add(["master", ~masterBus.index]) };
     if(manager.notNil and: { manager[\buses].notNil }) {
         manager[\buses].do { |bus, i| if(bus.notNil) { list = list.add(["ch" ++ i, bus.index]) } };
     };
