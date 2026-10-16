@@ -1,0 +1,104 @@
+-- 169-stock + DRUM CIRCLE. 169 "Amber Hours" (lo-fi house, 118 BPM, A/F#m area) played as
+-- STOCK Tidal, with a seven-player percussion circle layered on top.
+--
+-- WHY THIS FILE EXISTS: 169.tidal is a SCENE — it carries a `-- @scene` header and a
+-- `{- @sc ... -}` block that only the scene runtime can act on (the block drives the custom
+-- channel mixer's tone/sat/wet/gain). Played as plain Tidal that block is meaningless, so it is
+-- DROPPED here, and the lanes are kept verbatim on orbits 0-5.
+--
+-- CONVERSION RULES (for running any recent scene as stock — scripts at the bottom of this file):
+--   1. drop the `{- @sc ... -}` block entirely.
+--   2. keep every `let ...` binding (the lanes reference them; a scene without them does not
+--      compile — "Variable not in scope: kickGate").
+--   3. `# ddSend X`  -> `# delay X`   `# verbSend X` -> `# room X`
+--   4. DELETE `# ddDrive` `# ddWow` `# ddCross` `# ddDuck` `# ddHp` `# ddLp` and the `verbT60`/
+--      `verb*`/`tape*` family: those are the custom dub chain's params. ddDrive is a tanh, ddCross
+--      a 60% cross-fed feedback (= flange) and ddWow a modulated delay time (= flutter) — leaving
+--      them in is what made an earlier scene sound "bit-reduced and flanged to death". Stock
+--      SuperDirt's orbit FX (dirt_delay + dirt_reverb) read delay/delaytime/delayfeedback/room/
+--      size/dry only.
+--   5. keep `# orbit N` — orbits 0-5 are valid and now write straight to hardware.
+--   6. mini-notation: the `%` step modifier needs a GROUP — `{sh808}%12` parses, `sh808%12` does
+--      not ("unexpected '%'").
+--
+-- Scenes are at cps = bpm/60/() as their `@scene` line says; 169 is 0.491667 (118 BPM).
+setcps 0.49166666666666664
+
+-- ---- 169's own gates / voices, verbatim ------------------------------------------------
+let kickGate  = (slow 8 "<t t t t f t t f>") :: Pattern Bool
+let clapGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let hatGate   = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let percGate  = (slow 8 "<f f t t f f t f>") :: Pattern Bool
+let bassGate  = (slow 8 "<f t t t f t t f>") :: Pattern Bool
+let texGate   = (slow 8 "<t f t t t f t t>") :: Pattern Bool
+let chordGate = (slow 8 "<t t t t t t t t>") :: Pattern Bool
+let leadGate  = (slow 8 "<f f t t t t t f>") :: Pattern Bool
+let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.09 sine)))
+let lofiChords = "<[e3,e4,g4,b4,d5,fs5] [a3,a4,cs5,e5,g5,b5] [d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6]>" :: Pattern Note
+let bassLine = "<[~ e2 ~ e2 ~ e2 ~ e2] [~ a2 ~ a2 ~ a2 ~ a2] [~ d2 ~ d2 ~ d2 ~ d2] [~ b2 ~ b2 ~ b2 ~ b2]>" :: Pattern Note
+let melody = (slow 32 "b4 cs5 d5 e5 a4 fs4 g4 fs4 a4 g4 g4 fs4 d4 ~ d4 ~ d4 e4 fs4 e4 a4 fs4 g4 fs4 a4 cs5 d5 cs5 cs5 e5 d5 ~ d4 e4 fs4 e4 a4 fs4 g4 fs4 a4 cs5 d5 cs5 cs5 e5 d5 ~ fs5 e5 d5 e5 a4 fs4 g4 fs4 a4 g4 g4 fs4 d4 ~ d4 ~") :: Pattern Note
+
+-- ---- 169's lanes (stock) ----------------------------------------------------------------
+d1 $ mask kickGate $ swing $ s "k808S(4,4)" # orbit 0 # gain (slow 8 $ range 0.72 0.84 sine) # shape 0.3 # hpf 55 # lpf 3800 # release 0.09 # room 0 # delay 0
+
+d2 $ mask clapGate $ swing $ struct "f t f t" $ s "s808b" # orbit 0 # gain 0.54 # hpf 320 # lpf 6500 # pan 0.5 # release 0.08 # room 0.06 # delay 0
+
+d3 $ mask hatGate $ swing $ swingBy 0.06 4 $ degradeBy 0.05 $ s "h808C(8,16,2)" # orbit 0 # gain (slow 4 $ range 0.17 0.27 sine) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # room 0 # delay 0
+
+d4 $ mask percGate $ swing $ s "sh808(5,16,4)" # orbit 0 # gain 0.19 # hpf 5000 # lpf 11000 # pan 0.62 # release 0.05 # room 0 # delay 0
+
+d5 $ mask bassGate $ swing $ sometimesBy 0.15 (|+ note 12) $ note bassLine # s "dubsynth" # orbit 1 # gain 0.62 # amp 0.7 # waveMix 0.16 # subMix 0.3 # subTone 0.3 # detune 0.05 # cutoff 440 # fenv 1.8 # res 0.2 # drive 0.16 # attack 0.006 # sustain 0.3 # release 0.18 # hpf 38 # lpf 620 # keyShift 0 # room 0 # delay 0
+
+d6 $ mask chordGate $ swing $ every 3 (rotR 0.125) $ whenmod 16 14 (stutWith 2 0.0625 (|* gain 0.5)) $ sometimesBy 0.2 (off 0.0625 ( # lpf 2500)) $ note lofiChords # s "hoRhodes" # orbit 2 # gain (slow 16 $ range 0.62 0.74 sine) # amp 0.32 # cutoff (slow 16 $ rangex 1200 5500 saw) # waveMix 0.1 # sustain 1.1 # release 1.6 # pan (slow 8 $ range 0.36 0.52 sine) # keyShift 0 # vib 0.05 # vibRate 4.4 # delaytime 0.1875 # lock 1 # delayfeedback 0.3 # delay 0.28 # room 0.14
+
+d7 $ mask leadGate $ swing $ every 8 (within (0.75,1) (stutWith 2 0.125 (|* gain 0.55))) $ note melody # s "supergong" # lpf 3200 # orbit 3 # gain (slow 8 $ range 0.5 0.65 sine) # velocity 0.7 # sustain 0.35 # release 0.4 # pan 0.56 # keyShift 0 # room 0.3 # delaytime 0.1875 # lock 1 # delayfeedback 0 # delay 0
+
+d8 $ mask texGate $ swing $ slow 2 $ note "<[d5,fs5,a5] [cs5,e5,a5] [d5,fs5,cs6] [b4,d5,fs5]>" # s "sprvibe" # n 0 # orbit 4 # gain 0.2 # hpf 500 # lpf 9000 # release 0.6 # pan 0.6 # delay 0.12 # delaytime 0.1875 # lock 1 # delayfeedback 0.2 # room 0.18
+
+d9 $ whenmod 8 7 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 2))) $ swing $ struct "~ ~ ~ t" $ s "h808O" # orbit 5 # gain 0.18 # hpf 900 # lpf 8000 # sustain 0.2 # release 0.3 # pan "0.3 0.7" # delay 0.3 # delayfeedback 0.3 # delaytime 0.1875 # lock 1 # room 0.28
+
+-- ---- DRUM CIRCLE: seven players, grids of 3, 5, 7, 12 and 13 against the 16ths -----------
+-- Each player has its own Euclidean figure, its own drift period (5/7/9/13/17/23) and its own
+-- gain LFO (11/13/17/19/23/29/31 cycles), so they interlock and breathe independently instead of
+-- landing together. All sends are stock orbit params only.
+d10 $ swing $ struct "t(3,8,2)" $ s "t808Lo" # gain (slow 11 $ range 0.26 0.34 sine) # hpf 80 # lpf 3200 # pan 0.42 # room 0.18 # delay 0.12 # delaytime 0.1875 # lock 1 # release 0.25
+
+d11 $ sometimesBy 0.15 (fast 2) $ every 5 (rotR (1/16)) $ euclidOff 5 16 3 $ s "cn808" # gain (slow 13 $ range 0.2 0.3 sine) # speed "<1 0.9 1.12>" # hpf 200 # lpf 6000 # pan (slow 13 $ range 0.5 0.72 sine) # room 0.2 # delay 0.15 # delaytime 0.1875 # lock 1 # release 0.2
+
+d12 $ swingBy 0.04 4 $ degradeBy 0.12 $ s "{sh808}%12" # gain (slow 17 $ range 0.1 0.17 sine) # hpf 6000 # lpf 13000 # pan (slow 17 $ range 0.35 0.65 sine) # release 0.03 # room 0.12
+
+d13 $ every 7 (rotR (1/8)) $ struct "t(7,16,5)" $ s "<jamblock ebongos>" # gain (slow 19 $ range 0.15 0.23 sine) # hpf 1200 # lpf 9000 # pan (slow 11 $ range 0.2 0.8 sine) # room 0.25 # delay 0.2 # delaytime (3/16) # delayfeedback 0.3 # lock 1 # release 0.08
+
+d14 $ sometimesBy 0.2 (fast 2) $ struct "t(5,12,3)" $ s "<realclaps rolandtr909:5>" # gain (slow 23 $ range 0.16 0.24 sine) # hpf 700 # lpf 8000 # pan 0.58 # room 0.3 # release 0.1
+
+d15 $ every 13 (rotR (1/16)) $ struct "t(13,16,7)" $ s "cb808" # gain (slow 29 $ range 0.1 0.18 sine) # hpf 1500 # lpf 11000 # sustain 0.3 # release 0.5 # pan (slow 19 $ range 0.3 0.7 sine) # room 0.45 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1
+
+d16 $ every 9 (within (0.5,1) (fast 2)) $ euclidOff 3 8 1 $ s "<t808H t808M>" # gain (slow 31 $ range 0.18 0.26 sine) # hpf 300 # lpf 7000 # pan (slow 23 $ range 0.4 0.6 sine) # release 0.2 # room 0.25
+
+-- ---- the conversion, as code (run from the repo root) -----------------------------------
+-- python3 - <<'PY'
+-- import re, pathlib
+-- src  = pathlib.Path("169.tidal").read_text()
+-- cps  = (re.search(r'"cps":([0-9.]+)', src) or [None,"0.4917"])[1]
+-- body = re.sub(r'\{- @sc.*?-\}', '', src, flags=re.S)
+-- DROP = ["ddDrive","ddWow","ddCross","ddDuck","ddHp","ddLp","verbT60","verbDamp","verbEarly",
+--         "verbHp","verbPre","verbLow","verbHigh","verbLowcut","verbHighcut","verbTone",
+--         "verbMod","verbWidth","tape","tapeWow","tapeHiss","tapeHf"]
+-- out = [f"setcps {cps}"] + [l for l in body.splitlines() if l.startswith("let ")] + [""]
+-- for line in body.splitlines():
+--     if not re.match(r'^d\d+ \$ ', line): continue
+--     parts = [p.strip() for p in line.split('#')]
+--     kept, seen = [], set()
+--     for p in [p for p in parts[1:] if p]:
+--         if p.split()[0] in DROP: continue
+--         if p.startswith("ddSend"):   p = "delay " + p.split()[1]
+--         if p.startswith("verbSend"): p = "room "  + p.split()[1]
+--         n = p.split()[0]
+--         if n in ("delay","room","delaytime","delayfeedback","size","dry"):
+--             if n in seen: continue
+--             seen.add(n)
+--         kept.append(p)
+--     out.append(parts[0] + (" " + " ".join("# " + p for p in kept) if kept else ""))
+--     out.append("")
+-- print("\n".join(out))
+-- PY
