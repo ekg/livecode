@@ -86,7 +86,8 @@ Ndef(\dubMaster, {
 	var ctl = In.kr(~masterCtlBus.index, 8);
 	var gain = ctl[0].lag(0.05);
 	var hpfF = ctl[5].lag(0.2);
-	var ceil = \mCeil.kr(0.89, 0.2);   // hard safety ceiling, NOT a musical limiter
+	var ceil = \mCeil.kr(0.89, 0.2);   // ceiling (soft knee + limiter, NOT a bare clip)
+	var knee = \mKnee.kr(0.7, 0.2);
 	// NB: var declarations MUST come before every other statement in a function
 	// body. A parse error in a file run through executeFile is SILENT: no error,
 	// executeFile returns nil, and the whole file is a no-op.
@@ -95,6 +96,12 @@ Ndef(\dubMaster, {
 	var sig = HPF.ar(dry, hpfF);
 	sig = sig * gain;
 	sig = ~masterFxChain.value(sig);
+	// CEILING, and this is the difference between "loud" and "crunchy": a bare clip2 SLICES
+	// transients, which is broadband distortion heard as crunch. Instead round the top first
+	// (tanh soft knee, linear well below it) and only then limit with lookahead, and keep a
+	// last-resort clip2 for the pathological case.
+	sig = (sig / knee.max(0.05)).tanh * knee.max(0.05);
+	sig = Limiter.ar(sig, ceil, 0.01);
 	sig = sig.clip2(ceil);
 	// Metering: slot 0 = true RMS (~250 ms window), 1 = envelope level, 2 = that
 	// level as a fraction of the ceiling.

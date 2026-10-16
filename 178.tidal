@@ -1,0 +1,70 @@
+-- 178 — DA DAY DAWN · TWO SIDES. The arrangement as RECORDED
+-- (recordings/side-a-side-b-build-20261016-0930.wav, 521.8 s).
+--
+-- STOCK TIDAL. sc/flags.scd is set ~dspEnabled true / ~dspOrbitFx false / ~routingEnabled false, so:
+--   * orbit FX are SuperCollider's own: dirt_delay -> dirt_reverb -> dirt_monitor
+--   * the only thing of ours in the path is a MINIMAL master (hpf -> gain -> soft knee ->
+--     lookahead limiter). No reverb, no saturator, no duck, no compressor, no feedback ring.
+--   * no group strips, no aux returns.
+-- FX are therefore Tidal orbit params: delay / delaytime / delayfeedback / room / size / dry.
+-- Level knobs: ~masterVol.value(n) for loudness, ~masterSet.(\mCeil, n) for the peak ceiling
+-- (0.55 sits comfortably; the limiter barely touches it at gain 5-9).
+--
+-- 74 BPM, A minor. SOURCES, all out of ~/tunepile:
+--   MELODY  abc air "da Day Dawn" (Shetland, trad., Am 2/4):
+--           abc/trillian.mit.edu/~jc/music/abc/session/air/Day_Dawn-Am-28-3.abc
+--           -> tools/abc_to_tidal_melody.py = 45 notes over 3.59 bars. It carries its own
+--           chords: Am / G / Em = i / VII / v.
+--   CHORDS  chords/progressions.txt "aeolian-descend, key of c" (= A minor, no transposition):
+--           Am9 G9 Fmaj9 E9, five-tone voicings root/3/5/7/9, verbatim.
+--   DRUMS   ~/drummachines kits (rolandtr909 / casiorz1 / bossdr220 / emusp12) and the break
+--           p94brkA = loopmaster_producer_essentials "Funky 6 A 108.5bpm".
+--
+-- SIDE A (d1-d3): the air, SLOWED BY HALF (`slow 8` — the phrase spans 8 bars, so it rests
+--   before it repeats) and WINDOWED: `mask "<f t t t t f f f>"` means it plays 4 bars and rests
+--   4 at one fixed comfortable level, rather than ramping into too-quiet and too-loud extremes.
+--   A glass octave-up shimmer doubles it, and the corpus's descending lament is the pad.
+-- SIDE B (d5-d12): the beat. The floor's figure CHANGES EVERY BAR (4/4, 7/16, 4/4, 5/16) over a
+--   second E(3,8) kick on the 808 layer; the clap is three machines on three grids including a
+--   12-grid 3:4 polyrhythm; the hats climb 6->16 hits/bar on a prime rotation; the break is
+--   sliced 16 with a rotating order and striated every 5; and a 13-grid roll opens in the 8th
+--   bar of every 8 as an accent. Chords and root bass run THROUGHOUT (not gated), because the
+--   chords were preferred to the melody.
+setcps (74/60/4)
+
+-- SIDE A — A1: THE LINE. 45 notes of Shetland air, half speed, windowed, one comfortable level.
+d1 $ mask "<f t t t t f f f>" $ slow 8 $ note "b4 c5 b4 c5 b4 a4 a4 g4 d5 a4 d5 b4 e5 a4 d5 b4 c5 d5 b4 ~ a4 ~ d4 e4 b4 a4 d5 c5 e5 ~ a4 ~ e5 ~ b4 ~ a4 ~ e5 ~ e5 ~ a4 ~ e5 ~ b4 a4 a4 ~ d4 e4 b4 a4 d5 c5 e5 ~" # s "hoRhodes" # gain 0.6 # amp 0.55 # attack 0.04 # release 1.6 # sustain 0.5 # cutoff 3800 # room 0.7 # size 0.88 # dry 0.45 # delay 0.34 # delaytime (3/16) # delayfeedback 0.4 # pan 0.46
+
+-- SIDE A — A2: the same line an octave up on glass, thinned so it is a shimmer, same window.
+d2 $ mask "<f t t t t f f f>" $ slow 8 $ sometimesBy 0.2 (fast 2) $ note "b5 c6 ~ ~ a5 ~ ~ g5 d6 ~ b5 ~ e6 ~ ~ ~ c6 ~ ~ a5 ~ e6 ~ ~ b5 ~ ~ e6 ~ ~ a5 ~ ~ ~ b5 a5 ~ ~ e5 ~ b5 a5 d6 c6 e6 ~" # s "sprvibe" # n 0 # gain 0.2 # hpf 900 # room 0.75 # size 0.9 # dry 0.4 # delay 0.4 # delaytime (3/8) # delayfeedback 0.45 # pan 0.6
+
+-- SIDE A — A3: the corpus's descending lament as the pad, one chord per 2 bars, big and slow.
+d3 $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ note "<[a3,a4,c5,e5,g5,b5] [g3,g4,b4,d5,f5,a5] [f3,f4,a4,c5,e5,g5] [e3,e4,g4,b4,d5,fs5]>" # s "sweetChords" # gain "<0.44 0.45 0.46 0.48 0.50 0.52 0.54 0.56>" # amp 0.44 # attack 0.3 # release 2.4 # sustain 0.7 # cutoff 2600 # fmIndex 0.7 # sub 0.22 # width 0.8 # hpf 180 # room (slow 8 $ range 0.5 0.8 saw) # size 0.82 # dry (slow 8 $ range 0.7 0.35 saw) # pan 0.5
+
+-- SIDE B — B1: the floor, a different Euclidean figure every bar, gentle 8-bar rise, no dropout.
+d5 $ sometimesBy 0.12 (fast 2) $ struct "<t(4,4) t(7,16,3) t(4,4) t(5,16,2)>" $ s "rolandtr909:0" # gain "<0.55 0.58 0.61 0.64 0.68 0.72 0.74 0.76>" # hpf 60 # lpf 4000 # release 0.09 # shape 0.2
+
+-- SIDE B — B2: the second kick, E(3,8) on the 808 voice: hits on beat 1, the and-of-2, beat 4.
+d11 $ struct "t(3,8)" $ s "k808S" # gain "<0.34 0.35 0.36 0.37 0.38 0.39 0.40 0.41>" # hpf 55 # lpf 3600 # shape 0.18 # release 0.08 # dry 0.95 # pan 0.52
+
+-- SIDE B — B3: backbeat as three layered euclids on three machines and three grids (the 12-grid
+-- is a 3:4 polyrhythm against the 16ths), panned per machine.
+d6 $ stack [struct "t(3,8,2)" $ s "rolandtr909:4" # gain 0.44, struct "t(5,16,4)" $ s "casiorz1:4" # gain 0.26 # pan 0.42, struct "t(5,12,3)" $ s "bossdr220:4" # gain 0.24 # pan 0.6] # gain "<0.40 0.42 0.45 0.48 0.52 0.55 0.57 0.59>" # hpf 420 # lpf 7000 # release 0.08 # room 0.4 # size 0.55 # dry 0.7
+
+-- SIDE B — B4: hats on a prime rotation whose DENSITY climbs 6 -> 16 hits per bar over 8 bars.
+d7 $ sometimesBy 0.15 (fast 2) $ every 3 (rotR (1/16)) $ struct "<t(6,16,1) t(8,16,2) t(10,16,3) t(12,16,4) t(14,16,5) t(16,16) t(16,16) t(16,16)>" $ s "emusp12:2" # gain "<0.16 0.18 0.20 0.22 0.25 0.27 0.28 0.30>" # hpf 7000 # lpf 12000 # pan (slow 37 $ range 0.35 0.65 sine) # release 0.03 # dry 0.85
+
+-- SIDE B — B5: the break as the engine: one source, reshaped in place by a long rotating slice
+-- order (a 16-bar effective loop from 1 bar of audio), striated every 5, backwards sometimes,
+-- with the filter opening across the 8 bars.
+d8 $ every 5 (striate 4) $ sometimesBy 0.22 (within (0.25,0.5) (|* speed (-1))) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "p94brkA" # speed 0.868 # gain "<0.42 0.45 0.49 0.53 0.58 0.61 0.64 0.66>" # hpf 100 # lpf (slow 8 $ range 2500 6500 saw) # room 0.2 # size 0.4 # dry 0.85 # pan 0.5
+
+-- SIDE B — B6: the progression as rhythmic stabs THROUGHOUT (an E(5,16,3) figure), and the root
+-- bass under it. Not gated: the chords were preferred to the melody.
+d9 $ sometimesBy 0.2 (|+ note 12) $ struct "t(5,16,3)" $ note "<[a3,a4,c5,e5,g5,b5] [g3,g4,b4,d5,f5,a5] [f3,f4,a4,c5,e5,g5] [e3,e4,g4,b4,d5,fs5]>" # s "sweetChords" # gain 0.55 # amp 0.44 # cutoff 3000 # fmIndex 1.0 # ratio 2 # drive 1.0 # sub 0.28 # width 0.75 # attack 0.006 # sustain 0.16 # release 0.55 # hpf 200 # room 0.55 # size 0.65 # dry 0.5 # pan 0.44 # delay 0.26 # delaytime (3/16) # delayfeedback 0.4
+
+d10 $ note "<a1 g1 f1 e1>" # s "dubsub" # gain 0.5 # amp 0.85 # legato 1.1 # sustain 0.5 # release 0.4 # drive 0.12 # hpf 38 # lpf 560 # dry 1
+
+-- SIDE B — B7: THE DOOR. A 13-grid roll (E(13,16) rotated 5) that speaks only in the 8th bar of
+-- every 8 — an accent that opens the bar instead of emptying the floor.
+d12 $ s "[ebongos|jamblock|rolandtr909:6](13,16,5)" # gain "<0 0 0 0 0 0 0 0.4>" # hpf 900 # lpf 11000 # pan perlin # release 0.05 # room 0.3 # size 0.5 # dry 0.8

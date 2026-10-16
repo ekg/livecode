@@ -9,13 +9,18 @@
      ~routingEnabled  false -> no group buses, no aux sends, no phonon strips
      ~selftestEnabled false -> no boot-time instrument metering
 
-   STOCK TIDAL MODE = all four false (the block below). Then Tidal's own orbit
+   STOCK TIDAL MODE = the block below. Then Tidal's own orbit
    params are the FX: delay, delaytime, delayfeedback, room, size, dry, and the
-   stock module set — and nothing of ours sits between the orbits and the card.
+   stock module set. In this configuration the ONLY thing of ours in the path is
+   the master chain, and master-fx.scd's chain is deliberately minimal: hpf -> gain
+   -> (fxTone wide open) -> soft knee -> lookahead limiter. No reverb, no saturator,
+   no duck, no compressor, no feedback. It exists to provide the makeup gain the
+   lanes cannot, and a limiter ceiling. Set ~dspEnabled false for NO master at all
+   (then lanes are the whole story and the mix will be very quiet).
    Reload with tidal_sc_reload (no stack restart needed).
    NOTE: in stock mode there is no ~masterBus, so scene/deck mode must be LEFT
    (`tidal_scene leave`) or the channel mixers write to a bus nobody reads. */
-~dspEnabled = false;
+~dspEnabled = true;
 ~dspOrbitFx = false;
 ~routingEnabled = false;
 // OFF by default: the boot self-test fired a `bd` on every orbit, and orbits 5-11
