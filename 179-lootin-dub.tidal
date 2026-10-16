@@ -50,13 +50,22 @@ let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.09 sine)))
 let darkenBass = (# gain 0.32) . (# lpf 300) . (# release 0.2) . (# legato 1)
 let thinPad = (# lpf 900) . (# dry 0.6)
 
+-- FX DRAWS, same reason again: an "occasional intense reverb blast" must be a composition of
+-- single-# sections, because `sometimesBy 0.12 (# room 0.92 # size 1 # dry 0.08)` cannot parse —
+-- and it fails SILENTLY as far as the music goes (the draw never happens, so the effect is
+-- absent rather than wrong). That is why "more effects" did not arrive when asked for.
+let blast = (# room 0.92) . (# size 1) . (# dry 0.08)
+let wash = (# room 0.95) . (# size 1) . (# dry 0.06)
+let dubThrow = (# delay 0.65) . (# delayfeedback 0.72) . (# delaytime (3/16)) . (# lock 1)
+let shortThrow = (# delay 0.55) . (# delayfeedback 0.68) . (# delaytime (3/16)) . (# lock 1)
+
 -- THE POCKET — one-drop: kick and snare land TOGETHER on beat 3, not four on the floor.
 d1 $ swing $ struct "~ ~ t ~" $ s "k808S" # gain (slow 8 $ range 0.74 0.86 sine) # velocity (slow 7 $ range 0.7 1 perlin) # shape 0.3 # hpf 55 # lpf 3800 # release 0.09 # nudge (slow 11 $ range (-0.006) 0.01 sine)
 
 d2 $ swing $ struct "~ ~ t ~" $ s "s808b" # gain 0.5 # velocity (slow 5 $ range 0.65 0.95 perlin) # hpf 320 # lpf 6500 # release 0.08 # room 0.12 # nudge (slow 13 $ range (-0.004) 0.012 sine)
 
 -- HATS on the offbeats (`~ t` = the "and" of each beat), 10% of them dropped by hand.
-d3 $ degradeBy 0.1 $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4 $ range 0.14 0.24 sine) # velocity (slow 9 $ range 0.6 1 perlin) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04
+d3 $ degradeBy 0.08 $ sometimesBy 0.35 (fast 2) $ sometimesBy 0.18 (fast 4) $ every 5 (within (0.5,1) (slow 2)) $ sometimesBy 0.2 (# crush 8) $ sometimesBy 0.12 blast $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4 $ range 0.16 0.28 sine) # velocity (slow 9 $ range 0.6 1 perlin) # hpf 6500 # lpf 12500 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04 # nudge (slow 13 $ range (-0.004) 0.01 sine)
 
 -- THE MELODY, and it is the bass. Marley's line, as a SMOOTH SINE an octave down: (|+ note
 -- (-10)) = +2 for the key and -12 for the register. `slow 8` — the phrase takes EIGHT bars —
