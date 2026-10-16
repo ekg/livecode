@@ -1,0 +1,68 @@
+-- 179 — LOOTIN' DUB. 118 BPM, D major / B minor. Written live: this file is the state of the
+-- set after the pivot, saved as it stands.
+--
+-- STOCK TIDAL. Orbits write to hardware through a minimal master (hpf -> gain -> soft knee ->
+-- lookahead limiter; no colour, no reverb, no saturator). Orbit FX are SuperCollider's own
+-- (dirt_delay -> dirt_reverb -> dirt_monitor), so the FX here are Tidal orbit params:
+-- delay / delaytime / delayfeedback / room / size / dry. Levels: ~masterVol.value(n).
+--
+-- THE PIVOT, and why: the previous pile stacked a 3/5/7/12/13-grid Euclidean percussion circle
+-- against half-speed melodic material, i.e. almost nothing shared a pulse, and it read as
+-- "broken and weird" rather than grooving. This trades all of that for a genre whose whole
+-- character is pocket and space: reggae one-drop with dub FX.
+--
+-- SOURCES, all out of ~/tunepile:
+--   MELODY+BASS  bob marley — "burnin' and lootin'", 118 BPM, 4/4 (tabs-tidal/
+--                Marley_Bob_-_burnin__and_lootin__.gp3-adfd3fe6.tidal). Its material is written
+--                in A minor, so every lane taken from it carries (|+ note 2): A minor -> B
+--                minor, which is THE SAME SEVEN NOTES as D major. Same trick, same reason, as
+--                the Hot Stuff B-side earlier in the session.
+--   CHORDS       the corpus's 5-tone root/3/5/7/9 voicing shape (chords/progressions.txt), key
+--                of D: Dmaj9 Bm9 Gmaj9 A9 = I vi IV V, one chord per TWO bars. The corpus
+--                supplies the voicings; I only place them.
+--   DRUMS        the h2o808 kit: one-drop (kick and snare together on beat 3), hats on the
+--                offbeats.
+--
+-- HUMANISING (each voice drifts on its own coprime period, so nothing lands as a grid):
+--   # velocity (slow N $ range ... perlin)   smooth random dynamics, no two hits equal
+--   # nudge    (slow N $ range ... sine)     every lane early/late independently (11/13/17/19);
+--                                            the skank sits LATE, which is the reggae push
+--   degradeBy 0.1 on the hats, sometimesBy 0.2 (|* gain 0.9) on bass/skank for softer hits
+--
+-- TEMPO NOTE (this bit twice today): a tunepile tab lane is written over a SIXTEEN-bar cycle
+-- (its own header says cps = bpm/60/64). This track's cycle is ONE bar, so every quoted tab
+-- excerpt must be stretched to match — `slow 4` for 4 bars of tab, `slow 2` for 2 bars. Miss it
+-- and the material runs at exactly the compression ratio (4 bars in 1 bar = 4x fast).
+--
+-- SEND NOTE: a syntax error in one chunk of a batch stops the chunks after it, and transforms
+-- (`degradeBy`, `sometimesBy`, `every`) belong BEFORE the `#` parameter chain, never as
+-- parameters.
+setcps 0.49166666666666664
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.09 sine)))
+
+-- THE POCKET — one-drop: kick and snare land TOGETHER on beat 3, not four on the floor.
+d1 $ swing $ struct "~ ~ t ~" $ s "k808S" # gain (slow 8 $ range 0.74 0.86 sine) # velocity (slow 7 $ range 0.7 1 perlin) # shape 0.3 # hpf 55 # lpf 3800 # release 0.09 # nudge (slow 11 $ range (-0.006) 0.01 sine)
+
+d2 $ swing $ struct "~ ~ t ~" $ s "s808b" # gain 0.5 # velocity (slow 5 $ range 0.65 0.95 perlin) # hpf 320 # lpf 6500 # release 0.08 # room 0.12 # nudge (slow 13 $ range (-0.004) 0.012 sine)
+
+-- HATS on the offbeats (`~ t` = the "and" of each beat), 10% of them dropped by hand.
+d3 $ degradeBy 0.1 $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4 $ range 0.14 0.24 sine) # velocity (slow 9 $ range 0.6 1 perlin) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04
+
+-- THE MELODY, and it is the bass: the Marley line, transposed +2, at `slow 8` — the phrase now
+-- takes EIGHT bars — with 25% of the notes dropped and a phrase mask that rests for three bars
+-- in eight, so there is real space between statements. Legato 1.6 / sustain 0.6 / release 1 s so
+-- each note rings on past its slot. The loudest thing in the mix at 0.72.
+d5 $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note 2) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsynth" # gain 0.72 # amp 0.85 # waveMix 0.14 # subMix 0.4 # subTone 0.3 # cutoff 460 # fenv 1.8 # drive 0.15 # legato 1.6 # sustain 0.6 # release 1 # hpf 36 # lpf 700 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
+
+-- THE SKANK — the offbeat chord stab, +2, late by design, into the dub delay.
+d7 $ slow 2 $ (|+ note 2) $ note "[a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.42 # amp 0.4 # velocity (slow 6 $ range 0.6 1 perlin) # hpf 300 # lpf 8000 # attack 0.004 # sustain 0.12 # release 0.3 # pan 0.55 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1 # room 0.4 # size 0.7 # dry 0.55 # nudge (slow 19 $ range 0.002 0.016 sine)
+
+-- THE SPACE — the progression on top, one chord per two bars, blooming: attack 0.5, release 3,
+-- room 0.75 / size 0.95 / dry 0.35, so it is mostly wet and reads as air rather than a layer.
+d4 $ slow 2 $ sometimesBy 0.1 (fast 2) $ every 3 (rotR 0.0625) $ note "<[d3,d4,fs4,a4,cs5,e5] [b3,b4,d5,fs5,a5,cs6] [g3,g4,b4,d5,fs5,a5] [a3,a4,cs5,e5,g5,b5]>" # s "sweetChords" # gain (slow 9 $ range 0.3 0.42 sine) # amp 0.4 # attack 0.5 # release 3 # sustain 0.8 # cutoff 2400 # fmIndex 0.6 # sub 0.2 # width 0.8 # hpf 200 # lpf 9000 # pan (slow 13 $ range 0.42 0.58 sine) # room 0.75 # size 0.95 # dry 0.35
+
+-- d6, d8, d9, d10-d16: silent. They held, in order: 169's Rhodes chords, the sprvibe texture,
+-- the open-hat throw, the seven-player Euclidean drum circle (low drum, conga, shaker, wood,
+-- claps, cowbell, toms), the humanip vocal and the p93arp line. Kept in the file's history, not
+-- in its signal path.
