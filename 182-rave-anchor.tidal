@@ -9,7 +9,8 @@
 -- bass; the saw is the stab; that pairing is what makes it read as rave rather than techno.
 --
 -- ANCHORING (four interleaved lines, no gaps, one swing):
---     kick  ● ● ● ●      superkick + k808S + the boomy k808L on its own lane
+--     kick  ● ● ● ●      superkick for the CLICK and k808L for the BOOM, split by frequency
+--                        (the k808S layer was removed: three kicks on one grid buried the boom)
 --     bass  ─●─●─●─●      every offbeat — the house anchor: kick owns the downs, bass the ups
 --     hat   ─●─●─●─●      offbeats, crisp (release 0.05) so it pushes rather than washes
 --     clap  ──●───●─      beats 2 and 4
@@ -47,7 +48,7 @@ setcps (175/60/4)
 
 let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.06 sine)))
 
-d1 $ struct "t(4,4)" $ swing $ stack [s "superkick" # gain 0.8 # shape (slow 11 $ range 0.3 0.6 saw) # release 0.16, s "k808S" # gain 0.32 # hpf 45 # lpf 3000] # pitchEnv (slow 13 $ range 0.08 0.25 sine) # hpf 50
+d1 $ struct "t(4,4)" $ swing $ s "superkick" # gain 0.62 # shape (slow 11 $ range 0.3 0.6 saw) # pitchEnv (slow 13 $ range 0.08 0.25 sine) # release 0.16 # hpf 50
 
 d2 $ struct "~ t ~ t ~ t ~ t" $ swing $ s "superhat" # gain 0.3 # res (slow 7 $ range 0.3 0.7 saw) # lpf (slow 5 $ rangex 6000 14000 saw) # release 0.05 # pan 0.5
 
@@ -61,4 +62,8 @@ d6 $ sometimesBy 0.2 (fast 2) $ every 5 (rotR (1/8)) $ struct "t(7,16,3)" $ swin
 
 d7 $ struct "f t f t" $ swing $ s "superclap" # gain 0.5 # hpf 400 # res (slow 9 $ range 0.3 0.7 saw) # release 0.12 # pan 0.5
 
-d8 $ struct "t(4,4)" $ swing $ s "k808L" # gain 0.5 # lpf (slow 13 $ range 1100 2400 saw) # hpf 32 # speed 0.9 # shape 0.2 # release 0.7 # pan 0.5
+-- THE BOOM: k808L on 4/4, speed 0.85 (down a step and a half, where an 808 gets its weight),
+-- hpf 30 so the sub survives, lpf 600-1200 so it contributes ONLY the band the superkick does not
+-- occupy, and release 0.55 — long enough to boom and ring past its own beat, short enough that at
+-- four hits a bar it clears before the next transient.
+d8 $ struct "t(4,4)" $ swing $ s "k808L" # gain 0.7 # hpf 30 # lpf (slow 13 $ range 600 1200 saw) # speed 0.85 # release 0.55 # pan 0.5
