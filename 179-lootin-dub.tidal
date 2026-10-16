@@ -49,11 +49,12 @@ d2 $ swing $ struct "~ ~ t ~" $ s "s808b" # gain 0.5 # velocity (slow 5 $ range 
 -- HATS on the offbeats (`~ t` = the "and" of each beat), 10% of them dropped by hand.
 d3 $ degradeBy 0.1 $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4 $ range 0.14 0.24 sine) # velocity (slow 9 $ range 0.6 1 perlin) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04
 
--- THE MELODY, and it is the bass: the Marley line, transposed +2, at `slow 8` — the phrase now
--- takes EIGHT bars — with 25% of the notes dropped and a phrase mask that rests for three bars
--- in eight, so there is real space between statements. Legato 1.6 / sustain 0.6 / release 1 s so
--- each note rings on past its slot. The loudest thing in the mix at 0.72.
-d5 $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note 2) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsynth" # gain 0.72 # amp 0.85 # waveMix 0.14 # subMix 0.4 # subTone 0.3 # cutoff 460 # fenv 1.8 # drive 0.15 # legato 1.6 # sustain 0.6 # release 1 # hpf 36 # lpf 700 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
+-- THE MELODY, and it is the bass: the Marley line, now a SMOOTH SINE (dubsub, drive 0.08 — the
+-- dubsynth it was on has a waveMix edge, which is not what a sub wants) and dropped a full
+-- octave: (|+ note (-10)) = +2 for the key and -12 for the register, so it sits on b2/d3/cs3/
+-- fs2/e3. `slow 8` — the phrase takes EIGHT bars — with 25% of notes dropped and a phrase mask
+-- resting three bars in eight. Legato 1.6 / sustain 0.6 / release 1 s so each note rings on.
+d5 $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note (-10)) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsub" # gain 0.72 # amp 0.85 # drive 0.08 # pitchEnv 0.06 # legato 1.6 # sustain 0.6 # release 1 # hpf 32 # lpf 520 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
 
 -- THE SKANK — the offbeat chord stab, +2, late by design, into the dub delay.
 d7 $ slow 2 $ (|+ note 2) $ note "[a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.42 # amp 0.4 # velocity (slow 6 $ range 0.6 1 perlin) # hpf 300 # lpf 8000 # attack 0.004 # sustain 0.12 # release 0.3 # pan 0.55 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1 # room 0.4 # size 0.7 # dry 0.55 # nudge (slow 19 $ range 0.002 0.016 sine)
