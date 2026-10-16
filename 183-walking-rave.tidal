@@ -1,0 +1,80 @@
+-- 183 — WALKING RAVE. 123 BPM. The track as it stands, off the live REPL.
+--
+-- STOCK TIDAL: orbits -> hardware through the minimal master (hpf -> gain -> soft knee ->
+-- limiter); orbit FX = SuperCollider's own dirt_delay -> dirt_reverb -> dirt_monitor, so every FX
+-- here is a Tidal orbit param. ~masterVol.value(n) is the volume.
+--
+-- IT IS A WALK, NOT A DRIVE. 123 BPM is a third slower than the 175 this material started at, so
+-- the same patterns have room; and the bass is now a real walking line rather than a pulse:
+--
+--   d5  t(8,16,0) — eight even 8ths a bar (on the beat) — carrying a 32-NOTE line that walks the
+--       chord tones of Am7 -> F -> Dm7 -> Em7, eight notes per chord, up and back down each bar.
+--       Four bars to cycle, nothing repeated inside it: that is the lengthening, as opposed to
+--       stretching a short phrase over more time, which is a different (and worse) thing.
+--       NB E(8,16) is UNIFORM, so its rotation is a no-op — t(8,16,0), t(8,16,1) and t(8,16,5)
+--       are the same pattern. Rotations only bite on uneven figures (t(7,16,3), t(5,16,2)).
+--
+-- THE KICK IS SPLIT BY FREQUENCY, which is the fix that made the boom audible at all:
+--   d1  superkick, 4/4, gain 0.62 — the CLICK and the definition
+--   d8  k808L,    4/4, speed 0.85, hpf 30, lpf 600-1200, release 0.55 — the BOOM
+--   (there was a k808S layer too; three kicks on one grid buried the boom's tail in the next
+--    transient, and the 808 low-passed up at 1100-2400 was contributing only click.)
+--
+-- THE DRUMS (walking around the same grid, no two on the same figure):
+--   d2  superhat  offbeats, crisp          d7  superclap  2 and 4
+--   d3  amencutup slice 16, order rotated   d4  supernoise t(16,16) wash, pulled back
+--   d9  {}%16 amen x Funky6 interleaved step by step      d10 jungle one-shots, %12 cell
+--   d11 DMX kit   t(11,16,4), one slot order              d12 toms from 3 machines, pitched
+--   d13 the door  13-grid roll in the 8th bar of 8        d14 super808, t(11,16,5)
+--   d15 SOS kit   [soshats|sostoms|sossnare](13,16,7)      d16 jungle on a %7 polymetric cell
+--   d6  SILENT — the saw stab was stopped deliberately (a stab's identity is its RHYTHM, so
+--       lengthening its chords only does not de-loop it; move the struct, not the harmony).
+--
+-- THE CRAZY IS IN THE DRAWS, not in the level: stutWith flurries at 1/128 and 1/256, fast 2 and
+-- fast 4, crush 13/15, shape 0.45 and reverb blasts, each on its own `sometimesBy` chance.
+--
+-- TRAPS (five, all hit for real; four of the five were SILENT failures rather than noise):
+--   1. `(# a # b)` is not a section (# is infixl 9) — compose single-# sections instead:
+--      `let blast = (# room 0.92) . (# size 1) . (# dry 0.08)`.
+--   2. transforms go BEFORE the `#` chain: `degradeBy 0.1 $ ... # gain x`, never `# degradeBy 0.1`.
+--   3. a mini-notation string used as a number needs an annotation; for `n` it is
+--      `:: Pattern Note`, not `:: Pattern Int`.
+--   4. an euclid suffix on a |-alternation belongs on `s`, not on `struct` (struct wants Bool).
+--   5. braces need a step count: `{a b}%16` parses, `{a}` does not.
+setcps (123/240)
+
+let swing = (# nudge (fast 8 $ "0 1" * (slow 8 $ range 0 0.06 sine)))
+let blast = (# room 0.92) . (# size 1) . (# dry 0.08)
+let walk = "<a1 c2 e2 g2 a2 g2 e2 c2 f1 a1 c2 e2 f2 e2 c2 a1 d2 f2 a2 c3 d3 c3 a2 f2 e2 g2 b2 d3 e3 d3 b2 g2>" :: Pattern Note
+let dmxSlots = "<0 1 2 4 5 12 14 20>" :: Pattern Note
+let tomSlots = "<6 7 8 7 8 6 8>" :: Pattern Note
+
+d1 $ struct "t(4,4)" $ swing $ s "superkick" # gain 0.62 # shape (slow 11 $ range 0.3 0.6 saw) # pitchEnv (slow 13 $ range 0.08 0.25 sine) # release 0.16 # hpf 50
+
+d2 $ struct "~ t ~ t ~ t ~ t" $ swing $ s "superhat" # gain 0.3 # res (slow 7 $ range 0.3 0.7 saw) # lpf (slow 5 $ rangex 6000 14000 saw) # release 0.05 # pan 0.5
+
+d3 $ sometimesBy 0.25 (# vowel "<a e i o u>") $ every 7 (rotR (1/8)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "amencutup" # gain 0.52 # res (slow 9 $ range 0.3 0.7 saw) # cutoff (slow 7 $ rangex 900 9000 saw) # release 0.06 # hpf 90
+
+d4 $ struct "t(16,16)" $ s "supernoise" # gain (slow 5 $ range 0.05 0.12 sine) # trem (slow 3 $ range 0.3 1 sine) # tremRate (slow 17 $ range 4 12 saw) # vowel "<a e o>" # hpf 3000 # lpf 12000 # pan perlin # release 0.04
+
+d5 $ struct "t(8,16,0)" $ swing $ note walk # s "superhoover" # gain 0.52 # amp 0.8 # legato 1 # sustain 0.28 # release 0.22 # cutoff (slow 9 $ rangex 600 2600 saw) # res (slow 11 $ range 0.2 0.6 saw) # drive (slow 15 $ range 0.15 0.45 saw) # trem (slow 5 $ range 0.5 1 sine) # hpf 40 # dry 1
+
+d7 $ struct "f t f t" $ swing $ s "superclap" # gain 0.5 # hpf 400 # res (slow 9 $ range 0.3 0.7 saw) # release 0.12 # pan 0.5
+
+d8 $ struct "t(4,4)" $ swing $ s "k808L" # gain 0.7 # hpf 30 # lpf (slow 13 $ range 600 1200 saw) # speed 0.85 # release 0.55 # pan 0.5
+
+d9 $ sometimesBy 0.3 (striate 2) $ sometimesBy 0.2 (fast 2) $ slice 8 "<0 2 5 7 1 4 6 3>" $ s "{amencutup p94brkA}%16" # speed 0.75 # gain 0.48 # hpf 100 # lpf 11000 # pan perlin # release 0.03 # dry 0.85
+
+d10 $ degradeBy 0.1 $ sometimesBy 0.3 (fast 2) $ sometimesBy 0.25 (stutWith 3 0.015625 (|* gain 0.6)) $ s "{jungle}%12" # gain (slow 7 $ range 0.3 0.42 sine) # hpf 300 # lpf 12000 # pan perlin # release 0.03 # dry 0.85
+
+d11 $ sometimesBy 0.25 (fast 2) $ sometimesBy 0.2 (fast 4) $ struct "t(11,16,4)" $ s "oberheimdmx" # n dmxSlots # gain (slow 8 $ range 0.3 0.4 sine) # hpf 120 # lpf 9500 # pan 0.5 # release 0.05 # room 0.2 # dry 0.85
+
+d12 $ sometimesBy 0.3 (stutWith 2 0.0625 (|* gain 0.6)) $ every 5 (rotR (1/16)) $ struct "t(7,16,5)" $ s "<casiorz1 bossdr220 korgddm110>" # n tomSlots # speed "<1 1.19 1.5 1.12 0.89 1.33 0.75>" # gain (slow 9 $ range 0.26 0.36 sine) # hpf 200 # lpf 6500 # pan (slow 13 $ range 0.35 0.65 sine) # release 0.1 # room 0.2 # dry 0.8
+
+d13 $ mask "<f f f f f f f t>" $ sometimesBy 0.4 (stutWith 4 0.015625 (|* gain 0.6)) $ sometimesBy 0.3 blast $ s "[ebongos|jamblock|t808H](13,16,5)" # gain 0.4 # hpf 600 # lpf 10000 # pan perlin # release 0.04 # room 0.4 # dry 0.6
+
+d14 $ sometimesBy 0.4 (stutWith 4 0.0078125 (|* gain 0.55)) $ sometimesBy 0.35 (fast 4) $ sometimesBy 0.3 (# crush 13) $ every 5 (rotR (1/16)) $ struct "t(11,16,5)" $ s "super808" # gain (slow 7 $ range 0.2 0.32 sine) # hpf 200 # lpf 11000 # pan perlin # release 0.03 # dry 0.85
+
+d15 $ sometimesBy 0.4 (fast 2) $ sometimesBy 0.25 (# shape 0.45) $ every 7 (rotR (1/16)) $ s "[soshats|sostoms|sossnare](13,16,7)" # gain (slow 9 $ range 0.18 0.3 sine) # hpf 400 # lpf 12000 # pan perlin # release 0.04 # dry 0.8
+
+d16 $ sometimesBy 0.5 (stutWith 6 0.00390625 (|* gain 0.5)) $ sometimesBy 0.3 (fast 4) $ sometimesBy 0.35 (# crush 15) $ sometimesBy 0.3 blast $ s "{jungle}%7" # gain (slow 5 $ range 0.16 0.28 sine) # hpf 500 # lpf 13000 # pan perlin # release 0.02 # dry 0.85
