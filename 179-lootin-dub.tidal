@@ -49,12 +49,16 @@ d2 $ swing $ struct "~ ~ t ~" $ s "s808b" # gain 0.5 # velocity (slow 5 $ range 
 -- HATS on the offbeats (`~ t` = the "and" of each beat), 10% of them dropped by hand.
 d3 $ degradeBy 0.1 $ swing $ struct "~ t ~ t ~ t ~ t" $ s "h808C" # gain (slow 4 $ range 0.14 0.24 sine) # velocity (slow 9 $ range 0.6 1 perlin) # hpf 6500 # lpf 12000 # pan (slow 8 $ range 0.4 0.6 sine) # release 0.04
 
--- THE MELODY, and it is the bass: the Marley line, now a SMOOTH SINE (dubsub, drive 0.08 — the
--- dubsynth it was on has a waveMix edge, which is not what a sub wants) and dropped a full
--- octave: (|+ note (-10)) = +2 for the key and -12 for the register, so it sits on b2/d3/cs3/
--- fs2/e3. `slow 8` — the phrase takes EIGHT bars — with 25% of notes dropped and a phrase mask
--- resting three bars in eight. Legato 1.6 / sustain 0.6 / release 1 s so each note rings on.
-d5 $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note (-10)) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsub" # gain 0.48 # amp 0.72 # drive 0.06 # pitchEnv 0.05 # legato 1.6 # sustain 0.6 # release 1 # hpf 32 # lpf 520 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
+-- THE MELODY, and it is the bass. Marley's line, as a SMOOTH SINE an octave down: (|+ note
+-- (-10)) = +2 for the key and -12 for the register. `slow 8` — the phrase takes EIGHT bars —
+-- 25% of notes dropped, and a phrase mask resting three bars in eight.
+--   * DOUBLE TIME, SOMETIMES: sometimesBy 0.3 (fast 2) — on roughly a third of the passes the
+--     line runs at twice the rate, which is the fill that keeps a slow bass from being static.
+--   * THE BREAK CHANGES IT TOO, which is what makes side B a change of FEEL and not just of
+--     drums: whenmod 8 4 darkens and shortens it for the break half of the 8-bar form
+--     (gain 0.32, lpf 300, legato 1, release 0.2) so the same four notes turn into a stab
+--     under the cut-up drums, and then open back out for the dub half.
+d5 $ whenmod 8 4 (# gain 0.32 # lpf 300 # release 0.2 # legato 1) $ slow 8 $ mask "<t t t f t t f f>" $ degradeBy 0.25 $ sometimesBy 0.3 (fast 2) $ sometimesBy 0.2 (|* gain 0.9) $ (|+ note (-10)) $ note "a3 ~ ~ ~ c4 ~ b3 ~ a3 ~ ~ ~ e3 ~ ~ ~ e3 ~ d4 ~ ~ d4 ~ d4 ~ ~ c4 ~ d4 ~ ~ ~" # s "dubsub" # gain 0.48 # amp 0.72 # drive 0.06 # pitchEnv 0.05 # legato 1.6 # sustain 0.6 # release 1 # hpf 32 # lpf 520 # dry 1 # nudge (slow 17 $ range (-0.005) 0.008 sine)
 
 -- THE SKANK — the offbeat chord stab, +2, late by design, into the dub delay.
 d7 $ slow 2 $ (|+ note 2) $ note "[a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,c5,e5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~ [a4,d5,f5] ~ ~ ~ ~ ~ ~ ~" # s "hoRhodes" # gain 0.42 # amp 0.4 # velocity (slow 6 $ range 0.6 1 perlin) # hpf 300 # lpf 8000 # attack 0.004 # sustain 0.12 # release 0.3 # pan 0.55 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1 # room 0.4 # size 0.7 # dry 0.55 # nudge (slow 19 $ range 0.002 0.016 sine)
