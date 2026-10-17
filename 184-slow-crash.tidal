@@ -1,0 +1,47 @@
+-- 184 — SLOW CRASH. 84 BPM, A minor. Stock Tidal end to end: orbits -> hardware through the
+-- minimal master, orbit FX = SuperCollider's own dirt_delay -> dirt_reverb -> dirt_monitor, so
+-- every FX here is a Tidal orbit param (delay / delaytime / delayfeedback / lock / room / size /
+-- dry). Nothing of the custom stack is in the path.
+--
+-- REMIX, out of ~/tunepile, both reconciled to A MINOR:
+--   A) ORGY — "Blue Monday" (125 BPM, transcribed in A minor — verified by histogramming its own
+--      notes, 214/214 fit the scale) -> NO transposition:
+--      tabs-tidal/Orgy_-_Blue_Monday_2_.gp3-e44e0798.tidal
+--   B) TALK TALK — "It`s My Life" (125 BPM, transcribed in F minor / Ab major) -> (|+ note 4),
+--      which lands it exactly in A minor: A minor and F minor are a major third apart.
+--      tabs-tidal/Talk_Talk_-_It_s_My_Life_4_.gp3-6228b276.tidal
+--
+-- SLOWED DOWN: the sources are 125 BPM tracks and this runs at 84, so the quoted phrases are
+-- already at 0.67x their own tempo — and on top of that the music is stretched again with
+-- `slow 4` / `slow 8` on each lane, so the songs are heard as if wading. That is the effect:
+-- tempo is the instrument here, not just the speed. (Tab lanes are written over a 16-bar cycle
+-- and this track is on a one-bar cycle, hence the `slow` — forget it and the material runs at the
+-- compression ratio, 4x fast.)
+--
+-- MESSED UP: chop, striate, stutWith, reversed copies (|* speed (-1)) and off-copies, all as
+-- `sometimesBy` draws, so the phrases deform as they pass rather than looping intact.
+--
+-- WILD FEELINGS come from the register separation: the Blue Monday bass growls down at f2/c3,
+-- the It's My Life riff sings at g4/c5 with vibrato, and its high hook answers an octave above --
+-- with a big room and a long delay behind each one.
+setcps (84/240)
+
+-- A) Blue Monday: the bass riff, lifted verbatim, four bars, stretched with `slow 4`.
+d1 $ slow 4 $ sometimesBy 0.2 (fast 2) $ (|+ note (-12)) $ note "f3 ~ f4 f4 f3 ~ f4 f4 c3 ~ c4 c4 c3 ~ c4 c4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 g3 ~ g4 g4 g3 ~ g4 g4 c3 ~ c4 c4 c3 ~ c4 c4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4" # s "dubsynth" # gain (slow 11 $ range 0.5 0.62 sine) # amp 0.8 # waveMix 0.16 # subMix 0.4 # subTone 0.3 # cutoff (slow 13 $ rangex 380 900 saw) # fenv 1.8 # drive (slow 15 $ range 0.15 0.4 saw) # sustain 0.3 # release 0.4 # legato 1.2 # hpf 34 # dry 1
+
+-- A) Blue Monday: the guitar line, chopped and reversed on draws — the same source, deformed.
+d2 $ slow 4 $ sometimesBy 0.3 (chop 4) $ sometimesBy 0.25 (|* speed (-0.75)) $ sometimesBy 0.2 (stutWith 3 0.0625 (|* gain 0.6)) $ (|+ note 12) $ note "f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~" # s "superpiano" # n 0 # gain (slow 7 $ range 0.3 0.44 sine) # hpf 400 # lpf (slow 17 $ rangex 1600 5200 saw) # release 0.5 # sustain 0.2 # pan (slow 9 $ range 0.38 0.62 sine) # room 0.6 # size 0.85 # dry 0.4 # delay 0.42 # delaytime (3/16) # delayfeedback 0.5 # lock 1
+
+-- B) It's My Life: the synth riff at +4 (onto A minor), stretched with `slow 8`, singing.
+d3 $ slow 8 $ sometimesBy 0.2 (fast 2) $ sometimesBy 0.15 (off 0.125 (|+ note 7)) $ (|+ note 4) $ note "ds3 ~ ~ ~ ds3 ~ ~ ~ cs3 ~ ds3 ~ ~ ~ as2 ~ ~ ~ as2 ~ ds3 ~ ~ ~ cs3 ~ ds3 ~ ~ ~ f3 ~ d3 ~ ~ ~ f3 ~ ~ ~ ds3 ~ f3 ~ ~ ~ gs3 ~ g3 ~ ~ ~ gs3 ~ ~ ~ f3 ~ gs3 ~ ~ ~ f3 ~" # s "hoRhodes" # gain (slow 9 $ range 0.4 0.54 sine) # amp 0.5 # cutoff (slow 21 $ rangex 900 4200 saw) # waveMix 0.16 # attack 0.03 # sustain 0.45 # release 1.2 # legato 1.3 # vib 0.12 # vibRate 5.2 # hpf 300 # pan (slow 7 $ range 0.42 0.58 sine) # room 0.75 # size 0.95 # dry 0.35 # delay 0.4 # delaytime (3/8) # delayfeedback 0.52 # lock 1
+
+-- B) It's My Life: the high hook, +4, answering an octave above with a long delay behind it.
+d4 $ slow 4 $ sometimesBy 0.25 (fast 2) $ sometimesBy 0.2 (rev) $ (|+ note 4) $ note "f5 ~ ~ ~ ds5 ~ b4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ as5 as5 as5 ~ as5 ~ as5 as5 as5 ~ as5 ~ as5 as5 ~ as5 as5 ~ as5 ~ as5 ~ as5 ~ ~ ~" # s "superzow" # gain (slow 13 $ range 0.26 0.4 sine) # amp 0.4 # hpf 600 # lpf (slow 19 $ rangex 2400 7000 saw) # attack 0.01 # release 0.7 # sustain 0.22 # pan 0.58 # room 0.7 # size 0.9 # dry 0.4 # delay 0.45 # delaytime (3/16) # delayfeedback 0.55 # lock 1
+
+-- THE FLOOR, half-time: kick on 1 and 3 only, snare on 3, a sparse shaker. Slow music needs a
+-- slow pulse or it fights itself.
+d5 $ struct "t f t f" $ s "superkick" # gain 0.66 # shape (slow 11 $ range 0.2 0.4 saw) # release 0.5 # hpf 48
+
+d6 $ struct "~ ~ t ~" $ s "sossnare" # gain 0.42 # hpf 300 # lpf 7000 # release 0.3 # room 0.4 # size 0.7 # dry 0.7
+
+d7 $ sometimesBy 0.2 (fast 2) $ every 5 (rotR (1/16)) $ struct "t(6,16,3)" $ s "superhat" # gain (slow 9 $ range 0.12 0.2 sine) # res (slow 7 $ range 0.3 0.7 saw) # lpf (slow 5 $ rangex 5000 12000 saw) # release 0.06 # pan 0.6 # dry 0.9
