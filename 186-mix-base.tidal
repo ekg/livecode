@@ -1,0 +1,47 @@
+-- 186 — MIX BASE. 84 BPM, A minor. The committed starting point for the live mix (recording:
+-- rolling-rave-mix-20261017-1446.wav). Stock Tidal; per-orbit FX only (delay/room/size/dry).
+--
+-- ORBIT MAP (the whole point — FX are per ORBIT, so grouping lanes is the mixing):
+--   orbit 0  drums: kick, clap, open hats, 16ths, shaker, sub pulse, conga  -> dry
+--   orbit 1  the two sewn 300-breaks lanes                                 -> a little delay+room
+--   orbit 2  the superprimes lead                                         -> big room, long delay
+--   (d3 the da Day Dawn air and d4 the superfm pad still sit on orbit 0 with the drums — they
+--    want moving to their own wet orbit next, because their room is landing on the kick.)
+--
+-- SWING is hard-coded per lane rather than the drifting helper: swingBy 0.14 8 on kick/clap/hats
+-- (a real limp on the offbeat 8ths) and 0.07 16 on the 16ths, because the fine grid must lean
+-- less than the coarse one or the shuffle collapses.
+--
+-- KIT IS ALL SAMPLES. The SuperDirt synth drums (superkick/superclap/superhat) run far quieter
+-- than the sample banks at the same `gain` — that is why "turn it up" did nothing for half the
+-- night. Sample path already carries the recording's level; a synth's output is whatever its
+-- SynthDef amplitude happens to be. So: kick k808S 0.67, clap rolandtr909:4 0.78 (with a 31 ms
+-- flam draw), open hats h808O, 16ths h808C (written accent pattern), shaker sh808.
+--
+-- A/B/C melody form: d1 (Blue Monday bass) is STOPPED; d2 the lead in the B window (bars 5-8),
+-- d3 the air in the C window (9-12), d4 the pad throughout.
+setcps (84/240)
+
+d2 $ mask "<f f f f t t t t f f f f>" $ slow 8 $ sometimesBy 0.3 (chop 4) $ sometimesBy 0.3 (# shape (slow 13 $ range 0.1 0.3 saw)) $ sometimesBy 0.2 (# vowel "<a e o u>") $ sometimesBy 0.2 (stutWith 3 0.0625 (|* gain 0.6)) $ (|+ note 12) $ note "f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~" # s "superprimes" # orbit 2 # gain (slow 7 $ range 0.34 0.44 sine) # hpf 400 # lpf (slow 17 $ rangex 800 2200 saw) # res (slow 11 $ range 0.1 0.3 saw) # release 0.5 # sustain 0.2 # pan (slow 9 $ range 0.38 0.62 sine) # room 0.7 # size 0.9 # dry 0.4 # delay 0.45 # delaytime (3/16) # delayfeedback 0.55 # lock 1
+
+d3 $ mask "<f f f f f f f f t t t t>" $ slow 8 $ degradeBy 0.08 $ sometimesBy 0.2 (|+ note 12) $ sometimesBy 0.15 (off 0.125 (|+ note 7)) $ sometimesBy 0.15 (# crush 6) $ note "b4 c5 b4 c5 b4 a4 a4 g4 d5 a4 d5 b4 e5 a4 d5 b4 c5 d5 b4 ~ a4 ~ d4 e4 b4 a4 d5 c5 e5 ~ a4 ~ e5 ~ b4 ~ a4 ~ e5 ~ e5 ~ a4 ~ e5 ~ b4 a4 a4 ~ d4 e4 b4 a4 d5 c5 e5 ~" # s "hoRhodes" # gain (slow 9 $ range 0.36 0.48 sine) # amp 0.5 # cutoff (slow 21 $ rangex 1000 3800 saw) # waveMix 0.16 # attack 0.05 # sustain 0.45 # release 1.4 # legato 1.3 # vib 0.12 # vibRate 5.2 # hpf 300 # pan (slow 7 $ range 0.42 0.58 sine) # room 0.75 # size 0.95 # dry 0.35 # delay 0.4 # delaytime (3/8) # delayfeedback 0.52 # lock 1
+
+d4 $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3] [g3,b3,d4,f4]>" # s "superfm" # gain (slow 9 $ range 0.24 0.34 sine) # amp 0.4 # attack 0.6 # release 2.5 # sustain 0.7 # cutoff (slow 17 $ rangex 1200 3800 saw) # hpf 180 # lpf 7000 # pan 0.5 # room 0.8 # size 0.95 # dry 0.3
+
+d5 $ sometimesBy 0.25 (fast 2) $ struct "t(4,4)" $ swingBy 0.14 8 $ s "k808S" # gain 0.67 # shape (slow 11 $ range 0.15 0.3 saw) # lpf (slow 13 $ range 2200 5000 saw) # release 0.22 # hpf 46
+
+d6 $ sometimesBy 0.25 (off 0.03125 (|* gain 0.6)) $ sometimesBy 0.2 (fast 2) $ struct "f t f t" $ swingBy 0.14 8 $ s "rolandtr909:4" # gain 0.78 # hpf 400 # res (slow 9 $ range 0.3 0.7 saw) # release 0.14 # room 0.25 # size 0.6 # dry 0.75 # pan 0.5
+
+d7 $ struct "~ t ~ t ~ t ~ t" $ swingBy 0.14 8 $ s "h808O" # gain 0.34 # hpf 4000 # lpf (slow 5 $ rangex 7000 14000 saw) # release 0.16 # pan 0.6 # dry 0.9
+
+d10 $ struct "t(16,16)" $ swingBy 0.07 16 $ s "h808C" # gain "0.22 0.12 0.16 0.12 0.20 0.12 0.15 0.12 0.22 0.12 0.16 0.12 0.20 0.12 0.15 0.12" # hpf 7000 # lpf 13000 # release 0.03 # pan 0.58 # dry 0.9
+
+d11 $ sometimesBy 0.2 (fast 2) $ every 7 (rotR (1/16)) $ struct "t(16,16)" $ swingBy 0.07 16 $ s "sh808" # gain (slow 6 $ range 0.12 0.2 sine) # hpf 6000 # lpf 14000 # pan perlin # release 0.02 # dry 0.95
+
+d12 $ sometimesBy 0.3 (fast 2) $ struct "~ t ~ t ~ t ~ t" $ swingBy 0.14 8 $ note "<a1 a1 a1 c2>" # s "dubsub" # gain 0.46 # amp 0.8 # drive 0.1 # legato 0.8 # sustain 0.18 # release 0.12 # hpf 32 # lpf 480 # dry 1
+
+d13 $ sometimesBy 0.25 (fast 2) $ every 5 (rotR (1/16)) $ struct "t(5,16,3)" $ swingBy 0.07 16 $ s "cn808" # gain (slow 7 $ range 0.2 0.3 sine) # hpf 300 # lpf 7000 # pan (slow 9 $ range 0.4 0.6 sine) # release 0.08 # room 0.2 # dry 0.85
+
+d8 $ sometimesBy 0.2 (striate 4) $ loopAt 4 $ s "{pbrk01 pbrk02 pbrk03 pbrk04}%16" # orbit 1 # gain (slow 7 $ range 0.62 0.74 sine) # hpf 60 # lpf (slow 11 $ rangex 1600 6000 saw) # pan 0.5 # release 0.08 # room 0.15 # dry 0.85 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1
+
+d9 $ sometimesBy 0.2 (chunk 4 rev) $ loopAt 4 $ s "{pbrk05 pbrk06 pbrk07 pbrk08}%16" # orbit 1 # gain (slow 9 $ range 0.5 0.6 sine) # hpf 70 # lpf 5500 # pan 0.55 # release 0.08 # room 0.15 # dry 0.85
