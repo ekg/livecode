@@ -1,0 +1,47 @@
+-- 187 — SONG FORM. 84 BPM, A minor. Stock Tidal; per-orbit FX only. Saved from the live mix
+-- (take: recordings/rolling-rave-mix-20261017-1446.wav, marked at 836 s).
+--
+-- The form is written with masks, not with material. The trick that makes it short is
+-- `slow 8 "<...>"`: a four-step pattern stretched so each step lasts EIGHT BARS. So one line
+-- gives a 32-bar form (~93 s at this tempo) instead of a hundred-token mask string:
+--
+--     drums (kick/clap/hats/rims)  mask "<f f f f f f f f t t t t t t t t>"   second half of 16
+--     vocal                        mask (slow 8 "<f t f t>")                  bars 9-16, 25-32
+--     air                          mask (slow 8 "<f f t t>")                  bars 17-32
+--     pad, sub pulse               unmasked, continuous
+--
+-- ORBITS: 0 drums dry | 1 breaks (empty here) | 3 pad + air + vocal, fully wet | 4 hats, with
+-- their own delay riding slow 9/13. FX are per-ORBIT, so grouping lanes is the mixing.
+--
+-- VOCAL KEY — honest caveat. The humanip fragments are pitched by `speed` ratios, and a chopped
+-- vocal can only be transposed, never re-spelled, so it stays in its OWN key. The set here is
+-- diationic (1, 1.12, 1.19, 1.33, 1.5 = 0, +2, +3, +5, +7 semitones) which removes the worst
+-- offender (the earlier 0.89 = -2 semitones sat a whole tone under the root), but it is diatonic
+-- to the FRAGMENT, not necessarily to A minor. Fixing it properly means pitch-scanning the bank
+-- and transposing by the one interval that lands it in A minor.
+--
+-- SILENT HERE on purpose: d1 the cp4 blip, d2 the dub skank (with inverted voicings and
+-- swingBy 0.22), d8/d9 the two sewn 300-breaks lanes at loopAt 4, d10 ghost kicks, d11 16th
+-- shaker, d13 conga hook. They are the previous stage (marked at 422 s) and are one line each to
+-- bring back.
+--
+-- REVERB BUILD: the air and vocal carry room (slow 16 range 0.5 0.9 saw) / size 0.95 / dry 0.35,
+-- so the wet side opens across 16 bars while the dry drums arrive on their mask - a dry floor
+-- against a 90%-wet mid, which is what carries the drop.
+setcps (84/240)
+
+d5 $ mask "<f f f f f f f f t t t t t t t t>" $ sometimesBy 0.25 (fast 2) $ struct "t(4,4)" $ swingBy 0.14 8 $ s "k808S" # gain 0.67 # shape (slow 11 $ range 0.15 0.3 saw) # lpf (slow 13 $ range 2200 5000 saw) # release 0.22 # hpf 46
+
+d6 $ mask "<f f f f f f f f t t t t t t t t>" $ sometimesBy 0.25 (off 0.03125 (|* gain 0.6)) $ sometimesBy 0.2 (fast 2) $ struct "f t f t" $ swingBy 0.14 8 $ s "rolandtr909:4" # gain 0.78 # hpf 400 # res (slow 9 $ range 0.3 0.7 saw) # release 0.14 # room 0.25 # size 0.6 # dry 0.75 # pan 0.5
+
+d7 $ mask "<f f f f f f f f t t t t t t t t>" $ struct "~ t ~ t ~ t ~ t" $ swingBy 0.14 8 $ s "h808O" # orbit 4 # gain (slow 5 $ range 0.2 0.4 sine) # hpf 4000 # lpf (slow 7 $ rangex 5000 14000 saw) # release 0.16 # pan (slow 11 $ range 0.45 0.7 sine) # room 0.2 # dry 0.8 # delay (slow 9 $ range 0.05 0.35 saw) # delaytime (3/16) # delayfeedback (slow 13 $ range 0.25 0.6 sine) # lock 1
+
+d15 $ mask "<f f f f f f f f t t t t t t t t>" $ sometimesBy 0.2 (fast 2) $ struct "~ ~ ~ t ~ ~ ~ t" $ swingBy 0.14 8 $ s "rolandtr909:5" # gain (slow 7 $ range 0.24 0.34 sine) # hpf 900 # lpf 8000 # res (slow 11 $ range 0.2 0.6 saw) # release 0.08 # pan 0.55 # room 0.2 # dry 0.85
+
+d12 $ sometimesBy 0.3 (fast 2) $ struct "~ t ~ t ~ t ~ t" $ swingBy 0.14 8 $ note "<a1 a1 a1 c2>" # s "dubsub" # gain 0.46 # amp 0.8 # drive 0.1 # legato 0.8 # sustain 0.18 # release 0.12 # hpf 32 # lpf 480 # dry 1
+
+d4 $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3] [g3,b3,d4,f4]>" # s "superfm" # orbit 3 # gain (slow 9 $ range 0.24 0.34 sine) # amp 0.4 # attack 0.6 # release 2.5 # sustain 0.7 # cutoff (slow 17 $ rangex 1200 3800 saw) # hpf 180 # lpf 7000 # pan 0.5 # room 0.8 # size 0.95 # dry 0.3
+
+d3 $ mask (slow 8 "<f f t t>") $ slow 8 $ degradeBy 0.08 $ sometimesBy 0.2 (|+ note 12) $ sometimesBy 0.15 (off 0.125 (|+ note 7)) $ note "b4 c5 b4 c5 b4 a4 a4 g4 d5 a4 d5 b4 e5 a4 d5 b4 c5 d5 b4 ~ a4 ~ d4 e4 b4 a4 d5 c5 e5 ~ a4 ~ e5 ~ b4 ~ a4 ~ e5 ~ e5 ~ a4 ~ e5 ~ b4 a4 a4 ~ d4 e4 b4 a4 d5 c5 e5 ~" # s "hoRhodes" # orbit 3 # gain (slow 9 $ range 0.36 0.48 sine) # amp 0.5 # cutoff (slow 21 $ rangex 1000 3800 saw) # waveMix 0.16 # attack 0.05 # sustain 0.45 # release 1.4 # legato 1.3 # vib 0.12 # vibRate 5.2 # hpf 300 # pan (slow 7 $ range 0.42 0.58 sine) # room (slow 16 $ range 0.5 0.9 saw) # size 0.95 # dry 0.35 # delay 0.4 # delaytime (3/8) # delayfeedback 0.52 # lock 1
+
+d16 $ mask (slow 8 "<f t f t>") $ sometimesBy 0.2 (fast 2) $ sometimesBy 0.3 (stutWith 3 0.0625 (|* gain 0.6)) $ chop 8 $ loopAt 1 $ s "<vxA vxB vxD>" # speed "<1 1.12 1.19 1.33 1.5 1>" # orbit 3 # gain 0.5 # hpf 400 # lpf 9000 # pan (slow 9 $ range 0.35 0.65 sine) # room 0.5 # size 0.8 # delay 0.35 # delaytime (3/16) # delayfeedback 0.45 # lock 1 # release 0.2
