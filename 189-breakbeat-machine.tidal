@@ -36,7 +36,7 @@ d4 $ sometimesBy 0.25 (# delay 0.9) $ sometimesBy 0.1 (stutWith 3 0.03125 (|* ga
 -- offbeat 8ths - the kick carries the one, the bass answers it. nudge 0.02 = a hair
 -- behind. SINEY: waveMix 0 is the pure sub oscillator, drive 0 (no grit), cutoff 300 with
 -- fenv 1.2 for a soft filter bloom, pitchEnv 0.15 for a hint of glide.
-d5 $ sometimesBy 0.2 (|+ note 12) $ euclidOff 13 16 5 $ note "<e2 e2 g2 e2 b1 e2 d2 e2>" # s "dubsub" # orbit 1 # gain 0.6 # amp 0.8 # drive 0.0 # pitchEnv 0.25 # waveMix 0.0 # subMix 0.38 # cutoff 260 # fenv 1.4 # legato 1.2 # sustain 0.45 # release 0.2 # hpf 45 # dry 0.95
+d5 $ sometimesBy 0.2 (|+ note 12) $ euclidOff 13 16 5 $ note "<e2 e2 g2 e2 b1 e2 d2 e2>" # s "dubsub" # orbit 1 # gain 0.45 # amp 0.7 # drive 0.0 # pitchEnv 0.2 # waveMix 0.0 # subMix 0.22 # cutoff 150 # fenv 1.2 # legato 1.1 # sustain 0.4 # release 0.18 # hpf 55 # dry 0.95
 
 -- OFFBEAT CHORD SKANK: every second 16th - occupies the log drum's gaps exactly.
 d6 $ sometimesBy 0.12 (|* gain 0.3) $ every 11 (fast 2) $ sometimesBy 0.1 (|+ note 12) $ struct "t(8,16,1)" $ note "<[e4,g4,b4] [e4,g4,b4] [d4,fs4,a4] [d4,fs4,a4]>" # s "hoRhodes" # orbit 3 # gain "<0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.04 0.62 0.5>" # crush "<16 16 16 16 16 16 16 16 16 16 16 16 14 10 7 4>" # amp 0.5 # hpf 400 # lpf 5000 # attack 0.005 # release 0.18 # sustain 0.2 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.5 # size 0.9 # dry 0.7
@@ -46,12 +46,13 @@ d6 $ sometimesBy 0.12 (|* gain 0.3) $ every 11 (fast 2) $ sometimesBy 0.1 (|+ no
 -- leaves and the melody fills the hole. That is the coherency, not shared notes.
 
 -- CHORDS: Em / C / G / D held over 2 bars.
-d7 $ slow 2 $ sometimesBy 0.1 (|* gain 0.35) $ every 13 (fast 2) $ sometimesBy 0.08 (|+ note (choose [0,0,7])) $ sometimesBy 0.06 (off 0.125 (|* gain 0.5)) $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.74 # amp 0.6 # attack 0.25 # release 2.6 # sustain 0.7 # cutoff 3600 # room 0.55 # size 0.9 # dry 0.6
+d7 $ slow 2 $ sometimesBy 0.1 (|* gain 0.35) $ every 13 (fast 2) $ sometimesBy 0.08 (|+ note (choose [0,0,7])) $ sometimesBy 0.06 (off 0.125 (|* gain 0.5)) $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.88 # amp 0.65 # attack 0.25 # release 2.6 # sustain 0.7 # cutoff 3800 # room 0.5 # size 0.9 # dry 0.68
 
 -- THE MELODY: euclidOff 11/16/3 - the same mechanism as the bass, so the line
 -- flows instead of going bing-bing-bing. The note sequence is sampled at the grid's
 -- points, which is where the phrasing comes from.
-d12 $ slow 2 $ sometimesBy 0.1 (|+ note 12) $ sometimesBy 0.15 (off 0.125 (|* gain 0.45)) $ note "<[b4 ~ e5 ~ g5 ~ fs5 e5 d5 ~ b4 ~ ~ ~] [c5 ~ e5 ~ g5 a5 ~ g5 e5 ~ d5 ~ ~ ~] [g4 ~ b4 ~ d5 ~ e5 d5 b4 ~ g4 ~ ~ ~] [fs4 ~ a4 ~ d5 ~ e5 ~ d5 fs5 ~ a5 ~ ~ ~]>" # s "hoRhodes" # orbit 3 # gain 0.44 # amp 0.5 # hpf 350 # lpf 4500 # cutoff 3800 # attack 0.02 # release 0.7 # sustain 0.45 # pan (slow 11 $ range 0.44 0.56 sine) # room 0.62 # size 0.9 # dry 0.6 # delay 0.3 # delaytime (3/16) # delayfeedback 0.5 # lock 1
+-- d12 melody: OFF (dropped by request); the lane is kept commented for recall:
+-- d12 $ slow 2 $ sometimesBy 0.1 (|+ note 12) $ sometimesBy 0.15 (off 0.125 (|* gain 0.45)) $ note "<[b4 ~ e5 ~ g5 ~ fs5 e5 d5 ~ b4 ~ ~ ~] [c5 ~ e5 ~ g5 a5 ~ g5 e5 ~ d5 ~ ~ ~] [g4 ~ b4 ~ d5 ~ e5 d5 b4 ~ g4 ~ ~ ~] [fs4 ~ a4 ~ d5 ~ e5 ~ d5 fs5 ~ a5 ~ ~ ~]>" # s "hoRhodes" # orbit 3 # gain 0.44 # amp 0.5 # hpf 350 # lpf 4500 # cutoff 3800 # attack 0.02 # release 0.7 # sustain 0.45 # room 0.62 # size 0.9 # dry 0.6
 
 -- SHAKER: continuous 16ths - the glue.
 d9 $ sometimesBy 0.08 (fast 2) $ s "sh808(16,16)" # orbit 6 # gain 0.5 # hpf 6000 # lpf 12000 # pan 0.55 # dry 0.95 # room 0.1
