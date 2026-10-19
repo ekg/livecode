@@ -1,0 +1,37 @@
+-- title: 189 machine ambient dance
+-- D minor at 100 BPM. Electronic ambient dance: pads hold the space, a driving
+-- 16th bass carries the momentum, a bell melody phrases across it, an arp supplies
+-- machine motion, and a tight dry kit (kick/clap/hats) does the machine feel.
+--
+-- Rules carried over from 188:
+--   * samples for audible voices; synths run quiet at the same gain
+--   * orbits are the mixer - each family gets its own effect state
+--   * the master is a safety chain: keep ceiling-use under ~0.4
+--   * never `struct` a melodic figure (struct cuts events into slivers)
+--   * nudge/coprime lengths so layers don't all land on bar 1
+
+setcps (100/240)
+
+-- PADS: Dm9 / Bbmaj7 / Fmaj9 / C9. One chord per two bars, slow attack, long
+-- release. The ambient half of the piece.
+d1 $ slow 2 $ sometimesBy 0.1 (|+ note 12) $ note "<[d4,f4,a4,c5,e5] [bb3,d4,f4,a4,c5] [f3,a3,c4,e4,g4] [c3,e3,g3,bb3,d4]>" # s "superhammond" # orbit 0 # gain (slow 11 $ range 0.26 0.32 sine) # amp 0.42 # attack 1.0 # release 5 # sustain 0.8 # cutoff (slow 21 $ rangex 1200 2800 saw) # hpf 200 # lpf 5000 # pan (slow 17 $ range 0.45 0.55 sine) # room 0.85 # size 0.95 # dry 0.3 # nudge 0
+
+-- BASS: the drive. blip (sine w/ pitch env) on an 11-in-16 grid, written as 16ths
+-- with roots, fifths and octaves per chord. Rests carry the funk; the lpf sweep
+-- does the movement. Occasional ply 2/3 stutters for machine articulation.
+d2 $ sometimesBy 0.3 (ply "<2 3>") $ s "blip(11,16,2)" # note "<[d2 ~ d2 d2 ~ a1 d2 ~ f2 ~ d2 ~ a1 ~ d2 ~] [bb1 ~ bb1 bb1 ~ f2 bb1 ~ d2 ~ bb1 ~ f2 ~ bb1 ~] [f2 ~ f2 f2 ~ c2 f2 ~ a2 ~ f2 ~ c2 ~ f2 ~] [c2 ~ c2 c2 ~ g1 c2 ~ e2 ~ c2 ~ g1 ~ c2 ~]>" # orbit 1 # gain (slow 7 $ range 0.82 0.92 sine) # attack 0.005 # release 0.22 # sustain 0.6 # legato 1.0 # lpf (slow 5 $ rangex 260 620 saw) # hpf 35 # dry 0.9 # room 0.1
+
+-- MELODY: bell (sprvibe), one phrase per chord, masked so it arrives in waves
+-- rather than looping. Fits the harmony by construction - every note is a chord tone.
+d3 $ mask (slow 4 "<t f t t>") $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[d5 ~ f5 ~ a5 ~ g5 f5] [d5 ~ bb4 ~ d5 ~ c5 ~] [a4 ~ c5 ~ f5 ~ e5 c5] [g4 ~ c5 ~ e5 ~ d5 ~]>" # s "sprvibe" # n 0 # orbit 2 # gain (slow 9 $ range 0.24 0.33 sine) # hpf 800 # lpf 9000 # release 1.4 # sustain 0.4 # pan (slow 13 $ range 0.4 0.6 sine) # room 0.8 # size 0.95 # dry 0.35 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1
+
+-- HATS: 11-in-16, rotated, a hair behind the grid (nudge) - the swing lives here.
+d4 $ s "hh(11,16,2)" # orbit 7 # gain (slow 5 $ range 0.32 0.46 sine) # hpf 300 # room 0 # size 0.5 # dry 1 # nudge 0.012
+
+-- KIT: four-on-the-floor kick with a clap on the backbeat. Dry orbit, tight.
+d5 $ s "[bd(4,16,0), cp(2,16,2)]" # orbit 7 # gain 0.82 # hpf 40 # room 0 # size 0.5 # dry 1 # nudge 0.008
+
+-- MACHINE MOTION: plucked-string arp, 13-in-16 with a rotating rotation, fast 2,
+-- 1/32 strums, a 1/16 octave echo, into a dotted delay. 13 vs 5 => realigns every
+-- 65 bars, so the machine never repeats a figure you can name.
+d6 $ struct "t(13,16,<2 3 1 2 3>)" $ sometimesBy 0.2 (ply 2) $ stutWith 2 (1/32) (|* gain 0.7) $ off 0.0625 (|+ note 12) $ (|+ note (-12)) $ note (fast 2 $ arp "up" (slow 2 "<[d4,f4,a4,c5,e5] [bb3,d4,f4,a4,c5] [f3,a3,c4,e4,g4] [c3,e3,g3,bb3,d4]>")) # s "cp5" # orbit 5 # gain (slow 9 $ range 0.19 0.27 sine) # legato 1.2 # release 0.5 # sustain 0.3 # hpf 600 # lpf 9000 # pan (slow 11 $ range 0.42 0.58 sine) # room 0.6 # size 0.9 # dry 0.55 # delay (slow 5 $ range 0.5 0.7 saw) # delaytime (3/16) # delayfeedback (slow 7 $ range 0.45 0.65 sine) # lock 1
