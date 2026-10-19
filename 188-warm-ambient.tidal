@@ -17,10 +17,10 @@ setcps (60/240)
 -- attack 1.2 / release 6 so the chords overlap and breathe rather than pulse.
 d1 $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3,d4] [g3,b3,d4,f4,a4]>" # s "superhammond" # orbit 0 # gain (slow 11 $ range 0.27 0.35 sine) # amp 0.42 # attack 1.2 # release 6 # sustain 0.8 # cutoff (slow 21 $ rangex 1400 3200 saw) # hpf 150 # lpf 5200 # pan (slow 17 $ range 0.44 0.56 sine) # room 0.85 # size 0.95 # dry 0.3 # nudge 0
 
--- THE BASS. The organ's own pedal register: same warm voice as the pads, so the
--- low end is made of the same material rather than a foreign sample. Sparse rests
--- rather than struct -- struct cuts a figure into slivers and reads as machine-gun.
-d2 $ slow 2 $ note "<a2 ~ ~ a2 ~ ~ c3 ~ ~ ~ a2 ~ ~ ~ e2 ~>" # s "superhammond" # orbit 0 # gain (slow 7 $ range 0.42 0.52 sine) # attack 0.02 # release 0.7 # sustain 0.75 # cutoff 1100 # hpf 40 # lpf 800 # dry 0.85 # room 0.25 # size 0.7 # pan 0.5
+-- THE BASS. A pure sine (blip) living in 50-100 Hz: a1=55, c2=65, e2=82, so every
+-- note sits where a sub you can feel begins. lpf ~200-320 keeps it a sine rather
+-- than letting the blip's own harmonics through. Rests written out (~), never struct.
+d2 $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ note "<a1 ~ a1 ~ ~ a1 c2 ~ ~ a1 ~ e2 ~ ~ a1 ~>" # s "blip" # orbit 1 # gain (slow 7 $ range 0.55 0.68 sine) # attack 0.01 # release 0.35 # sustain 0.6 # legato 0.9 # lpf (slow 9 $ rangex 200 320 saw) # hpf 30 # pan 0.5 # dry 0.85 # room 0.15 # size 0.6
 
 -- THE DETAIL. Rhodes fragments: masked in and out over 8 bars, so the piece has
 -- long stretches of just harmony and then a phrase appears.
