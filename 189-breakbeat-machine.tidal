@@ -16,7 +16,7 @@ d1 $ sometimesBy 0.15 (|* speed (-1)) $ every 4 (striate 4) $ slice 16 "<0 4 9 2
 d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.76 # orbit 0 # gain (slow 11 $ range 0.14 0.2 sine) # hpf 120 # lpf 6000 # pan 0.58 # dry 0.9 # room 0.12
 
 -- KIT: kick and backbeat clap, dry, a hair late.
-d3 $ s "bd(4,16,0)" # orbit 7 # gain 0.55 # hpf 55 # lpf 6500 # dry 1 # nudge 0.012
+d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gain (slow 6 $ range 0.52 0.6 sine) # shape 0.25 # hpf 55 # lpf 4000 # release 0.085 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
 
 -- HATS.
 d4 $ s "hh(11,16,2)" # orbit 7 # gain (slow 6 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 1 # nudge 0.014
