@@ -63,9 +63,7 @@ d9 $ sometimesBy 0.08 (fast 2) $ s "sh808(16,16)" # orbit 6 # gain 0.5 # hpf 600
 d10 $ struct "<t(3,16,2) t(4,16,2)>" $ s "<jamblock guira>" # orbit 6 # gain 0.6 # hpf 1500 # lpf 9000 # pan (slow 15 $ range 0.32 0.68 sine) # dry 0.9 # room 0.2
 
 -- TEXTURE loop, way back.
--- d8 TEXTURE (lpmr loopAt 2): OFF. This was the once-every-2-bars RAARRR -
--- the loop restarts on that period and its own downbeat plus crush 12 roared.
--- d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain 0.2 # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
+d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain 0.2 # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
 
 -- 300 BREAKS: ~/samples/'300 breaks' symlinked as the sample folder pbrk300
 -- (SuperDirt names samples by FOLDER; the pbrk01-08 aliases never existed as banks). This is
