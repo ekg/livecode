@@ -1,0 +1,38 @@
+-- title: 189 breakbeat machine
+-- C minor at 112 BPM. Built from the vocabulary of 175-180: sliced breaks.
+-- 909/808 machine kit, dubsynth bass with drive and filter envelope, sweetChords,
+-- miLead melody, guira/jamblock percussion.
+--
+-- The difference from 188: 188 held still and drifted; this one is cut up.
+-- The break is the spine (slice + loopAt + speed), the machine kit is brittle
+-- and dry, and the bass is a real synth with drive rather than a filtered sine.
+
+setcps (112/240)
+
+-- THE SPINE: sliced p94brkA, swung, occasional backwards slices. The permutation
+-- is the arrangement - the break is never played in order.
+d1 $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "p94brkA" # speed 0.868 # orbit 0 # gain (slow 8 $ range 0.42 0.52 sine) # hpf 100 # lpf (slow 16 $ range 3000 7000 saw) # pan 0.5 # dry 0.85 # room 0.15
+
+-- FIRST BREAK LAYER: a second break, half speed, only in alternate halves.
+d2 $ mask "<t t f f t t f f>" $ every 7 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "p94brkB" # speed 0.46 # orbit 0 # gain (slow 11 $ range 0.16 0.24 sine) # hpf 120 # lpf 5200 # pan 0.58 # dry 0.9 # room 0.12
+
+-- MACHINE KIT: 909 kick with a rotating grid, dry.
+d3 $ struct "<t(4,4) t(4,4) t(4,4) t(5,16,2)>" $ s "rolandtr909:0" # orbit 7 # gain (slow 8 $ range 0.5 0.58 sine) # hpf 58 # lpf 4200 # release 0.08 # dry 1
+
+-- CLAP/SNARE: 909 clap on the backbeat, plus a second off-grid ghost.
+d4 $ stack [struct "f t f t" $ s "rolandtr909:4" # gain 0.42, sometimesBy 0.3 (struct "t(3,16,5)" $ s "rolandtr909:5" # gain 0.18 # pan 0.58)] # orbit 7 # gain (slow 25 $ range 0.36 0.46 sine) # hpf 360 # lpf 6800 # release 0.09 # dry 0.95 # room 0.1
+
+-- HATS: 16ths with a rotating low band - the machine's shimmer.
+d5 $ sometimesBy 0.12 (fast 2) $ every 3 (rotR (1/16)) $ s "rolandtr909:2(11,16,4)" # orbit 7 # gain (slow 12 $ range 0.11 0.17 sine) # hpf 6800 # lpf 12500 # pan (slow 7 $ range 0.4 0.62 sine) # release 0.035 # dry 1
+
+-- BASS: dubsynth - drive, filter env, sub. Syncopated with rests, follows the chords.
+d6 $ sometimesBy 0.18 (|+ note 12) $ sometimesBy 0.3 (stut 4 0.5 (1/16)) $ euclidOff 13 16 5 $ note "<c2 c2 eb2 c2 g1 c2 bb1 c2>" # s "dubsynth" # orbit 1 # gain (slow 9 $ range 0.5 0.6 sine) # waveMix 0.16 # subMix 0.4 # subTone 0.3 # cutoff (slow 13 $ range 420 680 saw) # fenv 1.8 # drive 0.2 # pitchEnv 0.14 # attack 0.006 # sustain 0.16 # release 0.11 # legato 0.95 # hpf 45 # dry 0.95
+
+-- CHORDS: Cm9 / Abmaj7 / Ebmaj9 / Bbm9, held and wide.
+d7 $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[c3,eb3,g3,bb3,d4] [ab2,c3,eb3,g3,bb3] [eb3,g3,bb3,d4,f4] [bb2,d3,f3,ab3,c4]>" # s "sweetChords" # orbit 2 # gain (slow 13 $ range 0.28 0.38 sine) # amp 0.35 # attack 0.3 # release 2.5 # sustain 0.6 # cutoff (slow 21 $ rangex 1800 3200 saw) # fmIndex 0.9 # sub 0.24 # width 0.7 # room 0.8 # size 0.9 # dry 0.35
+
+-- MELODY: miLead, masked into phrases so it arrives rather than loops.
+d8 $ mask "<t t f t t t f t>" $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ every 11 (within (0.5,1) (ply 2)) $ note "<[c5 ~ eb5 ~ g5 ~ f5 eb5] [c5 ~ ab4 ~ c5 ~ bb4 ~] [g4 ~ bb4 ~ eb5 ~ d5 bb4] [f4 ~ bb4 ~ d5 ~ c5 ~]>" # s "miLead" # orbit 3 # gain (slow 9 $ range 0.28 0.38 sine) # amp 0.5 # hpf 400 # lpf 6000 # attack 0.01 # release 0.35 # sustain 0.3 # pan (slow 13 $ range 0.42 0.58 sine) # room 0.6 # size 0.9 # dry 0.5 # delay 0.25 # delaytime (3/16) # delayfeedback 0.45 # lock 1
+
+-- PERC: guira + jamblock, off in their own space.
+d9 $ every 7 (rotR (1/8)) $ struct "t(7,16,5)" $ s "<guira jamblock>" # orbit 4 # gain (slow 15 $ range 0.12 0.18 sine) # hpf 1200 # lpf 9000 # pan (slow 11 $ range 0.25 0.75 sine) # release 0.05 # dry 1
