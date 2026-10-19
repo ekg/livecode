@@ -17,17 +17,17 @@
 setcps (108/240)
 
 -- THE SPINE: breaks125 sliced and scrambled, speed 0.864 = 108/125 so it stays in time.
-d1 $ sometimesBy 0.15 (|* speed (-1)) $ every 4 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain 0.62 # hpf 90 # lpf 7000 # pan 0.5 # dry 0.85 # room 0.15
+d1 $ sometimesBy 0.15 (|* speed (-1)) $ every 4 (striate 4) $ whenmod 16 14 (stutWith 2 0.0625 (|* gain 0.7)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain 0.62 # hpf 90 # lpf 7000 # pan 0.5 # dry 0.85 # room 0.15
 
 -- SECOND BREAK: amencutup half speed, masked in over 4 bars.
 d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.76 # orbit 0 # gain 0.28 # hpf 120 # lpf 6000 # pan 0.58 # dry 0.9 # room 0.12
 
 -- KICK: k808S, 4-on-floor alternating with a syncopated 5-in-16, shape for punch,
 -- nudge drifting 0-18ms on a 7-cycle cycle (micro-timing = feel).
-d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gain 0.72 # shape 0.25 # hpf 55 # lpf 4000 # release 0.085 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
+d3 $ sometimesBy 0.2 (ply 2) $ whenmod 8 6 (sometimesBy 0.5 (ply 3)) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gain 0.72 # shape 0.25 # hpf 55 # lpf 4000 # release 0.085 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
 
 -- HATS: 11-in-16, dry.
-d4 $ sometimesBy 0.18 (# delay 0.85) $ s "hh(11,16,2)" # orbit 7 # gain 0.34 # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 0.85 # room 0.35 # delaytime (3/16) # delayfeedback 0.65 # lock 1 # nudge 0.014
+d4 $ sometimesBy 0.25 (# delay 0.9) $ sometimesBy 0.1 (stutWith 3 0.03125 (|* gain 0.6)) $ s "hh(11,16,2)" # orbit 8 # gain 0.5 # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.35 0.65 sine) # dry 0.75 # room 0.45 # size 0.9 # delay 0.35 # delaytime (3/16) # delayfeedback 0.55 # lock 1 # nudge 0.014
 
 -- LOG DRUM BASS: the Amapiano engine. pitchEnv 0.35 = the glide, drive 0.22 = grit,
 -- rolling 16ths with rests so it breathes.
@@ -53,7 +53,8 @@ d10 $ struct "<t(3,16,2) t(4,16,2)>" $ s "<jamblock guira>" # orbit 6 # gain 0.6
 -- TEXTURE loop, way back.
 d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain 0.2 # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
 
--- 300 BREAKS: the pbrk01-04 aliases, chopped and reversed for transitions. This is
+-- 300 BREAKS: ~/samples/'300 breaks' symlinked as the sample folder pbrk300
+-- (SuperDirt names samples by FOLDER; the pbrk01-08 aliases never existed as banks). This is
 -- the dynamic layer - chop 8 every 5 cycles tears it open, backwards slices make
 -- the entry unpredictable.
-d13 $ sometimesBy 0.12 (fast 2) $ every 5 (chop 8) $ sometimesBy 0.2 (|* speed (-1)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk01 pbrk02 pbrk03 pbrk04>" # orbit 0 # gain 0.45 # hpf 100 # lpf 8000 # pan 0.42 # dry 0.85 # room 0.15
+d13 $ sometimesBy 0.12 (fast 2) $ every 5 (chop 8) $ sometimesBy 0.2 (|* speed (-1)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:0 pbrk300:1 pbrk300:2 pbrk300:3>" # orbit 0 # gain 0.45 # hpf 100 # lpf 8000 # pan 0.42 # dry 0.85 # room 0.15
