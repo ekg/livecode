@@ -1,34 +1,40 @@
--- 188 — WARM AMBIENT. 60 BPM, A minor. No percussion at all: it is harmony, drones, and space.
+-- title: 188 warm ambient
+-- A minor ambient bed: organ + strings hold the harmony, a bowed-string drone
+-- defines the root, Rhodes fragments and glass air supply the sparse detail,
+-- and a clean plucked-string arp supplies all of the motion.
 --
--- Stock Tidal. Orbits -> hardware through the minimal master; orbit FX are the stock
--- dirt_delay -> dirt_reverb -> dirt_monitor, so warmth has to come from VOICES and ENVELOPES
--- rather than from a magic master setting.
---
--- WHY IT IS WARM, concretely:
---   * voices chosen for body not edge: superhammond (organ), orkRhodes/hoRhodes (tine), cb3/cb4
---     (bowed strings from sc/samples115.scd), sprvibe (glass) — no saw, no PWM, nothing with a
---     hard attack
---   * long envelopes: attack 1.2-2.5 s, release 4-8 s. Slow attacks are the single biggest
---     contributor to "warm" — they remove the transient that reads as brightness
---   * filters low and static-ish: lpf 2000-5000, not sweeping highs
---   * minor ninths and no thirds in the bass: Am9 / Fmaj9 / Cmaj9 / G9, i-VI-III-VII
---   * everything wet: room 0.75-0.95, size 0.95, dry 0.25-0.35, plus a long delay on orbit 2
---   * a tempo slow enough that chords overlap: 60 BPM, one chord per TWO bars = 8 s per chord,
---     with 4-8 s releases the harmony never stops sounding
---
--- ORBITS: 0 pad/harmony | 1 drone (bowed, dry-ish so the low end stays defined) | 2 melody +
--- glass into the long delay.
+-- House rules this piece follows (learned the hard way):
+--   * wavelengths: samples for audible voices, synths where the synth IS the sound
+--   * pitch by source, not by transposition: arp sits where cp5 naturally lives
+--   * envelope decides character: all chord voices have slow attacks
+--   * orbits are the mixer: each family gets its own effect state
+--   * nudge + coprime lengths so the layers never all land on bar 1
+--   * the master is a safety chain, not a mixer: watch ceiling-use, keep < ~0.4
+
 setcps (60/240)
 
--- HARMONY: superhammond, one chord per two bars, attack 1.2 / release 6. Warm and continuous.
-d1 $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3,d4] [g3,b3,d4,f4,a4]>" # s "superhammond" # orbit 0 # gain (slow 11 $ range 0.34 0.44 sine) # amp 0.42 # attack 1.2 # release 6 # sustain 0.8 # cutoff (slow 21 $ rangex 1400 3200 saw) # hpf 150 # lpf 5200 # pan (slow 17 $ range 0.44 0.56 sine) # room 0.85 # size 0.95 # dry 0.3
+-- THE HARMONY. Am9 / Fmaj9 / Cmaj9 / G9, one chord per TWO cycles (8 s),
+-- attack 1.2 / release 6 so the chords overlap and breathe rather than pulse.
+d1 $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3,d4] [g3,b3,d4,f4,a4]>" # s "superhammond" # orbit 0 # gain (slow 11 $ range 0.27 0.35 sine) # amp 0.42 # attack 1.2 # release 6 # sustain 0.8 # cutoff (slow 21 $ rangex 1400 3200 saw) # hpf 150 # lpf 5200 # pan (slow 17 $ range 0.44 0.56 sine) # room 0.85 # size 0.95 # dry 0.3 # nudge 0
 
--- DRONE: bowed strings (cb3/cb4 from samples115) holding the root, near-dry so the bottom stays
--- readable under all that reverb.
-d2 $ slow 4 $ note "<a1 f1 c2 g1>" # s "<cb3 cb4>" # orbit 1 # gain (slow 13 $ range 0.3 0.4 sine) # hpf 60 # lpf 1800 # pan 0.5 # room 0.25 # size 0.7 # dry 0.8 # release 3
+-- THE BASS. The organ's own pedal register: same warm voice as the pads, so the
+-- low end is made of the same material rather than a foreign sample. Sparse rests
+-- rather than struct -- struct cuts a figure into slivers and reads as machine-gun.
+d2 $ slow 2 $ note "<a2 ~ ~ a2 ~ ~ c3 ~ ~ ~ a2 ~ ~ ~ e2 ~>" # s "superhammond" # orbit 0 # gain (slow 7 $ range 0.42 0.52 sine) # attack 0.02 # release 0.7 # sustain 0.75 # cutoff 1100 # hpf 40 # lpf 800 # dry 0.85 # room 0.25 # size 0.7 # pan 0.5
 
--- WARM MELODY: orkRhodes fragments, sparse and phrased, an octave above the pad, into the delay.
-d3 $ mask (slow 8 "<t f t f>") $ slow 4 $ degradeBy 0.25 $ sometimesBy 0.15 (|+ note 12) $ note "<e5 ~ ~ a4 ~ c5 ~ ~ b4 ~ g4 ~ e4 ~ ~ ~ a4 ~ c5 ~ e5 ~ ~ d5 ~ b4 ~ a4 ~ ~ ~>" # s "orkRhodes" # orbit 2 # gain (slow 9 $ range 0.26 0.36 sine) # amp 0.45 # attack 0.35 # release 3 # sustain 0.6 # cutoff 3000 # hpf 300 # lpf 4600 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.4 # delay 0.4 # delaytime (3/8) # delayfeedback 0.55 # lock 1
+-- THE DETAIL. Rhodes fragments: masked in and out over 8 bars, so the piece has
+-- long stretches of just harmony and then a phrase appears.
+d3 $ mask (slow 8 "<t f t f>") $ slow 4 $ degradeBy 0.25 $ sometimesBy 0.15 (|+ note 12) $ note "<e5 ~ ~ a4 ~ c5 ~ ~ b4 ~ g4 ~ e4 ~ ~ ~ a4 ~ c5 ~ e5 ~ ~ d5 ~ b4 ~ a4 ~ ~ ~>" # s "orkRhodes" # orbit 2 # gain (slow 9 $ range 0.55 0.75 sine) # amp 0.5 # attack 0.35 # release 3 # sustain 0.6 # cutoff 3000 # hpf 300 # lpf 4600 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.4 # delay 0.4 # delaytime (3/8) # delayfeedback 0.55 # lock 1
 
--- AIR: glass fragments, very quiet, long delay — the top of the space rather than a voice in it.
-d4 $ slow 8 $ degradeBy 0.5 $ every 5 (within (0.5,1) (rev)) $ note "<a5 ~ ~ e5 ~ ~ c6 ~ ~ g5 ~ ~ e5 ~ ~ ~>" # s "sprvibe" # n 0 # orbit 2 # gain (slow 23 $ range 0.08 0.16 sine) # hpf 900 # lpf 9000 # release 2.5 # sustain 0.4 # pan (slow 7 $ range 0.3 0.7 sine) # room 0.9 # size 0.98 # dry 0.2 # delay 0.45 # delaytime (3/8) # delayfeedback 0.6 # lock 1
+-- AIR: glass fragments, the top of the space rather than a voice in it.
+d4 $ slow 8 $ degradeBy 0.5 $ every 5 (within (0.5,1) (rev)) $ note "<a5 ~ ~ e5 ~ ~ c6 ~ ~ g5 ~ ~ e5 ~ ~ ~>" # s "sprvibe" # n 0 # orbit 3 # gain (slow 23 $ range 0.3 0.45 sine) # hpf 900 # lpf 9000 # release 2.5 # sustain 0.4 # pan (slow 7 $ range 0.3 0.7 sine) # room 0.9 # size 0.98 # dry 0.2 # delay 0.45 # delaytime (3/8) # delayfeedback 0.6 # lock 1
+
+-- STRINGS. Same chords, different instrument and a coprime length: three cycles
+-- per chord against the organ's two, so the changes only realign every six bars.
+d5 $ slow 3 $ sometimesBy 0.1 (|+ note 12) $ note "<[a3,c4,e4,g4] [f3,a3,c4,e4] [c3,e3,g3,b3] [g3,b3,d4,f4]>" # s "mars_synths_ArpOmni_Long" # n 0 # orbit 0 # gain (slow 13 $ range 0.18 0.27 sine) # hpf 200 # lpf 3400 # attack 0.8 # release 5 # sustain 0.7 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.9 # size 0.98 # dry 0.25 # nudge 0.33
+
+-- THE MOTION. A clean plucked-string arp on its own orbit, descending an octave
+-- so each chord climbs from the bottom of the voicing. All the rhythmic interest
+-- is generated: 13-in-16 grid with a rotating rotation, fast 3 (triplets), 1/32
+-- strums, a 1/16 octave echo and a 3/16 ghost, into a dotted-half delay line.
+d7 $ struct "t(13,16,<2 3 1 2 3>)" $ every 5 (iter 3) $ sometimesBy 0.2 (ply 2) $ stutWith 2 (1/32) (|* gain 0.75) $ sometimesBy 0.25 (stut 4 0.6 (1/32)) $ off 0.0625 (|+ note 12) $ off 0.1875 (|* gain 0.55) $ sometimesBy 0.15 (rev) $ (|+ note (-12)) $ note (fast 3 $ arp "up" (slow 2 "<[a4,c5,e5,g5,b5] [f4,a4,c5,e5,g5] [c4,e4,g4,b4,d5] [g4,b4,d5,f5,a5]>")) # s "cp5" # orbit 5 # gain (slow 9 $ range 0.26 0.36 sine) # legato 1.3 # release 0.6 # sustain 0.3 # hpf 700 # lpf 8000 # pan (slow 11 $ range 0.42 0.58 sine) # room 0.72 # size 0.92 # dry 0.5 # delay (slow 5 $ range 0.6 0.8 saw) # delaytime (3/16) # delayfeedback (slow 7 $ range 0.5 0.72 sine) # lock 1
