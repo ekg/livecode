@@ -1,40 +1,48 @@
 -- title: 188 warm ambient
--- A minor ambient bed: organ + strings hold the harmony, a bowed-string drone
--- defines the root, Rhodes fragments and glass air supply the sparse detail,
--- and a clean plucked-string arp supplies all of the motion.
+-- A minor. Warm chords hold the harmony, a filtered sine bass and a plucked-string
+-- arp supply the drive, and a dry downbeat kit keeps time. Sparse detail on top.
 --
--- House rules this piece follows (learned the hard way):
---   * wavelengths: samples for audible voices, synths where the synth IS the sound
---   * pitch by source, not by transposition: arp sits where cp5 naturally lives
---   * envelope decides character: all chord voices have slow attacks
---   * orbits are the mixer: each family gets its own effect state
+-- The rules this piece follows, each learned the hard way tonight:
+--   * samples for audible voices; synths run quieter at the same gain
+--   * pitch by source, not transposition (cp5 sits where it naturally lives)
+--   * envelope decides character: slow attacks for the chord bed
+--   * orbits are the mixer, each family with its own effect state
 --   * nudge + coprime lengths so the layers never all land on bar 1
---   * the master is a safety chain, not a mixer: watch ceiling-use, keep < ~0.4
+--   * the master is a safety chain, not a mixer: keep ceiling-use under ~0.4
+--   * never `struct` a melodic figure - struct CUTS events, it doesn't place them,
+--     so a 4-note line becomes eleven slivers. Write rests (~) instead.
 
 setcps (60/240)
 
--- THE HARMONY. Am9 / Fmaj9 / Cmaj9 / G9, one chord per TWO cycles (8 s),
--- attack 1.2 / release 6 so the chords overlap and breathe rather than pulse.
+-- THE HARMONY: Am9 / Fmaj9 / Cmaj9 / G9. One chord per two cycles (8 s) with
+-- attack 1.2 / release 6, so the chords overlap and breathe rather than pulse.
 d1 $ slow 2 $ sometimesBy 0.12 (|+ note 12) $ note "<[a3,c4,e4,g4,b4] [f3,a3,c4,e4,g4] [c3,e3,g3,b3,d4] [g3,b3,d4,f4,a4]>" # s "superhammond" # orbit 0 # gain (slow 11 $ range 0.27 0.35 sine) # amp 0.42 # attack 1.2 # release 6 # sustain 0.8 # cutoff (slow 21 $ rangex 1400 3200 saw) # hpf 150 # lpf 5200 # pan (slow 17 $ range 0.44 0.56 sine) # room 0.85 # size 0.95 # dry 0.3 # nudge 0
 
--- THE BASS. A pure sine (blip) living in 50-100 Hz: a1=55, c2=65, e2=82, so every
--- note sits where a sub you can feel begins. lpf ~200-320 keeps it a sine rather
--- than letting the blip's own harmonics through. Rests written out (~), never struct.
-d2 $ slow 2 $ sometimesBy 0.15 (|+ note 12) $ note "<a1 ~ a1 ~ ~ a1 c2 ~ ~ a1 ~ e2 ~ ~ a1 ~>" # s "blip" # orbit 1 # gain (slow 7 $ range 0.55 0.68 sine) # attack 0.01 # release 0.35 # sustain 0.6 # legato 0.9 # lpf (slow 9 $ rangex 200 320 saw) # hpf 30 # pan 0.5 # dry 0.85 # room 0.15 # size 0.6
+-- THE BASS: blip (SuperDirt's sine with a pitch envelope - it reads `note`, plain
+-- `sine` does not exist in this stack). lpf 70 means only a1=55, b1=62 and c2=65
+-- survive, so this is a sub pulse on the root and fifth rather than a melody.
+-- 7-in-8 euclid on `s`, doubled everywhere and tripled roughly once in seven cycles.
+-- Every note is written INSIDE the filter's passband, so nothing gets cut.
+d2 $ sometimesBy 0.35 (ply "<2 2 2 2 2 2 3>") $ s "blip(7,8)" # note "<[a1 ~ a1 c2 ~ a1 e2 c2 ~] [f2 ~ f2 a1 ~ f2 c2 a1 ~] [c2 ~ c2 e2 ~ c2 g2 e2 ~] [g2 ~ g2 b1 ~ g2 d2 b1 ~]>" # orbit 1 # gain (slow 7 $ range 0.85 0.95 sine) # attack 0.008 # release 0.45 # sustain 0.7 # legato 1.1 # lpf 70 # hpf 25 # dry 0.9 # room 0.1
 
--- THE DETAIL. Rhodes fragments: masked in and out over 8 bars, so the piece has
--- long stretches of just harmony and then a phrase appears.
+-- THE DETAIL: Rhodes fragments, masked in and out over 8 bars, so the piece has
+-- long stretches of harmony alone and then a phrase appears.
 d3 $ mask (slow 8 "<t f t f>") $ slow 4 $ degradeBy 0.25 $ sometimesBy 0.15 (|+ note 12) $ note "<e5 ~ ~ a4 ~ c5 ~ ~ b4 ~ g4 ~ e4 ~ ~ ~ a4 ~ c5 ~ e5 ~ ~ d5 ~ b4 ~ a4 ~ ~ ~>" # s "orkRhodes" # orbit 2 # gain (slow 9 $ range 0.55 0.75 sine) # amp 0.5 # attack 0.35 # release 3 # sustain 0.6 # cutoff 3000 # hpf 300 # lpf 4600 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.4 # delay 0.4 # delaytime (3/8) # delayfeedback 0.55 # lock 1
 
 -- AIR: glass fragments, the top of the space rather than a voice in it.
 d4 $ slow 8 $ degradeBy 0.5 $ every 5 (within (0.5,1) (rev)) $ note "<a5 ~ ~ e5 ~ ~ c6 ~ ~ g5 ~ ~ e5 ~ ~ ~>" # s "sprvibe" # n 0 # orbit 3 # gain (slow 23 $ range 0.3 0.45 sine) # hpf 900 # lpf 9000 # release 2.5 # sustain 0.4 # pan (slow 7 $ range 0.3 0.7 sine) # room 0.9 # size 0.98 # dry 0.2 # delay 0.45 # delaytime (3/8) # delayfeedback 0.6 # lock 1
 
--- STRINGS. Same chords, different instrument and a coprime length: three cycles
+-- STRINGS: same chords, different instrument and a coprime length - three cycles
 -- per chord against the organ's two, so the changes only realign every six bars.
 d5 $ slow 3 $ sometimesBy 0.1 (|+ note 12) $ note "<[a3,c4,e4,g4] [f3,a3,c4,e4] [c3,e3,g3,b3] [g3,b3,d4,f4]>" # s "mars_synths_ArpOmni_Long" # n 0 # orbit 0 # gain (slow 13 $ range 0.18 0.27 sine) # hpf 200 # lpf 3400 # attack 0.8 # release 5 # sustain 0.7 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.9 # size 0.98 # dry 0.25 # nudge 0.33
 
--- THE MOTION. A clean plucked-string arp on its own orbit, descending an octave
--- so each chord climbs from the bottom of the voicing. All the rhythmic interest
--- is generated: 13-in-16 grid with a rotating rotation, fast 3 (triplets), 1/32
--- strums, a 1/16 octave echo and a 3/16 ghost, into a dotted-half delay line.
+-- THE MOTION: a clean plucked-string arp on its own orbit. All the rhythmic
+-- interest is generated - 13-in-16 grid with a rotating rotation (13 and 5 are
+-- coprime, so the figure realigns only every 65 bars), fast 3 for triplets, 1/32
+-- strums, a 1/16 octave echo and a 3/16 ghost, into a dotted delay line.
 d7 $ struct "t(13,16,<2 3 1 2 3>)" $ every 5 (iter 3) $ sometimesBy 0.2 (ply 2) $ stutWith 2 (1/32) (|* gain 0.75) $ sometimesBy 0.25 (stut 4 0.6 (1/32)) $ off 0.0625 (|+ note 12) $ off 0.1875 (|* gain 0.55) $ sometimesBy 0.15 (rev) $ (|+ note (-12)) $ note (fast 3 $ arp "up" (slow 2 "<[a4,c5,e5,g5,b5] [f4,a4,c5,e5,g5] [c4,e4,g4,b4,d5] [g4,b4,d5,f5,a5]>")) # s "cp5" # orbit 5 # gain (slow 9 $ range 0.26 0.36 sine) # legato 1.3 # release 0.6 # sustain 0.3 # hpf 700 # lpf 8000 # pan (slow 11 $ range 0.42 0.58 sine) # room 0.72 # size 0.92 # dry 0.5 # delay (slow 5 $ range 0.6 0.8 saw) # delaytime (3/16) # delayfeedback (slow 7 $ range 0.5 0.72 sine) # lock 1
+
+-- THE BEAT: dry on its own orbit so nothing from the melodic side can touch it.
+-- 3-in-8 kick, 2-in-8 snare, 7-in-16 hat, a hair late (nudge 0.015). The hpf
+-- keeps it out of the bass's way - both want the 50-70 Hz octave.
+d6 $ s "[bd(3,8,1), sd(2,8,1), hh(7,16,2)]" # orbit 7 # gain 0.688 # hpf 40 # room 0 # size 0.5 # dry 1 # nudge 0.015
