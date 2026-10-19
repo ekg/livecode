@@ -22,12 +22,10 @@ d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gai
 d4 $ s "hh(11,16,2)" # orbit 7 # gain (slow 6 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 1 # nudge 0.014
 
 -- BASS: dubsub on the E-minor roots.
-d5 $ sometimesBy 0.2 (|+ note 12) $ euclidOff 13 16 5 $ note "<e2 e2 g2 e2 b1 e2 d2 e2>" # s "dubsub" # orbit 1 # gain (slow 7 $ range 0.465 0.556 sine) # amp 0.8 # drive 0.15 # pitchEnv 0.12 # legato 1.0 # sustain 0.3 # release 0.15 # hpf 45 # dry 0.95
 
 -- THE HOOK: same FEEL as the bass - euclidOff 11 16 3, so the phrasing comes from
 -- the grid rather than from note placement. The note sequence is sampled at the
 -- euclid's points, which is why it flows instead of going bing-bing-bing.
-d6 $ sometimesBy 0.15 (|+ note 12) $ euclidOff 11 16 3 $ note "<[e5 g5 b5 e5 d5 b4 g4] [d5 fs5 a5 d5 c5 a4 fs4] [c5 e5 g5 c5 b4 g4 e4] [b4 d5 fs5 b4 a4 fs4 d4]>" # s "hoRhodes" # orbit 3 # gain (slow 9 $ range 0.34 0.44 sine) # amp 0.5 # hpf 350 # lpf 4500 # cutoff 3800 # attack 0.02 # release 0.45 # sustain 0.4 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.55 # size 0.9 # dry 0.7
 
 -- CHORDS: Em / C / G / D, clean hoRhodes.
 d7 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain (slow 13 $ range 0.28 0.36 sine) # amp 0.4 # attack 0.3 # release 2.0 # sustain 0.6 # cutoff 3200 # room 0.7 # size 0.9 # dry 0.4
