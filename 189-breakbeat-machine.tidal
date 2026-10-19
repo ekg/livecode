@@ -50,7 +50,7 @@ d6 $ sometimesBy 0.12 (|* gain 0.3) $ every 11 (fast 2) $ sometimesBy 0.1 (|+ no
 -- leaves and the melody fills the hole. That is the coherency, not shared notes.
 
 -- CHORDS: Em / C / G / D held over 2 bars.
-d7 $ slow 2 $ sometimesBy 0.1 (|* gain 0.35) $ every 13 (fast 2) $ sometimesBy 0.06 (off 0.125 (|* gain 0.5)) $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 1.0 # amp 0.8 # attack 0.2 # release 2.6 # sustain 0.75 # cutoff 4200 # room 0.45 # size 0.85 # dry 0.75
+d7 $ slow 2 $ sometimesBy 0.1 (|* gain 0.35) $ every 13 (fast 2) $ sometimesBy 0.06 (off 0.125 (|* gain 0.5)) $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.68 # amp 0.6 # attack 0.7 # release 2.6 # sustain 0.6 # cutoff 3200 # hpf 200 # room 0.45 # size 0.85 # dry 0.75
 
 -- THE MELODY: euclidOff 11/16/3 - the same mechanism as the bass, so the line
 -- flows instead of going bing-bing-bing. The note sequence is sampled at the grid's
