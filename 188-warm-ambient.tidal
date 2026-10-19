@@ -30,7 +30,10 @@ d2 $ sometimesBy 0.35 (ply "<2 2 2 2 2 2 3>") $ s "blip(7,8)" # note "<[a1 ~ a1 
 d3 $ mask (slow 8 "<t f t f>") $ slow 4 $ degradeBy 0.25 $ sometimesBy 0.15 (|+ note 12) $ note "<e5 ~ ~ a4 ~ c5 ~ ~ b4 ~ g4 ~ e4 ~ ~ ~ a4 ~ c5 ~ e5 ~ ~ d5 ~ b4 ~ a4 ~ ~ ~>" # s "orkRhodes" # orbit 2 # gain (slow 9 $ range 0.55 0.75 sine) # amp 0.5 # attack 0.35 # release 3 # sustain 0.6 # cutoff 3000 # hpf 300 # lpf 4600 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.4 # delay 0.4 # delaytime (3/8) # delayfeedback 0.55 # lock 1
 
 -- AIR: glass fragments, the top of the space rather than a voice in it.
-d4 $ slow 8 $ degradeBy 0.5 $ every 5 (within (0.5,1) (rev)) $ note "<a5 ~ ~ e5 ~ ~ c6 ~ ~ g5 ~ ~ e5 ~ ~ ~>" # s "sprvibe" # n 0 # orbit 3 # gain (slow 23 $ range 0.3 0.45 sine) # hpf 900 # lpf 9000 # release 2.5 # sustain 0.4 # pan (slow 7 $ range 0.3 0.7 sine) # room 0.9 # size 0.98 # dry 0.2 # delay 0.45 # delaytime (3/8) # delayfeedback 0.6 # lock 1
+-- SILENCED BY DEFAULT: on strong moments gain (0.45) + delay 0.6 feedback + size 0.98
+-- reverb stacked into audible swells. To bring it back, uncomment and start with
+-- gain 0.16-0.26, degradeBy 0.75 and delay 0.2.
+-- d4 $ slow 8 $ degradeBy 0.5 $ every 5 (within (0.5,1) (rev)) $ note "<a5 ~ ~ e5 ~ ~ c6 ~ ~ g5 ~ ~ e5 ~ ~ ~>" # s "sprvibe" # n 0 # orbit 3 # gain (slow 23 $ range 0.3 0.45 sine) # hpf 900 # lpf 9000 # release 2.5 # sustain 0.4 # pan (slow 7 $ range 0.3 0.7 sine) # room 0.9 # size 0.98 # dry 0.2 # delay 0.45 # delaytime (3/8) # delayfeedback 0.6 # lock 1
 
 -- STRINGS: same chords, different instrument and a coprime length - three cycles
 -- per chord against the organ's two, so the changes only realign every six bars.
