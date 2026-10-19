@@ -22,7 +22,7 @@ d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gai
 d4 $ s "hh(11,16,2)" # orbit 7 # gain (slow 6 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 1 # nudge 0.014
 
 -- BASS: dubsub on the E-minor roots.
-d5 $ sometimesBy 0.2 (|+ note 12) $ euclidOff 13 16 5 $ note "<e2 e2 g2 e2 b1 e2 d2 e2>" # s "dubsub" # orbit 1 # gain (slow 7 $ range 0.45 0.54 sine) # amp 0.8 # drive 0.15 # pitchEnv 0.12 # legato 1.0 # sustain 0.3 # release 0.15 # hpf 45 # dry 0.95
+d5 $ sometimesBy 0.2 (|+ note 12) $ euclidOff 13 16 5 $ note "<e2 e2 g2 e2 b1 e2 d2 e2>" # s "dubsub" # orbit 1 # gain (slow 7 $ range 0.465 0.556 sine) # amp 0.8 # drive 0.15 # pitchEnv 0.12 # legato 1.0 # sustain 0.3 # release 0.15 # hpf 45 # dry 0.95
 
 -- THE HOOK: same FEEL as the bass - euclidOff 11 16 3, so the phrasing comes from
 -- the grid rather than from note placement. The note sequence is sampled at the
@@ -34,3 +34,13 @@ d7 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>"
 
 -- TEXTURE loop.
 d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain (slow 17 $ range 0.08 0.14 sine) # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
+
+-- POLYRHYTHMIC EXPANSION: three weird machine voices on odd grids. 7-in-16 rotates
+-- every 5 bars, 5-in-12 every 3 (a 12-step measure against 16ths), and 3-in-7
+-- every 9. None of these periods divide each other, so the layers drift through
+-- each other instead of locking.
+d9 $ every 5 (rotR (1/16)) $ every 7 (fast 2) $ sometimesBy 0.25 (# crush 9) $ struct "t(7,16,3)" $ s "<oberheimDMX:5 mfb512:3 rhythmAce:2>" # orbit 6 # gain 0.16 # hpf 1200 # lpf 8000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.9 # room 0.25
+
+d10 $ every 3 (rotR (1/8)) $ sometimesBy 0.3 (# shape 0.4) $ struct "t(5,12)" $ s "<korgMinipops:3 moogConcertMateMG1:2>" # orbit 6 # gain 0.13 # hpf 2000 # lpf 9000 # pan (slow 17 $ range 0.7 0.3 sine) # dry 0.85 # room 0.3
+
+d11 $ every 9 (rotR (1/16)) $ degradeBy 0.3 $ euclidOff 3 7 1 $ s "doepferMS404:2" # orbit 6 # gain 0.1 # hpf 2500 # lpf 7000 # pan (slow 19 $ range 0.5 0.2 sine) # dry 0.8 # room 0.35
