@@ -19,7 +19,7 @@ setcps (108/240)
 -- THE SPINE: breaks125 sliced, gain-patterned, reversed in 4-chunk blocks on 25% of
 -- cycles, striate 4 every 4th, stutter fill every 16th. lpf 9000 + room 0.06 to keep
 -- the slices CLEAR rather than washy; the gain pattern is what gives it grain.
-d1 $ sometimesBy 0.25 (chunk 4 (|* speed (-1))) $ every 4 (striate 4) $ whenmod 16 14 (stutWith 2 0.0625 (|* gain 0.7)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain "<0.62 0.45 0.7 0.5 0.66 0.42 0.72 0.55>" # hpf 120 # lpf 9000 # pan 0.5 # dry 0.92 # room 0.06
+d1 $ sometimesBy 0.25 (chunk 4 (|* speed (-1))) $ every 4 (striate 4) $ whenmod 16 14 (stutWith 2 0.0625 (|* gain 0.7)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain "<0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.05 0.72 0.62>" # crush "<16 16 16 16 16 16 16 16 16 16 16 16 16 16 6 16>" # hpf 120 # lpf 9000 # pan 0.5 # dry 0.92 # room 0.06
 
 -- SECOND BREAK: amencutup half speed, masked in over 4 bars.
 d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.76 # orbit 0 # gain 0.28 # hpf 120 # lpf 6000 # pan 0.58 # dry 0.9 # room 0.12
@@ -27,7 +27,7 @@ d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 
 -- TOM in the KICK's slot: t808Lo with the same modulation (4/4 vs 5-in-16, ply, drift)
 -- but hpf 120 / lpf 5000 / shape 0.12 - the tom range is gentler than a k808S kick.
 -- nudge drifting 0-18ms on a 7-cycle cycle (micro-timing = feel).
-d3 $ sometimesBy 0.2 (ply 2) $ whenmod 8 6 (sometimesBy 0.5 (ply 3)) $ s "<t808Lo(4,16,0) t808Lo(5,16,3)>" # orbit 7 # gain 0.85 # shape 0.12 # hpf 90 # lpf 5000 # pan (slow 9 $ range 0.44 0.56 sine) # release 0.12 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
+d3 $ sometimesBy 0.2 (ply 2) $ whenmod 8 6 (sometimesBy 0.5 (ply 3)) $ s "<t808Lo(4,16,0) t808Lo(5,16,3)>" # orbit 7 # gain "<0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.85 0.06 0.95 0.85>" # crush "<16 16 16 16 16 16 16 16 16 16 16 16 16 16 6 16>" # shape 0.12 # hpf 90 # lpf 5000 # pan (slow 9 $ range 0.44 0.56 sine) # release 0.12 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
 
 -- HATS: 11-in-16, dry.
 d4 $ sometimesBy 0.25 (# delay 0.9) $ sometimesBy 0.1 (stutWith 3 0.03125 (|* gain 0.6)) $ s "hh(11,16,2)" # orbit 8 # gain 0.5 # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.35 0.65 sine) # dry 0.75 # room 0.45 # size 0.9 # delay 0.35 # delaytime (3/16) # delayfeedback 0.55 # lock 1 # nudge 0.014
@@ -39,7 +39,7 @@ d4 $ sometimesBy 0.25 (# delay 0.9) $ sometimesBy 0.1 (stutWith 3 0.03125 (|* ga
 d5 $ sometimesBy 0.15 (|+ note 12) $ note "<[e2 ~ ~ e2 ~ ~ ~ ~] [~ c2 ~ e2 ~ g2 ~ e2] [~ g1 ~ b1 ~ d2 ~ b1] [~ d2 ~ fs2 ~ a2 ~ d2]>" # s "dubsub" # orbit 1 # gain 0.72 # amp 0.9 # drive 0.0 # pitchEnv 0.15 # waveMix 0.0 # subMix 0.55 # cutoff 300 # fenv 1.2 # legato 1.3 # sustain 0.5 # release 0.25 # hpf 35 # dry 0.95 # nudge 0.02
 
 -- OFFBEAT CHORD SKANK: every second 16th - occupies the log drum's gaps exactly.
-d6 $ sometimesBy 0.12 (|* gain 0.3) $ every 11 (fast 2) $ sometimesBy 0.1 (|+ note 12) $ struct "t(8,16,1)" $ note "<[e4,g4,b4] [e4,g4,b4] [d4,fs4,a4] [d4,fs4,a4]>" # s "hoRhodes" # orbit 3 # gain 0.5 # amp 0.5 # hpf 400 # lpf 5000 # attack 0.005 # release 0.18 # sustain 0.2 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.5 # size 0.9 # dry 0.7
+d6 $ sometimesBy 0.12 (|* gain 0.3) $ every 11 (fast 2) $ sometimesBy 0.1 (|+ note 12) $ struct "t(8,16,1)" $ note "<[e4,g4,b4] [e4,g4,b4] [d4,fs4,a4] [d4,fs4,a4]>" # s "hoRhodes" # orbit 3 # gain "<0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.04 0.62 0.5>" # crush "<16 16 16 16 16 16 16 16 16 16 16 16 16 16 6 16>" # amp 0.5 # hpf 400 # lpf 5000 # attack 0.005 # release 0.18 # sustain 0.2 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.5 # size 0.9 # dry 0.7
 
 -- SHARED STRUTS: d5 bass is masked <t t t f f t t t>, d12 melody <f f f t t f f f>,
 -- d6 skank <t t t t t t t f>. Same 8-cycle phrase, complementary slots, so the bass
