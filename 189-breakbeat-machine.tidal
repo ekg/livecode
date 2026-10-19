@@ -1,50 +1,54 @@
 -- title: 189 breakbeat machine
--- E minor at 108 BPM. Breakbeat-led: breaks125 (speed 0.864 so it still sits in
--- time at 108), amencutup underneath, lpmr texture. ONE hook - the same rising
--- triad shape on each chord, on sprvibe (soft bell) instead of piano.
+-- E minor, 108 BPM. Amapiano-inflected: everything shares ONE 16th grid, and the
+-- layers divide it up rather than each running its own cycle. That is what makes
+-- it a groove instead of random hits.
 --
--- Key change: was C minor (Cm/Ab/Eb/Bb), now E minor (Em/C/G/D) - up 4 semitones.
+-- Roles on the grid (x = hit):
+--   shaker     xxxxxxxxxxxxxxxx    continuous - the pulse everything is heard against
+--   log drum   x..x..x.x..x.xx.    the engine, pitchEnv glide, drive
+--   skank      .x.x.x.x.x.x.x.x    fills exactly the log drum's gaps
+--   kick       x...x...x...x...    sparse skeleton (alternates to a 5-in-16)
+--   perc       x.x..x..x.x..x..    fixed interlock, NOT a free euclid
+--   melody     euclidOff 11/16/3  phrasing from the grid, sampled note sequence
+--
+-- LEVELS: audible percussion/melody lives at 0.35-0.8 here. The 0.10-0.16 gains in
+-- 175-180 were for 16-lane mixes; copying them into 10 lanes made a wall of quiet.
 
 setcps (108/240)
 
--- THE SPINE: breaks125 sliced and scrambled. speed 0.864 = 108/125, so the break
--- stays in time at the new tempo. Pulled back to 0.38 - the low toms were sitting
--- on top of everything.
-d1 $ sometimesBy 0.15 (|* speed (-1)) $ every 4 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain (slow 8 $ range 0.34 0.4 sine) # hpf 90 # lpf 7000 # pan 0.5 # dry 0.85 # room 0.15
+-- THE SPINE: breaks125 sliced and scrambled, speed 0.864 = 108/125 so it stays in time.
+d1 $ sometimesBy 0.15 (|* speed (-1)) $ every 4 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "breaks125" # speed 0.864 # orbit 0 # gain 0.62 # hpf 90 # lpf 7000 # pan 0.5 # dry 0.85 # room 0.15
 
--- SECOND BREAK: amencutup half speed, in and out over 4 bars.
-d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.76 # orbit 0 # gain (slow 11 $ range 0.14 0.2 sine) # hpf 120 # lpf 6000 # pan 0.58 # dry 0.9 # room 0.12
+-- SECOND BREAK: amencutup half speed, masked in over 4 bars.
+d2 $ mask "<t t f f t t f f>" $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.76 # orbit 0 # gain 0.28 # hpf 120 # lpf 6000 # pan 0.58 # dry 0.9 # room 0.12
 
--- KIT: kick and backbeat clap, dry, a hair late.
-d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gain (slow 6 $ range 0.52 0.6 sine) # shape 0.25 # hpf 55 # lpf 4000 # release 0.085 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
+-- KICK: k808S, 4-on-floor alternating with a syncopated 5-in-16, shape for punch,
+-- nudge drifting 0-18ms on a 7-cycle cycle (micro-timing = feel).
+d3 $ sometimesBy 0.2 (ply 2) $ s "<k808S(4,16,0) k808S(5,16,3)>" # orbit 7 # gain 0.72 # shape 0.25 # hpf 55 # lpf 4000 # release 0.085 # dry 1 # nudge (slow 7 $ range 0.0 0.018 sine)
 
--- HATS.
-d4 $ s "hh(11,16,2)" # orbit 7 # gain (slow 6 $ range 0.16 0.26 sine) # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 1 # nudge 0.014
+-- HATS: 11-in-16, dry.
+d4 $ s "hh(11,16,2)" # orbit 7 # gain 0.34 # hpf 6500 # lpf 12500 # pan (slow 9 $ range 0.42 0.6 sine) # dry 1 # nudge 0.014
 
--- BASS: dubsub on the E-minor roots.
+-- LOG DRUM BASS: the Amapiano engine. pitchEnv 0.35 = the glide, drive 0.22 = grit,
+-- rolling 16ths with rests so it breathes.
+d5 $ sometimesBy 0.15 (|+ note 12) $ note "<e2 ~ ~ e2 ~ ~ e3 ~ e2 ~ ~ e2 ~ b1 e2 ~>" # s "dubsub" # orbit 1 # gain 0.8 # amp 0.9 # drive 0.22 # pitchEnv 0.35 # legato 0.9 # sustain 0.25 # release 0.12 # hpf 40 # dry 0.95
 
--- THE HOOK: same FEEL as the bass - euclidOff 11 16 3, so the phrasing comes from
--- the grid rather than from note placement. The note sequence is sampled at the
--- euclid's points, which is why it flows instead of going bing-bing-bing.
+-- OFFBEAT CHORD SKANK: every second 16th - occupies the log drum's gaps exactly.
+d6 $ struct "t(8,16,1)" $ note "<[e4,g4,b4] [e4,g4,b4] [d4,fs4,a4] [d4,fs4,a4]>" # s "hoRhodes" # orbit 3 # gain 0.5 # amp 0.5 # hpf 400 # lpf 5000 # attack 0.005 # release 0.18 # sustain 0.2 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.5 # size 0.9 # dry 0.7
 
--- CHORDS: Em / C / G / D, clean hoRhodes.
-d7 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain (slow 13 $ range 0.28 0.36 sine) # amp 0.4 # attack 0.3 # release 2.0 # sustain 0.6 # cutoff 3200 # room 0.7 # size 0.9 # dry 0.4
+-- CHORDS: Em / C / G / D held over 2 bars.
+d7 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.44 # amp 0.4 # attack 0.3 # release 2.0 # sustain 0.6 # cutoff 3200 # room 0.7 # size 0.9 # dry 0.4
 
--- TEXTURE loop.
-d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain (slow 17 $ range 0.08 0.14 sine) # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
+-- THE MELODY: euclidOff 11/16/3 - the same mechanism as the bass, so the line
+-- flows instead of going bing-bing-bing. The note sequence is sampled at the grid's
+-- points, which is where the phrasing comes from.
+d12 $ sometimesBy 0.15 (|+ note 12) $ euclidOff 11 16 3 $ note "<[e5 g5 b5 e5 d5 b4 g4] [d5 fs5 a5 d5 c5 a4 fs4] [c5 e5 g5 c5 b4 g4 e4] [b4 d5 fs5 b4 a4 fs4 d4]>" # s "hoRhodes" # orbit 3 # gain 0.55 # amp 0.55 # hpf 350 # lpf 4500 # cutoff 3800 # attack 0.02 # release 0.45 # sustain 0.4 # pan (slow 11 $ range 0.44 0.56 sine) # room 0.55 # size 0.9 # dry 0.7
 
--- LOG DRUM BASS (the Amapiano signature). Rolling 16ths with pitchEnv 0.35 for the
--- glide, drive for grit. This is the piece's rhythmic engine, not a pad root.
-d5 $ sometimesBy 0.15 (|+ note 12) $ note "<e2 ~ ~ e2 ~ ~ e3 ~ e2 ~ ~ e2 ~ b1 e2 ~>" # s "dubsub" # orbit 1 # gain (slow 7 $ range 0.58 0.7 sine) # amp 0.9 # drive 0.22 # pitchEnv 0.35 # legato 0.9 # sustain 0.25 # release 0.12 # hpf 40 # dry 0.95
+-- SHAKER: continuous 16ths - the glue.
+d9 $ sometimesBy 0.08 (fast 2) $ s "sh808(16,16)" # orbit 6 # gain 0.36 # hpf 6000 # lpf 12000 # pan 0.55 # dry 0.95 # room 0.1
 
--- OFFBEAT CHORD SKANK: t(8,16,1) = every second 16th. This is the interlock -
--- it fills exactly the slots the log drum leaves, so together they are continuous.
-d6 $ struct "t(8,16,1)" $ note "<[e4,g4,b4] [e4,g4,b4] [d4,fs4,a4] [d4,fs4,a4]>" # s "hoRhodes" # orbit 3 # gain (slow 9 $ range 0.32 0.4 sine) # amp 0.5 # hpf 400 # lpf 5000 # attack 0.005 # release 0.18 # sustain 0.2 # pan (slow 11 $ range 0.46 0.54 sine) # room 0.5 # size 0.9 # dry 0.7
+-- INTERLOCKING PERCUSSION: 3-in-16 / 4-in-16 alternating, in the same grid.
+d10 $ struct "<t(3,16,2) t(4,16,2)>" $ s "<jamblock guira>" # orbit 6 # gain 0.38 # hpf 1500 # lpf 9000 # pan (slow 15 $ range 0.32 0.68 sine) # dry 0.9 # room 0.2
 
--- SHAKER: continuous 16ths. The glue - it is what makes separate parts feel like
--- one groove, because every other layer is heard against this pulse.
-d9 $ sometimesBy 0.08 (fast 2) $ s "sh808(16,16)" # orbit 6 # gain (slow 5 $ range 0.22 0.3 sine) # hpf 6000 # lpf 12000 # pan 0.55 # dry 0.95 # room 0.1
-
--- INTERLOCKING PERCUSSION: fixed 3-in-16 / 4-in-16 alternating, rotated 2. Not an
--- independent euclid - it is written to sit in the same grid as everything else.
-d10 $ struct "<t(3,16,2) t(4,16,2)>" $ s "<jamblock guira>" # orbit 6 # gain (slow 11 $ range 0.24 0.32 sine) # hpf 1500 # lpf 9000 # pan (slow 15 $ range 0.32 0.68 sine) # dry 0.9 # room 0.2
+-- TEXTURE loop, way back.
+d8 $ sometimesBy 0.3 (# crush 12) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 1 # orbit 4 # gain 0.2 # hpf 300 # lpf 9000 # pan 0.6 # dry 0.85 # room 0.2
