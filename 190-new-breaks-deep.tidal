@@ -5,34 +5,34 @@
 --             mars 505/606 kits, tidal drum machines.
 
 setcps (124/240)
--- MIXING STANDARD: master 8. Do not change between tracks - lane gains are balanced for this level.
+-- MIXING STANDARD: master 1 (unity). All lane gains balanced for this - do not change master between tracks.
 
 -- THE SPINE: 300 breaks, chopped and scrambled, with reverse chunks.
-d1 $ degradeBy 0.08 $ swingBy 0.06 4 $ sometimesBy 0.2 (fast 2) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:0 pbrk300:1 pbrk300:2 pbrk300:3>" # orbit 0 # gain 0.82 # hpf 60 # lpf 12000 # dry 0.9 # room 0.15
+d1 $ degradeBy 0.04 $ swingBy 0.06 4 $ sometimesBy 0.15 (fast 1.5) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:0 pbrk300:1 pbrk300:2 pbrk300:3>" # orbit 0 # gain 0.95 # hpf 45 # lpf 14000 # dry 0.9 # room 0.12
 
 -- SECOND BREAK: clean break, different slices, half speed.
-d2 $ degradeBy 0.12 $ sometimesBy 0.15 (fast 1.5) $ every 7 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "pbrk300:4" # speed 0.5 # orbit 0 # gain 0.5 # hpf 60 # lpf 12000 # pan 0.58 # dry 0.9 # room 0.15
+d2 $ degradeBy 0.06 $ sometimesBy 0.12 (fast 1.5) $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "pbrk300:4" # speed 0.55 # orbit 0 # gain 0.68 # hpf 45 # lpf 14000 # pan 0.58 # dry 0.92 # room 0.1
 
 -- LP TEXTURE: lpmr loop, way back.
 d3 $ sometimesBy 0.25 (# crush 10) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 0.95 # orbit 4 # gain 0.2 # hpf 300 # lpf 8000 # pan 0.6 # dry 0.85 # room 0.2
 
 -- KICK: mars 505 thud + 606 tite alternating.
-d4 $ degradeBy 0.05 $ swingBy 0.06 4 $ sometimesBy 0.15 (fast 2) $ s "mars_kits_505_SP_Thud(4,16,0)" # orbit 7 # gain 1.0 # hpf 45 # lpf 4000 # dry 1 # nudge 0.015
+d4 $ degradeBy 0.03 $ swingBy 0.06 4 $ s "mars_kits_505_SP_Thud(4,16,0)" # orbit 7 # gain 1.05 # hpf 35 # lpf 6000 # dry 1 # nudge 0.015
 
 -- HATS: 11-in-16 with machine hats underneath.
-d5 $ degradeBy 0.12 $ swingBy 0.08 4 $ stack [s "hh(7,16,2)" # gain 0.52, s "mars_kits_505_Clean:3(5,16,2)" # gain 0.26 # shape 0.15] # orbit 7 # hpf 5000 # lpf 12000 # pan (slow 13 $ range 0.3 0.75 sine) # dry 0.95 # room 0.12
+d5 $ degradeBy 0.08 $ swingBy 0.08 4 $ stack [s "hh(7,16,2)" # gain 0.62, s "mars_kits_505_Clean:3(5,16,2)" # gain 0.32] # orbit 7 # hpf 4000 # lpf 14000 # dry 1 # nudge 0.01
 
 -- SNARE/CLAP: 909 + mpc60 ghost.
-d6 $ degradeBy 0.1 $ sometimesBy 0.2 (ply 2) $ sometimesBy 0.3 (|* speed 0.8) $ stack [s "rolandtr909:4" # gain 0.95 # hpf 300, sometimesBy 0.3 (|* gain 1.5) $ s "mars_kits_505_Clean:4" # gain 0.38] # orbit 7 # hpf 400 # lpf 7000 # dry 0.95 # room 0.1
+d6 $ degradeBy 0.06 $ sometimesBy 0.15 (ply 2) $ stack [s "rolandtr909:4" # gain 1.0 # hpf 250, s "mars_kits_505_Clean:4" # gain 0.5] # orbit 7 # hpf 350 # lpf 9000 # dry 0.95 # room 0.12
 
 -- BASS: warm sub, E minor roots.
-d7 $ degradeBy 0.05 $ sometimesBy 0.2 (|+ note 7) $ sometimesBy 0.1 (|* gain 0.6) $ note "<e2 ~ e2 g2 ~ a2 ~ g2> <c2 ~ c2 e2 ~ g2 ~ e2> <g1 ~ g1 b1 ~ d2 ~ b1> <d2 ~ d2 fs2 ~ a2 ~ d2>" # s "dubsub" # orbit 1 # gain 0.74 # amp 0.8 # drive 0.0 # pitchEnv 0.0 # waveMix 0.0 # subMix 0.35 # cutoff 800 # fenv 0.0 # legato 1.1 # sustain 0.4 # release 0.18 # hpf 40 # dry 0.95
+d7 $ degradeBy 0.03 $ note "<e2 ~ e2 g2 ~ a2 ~ g2> <c2 ~ c2 e2 ~ g2 ~ e2> <g1 ~ g1 b1 ~ d2 ~ b1> <d2 ~ d2 fs2 ~ a2 ~ d2>" # s "dubsub" # orbit 1 # gain 0.92 # amp 0.9 # drive 0.0 # pitchEnv 0.0 # waveMix 0.0 # subMix 0.38 # cutoff 900 # fenv 0.0 # legato 1.1 # sustain 0.4 # release 0.18 # hpf 35 # dry 0.95
 
 -- CHORDS: Em / C / G / D.
-d8 $ degradeBy 0.08 $ sometimesBy 0.15 (off 0.125 (|* gain 0.5)) $ sometimesBy 0.1 (stut 4 0.6 (1/16)) $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.78 # amp 0.6 # attack 0.5 # release 2.0 # sustain 0.65 # cutoff 5000 # hpf 120 # room 0.55 # size 0.9 # dry 0.65
+d8 $ degradeBy 0.04 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.95 # amp 0.75 # attack 0.5 # release 2.0 # sustain 0.65 # cutoff 6000 # hpf 100 # room 0.5 # size 0.88 # dry 0.7
 
 -- PERC: drum machines, odd grids.
-d9 $ degradeBy 0.2 $ sometimesBy 0.2 (fast 2) $ every 3 (rotR (1/8)) $ every 5 (rotR (1/8)) $ s "<rolandtr909:5 korgddm110:2 oberheimDMX:3>" # orbit 6 # gain 0.24 # hpf 1200 # lpf 8000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.9 # room 0.2
+d9 $ degradeBy 0.12 $ sometimesBy 0.2 (fast 2) $ every 3 (rotR (1/8)) $ s "<rolandtr909:5 korgddm110:2 oberheimDMX:3>" # orbit 6 # gain 0.38 # hpf 1000 # lpf 10000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.92 # room 0.15
 
 -- EXTRA BREAK LAYER
 d11 $ sometimesBy 0.3 (|* speed 1.5) $ every 3 (chunk 3 (|* speed 1.5)) $ slice 12 "<0 5 9 2 7 11 3 8 1 10 4 6>" $ loopAt 1 $ s "pbrk300:8" # orbit 0 # gain 0.28 # hpf 150 # lpf 7000 # pan (slow 17 $ range 0.3 0.7 sine) # dry 0.85 # room 0.15
