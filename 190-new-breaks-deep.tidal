@@ -7,28 +7,28 @@
 setcps (118/240)
 
 -- THE SPINE: 300 breaks, chopped and scrambled, with reverse chunks.
-d1 $ sometimesBy 0.2 (chunk 4 (|* speed (-1))) $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:0 pbrk300:1 pbrk300:2 pbrk300:3>" # orbit 0 # gain 0.68 # hpf 60 # lpf 12000 # dry 0.9 # room 0.15
+d1 $ degradeBy 0.15 $ sometimesBy 0.2 (fast 2) $ sometimesBy 0.25 (|* speed (-1)) $ sometimesBy 0.2 (chunk 4 (|* speed (-1))) $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:0 pbrk300:1 pbrk300:2 pbrk300:3>" # orbit 0 # gain 0.68 # hpf 60 # lpf 12000 # dry 0.9 # room 0.15
 
 -- SECOND BREAK: clean break, different slices, half speed.
-d2 $ every 7 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "pbrk300:4" # speed 0.5 # orbit 0 # gain 0.5 # hpf 60 # lpf 12000 # pan 0.58 # dry 0.9 # room 0.15
+d2 $ degradeBy 0.12 $ sometimesBy 0.15 (fast 1.5) $ every 7 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "pbrk300:4" # speed 0.5 # orbit 0 # gain 0.5 # hpf 60 # lpf 12000 # pan 0.58 # dry 0.9 # room 0.15
 
 -- LP TEXTURE: lpmr loop, way back.
 d3 $ sometimesBy 0.25 (# crush 10) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 2 $ s "lpmr" # speed 0.95 # orbit 4 # gain 0.2 # hpf 300 # lpf 8000 # pan 0.6 # dry 0.85 # room 0.2
 
 -- KICK: mars 505 thud + 606 tite alternating.
-d4 $ s "<mars_kits_505_SP_Thud:2 mars_kits_606_Tite:1>" # orbit 7 # gain 0.62 # hpf 45 # lpf 4000 # dry 1
+d4 $ degradeBy 0.08 $ sometimesBy 0.15 (fast 2) $ every 7 (within (0.5,1) (|* speed 0.5)) $ s "<mars_kits_505_SP_Thud:2 mars_kits_606_Tite:1>" # orbit 7 # gain 0.62 # hpf 45 # lpf 4000 # dry 1
 
 -- HATS: 11-in-16 with machine hats underneath.
-d5 $ stack [s "hh(7,16,2)" # gain 0.28, s "mars_kits_505_Clean:3(5,16,2)" # gain 0.18] # orbit 7 # hpf 5000 # lpf 12000 # dry 1 # nudge 0.01
+d5 $ stack [s "hh(7,16,2)" # gain 0.42, s "mars_kits_505_Clean:3(5,16,2)" # gain 0.26] # orbit 7 # hpf 5000 # lpf 12000 # dry 1 # nudge 0.01
 
 -- SNARE/CLAP: 909 + mpc60 ghost.
-d6 $ stack [s "rolandtr909:4" # gain 0.38 # hpf 300, sometimesBy 0.3 (|* gain 1.5) $ s "akaiMPC60:4" # gain 0.2)] # orbit 7 # hpf 400 # lpf 7000 # dry 0.95 # room 0.1
+d6 $ degradeBy 0.1 $ sometimesBy 0.2 (ply 2) $ sometimesBy 0.3 (|* speed 0.8) $ stack [s "rolandtr909:4" # gain 0.38 # hpf 300, sometimesBy 0.3 (|* gain 1.5) $ s "mars_kits_505_Clean:4" # gain 0.2] # orbit 7 # hpf 400 # lpf 7000 # dry 0.95 # room 0.1
 
 -- BASS: warm sub, E minor roots.
-d7 $ note "<e2 ~ e2 g2 ~ a2 ~ g2> <c2 ~ c2 e2 ~ g2 ~ e2> <g1 ~ g1 b1 ~ d2 ~ b1> <d2 ~ d2 fs2 ~ a2 ~ d2>" # s "dubsub" # orbit 1 # gain 0.68 # amp 0.75 # drive 0.0 # pitchEnv 0.0 # waveMix 0.0 # subMix 0.35 # cutoff 800 # fenv 0.0 # legato 1.1 # sustain 0.4 # release 0.18 # hpf 40 # dry 0.95
+d7 $ degradeBy 0.05 $ sometimesBy 0.2 (|+ note 7) $ sometimesBy 0.1 (|* gain 0.6) $ note "<e2 ~ e2 g2 ~ a2 ~ g2> <c2 ~ c2 e2 ~ g2 ~ e2> <g1 ~ g1 b1 ~ d2 ~ b1> <d2 ~ d2 fs2 ~ a2 ~ d2>" # s "dubsub" # orbit 1 # gain 0.68 # amp 0.75 # drive 0.0 # pitchEnv 0.0 # waveMix 0.0 # subMix 0.35 # cutoff 800 # fenv 0.0 # legato 1.1 # sustain 0.4 # release 0.18 # hpf 40 # dry 0.95
 
 -- CHORDS: Em / C / G / D.
-d8 $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.72 # amp 0.55 # attack 0.5 # release 2.0 # sustain 0.65 # cutoff 5000 # hpf 120 # room 0.55 # size 0.9 # dry 0.65
+d8 $ degradeBy 0.08 $ sometimesBy 0.15 (off 0.125 (|* gain 0.5)) $ sometimesBy 0.1 (stut 4 0.6 (1/16)) $ slow 2 $ note "<[e3,g3,b3,d4] [c3,e3,g3,b3] [g3,b3,d4,fs4] [d3,fs3,a3,c4]>" # s "hoRhodes" # orbit 2 # gain 0.72 # amp 0.55 # attack 0.5 # release 2.0 # sustain 0.65 # cutoff 5000 # hpf 120 # room 0.55 # size 0.9 # dry 0.65
 
 -- PERC: drum machines, odd grids.
-d9 $ every 5 (rotR (1/8)) $ s "<oberheimDMX:5 casioRZ1:3>" # orbit 6 # gain 0.24 # hpf 1200 # lpf 8000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.9 # room 0.2
+d9 $ degradeBy 0.2 $ sometimesBy 0.2 (fast 2) $ every 3 (rotR (1/8)) $ every 5 (rotR (1/8)) $ s "<rolandtr909:5 casioRZ1:3 bossDR110:3>" # orbit 6 # gain 0.24 # hpf 1200 # lpf 8000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.9 # room 0.2
