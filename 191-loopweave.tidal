@@ -1,0 +1,60 @@
+-- 191 — LOOPWEAVE. Built from lpviz loops. E minor, 118 BPM (native 120, so the
+-- loops play ~1.7% slow = -29 cents, which is why it sits so warm).
+--
+-- THE IDEA: never re-trigger the loop from the top. `loopAt 4` fits the 4-bar loop
+-- to 4 cycles, then `chop 16` cuts it into separate events that each carry the
+-- CORRECT begin/end fraction of the audio, so every parameter can be modulated
+-- per slice and the loop still sounds like itself.
+--   chop 16  = 4 events per bar  (quarter notes)
+--   chop 32  = 8 per bar         (8ths)
+--   chop 64  = 16 per bar        (16ths, for reordering the bar)
+--
+-- CRUSH NOTE (learned the hard way): dirt_crush does signal.round(0.5 ** (crush-1)),
+-- so SMALLER = more crushed. crush 16 is inaudible, crush 5 is grit, crush 3 is
+-- big, crush 1 is 1-bit destruction.
+--
+-- FX: every lane pins ddSend/verbSend 0. Those are GlobalDirtEffect params — they
+-- latch per orbit across patterns, and a latched delay is what makes "random FX
+-- turn up and run wild".
+
+setcps (118/240)
+
+-- === DROPOUT SWITCH =========================================================
+-- Swap the `let dropouts =` line. Each is a Pattern Bool, mask-gated per slice.
+let dropSoft = (slow 3 "<t t t t t t f f>") :: Pattern Bool   -- half a bar, rare
+let dropMid  = (slow 3 "<t t t f>")          :: Pattern Bool   -- a full bar every 12
+let dropHard = (slow 2 "<t t f f>")          :: Pattern Bool   -- two bars, often
+let dropNone = (pure True)                   :: Pattern Bool   -- wide open
+let dropouts = dropSoft
+-- when the first loop steps out, the second steps in (complement of dropouts)
+let weave = inv dropouts
+
+-- === LAYER 1: the loop ======================================================
+let l1 = chop 16 $ loopAt 4 $ s "lpviz:487"
+
+d1 $ sometimesBy 0.15 (scramble 16)
+  $ every 5 (stutWith 4 (1/16) (|* gain 0.65))
+  $ sometimesBy 0.08 (|* speed 0.5)
+  $ every 4 (within (0.5,1) (# crush 3))
+  $ sometimesBy 0.06 (within (0.75,1) (# coarse 32))
+  $ mask dropouts
+  $ l1 # orbit 0
+  # gain (slow 4 "<1.5 1.3 1.4>")
+  # lpf (slow 7 "<15000 7000 15000 5200 12000 15000 6200>")
+  # hpf (slow 11 "<28 28 90 28 28 160 28 28 50 28 28>")
+  # ddSend 0 # delayfeedback 0 # verbSend 0 # room 0
+
+-- === LAYER 2: the woven beat ================================================
+-- A sibling groove from the same family and key (4 bars @ 120), chopped at 8ths so
+-- its detail sits between lane 1's quarter-note slices. Comes in on its OWN coprime
+-- gate (5) so the two lanes never open together by accident.
+let l2 = chop 32 $ loopAt 4 $ s "lpviz:488"
+
+d2 $ sometimesBy 0.1 (scramble 8)
+  $ every 6 (stut 3 0.5 (1/16))
+  $ mask (slow 5 "<t t t t f>")
+  $ l2 # orbit 0
+  # gain (slow 4 "<0.42 0.52 0.46>")
+  # lpf (slow 9 "<9000 15000 12000>")
+  # hpf (slow 13 "<160 60 260>")
+  # ddSend 0 # delayfeedback 0 # verbSend 0 # room 0
