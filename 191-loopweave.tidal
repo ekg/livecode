@@ -59,13 +59,10 @@ d2 $ sometimesBy 0.1 (scramble 8)
   # hpf (slow 13 "<160 60 260>")
   # ddSend 0 # delayfeedback 0 # verbSend 0 # room 0
 
--- === LAYER 3: Rhodes chords ================================================
--- E minor, one chord per bar: Em9 - Cmaj7 - Am9 - Bm7(add11). `off 0.05` lays the
--- voice a hair behind the bar so it floats over the loop's grid instead of
--- sitting on it. Long attack/release: this is the pad, not a comp.
-let rh = "<[e3,g3,b3,d4,fs4] [c3,e3,g3,b3] [a2,c3,e3,g3,b3] [b2,d3,fs3,a3]>"
-
-d3 $ off 0.05 (# gain 0.45) $ note rh # s "hoRhodes" # orbit 2
-  # gain 0.55 # attack 0.35 # release 2.0 # sustain 0.6
-  # cutoff 6500 # hpf 120 # lpf 9000
-  # room 0.42 # size 0.86 # dry 0.7 # ddSend 0 # verbSend 0
+-- === LAYER 3: parked (operator said no) ==================================
+-- Attempted Rhodes + lead on top on 2026-10-22. Rejected: dull synths, and it
+-- buried the loop. Kept only as a warning about LEVEL:
+--   * `gain` does NOT scale addSynth instruments (hoRhodes, superzow, dubsub,
+--     sweetChords, miLead). Use `amp` — the SynthDef's own amp, default 0.36.
+--     Setting gain on those is a no-op, so they can be silent or jump out.
+--   * Never re-balance the loop's gain to make room. The loop is the reference.
