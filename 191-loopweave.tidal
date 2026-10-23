@@ -66,3 +66,32 @@ d2 $ sometimesBy 0.1 (scramble 8)
 --     sweetChords, miLead). Use `amp` — the SynthDef's own amp, default 0.36.
 --     Setting gain on those is a no-op, so they can be silent or jump out.
 --   * Never re-balance the loop's gain to make room. The loop is the reference.
+
+-- === LAYER 4: EDM beat ======================================================
+-- 4-on-the-floor 909 under the loops. Kick and bass never share a beat (bass is
+-- offbeat 8ths), which is where the pumping comes from and why the peaks stay put.
+d5 $ struct "t t t t" $ s "rolandtr909:0" # orbit 0
+  # gain 0.98 # hpf 45 # lpf 6000 # release 0.1 # ddSend 0 # verbSend 0
+
+d6 $ swingBy 0.04 4 $ struct "f t f t" $ s "rolandtr909:4" # orbit 0
+  # gain 0.75 # hpf 300 # lpf 8000 # release 0.12 # verbSend 0.08 # room 0 # ddSend 0
+
+d7 $ sometimesBy 0.12 (fast 2) $ struct "t(11,16)" $ s "rolandtr909:2" # orbit 0
+  # gain 0.42 # hpf 6500 # lpf 12500 # release 0.03 # ddSend 0 # verbSend 0
+
+-- offbeat sub. amp, NOT gain: dubsub is an addSynth instrument.
+d8 $ swingBy 0.05 4 $ struct "~ t ~ t ~ t ~ t" $ note "<e2 c2 a1 b1>" # s "dubsub" # orbit 1
+  # amp 0.48 # drive 0.5 # subMix 0.4 # waveMix 0 # cutoff 600 # pitchEnv 0.3
+  # legato 0.9 # hpf 40 # ddSend 0 # verbSend 0
+
+-- === LAYER 5: chord stabs, wet =============================================
+-- Voiced ABOVE the bass (nothing below e4) so it never competes with lane 8.
+-- Feel: swingBy + a 40 ms lay-back copy. Sends set explicitly, never inherited.
+let edmCh = "<[e4,g4,b4,d5] [c4,e4,g4,b4] [a3,c4,e4,g4,b4] [b3,d4,fs4,a4]>"
+
+d9 $ swingBy 0.06 4 $ off 0.04 (# amp 0.2) $ struct "~ t ~ t" $ note edmCh
+  # s "sweetChords" # orbit 2 # amp 0.34
+  # cutoff 5000 # fmIndex 1.1 # ratio 2 # drive 1.1 # sub 0.2 # width 0.7
+  # attack 0.01 # release 0.25 # hpf 350
+  # ddSend 0.2 # delaytime (3/16) # delayfeedback 0.28 # lock 1 # ddHp 700 # ddLp 4500
+  # verbSend 0.22 # room 0
