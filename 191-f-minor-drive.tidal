@@ -52,4 +52,4 @@ d17 $ sometimesBy 0.15 (|+ note 12) $ note "<f1 f1 f1 f2 f1 f1 c2 f1> <db1 db1 d
 d18 $ sometimesBy 0.2 (|* speed (-1)) $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:9 pbrk300:10 pbrk300:11 pbrk300:12>" # speed 0.94 # orbit 9 # gain "<0.5 0.32 0.46 0.28 0.52 0.3 0.44 0.26>" # hpf 100 # lpf 9000 # pan (slow 11 $ range 0.4 0.6 sine) # dry 0.9 # room 0.12
 
 -- VOICE: speakspell (Speak & Spell digits), rare - twice per 32 cycles, pitch varied.
-d19 $ mask "<f f f f f f f t f f f f f f f f f f f f f f f t f f f f f f f f>" $ n (irand 12) # s "speakspell" # orbit 12 # gain 0.55 # speed (choose [1,1,0.9]) # hpf 300 # lpf 8000 # pan (slow 19 $ range 0.35 0.65 sine) # room 0.5 # size 0.9 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1 # dry 0.6
+d12 $ mask "<f f f f f f f t f f f f f f f f f f f f f f f t f f f f f f f f>" $ n (irand 12) # s "speakspell" # orbit 12 # gain 0.55 # speed (choose [1,1,0.9]) # hpf 300 # lpf 8000 # pan (slow 19 $ range 0.35 0.65 sine) # room 0.5 # size 0.9 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1 # dry 0.6
