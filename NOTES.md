@@ -12,6 +12,28 @@ Conventions:
 
 ---
 
+## Naming — open question (2026-10-24)
+
+Scenes are named `<number>-<genre-ish description>.tidal` (e.g. `190-new-breaks-deep`,
+`191-f-minor-drive`). That is useful for finding things by feel, and terrible as a title.
+
+The old ones were better titles: `176 THIRTEEN DOORS`, `179 lootin-dub`. A name that
+describes the technique tells you nothing once there are fifty of them; a name that is
+a *thing* is memorable and makes the file list readable as a set.
+
+Proposal: keep the number (it is the ordering, and the takes/markers key off it), and
+let the word be a real title rather than a description:
+
+    number  title          (description stays in the file header)
+
+    189  warm ambient   ->  keep, it earned it
+    190  new breaks deep -> ?? (something with "300" or "breaks" as an image, not a label)
+    191  f-minor drive  -> ?? (tech house, voices, F minor — needs a name that isn't a spec)
+
+Rule of thumb: if the name could be generated from the header comment, it is not a title.
+
+---
+
 ## 2026-10-15 (later) — 176 THIRTEEN DOORS, the eval-path traps, and the watchdog
 
 **New scene `176.tidal` (THIRTEEN DOORS).** 124 BPM / A minor on purpose — same clock and key
