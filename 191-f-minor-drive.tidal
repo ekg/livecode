@@ -34,3 +34,6 @@ d13 $ slow 4 $ degradeBy 0.06 $ sometimesBy 0.15 (ply 2) $ every 5 (striate 2) $
 
 -- PERC: machine hits, odd grid, evolving.
 d10 $ degradeBy 0.15 $ every 5 (rotR (1/8)) $ s "<korgddm110:2 emusp12:2 linndrum:3>" # orbit 6 # gain 0.35 # hpf 1200 # lpf 9000 # pan (slow 15 $ range 0.25 0.75 sine) # dry 0.92 # room 0.15
+
+-- BIG PAD: superhammond, 5-note voicings, slow attack, glued over everything.
+d14 $ slow 8 $ sometimesBy 0.1 (|+ note 12) $ note "<[f3,ab3,c4,eb4,f4] [db3,f3,ab3,c4,eb4] [ab2,c3,eb3,g3,c4] [c3,eb3,g3,bb3,d4]>" # s "superhammond" # orbit 2 # gain 1.0 # attack 1.4 # release 6 # sustain 0.85 # cutoff (slow 21 $ rangex 1200 2600 saw) # hpf 100 # lpf 6000 # pan (slow 17 $ range 0.42 0.58 sine) # room 0.85 # size 0.96 # dry 0.28
