@@ -1,0 +1,36 @@
+-- title: 191 f minor drive
+-- F minor, 132 BPM. Faster and harder than 190.
+-- breaks165 pitched down (recorded at 165, played at 132 = speed 0.8 -> fatter)
+-- mars 626 kit, one hook, driving bass. gain only (no amp - amp is growly).
+
+setcps (132/240)
+-- MIXING STANDARD: master 5
+
+-- BREAK: breaks165, chopped. speed 0.8 = 132/165, so it sits in tempo and drops pitch.
+d1 $ degradeBy 0.05 $ swingBy 0.05 4 $ sometimesBy 0.15 (fast 1.5) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<breaks165:0 breaks165:1 breaks165:2>" # speed 0.8 # orbit 0 # gain 1.1 # hpf 40 # lpf 15000 # dry 0.92 # room 0.1
+
+-- SECOND BREAK: amencutup, half speed, chunk-reversed.
+d2 $ degradeBy 0.08 $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "amencutup" # speed 0.7 # orbit 0 # gain 0.6 # hpf 50 # lpf 12000 # pan 0.58 # dry 0.92 # room 0.1
+
+-- KICK: four on the floor. The anchor.
+d4 $ s "mars_kits_626_Clean_1:1(4,16,0)" # orbit 7 # gain 1.2 # hpf 35 # lpf 7000 # dry 1
+
+-- HATS: cloud - 7 and 11 in 16, plus a fast 13.
+d5 $ degradeBy 0.06 $ swingBy 0.07 4 $ sometimesBy 0.18 (stutWith 3 0.03125 (|* speed 0.9)) $ every 5 (rotR (1/8)) $ stack [s "hh(7,16,2)" # gain 0.7, s "mars_kits_626_Clean_1:3(11,16,3)" # gain 0.4] # orbit 7 # hpf 4000 # lpf 14000 # pan (slow 13 $ range 0.2 0.8 sine) # dry 0.95 # room 0.1
+
+d9 $ degradeBy 0.1 $ swingBy 0.05 4 $ s "hh(13,16,5)" # orbit 7 # gain 0.3 # hpf 7000 # lpf 13000 # pan (slow 11 $ range 0.3 0.7 sine) # crush (slow 23 $ range 16 12 saw) # dry 0.95
+
+-- CLAP: backbeat, cycling samples so it never settles.
+d6 $ degradeBy 0.08 $ swingBy 0.05 4 $ s "<rolandtr909:4 mars_kits_626_Clean_1:4 rolandtr909:5 realclaps>" # orbit 7 # gain 0.95 # hpf 350 # lpf 7500 # pan (slow 13 $ range 0.3 0.7 sine) # dry 0.95 # release 0.12
+
+-- BASS: driving, gain only, no fenv (fenv = the growl).
+d7 $ sometimesBy 0.15 (|+ note 12) $ sometimesBy 0.1 (|* gain 0.5) $ note "<f1 ~ f2 ~ c2 ~ f2 ~> <db2 ~ db2 ~ ab1 ~ db2 ~> <ab1 ~ ab2 ~ eb2 ~ ab2 ~> <c2 ~ c2 ~ g1 ~ c2 ~>" # s "dubsub" # orbit 1 # gain 1.1 # drive 0.0 # waveMix 0.0 # subMix 0.3 # cutoff 700 # fenv 0.0 # hpf 40 # dry 0.95
+
+-- CHORDS: Fm / Db / Ab / Cm.
+d8 $ slow 2 $ note "<[f3,ab3,c4,eb4] [db3,f3,ab3,c4] [ab3,c4,eb4,g4] [c3,eb3,g3,bb3]>" # s "hoRhodes" # orbit 2 # gain 1.0 # attack 0.4 # release 2.0 # sustain 0.6 # cutoff 6000 # hpf 100 # room 0.5 # size 0.9 # dry 0.7
+
+-- HOOK: one shape per chord, memorable, sits above the chords.
+d13 $ slow 4 $ degradeBy 0.04 $ sometimesBy 0.12 (|+ note 12) $ note "<[f4 ~ ab4 ~ c5 ~ bb4 ab4] [f4 ~ db5 ~ f5 ~ eb5 ~] [c5 ~ eb5 ~ ab5 ~ g5 eb5] [eb5 ~ g5 ~ bb5 ~ ~ ~]>" # s "superpiano" # orbit 3 # gain 0.85 # hpf 400 # lpf 9000 # attack 0.01 # release 0.4 # sustain 0.4 # pan (slow 11 $ range 0.44 0.56 sine) # room 0.6 # size 0.9 # dry 0.6 # delay 0.3 # delaytime (3/16) # delayfeedback 0.45 # lock 1
+
+-- PERC: machine hits, odd grid, evolving.
+d10 $ degradeBy 0.15 $ every 5 (rotR (1/8)) $ s "<korgddm110:2 emusp12:2 linndrum:3>" # orbit 6 # gain 0.35 # hpf 1200 # lpf 9000 # pan (slow 15 $ range 0.25 0.75 sine) # dry 0.92 # room 0.15
