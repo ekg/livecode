@@ -37,3 +37,16 @@ d10 $ degradeBy 0.15 $ every 5 (rotR (1/8)) $ s "<korgddm110:2 emusp12:2 linndru
 
 -- BIG PAD: superhammond, 5-note voicings, slow attack, glued over everything.
 d14 $ slow 8 $ sometimesBy 0.1 (|+ note 12) $ note "<[f3,ab3,c4,eb4,f4] [db3,f3,ab3,c4,eb4] [ab2,c3,eb3,g3,c4] [c3,eb3,g3,bb3,d4]>" # s "superhammond" # orbit 2 # gain 1.0 # attack 1.4 # release 6 # sustain 0.85 # cutoff (slow 21 $ rangex 1200 2600 saw) # hpf 100 # lpf 6000 # pan (slow 17 $ range 0.42 0.58 sine) # room 0.85 # size 0.96 # dry 0.28
+
+-- TECH HOUSE LAYER -------------------------------------------------------
+-- steady kick, offbeat open hat, rolling sub bass, sliced 300-breaks loop.
+d15 $ s "rolandtr909:0(4,16,0)" # orbit 8 # gain 1.15 # hpf 40 # lpf 6000 # release 0.09 # dry 1
+
+d16 $ s "ho(4,8,2)" # orbit 8 # gain 0.42 # hpf 5000 # lpf 13000 # release 0.05 # dry 0.95 # room 0.1
+
+d17 $ sometimesBy 0.15 (|+ note 12) $ note "<f1 f1 f1 f2 f1 f1 c2 f1> <db1 db1 db1 db2 db1 db1 ab1 db1> <ab1 ab1 ab1 ab2 ab1 ab1 eb2 ab1> <c2 c2 c2 c3 c2 c2 g1 c2>" # s "dubsub" # orbit 8 # gain 0.9 # drive 0.0 # waveMix 0.0 # subMix 0.3 # cutoff 900 # fenv 0.0 # sustain 0.3 # release 0.09 # legato 0.85 # hpf 45 # dry 0.95
+
+-- THE BREAK, SLICED: 16 addresses into 4 different loops. The permutation picks
+-- which slice plays when; the gain pattern gives each hit its own weight; rotR and
+-- reversals keep it from settling. This is the "loop as playable instrument".
+d18 $ sometimesBy 0.2 (|* speed (-1)) $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:9 pbrk300:10 pbrk300:11 pbrk300:12>" # speed 0.94 # orbit 9 # gain "<0.5 0.32 0.46 0.28 0.52 0.3 0.44 0.26>" # hpf 100 # lpf 9000 # pan (slow 11 $ range 0.4 0.6 sine) # dry 0.9 # room 0.12
