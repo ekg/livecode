@@ -1,0 +1,55 @@
+-- title: 192 NIGHT FERRY
+-- Bb minor, 128 BPM. Written to blend out of 191 CHAMPION SOUND:
+--   key   F minor (4A) -> Bb minor (3A), one Camelot step, fourth up
+--   tempo 132 -> 128
+--   and 191's outro is pads-only, so this one opens with break + pad and holds the
+--   kick back, which is the natural place to overlap.
+--
+-- SAMPLE DISCIPLINE (learned the hard way, see NOTES.md):
+--   * every loop plays near speed 1 - no smear from pitching a full song
+--   * gain 0.6-1.2 - under ~0.3 is inaudible in a 12-lane mix, over ~1.3 clips
+--   * NO `amp` (it stacks on gain and gets growly), NO `fenv` on dubsub (that is
+--     the filter sweep that roars), drive 0
+--   * lanes stop at d16 - d17/d18 do not exist in this BootTidal and a chunk that
+--     names one fails silently, taking every other lane in it down too
+
+setcps (128/240)
+-- MIXING STANDARD: master 5
+
+-- BREAK A: 300-breaks indices 17-20, unused in 190/191. Sliced, permutation
+-- scrambled, near-native speed.
+d1 $ degradeBy 0.06 $ swingBy 0.05 4 $ sometimesBy 0.12 (fast 1.5) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:17 pbrk300:18 pbrk300:19 pbrk300:20>" # speed 0.96 # orbit 0 # gain 1.15 # hpf 45 # lpf 15000 # dry 0.9 # room 0.12
+
+-- BREAK B: 21-24, half speed, chunk-reversed. The darker layer under A.
+d2 $ degradeBy 0.1 $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "<pbrk300:21 pbrk300:22 pbrk300:23 pbrk300:24>" # speed 0.52 # orbit 0 # gain 0.62 # hpf 60 # lpf 11000 # pan 0.58 # dry 0.9 # room 0.15
+
+-- KICK: mars SP1200, the "Kick Tech" sample. Steady, with a euclid variation
+-- every 4th bar so it breathes without losing the floor.
+d3 $ s "<mars_kits_SP1200_909:5(4,16,0) mars_kits_SP1200_909:5(4,16,0) mars_kits_SP1200_909:5(5,16,2) mars_kits_SP1200_909:5(4,16,0)>" # orbit 8 # gain 1.2 # hpf 38 # lpf 6500 # release 0.1 # room 0 # dry 1
+
+-- CLAP: Wendel handclap on the backbeat, cycling with a 909 for variety.
+d4 $ degradeBy 0.06 $ swingBy 0.06 4 $ s "<mars_kits_Wendel_Clean:5 rolandtr909:4 mars_kits_Wendel_Clean:6>" # orbit 9 # gain 0.95 # hpf 320 # lpf 8000 # pan (slow 13 $ range 0.35 0.65 sine) # room 0.2 # dry 0.85 # release 0.14
+
+-- HATS: Wendel closed hat as a continuous 16th layer, plus an offbeat open.
+d5 $ degradeBy 0.07 $ swingBy 0.07 4 $ sometimesBy 0.15 (stutWith 3 0.03125 (|* speed 0.9)) $ every 5 (rotR (1/16)) $ stack [s "mars_kits_Wendel_Clean:7(11,16,2)" # gain 0.55, s "mars_kits_Wendel_Clean:2(4,8,1)" # gain 0.3] # orbit 10 # hpf 5000 # lpf 14000 # pan (slow 17 $ range 0.3 0.7 sine) # dry 0.95 # room 0.1
+
+-- PERC: TOM conga + 608 toms on odd grids, so they interlock rather than double.
+d6 $ degradeBy 0.12 $ every 3 (rotR (1/8)) $ s "<mars_kits_TOM_Conga:2 mars_kits_TOM_608:5 mars_kits_TOM_Conga:5>" # orbit 11 # gain 0.5 # hpf 900 # lpf 9500 # pan (slow 19 $ range 0.25 0.75 sine) # room 0.25 # dry 0.9
+
+-- BASS: Bb minor roots, gain only. fenv 0 so the filter does not sweep.
+d7 $ sometimesBy 0.15 (|+ note 12) $ sometimesBy 0.1 (|* gain 0.6) $ note "<bb1 ~ bb2 ~ f1 ~ bb2 ~> <gb1 ~ gb2 ~ db2 ~ gb1 ~> <db2 ~ db2 ~ ab1 ~ db2 ~> <f1 ~ f2 ~ c2 ~ f1 ~>" # s "dubsub" # orbit 1 # gain 1.15 # drive 0.0 # pitchEnv 0.0 # waveMix 0.0 # subMix 0.32 # cutoff 750 # fenv 0.0 # legato 1.1 # sustain 0.4 # release 0.16 # hpf 38 # dry 0.95
+
+-- CHORDS: Bbm9 / Gbmaj7 / Dbmaj9 / F7. Slow 2, matching the progression rate.
+d8 $ slow 2 $ sometimesBy 0.08 (|+ note 12) $ note "<[bb3,db4,f4,ab4,c5] [gb3,bb3,db4,f4] [db3,f3,ab3,c4,eb4] [f3,a3,c4,eb4]>" # s "hoRhodes" # orbit 2 # gain 1.05 # attack 0.5 # release 2.4 # sustain 0.65 # cutoff 5500 # hpf 110 # room 0.6 # size 0.92 # dry 0.6
+
+-- HOOK: blips arpeggiating the live voicings, 13-in-16 so it never sits straight.
+-- Pitches come from the chords, so it cannot leave Bb minor.
+d13 $ slow 2 $ degradeBy 0.06 $ sometimesBy 0.15 (ply 2) $ sometimesBy 0.2 (iter 3) $ every 5 (striate 2) $ euclidOff 13 16 5 $ note (arp "<updown up down updown>" (slow 2 "<[bb3,db4,f4,ab4,c5] [gb3,bb3,db4,f4] [db3,f3,ab3,c4,eb4] [f3,a3,c4,eb4]>")) # s "blip" # orbit 3 # gain 0.9 # hpf 420 # lpf 10000 # attack 0.005 # release 0.2 # sustain 0.35 # pan (slow 11 $ range 0.35 0.65 sine) # room 0.6 # size 0.92 # dry 0.6 # delay 0.3 # delaytime (3/16) # delayfeedback 0.45 # lock 1
+
+-- PAD: the blend surface. Slow 8, long attack/release, sits behind everything so
+-- this track can be mixed INTO while it plays.
+d14 $ slow 8 $ sometimesBy 0.1 (|+ note 12) $ note "<[bb3,db4,f4,ab4,c5] [gb3,bb3,db4,f4] [db3,f3,ab3,c4,eb4] [f3,a3,c4,eb4]>" # s "superhammond" # orbit 2 # gain 1.1 # attack 1.5 # release 6 # sustain 0.85 # cutoff (slow 23 $ rangex 1200 3000 saw) # hpf 90 # lpf 7500 # pan (slow 19 $ range 0.42 0.58 sine) # room 0.85 # size 0.96 # dry 0.3
+
+-- SUB: a second, higher sine layer that only appears in sections - gives the low
+-- end movement without another full bassline fighting d7.
+d15 $ mask "<f f t t f f t f>" $ sometimesBy 0.2 (|+ note 12) $ note "<bb2 ~ db3 ~ f2 ~ ab2 ~>" # s "blip" # orbit 1 # gain 0.6 # hpf 60 # lpf 1200 # attack 0.02 # release 0.4 # sustain 0.5 # dry 0.95
