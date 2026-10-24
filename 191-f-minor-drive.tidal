@@ -54,4 +54,7 @@ d18 $ sometimesBy 0.2 (|* speed (-1)) $ every 5 (striate 4) $ slice 16 "<0 4 9 2
 -- VOICE: voxdl = 55 dancehall vocal shouts (rewind/champion/shout/brrr), from
 -- ~/samples/te-ep-paks-4-strudel/ep-40-riddim-sounds/VOX_FX, symlinked as a bank.
 -- Two drops per 8 cycles, random sample each time.
-d12 $ slow 4 $ n "<0 5 2 11 7 3 14 9>" # s "voxdl" # orbit 12 # gain 0.8 # hpf 250 # lpf 9000 # pan (slow 19 $ range 0.35 0.65 sine) # room 0.45 # size 0.9 # delay 0.25 # delaytime (3/16) # delayfeedback 0.35 # lock 1 # dry 0.65
+d12 $ mask "<f f f t>" $ every 4 (rotR (1/8)) $ n "<0 ~ 5 2 ~ 11 ~ 7 14 ~ 3 ~ 9 ~ 12 5>" # s "voxdl" # orbit 12 # gain 0.8 # hpf 250 # lpf 9000 # pan (slow 19 $ range 0.3 0.7 sine) # room 0.45 # size 0.9 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1 # dry 0.6
+
+-- second voice stream, offset a 32nd, so bursts are layered not doubled
+d9 $ mask "<f f f t>" $ off 0.0625 $ every 3 (rotR 0.25) $ n "<5 ~ 11 ~ 2 ~ 9 2> <12 ~ 3 ~ 7 ~ 0 5>" # s "voxdl" # orbit 12 # gain 0.55 # hpf 400 # lpf 7000 # pan (slow 23 $ range 0.55 0.35 sine) # room 0.55 # size 0.92 # delay 0.35 # delaytime (3/16) # delayfeedback 0.45 # lock 1 # dry 0.55
