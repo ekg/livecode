@@ -12,6 +12,43 @@ Conventions:
 
 ---
 
+## 2026-10-24 — CHAMPION SOUND (191), the mix, and the live-state problem
+
+**191 CHAMPION SOUND** (was `191-f-minor-drive`). F minor, 132 BPM. breaks165 at
+`speed 0.8` (132/165, so it sits in tempo and drops pitch = fatter), mars 626 kit,
+`dubsub` bass with `fenv 0` (fenv is the growl), hoRhodes chords, superhammond pad,
+blip arp via `euclidOff 11 16 3`, and **voxdl** — 55 dancehall vocal shouts from
+`~/samples/te-ep-paks-4-strudel/ep-40-riddim-sounds/VOX_FX`, symlinked as a bank.
+Voices arrive as *bursts*: `mask "<f f f t>"` + an 8-slot `n` string, so one bar in
+four gets a cluster of shouts, order rotating every 4 cycles.
+
+**Take 2, 4:52**, mastered -14.00 LUFS / TP -4.80 / LRA 4.2, uploaded as
+`champion-sound-20261024.mp3`. Markers show the shape: full → strip → hats/kick →
+DROP → pad filter opens → break half speed → voices every bar → kick euclid cycling →
+BREAKDOWN → PADS ONLY → bass half-time → stop. The long quiet outro is the strongest
+part of it and it is *not* in the arrangement file — see below.
+
+**The live-state problem.** Everything interesting in a mix happens as evals, and none
+of it is in the file afterwards. Take 2's outro (pads bloomed, chords at `slow 4`
+against the pad's `slow 8`, half-time bass) existed only in the running REPL. Captured
+as `191-champion-sound-outro.tidal` after the fact. **Convention from here: when a
+live state is worth keeping, write it to `<track>-<state>.tidal` while it is still
+playing.** The comments in that file explain the *why* (three unconnected timescales)
+because the numbers alone do not.
+
+**Lane-count trap that cost a whole layer.** `d17`/`d18` do not exist in this
+BootTidal (streams stop at `d16`). My tech house chunk used `d15`-`d18` in one eval,
+so `d18` failed and **all four lanes silently never loaded** — which is why the breaks
+and the tech-house kick "were so quiet". They were not quiet, they were absent. Also
+had two `d9` lanes in the file; the later one shadowed the earlier, killing the
+13-in-16 hat. Fixed by remapping to `d3`/`d11`/`d15`/`d16` and retiring the duplicate.
+
+**`$` / `off` arity.** `off 0.0625 $ every 3 (rotR 0.25) $ ...` feeds the pattern into
+the transform slot. `off` and friends take `Time -> (Pattern a -> Pattern a) -> Pattern a`,
+so the transform must be a parenthesised argument: `off 0.0625 (every 3 (rotR 0.25)) $ ...`.
+
+---
+
 ## Naming — open question (2026-10-24)
 
 Scenes are named `<number>-<genre-ish description>.tidal` (e.g. `190-new-breaks-deep`,

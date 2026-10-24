@@ -1,0 +1,26 @@
+-- title: 191 CHAMPION SOUND — outro state
+-- The state that ended the 2026-10-24 take2 mix (4:52). Not a full arrangement:
+-- it is the dissolve. Three lanes, everything else silent.
+--
+-- Load with:  tidal_restart(file="191-champion-sound-outro.tidal")
+-- or paste the three lanes on top of 191-champion-sound.tidal to crossfade in.
+--
+-- What makes it lovely and weird:
+--   * the pad (superhammond) and the chords (hoRhodes) are now at DIFFERENT speeds
+--     - pad slow 8, chords slow 4 - so the same harmony arrives twice at two rates
+--   * both had their attacks stretched (1.8s and 1.2s) so nothing has an edge
+--   * the cutoff LFO on the pad is 29 cycles, the chord release is 4s, the bass
+--     legato is 1.4 - three unconnected timescales, so it never settles
+--   * the bass is half-time: one note per 4 beats with long gaps, which under a
+--     harmonic bed with no drums reads as a pulse that might stop
+
+setcps (132/240)
+
+-- PADS: bloomed. attack 1.8 / release 7, cutoff drifting 900-3000 over 29 cycles.
+d14 $ slow 8 $ sometimesBy 0.1 (|+ note 12) $ note "<[f3,ab3,c4,eb4,f4] [db3,f3,ab3,c4,eb4] [ab2,c3,eb3,g3,c4] [c3,eb3,g3,bb3,d4]>" # s "superhammond" # orbit 2 # gain 1.25 # attack 1.8 # release 7 # sustain 0.9 # cutoff (slow 29 $ rangex 900 3000 saw) # hpf 80 # lpf 7000 # pan (slow 23 $ range 0.4 0.6 sine) # room 0.9 # size 0.97 # dry 0.3
+
+-- CHORDS at slow 4, half the pad's rate. Same harmony, different clock.
+d8 $ slow 4 $ note "<[f3,ab3,c4,eb4] [db3,f3,ab3,c4] [ab3,c4,eb4,g4] [c3,eb3,g3,bb3]>" # s "hoRhodes" # orbit 2 # gain 0.75 # attack 1.2 # release 4 # sustain 0.75 # cutoff 4200 # hpf 90 # room 0.8 # size 0.95 # dry 0.4
+
+-- BASS, half-time: one note per 4 beats, 3 beats of silence after each.
+d7 $ sometimesBy 0.2 (|+ note 12) $ note "<f1 ~ ~ ~ c2 ~ ~ ~> <db2 ~ ~ ~ ab1 ~ ~ ~> <ab1 ~ ~ ~ eb2 ~ ~ ~> <c2 ~ ~ ~ g1 ~ ~ ~>" # s "dubsub" # orbit 1 # gain 1.15 # drive 0.0 # waveMix 0.0 # subMix 0.3 # cutoff 600 # fenv 0.0 # sustain 0.5 # release 0.3 # legato 1.4 # hpf 35 # dry 0.95
