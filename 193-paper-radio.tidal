@@ -74,8 +74,9 @@ d14 $ mask "<f t t t f t t t>" $ sometimesBy 0.3 (chunk 4 (|* speed (-1))) $ sli
 -- this is the structural device: coordinated, not per-lane.
 d8 $ sometimesBy 0.25 (|* speed (-1)) $ slice 8 "<0 2 5 7 1 4 6 3>" $ chop 8 $ s "echobeat" # speed 1 # orbit 4 # gain (slow 8 $ range 0.8 1.35 saw) # hpf 150 # lpf (slow 16 $ range 3500 11000 saw) # pan 0.58 # tape 0.85 # room 0.2 # dry 0.9
 
--- 808 TOM MELODY: pitched 808 toms doing the hook. The tom voice alternates per
--- bar (low/mid/high/mid) so the melody changes timbre while the pitch line stays,
--- which is a trick a single tom cannot do. n 0 picks the first tuning of each bank.
-d16 $ slow 2 $ mask "<t t t f t t f t>" $ sometimesBy 0.15 (|* speed 0.96) $ note "<ab3 ~ c4 ~ eb4 ~ c4 ab3> <f3 ~ ab3 ~ c4 ~ eb4 c4> <db4 ~ f4 ~ ab4 ~ f4 db4> <eb4 ~ ab4 ~ c5 ~ ab4 eb4>" # s "<808lt 808mt 808ht 808mt>" # n 0 # orbit 7 # gain 1.1 # hpf 60 # lpf 4500 # release 0.35 # pan (slow 15 $ range 0.3 0.7 sine) # room 0.45 # size 0.85 # tape 0.8 # tapeWow 0.4 # dry 0.6 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1
+-- 808 TOM MELODY: 808mt at n 2, gain 1.7. TWO LESSONS HERE:
+--   1. a tom needs gain ~1.5+ to compete with breaks at 1.4 - at 1.1 it vanished
+--   2. keep the notes in the SAMPLE's octave (ab2-eb3). Asking for ab3-c5 speeds a
+--      1s tom up 2-4x, which turns it into a 250ms tick that reads as a click.
+d16 $ note "<ab2 ab3 c3 eb3 c3 ab2 ~ ~>" # s "808mt" # n 2 # orbit 7 # gain 1.7 # hpf 50 # lpf 7000 # release 0.3 # pan (slow 15 $ range 0.3 0.7 sine) # room 0.35 # size 0.85 # tape 0.7 # dry 0.75 # delay 0.25 # delaytime (3/16) # delayfeedback 0.35 # lock 1
 
