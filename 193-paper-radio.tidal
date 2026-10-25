@@ -65,12 +65,17 @@ d12 $ degradeBy 0.2 $ s "mars_kits_SDS800_Wonky:5(5,16,1)" # orbit 11 # gain 0.2
 -- 300 BREAKS as the main groove. chop/ NOT loopAt: loopAt re-times the whole
 -- file into n cycles (a 20s break squeezed into one bar = chipmunk smear).
 -- chop cuts into n chunks at NATURAL speed, and slice picks which lands where.
-d13 $ swingBy 0.12 4 $ sometimesBy 0.15 (|* speed (-1)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ chop 16 $ s "<pbrk300:28 pbrk300:29 pbrk300:30>" # speed 1 # orbit 5 # gain (slow 8 $ range 0.9 1.5 saw) # hpf 60 # lpf (slow 16 $ range 3000 12000 saw) # pan 0.45 # tape 0.7 # dry 0.92
+d13 $ mask "<t t t t t t f t>" $ swingBy 0.12 4 $ sometimesBy 0.15 (|* speed (-1)) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ chop 16 $ s "<pbrk300:28 pbrk300:29 pbrk300:30>" # speed 1 # orbit 5 # gain 1.45 # hpf 50 # lpf 12500 # pan 0.45 # tape 0.65 # dry 0.94
 
-d14 $ sometimesBy 0.3 (chunk 4 (|* speed (-1))) $ slice 8 "<0 3 6 1 5 2 7 4>" $ chop 8 $ s "<pbrk300:31 pbrk300:32 pbrk300:33>" # speed 1 # orbit 5 # gain (slow 8 $ range 0.7 1.2 saw) # hpf 80 # lpf (slow 16 $ range 3000 12000 saw) # pan 0.62 # tape 0.8 # dry 0.9
+d14 $ mask "<f t t t f t t t>" $ sometimesBy 0.3 (chunk 4 (|* speed (-1))) $ slice 8 "<0 3 6 1 5 2 7 4>" $ chop 8 $ s "<pbrk300:31 pbrk300:32 pbrk300:33>" # speed 1 # orbit 5 # gain 1.15 # hpf 70 # lpf 10000 # pan 0.62 # tape 0.75 # dry 0.92
 
 -- SHARED SAW RAMPS: one slow 8 saw on gain across kick, snare, loops, echobeat,
 -- and one slow 16 saw on lpf across the loops. They swell and open TOGETHER -
 -- this is the structural device: coordinated, not per-lane.
 d8 $ sometimesBy 0.25 (|* speed (-1)) $ slice 8 "<0 2 5 7 1 4 6 3>" $ chop 8 $ s "echobeat" # speed 1 # orbit 4 # gain (slow 8 $ range 0.8 1.35 saw) # hpf 150 # lpf (slow 16 $ range 3500 11000 saw) # pan 0.58 # tape 0.85 # room 0.2 # dry 0.9
+
+-- 808 TOM MELODY: pitched 808 toms doing the hook. The tom voice alternates per
+-- bar (low/mid/high/mid) so the melody changes timbre while the pitch line stays,
+-- which is a trick a single tom cannot do. n 0 picks the first tuning of each bank.
+d16 $ slow 2 $ mask "<t t t f t t f t>" $ sometimesBy 0.15 (|* speed 0.96) $ note "<ab3 ~ c4 ~ eb4 ~ c4 ab3> <f3 ~ ab3 ~ c4 ~ eb4 c4> <db4 ~ f4 ~ ab4 ~ f4 db4> <eb4 ~ ab4 ~ c5 ~ ab4 eb4>" # s "<808lt 808mt 808ht 808mt>" # n 0 # orbit 7 # gain 1.1 # hpf 60 # lpf 4500 # release 0.35 # pan (slow 15 $ range 0.3 0.7 sine) # room 0.45 # size 0.85 # tape 0.8 # tapeWow 0.4 # dry 0.6 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1
 
