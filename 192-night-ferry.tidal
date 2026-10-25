@@ -45,3 +45,27 @@ d8 $ degradeBy 0.15 $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loop
 
 -- CRASH / accent: rare, marks the section turns.
 d9 $ mask "<t f f f f f f f f f f f f f f f>" $ s "mars_kits_SP909_Lo_N_Dirty:7" # orbit 10 # gain 0.6 # hpf 400 # lpf 12000 # room 0.5 # dry 0.6
+
+-- ---------------------------------------------------------------------------
+-- CHAOS LAYER (added live; committed as-is)
+-- ---------------------------------------------------------------------------
+
+-- THIRD BREAK LAYER: pbrk300 25-27, heavily processed. Reversed hits, 1/64
+-- stutters, chunk-reverse every 5, crush sweeping 16->12.
+d10 $ sometimesBy 0.35 (|* speed (-1)) $ sometimesBy 0.25 (stutWith 3 0.015625 (|* speed 1.5)) $ every 5 (chunk 4 (|* speed (-1))) $ slice 16 "<0 9 4 13 2 11 6 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:25 pbrk300:26 pbrk300:27>" # speed 0.98 # orbit 11 # gain "<1.1 0.75 1.0 0.68 1.15 0.7 0.95 0.62>" # hpf 120 # lpf 10000 # crush (slow 17 $ range 16 12 saw) # pan (slow 7 $ range 0.2 0.8 sine) # dry 0.9 # room 0.12
+
+-- RIMSHOT GHOSTS: degraded, double-time bursts, rotating.
+d11 $ degradeBy 0.3 $ sometimesBy 0.2 (fast 2) $ every 3 (rotR (1/16)) $ s "<mars_kits_SP909_Lo_N_Dirty:10 mars_kits_SP909_Lo_N_Dirty:6>" # orbit 10 # gain 0.4 # hpf 800 # lpf 9000 # pan (slow 11 $ range 0.15 0.85 sine) # room 0.3 # dry 0.85
+
+-- VIBES SPARKLE: triples, backwards every 7, long delay. Top of the track.
+d12 $ slow 2 $ sometimesBy 0.25 (ply 3) $ every 7 (rev) $ note "<c5 ~ eb5 ~ g5 ~ bb5 ~>" # n "<4 4 4 4 5 4 5 4>" # s "mars_synths_DX100_Vibes" # orbit 3 # gain 0.55 # hpf 600 # lpf 11000 # release 1.2 # room 0.8 # size 0.95 # dry 0.4 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5 # lock 1
+
+-- PERC LOOP, half speed and backwards, crushed hard.
+d13 $ sometimesBy 0.4 (|* speed 0.5) $ every 7 (within (0.5,1) (|* speed (-1))) $ slice 8 "<0 5 2 7 1 6 3 4>" $ loopAt 2 $ s "<bperc nperc>" # speed 0.7 # orbit 4 # gain 0.8 # hpf 400 # lpf 8000 # pan (slow 13 $ range 0.1 0.9 sine) # crush (slow 23 $ range 16 11 saw) # room 0.3 # dry 0.8
+
+-- VOICE STUTTERS: voxdl, 5 slots per 16 cycles, stut 6 at 1/32.
+d14 $ mask "<t f f f t f f t f f t f f f t f>" $ sometimesBy 0.3 (stut 6 0.65 (1/32)) $ s "voxdl" # n "<3 11 7 19>" # orbit 12 # gain 1.0 # hpf 300 # lpf 10000 # room 0.45 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1 # dry 0.75
+
+-- SECOND HAT LAYER: 15-in-16, stutters, rotating. Never lines up with the 13.
+d15 $ degradeBy 0.1 $ swingBy 0.09 4 $ sometimesBy 0.2 (stutWith 3 0.015625 (|* speed 1.2)) $ every 5 (rotR (1/16)) $ s "mars_kits_SP909_Lo_N_Dirty:4(15,16,3)" # orbit 10 # gain 0.5 # hpf 6000 # lpf 15000 # pan (slow 7 $ range 0.2 0.8 sine) # dry 0.95 # room 0.1
+
