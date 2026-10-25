@@ -1,55 +1,47 @@
 -- title: 192 NIGHT FERRY
--- Bb minor, 128 BPM. Written to blend out of 191 CHAMPION SOUND:
---   key   F minor (4A) -> Bb minor (3A), one Camelot step, fourth up
---   tempo 132 -> 128
---   and 191's outro is pads-only, so this one opens with break + pad and holds the
---   kick back, which is the natural place to overlap.
+-- C minor, 96 BPM. Half-time hip-hop/funk, not four-on-the-floor.
+-- Still blendable from 191 CHAMPION SOUND (F minor 4A): C minor is 5A, one step.
 --
--- SAMPLE DISCIPLINE (learned the hard way, see NOTES.md):
---   * every loop plays near speed 1 - no smear from pitching a full song
---   * gain 0.6-1.2 - under ~0.3 is inaudible in a 12-lane mix, over ~1.3 clips
---   * NO `amp` (it stacks on gain and gets growly), NO `fenv` on dubsub (that is
---     the filter sweep that roars), drive 0
---   * lanes stop at d16 - d17/d18 do not exist in this BootTidal and a chunk that
---     names one fails silently, taking every other lane in it down too
+-- EVERY VOICE IS A SAMPLE, and every one is multisampled per octave, so `n` picks
+-- the sample whose own pitch matches the note and `speed` stays near 1. That is the
+-- difference between a sampled instrument and a stretched one.
+--
+--   drums  mars_kits_SP909_Lo_N_Dirty  (BD B/C/D, SD A08, Rimshot, Clap, CH, OH, Toms)
+--   bass   mars_synths_360_Bass        E Bass C0-C4
+--   chords mars_synths_DrSample_Upright_Piano  C1-C4
+--   lead   mars_synths_360_Trumpet     Muted Trumpet C2-C5
+--   perc   bperc / nperc loops
+--
+-- No blips, no hoRhodes, no superhammond, no dubsub. Two synth voices at most.
 
-setcps (128/240)
+setcps (96/240)
 -- MIXING STANDARD: master 5
 
--- BREAK A: 300-breaks indices 17-20, unused in 190/191. Sliced, permutation
--- scrambled, near-native speed.
-d1 $ degradeBy 0.06 $ swingBy 0.05 4 $ sometimesBy 0.12 (fast 1.5) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "<pbrk300:17 pbrk300:18 pbrk300:19 pbrk300:20>" # speed 0.96 # orbit 0 # gain 1.15 # hpf 45 # lpf 15000 # dry 0.9 # room 0.12
+-- KICK: SP909 "BD B". Half-time skeleton - one, and the and-of-three.
+d1 $ swingBy 0.09 4 $ s "mars_kits_SP909_Lo_N_Dirty:0(3,8,0)" # orbit 8 # gain 1.25 # hpf 38 # lpf 5500 # release 0.14 # room 0 # dry 1
 
--- BREAK B: 21-24, half speed, chunk-reversed. The darker layer under A.
-d2 $ degradeBy 0.1 $ every 5 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "<pbrk300:21 pbrk300:22 pbrk300:23 pbrk300:24>" # speed 0.52 # orbit 0 # gain 0.62 # hpf 60 # lpf 11000 # pan 0.58 # dry 0.9 # room 0.15
+-- SNARE: SP909 "SD A08" on three - the half-time backbeat. Rimshot answers it.
+d2 $ swingBy 0.11 4 $ stack [s "mars_kits_SP909_Lo_N_Dirty:11(2,8,1)" # gain 1.0 # hpf 300 # lpf 7000, struct "t(2,8,7)" $ s "mars_kits_SP909_Lo_N_Dirty:10" # gain 0.35 # pan 0.62] # orbit 9 # gain 1.0 # room 0.18 # dry 0.9
 
--- KICK: mars SP1200, the "Kick Tech" sample. Steady, with a euclid variation
--- every 4th bar so it breathes without losing the floor.
-d3 $ s "<mars_kits_SP1200_909:5(4,16,0) mars_kits_SP1200_909:5(4,16,0) mars_kits_SP1200_909:5(5,16,2) mars_kits_SP1200_909:5(4,16,0)>" # orbit 8 # gain 1.2 # hpf 38 # lpf 6500 # release 0.1 # room 0 # dry 1
+-- HATS: swung 16ths, alternating closed samples, opening on the offbeat.
+d3 $ degradeBy 0.06 $ swingBy 0.12 4 $ stack [s "<mars_kits_SP909_Lo_N_Dirty:3 mars_kits_SP909_Lo_N_Dirty:5>(13,16,2)" # gain 0.5, struct "t(2,8,1)" $ s "mars_kits_SP909_Lo_N_Dirty:8" # gain 0.28] # orbit 10 # hpf 5200 # lpf 14000 # pan (slow 17 $ range 0.35 0.65 sine) # dry 0.95 # room 0.1
 
--- CLAP: Wendel handclap on the backbeat, cycling with a 909 for variety.
-d4 $ degradeBy 0.06 $ swingBy 0.06 4 $ s "<mars_kits_Wendel_Clean:5 rolandtr909:4 mars_kits_Wendel_Clean:6>" # orbit 9 # gain 0.95 # hpf 320 # lpf 8000 # pan (slow 13 $ range 0.35 0.65 sine) # room 0.2 # dry 0.85 # release 0.14
+-- TOMS: SP909 low and mid, sparse, answering the snare.
+d4 $ degradeBy 0.2 $ every 5 (rotR (1/8)) $ s "<mars_kits_SP909_Lo_N_Dirty:14 mars_kits_SP909_Lo_N_Dirty:15>" # orbit 10 # gain 0.55 # hpf 150 # lpf 6000 # pan (slow 13 $ range 0.3 0.7 sine) # room 0.25 # dry 0.9
 
--- HATS: Wendel closed hat as a continuous 16th layer, plus an offbeat open.
-d5 $ degradeBy 0.07 $ swingBy 0.07 4 $ sometimesBy 0.15 (stutWith 3 0.03125 (|* speed 0.9)) $ every 5 (rotR (1/16)) $ stack [s "mars_kits_Wendel_Clean:7(11,16,2)" # gain 0.55, s "mars_kits_Wendel_Clean:2(4,8,1)" # gain 0.3] # orbit 10 # hpf 5000 # lpf 14000 # pan (slow 17 $ range 0.3 0.7 sine) # dry 0.95 # room 0.1
+-- BASS: sampled E-Bass, n picks the octave so it is never stretched.
+-- C minor walk: c2 / ab1 / eb2 / g1 with passing notes.
+d5 $ swingBy 0.08 4 $ sometimesBy 0.15 (|+ note 12) $ note "<c2 ~ eb2 ~ g2 ~ eb2 c2> <ab1 ~ c2 ~ eb2 ~ c2 ab1> <eb2 ~ g2 ~ bb2 ~ g2 eb2> <g1 ~ bb1 ~ d2 ~ bb1 g1>" # n "<2 2 2 2 2 2 2 2>" # s "mars_synths_360_Bass" # orbit 1 # gain 1.1 # hpf 38 # lpf 2400 # release 0.18 # room 0.05 # dry 0.95
 
--- PERC: TOM conga + 608 toms on odd grids, so they interlock rather than double.
-d6 $ degradeBy 0.12 $ every 3 (rotR (1/8)) $ s "<mars_kits_TOM_Conga:2 mars_kits_TOM_608:5 mars_kits_TOM_Conga:5>" # orbit 11 # gain 0.5 # hpf 900 # lpf 9500 # pan (slow 19 $ range 0.25 0.75 sine) # room 0.25 # dry 0.9
+-- CHORDS: sampled upright piano. Cm9 / Abmaj7 / Ebmaj7 / Gm7.
+-- n 3 for the body of each voicing, 4 for the top note.
+d6 $ slow 2 $ sometimesBy 0.08 (|* gain 0.6) $ note "<[c3,eb3,g3,bb3,d4] [ab2,c3,eb3,g3] [eb3,g3,bb3,d4] [g2,bb2,d3,f3]>" # n "<3 3 3 3 4 3 3 3 3 4 3 3 3 4 3 3 3 4>" # s "mars_synths_DrSample_Upright_Piano" # orbit 2 # gain 1.05 # hpf 120 # lpf 7000 # room 0.55 # size 0.9 # dry 0.6
 
--- BASS: Bb minor roots, gain only. fenv 0 so the filter does not sweep.
-d7 $ sometimesBy 0.15 (|+ note 12) $ note "<bb1 ~ bb2 ~ f1 ~ bb2 ~> <gb1 ~ gb2 ~ db2 ~ gb1 ~> <db2 ~ db2 ~ ab1 ~ db2 ~> <f1 ~ f2 ~ c2 ~ f1 ~>" # s "dubsynth" # orbit 1 # gain 1.1 # waveMix 0.2 # subMix 0.5 # subTone 0.35 # cutoff 700 # fenv 0.0 # drive 0.0 # pitchEnv 0.0 # legato 1.1 # sustain 0.4 # release 0.16 # hpf 38 # dry 0.95
+-- LEAD: muted trumpet, phrased in two-bar bursts so it arrives rather than loops.
+d7 $ slow 4 $ mask "<t t t f f t t t>" $ sometimesBy 0.15 (|+ note 12) $ note "<c4 ~ eb4 ~ g4 ~ ab4 g4> <eb4 ~ d4 ~ c4 ~ ~ ~>" # n "<4 4 4 4 4 4 5 4 4 4 4 4 4 4 4 4>" # s "mars_synths_360_Trumpet" # orbit 3 # gain 0.95 # hpf 300 # lpf 8000 # pan (slow 19 $ range 0.4 0.6 sine) # room 0.5 # size 0.9 # dry 0.65 # delay 0.3 # delaytime (3/16) # delayfeedback 0.4 # lock 1
 
--- CHORDS: Bbm9 / Gbmaj7 / Dbmaj9 / F7. Slow 2, matching the progression rate.
-d8 $ slow 2 $ sometimesBy 0.08 (|+ note 12) $ note "<[bb3,db4,f4,ab4] [gb3,bb3,db4,f4] [db3,f3,ab3,c4] [f3,a3,c4,eb4]>" # s "superprimes" # orbit 2 # gain 0.9 # attack 0.4 # release 2.4 # sustain 0.6 # hpf 120 # lpf 6000 # room 0.6 # size 0.92 # dry 0.6
+-- PERC LOOPS: body percussion and noise perc, sliced fine, low in the mix.
+d8 $ degradeBy 0.15 $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ loopAt 1 $ s "<bperc nperc>" # speed 0.98 # orbit 4 # gain 0.42 # hpf 700 # lpf 9000 # pan (slow 11 $ range 0.25 0.75 sine) # dry 0.88 # room 0.15
 
--- HOOK: blips arpeggiating the live voicings, 13-in-16 so it never sits straight.
--- Pitches come from the chords, so it cannot leave Bb minor.
-d13 $ slow 2 $ sometimesBy 0.15 (ply 2) $ sometimesBy 0.2 (iter 3) $ euclidOff 13 16 5 $ note (arp "<updown up down updown>" (slow 2 "<[bb3,db4,f4,ab4] [gb3,bb3,db4,f4] [db3,f3,ab3,c4] [f3,a3,c4,eb4]>")) # s "supermandolin" # orbit 3 # gain 0.85 # hpf 500 # lpf 9000 # release 0.3 # sustain 0.35 # room 0.55 # size 0.9 # dry 0.65 # delay 0.3 # delaytime (3/16) # delayfeedback 0.45 # lock 1
-
--- PAD: the blend surface. Slow 8, long attack/release, sits behind everything so
--- this track can be mixed INTO while it plays.
-d14 $ slow 8 $ note "<[bb3,db4,f4,ab4] [gb3,bb3,db4,f4] [db3,f3,ab3,c4] [f3,a3,c4,eb4]>" # s "superwavemechanics" # orbit 2 # gain 1.0 # attack 1.5 # release 6 # sustain 0.85 # hpf 90 # lpf 7500 # pan (slow 19 $ range 0.42 0.58 sine) # room 0.85 # size 0.96 # dry 0.3
-
--- SUB: a second, higher sine layer that only appears in sections - gives the low
--- end movement without another full bassline fighting d7.
--- d15 SUB: retired - the dubsynth bass now carries the low end alone.
+-- CRASH / accent: rare, marks the section turns.
+d9 $ mask "<t f f f f f f f f f f f f f f f>" $ s "mars_kits_SP909_Lo_N_Dirty:7" # orbit 10 # gain 0.6 # hpf 400 # lpf 12000 # room 0.5 # dry 0.6
