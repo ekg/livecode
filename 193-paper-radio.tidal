@@ -1,0 +1,50 @@
+-- title: 193 PAPER RADIO
+-- Ab major, 84 BPM. Lofi instrumental hip-hop. Boom-bap, swung, tape-warmed.
+--
+-- ALL-NEW PALETTE - nothing shared with 189/190/191/192:
+--   chords  mars_synths_DrSample_Rhodes_Chords  (4 LoFi Rhodes chord SAMPLES:
+--           Abmaj7 / Am / Bbm7 / Csus4 - played as-is, never transposed)
+--   bass    mars_synths_DX100_Bass              Mono Bass C0-C4, n picks octave
+--   drums   mars_kits_2600_Kit_2  (BD 2600 04-07, toms 07-12)
+--           mars_kits_SDS800_Wonky (Snare SDS800 Tone 01-14, wonky and detuned)
+--   guitar  mars_synths_DrSample_Noir           Guitar Noir chops, sparse
+--   loop    echobeat                            single loop, tape-warped
+--
+-- Warmth comes from the TAPE MODULE (tape / tapeHiss / tapeWow), not from gain -
+-- this is the first track here to use it, and it is what makes it read as lofi.
+--
+-- Key note: Ab major is the relative major of 191's F minor, so this still blends
+-- (Camelot 4B against 4A), but sits a whole world away in feel.
+
+setcps (84/240)
+-- MIXING STANDARD: master 5
+
+-- KICK: 2600 BD, boom-bap placement - one, and the and-of-two. Heavy swing.
+d1 $ swingBy 0.13 4 $ sometimesBy 0.2 (|* speed 0.94) $ s "<mars_kits_2600_Kit_2:0(2,8,0) mars_kits_2600_Kit_2:0(3,8,1)>" # orbit 8 # gain 1.15 # hpf 32 # lpf 3000 # release 0.2 # tape 0.5 # dry 1
+
+-- SNARE: SDS800 wonky snare on two and four, with ghost hits between.
+d2 $ swingBy 0.15 4 $ degradeBy 0.05 $ stack [s "<mars_kits_SDS800_Wonky:3 mars_kits_SDS800_Wonky:7 mars_kits_SDS800_Wonky:11>(2,8,1)" # gain 0.95 # hpf 260 # lpf 5200, struct "t(2,8,5)" $ s "mars_kits_SDS800_Wonky:14" # gain 0.28 # pan 0.6] # orbit 9 # gain 1.0 # room 0.25 # tape 0.6 # dry 0.85
+
+-- HATS: swung, sparse, dusty. 11-in-16 with a low level.
+d3 $ degradeBy 0.12 $ swingBy 0.16 4 $ s "mars_kits_2600_Kit_2:6(11,16,2)" # orbit 10 # gain 0.38 # hpf 4500 # lpf 11000 # pan (slow 19 $ range 0.35 0.65 sine) # tape 0.7 # dry 0.9 # room 0.1
+
+-- TOMS: 2600 toms, very sparse - one hit per bar, answering.
+d4 $ degradeBy 0.35 $ every 5 (rotR (1/8)) $ s "<mars_kits_2600_Kit_2:11 mars_kits_2600_Kit_2:12>" # orbit 10 # gain 0.42 # hpf 120 # lpf 4000 # pan (slow 13 $ range 0.3 0.7 sine) # tape 0.6 # room 0.3 # dry 0.9
+
+-- CHORDS: the LoFi Rhodes chord SAMPLES, untransposed. n cycles through
+-- Abmaj7 (0) / Bbm7 (2) / Csus4 (3) - a ii-III-I vamp that never resolves hard.
+d5 $ slow 2 $ sometimesBy 0.1 (|* gain 0.65) $ every 7 (within (0.5,1) (|* gain 0.6)) $ n "<0 2 3 2>" # s "mars_synths_DrSample_Rhodes_Chords" # orbit 2 # gain 1.0 # hpf 100 # lpf 6500 # room 0.5 # size 0.88 # tape 0.8 # tapeHiss 0.02 # tapeWow 0.5 # dry 0.55
+
+-- BASS: DX100 mono bass, n per octave. Ab major walk: ab1 / f1 / db2 / eb2.
+d6 $ swingBy 0.1 4 $ sometimesBy 0.12 (|+ note 12) $ note "<ab1 ~ ~ ~ eb2 ~ ~ ~> <f1 ~ ~ ~ c2 ~ ~ ~> <db2 ~ ~ ~ ab1 ~ ~ ~> <eb2 ~ ~ ~ bb1 ~ ~ ~>" # n "<1 1 1 1 2 1 1 1>" # s "mars_synths_DX100_Bass" # orbit 1 # gain 1.1 # hpf 36 # lpf 1800 # release 0.25 # tape 0.4 # dry 0.95
+
+-- GUITAR CHOPS: Noir guitar, sparse and backwards sometimes - the lofi "sample
+-- flip" gesture. Masked so it appears twice per 8 cycles.
+d7 $ mask "<f t f f t f f f>" $ sometimesBy 0.3 (|* speed (-1)) $ sometimesBy 0.2 (|* speed 0.75) $ n "<0 3 5 2 7 1 6 4>" # s "mars_synths_DrSample_Noir" # orbit 3 # gain 0.55 # hpf 250 # lpf 5000 # pan (slow 17 $ range 0.3 0.7 sine) # room 0.6 # size 0.9 # tape 0.7 # dry 0.6
+
+-- LOOP: echobeat, slowed and tape-warped, well under everything.
+d8 $ sometimesBy 0.25 (|* speed (-1)) $ every 5 (chunk 4 rev) $ slice 8 "<0 2 5 7 1 4 6 3>" $ loopAt 1 $ s "echobeat" # speed 0.92 # orbit 4 # gain 0.35 # hpf 300 # lpf 4500 # pan 0.58 # tape 0.9 # tapeWow 0.6 # room 0.3 # dry 0.8
+
+-- VINYL-ISH TEXTURE: the 2600 noise samples, very low, gives the surface hiss
+-- that makes lofi read as vinyl rather than as a quiet synth.
+d9 $ degradeBy 0.5 $ sometimesBy 0.15 (fast 2) $ s "mars_kits_2600_Kit_2:7" # orbit 10 # gain 0.14 # hpf 2000 # lpf 9000 # pan (slow 23 $ range 0.2 0.8 sine) # tapeHiss 0.05 # dry 1
