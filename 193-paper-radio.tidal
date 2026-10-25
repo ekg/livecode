@@ -37,7 +37,7 @@ d4 $ degradeBy 0.35 $ every 5 (rotR (1/8)) $ s "<mars_kits_2600_Kit_2:11 mars_ki
 d5 $ slow 2 $ sometimesBy 0.1 (|* gain 0.65) $ every 7 (within (0.5,1) (|* gain 0.6)) $ n "<0 2 3 2>" # s "mars_synths_DrSample_Rhodes_Chords" # orbit 2 # gain 0.6 # hpf 180 # lpf 5000 # room 0.25 # size 0.7 # release 0.35 # tape 0.8 # tapeHiss 0.02 # tapeWow 0.5 # delay 0.45 # delaytime (3/16) # delayfeedback 0.5 # lock 1 # dry 0.5
 
 -- BASS: DX100 mono bass, n per octave. Ab major walk: ab1 / f1 / db2 / eb2.
-d6 $ swingBy 0.1 4 $ sometimesBy 0.12 (|+ note 12) $ note "<ab1 ~ ~ ~ eb2 ~ ~ ~> <f1 ~ ~ ~ c2 ~ ~ ~> <db2 ~ ~ ~ ab1 ~ ~ ~> <eb2 ~ ~ ~ bb1 ~ ~ ~>" # n "<1 1 1 1 2 1 1 1>" # s "mars_synths_DX100_Bass" # orbit 1 # gain 1.1 # hpf 36 # lpf 1800 # release 0.25 # tape 0.4 # dry 0.95
+d6 $ swingBy 0.1 4 $ note "<ab1 ~ ~ ~ eb2 ~ ~ ~> <f1 ~ ~ ~ c2 ~ ~ ~> <db2 ~ ~ ~ ab1 ~ ~ ~> <eb2 ~ ~ ~ bb1 ~ ~ ~>" # n "<1 1 1 1 2 1 1 1>" # s "mars_synths_DX100_Bass" # orbit 1 # gain 1.1 # hpf 45 # lpf 1400 # release 0.3 # tape 0.4 # dry 0.95
 
 -- GUITAR CHOPS: Noir guitar, sparse and backwards sometimes - the lofi "sample
 -- flip" gesture. Masked so it appears twice per 8 cycles.
