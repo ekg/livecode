@@ -37,7 +37,9 @@ d4 $ swingBy 0.14 4 $ degradeBy 0.15 $ struct "f f t f f f f t f t f f f f t f" 
 -- CHORDS: the LoFi Rhodes chord SAMPLES, untransposed. Short release + small room
 -- so they do not RING; the space comes from a 3/16 delay instead. n cycles through
 -- Abmaj7 (0) / Bbm7 (2) / Csus4 (3) - a ii-III-I vamp that never resolves hard.
-d5 $ slow 2 $ sometimesBy 0.1 (|* gain 0.7) $ n "<0 2 3 2>" # s "mars_synths_DrSample_Rhodes_Chords" # orbit 2 # gain 1.05 # hpf 160 # lpf 6500 # room 0.3 # size 0.75 # release 0.5 # tape 0.8 # tapeHiss 0.02 # tapeWow 0.5 # delay 0.4 # delaytime (3/16) # delayfeedback 0.45 # lock 1 # dry 0.6
+-- d5 DISABLED: the LoFi Rhodes chord samples competed with the MIDI chord
+-- progression on d12. Two harmonic beds = mud, so one has to go.
+-- d5 $ slow 2 $ sometimesBy 0.1 (|* gain 0.7) $ n "<0 2 3 2>" # s "mars_synths_DrSample_Rhodes_Chords" # orbit 2 # gain 1.05 # hpf 160 # lpf 6500 # room 0.3 # size 0.75 # release 0.5 # tape 0.8 # tapeHiss 0.02 # tapeWow 0.5 # delay 0.4 # delaytime (3/16) # delayfeedback 0.45 # lock 1 # dry 0.6
 
 -- BASS: DX100 mono bass, n per octave. Ab major walk: ab1 / f1 / db2 / eb2.
 d6 $ swingBy 0.1 4 $ note "<ab1 ~ ~ ~ eb2 ~ ~ ~> <f1 ~ ~ ~ c2 ~ ~ ~> <db2 ~ ~ ~ ab1 ~ ~ ~> <eb2 ~ ~ ~ bb1 ~ ~ ~>" # n "<1 1 1 1 2 1 1 1>" # s "mars_synths_DX100_Bass" # orbit 1 # gain 1.1 # hpf 45 # lpf 1400 # release 0.3 # tape 0.4 # dry 0.95
