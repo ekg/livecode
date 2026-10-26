@@ -23,8 +23,10 @@ setcps (84/240)
 -- euclids and not "~" rests - struct wants booleans, and ~ silently drops.
 d1 $ swingBy 0.13 4 $ struct "t f f f f f t f f f t f f f f f" $ s "mars_kits_2600_Kit_2:0" # orbit 8 # gain 1.35 # hpf 32 # lpf 3800 # release 0.22 # tape 0.5 # dry 1
 
--- SNARE: SDS800 wonky snare on two and four, with ghost hits between.
-d2 $ swingBy 0.15 4 $ struct "f f f f t f f f f f f f t f f f" $ s "<mars_kits_SDS800_Wonky:3 mars_kits_SDS800_Wonky:7 mars_kits_SDS800_Wonky:11>" # orbit 9 # gain 1.25 # hpf 220 # lpf 6500 # room 0.18 # tape 0.6 # dry 0.9
+-- CLAP: real claps on two and four (Wendel handclaps cycling with realclaps).
+-- NOTE: mars_kits_2600_Kit_2 has NO clap - its indices 4/5 are "Envelope"
+-- samples, which sound like blips. Check the folder listing before using an index.
+d2 $ swingBy 0.15 4 $ struct "f f f f t f f f f f f f t f f f" $ s "<mars_kits_Wendel_Clean:5 mars_kits_Wendel_Clean:6 realclaps>" # orbit 9 # gain 1.4 # hpf 300 # lpf 7500 # room 0.2 # tape 0.5 # dry 0.92
 
 -- HATS: swung, sparse, dusty. 11-in-16 with a low level.
 d3 $ mask "<t t t f t t f t>" $ swingBy 0.16 4 $ s "mars_kits_2600_Kit_2:6(11,16,2)" # orbit 10 # gain 0.42 # hpf 4500 # lpf 12000 # pan (slow 19 $ range 0.35 0.65 sine) # tape 0.7 # dry 0.9
