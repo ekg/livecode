@@ -49,6 +49,10 @@ def main() -> int:
     ap.add_argument("--name", default=None, help="emit a full d-channel lane")
     ap.add_argument("--sound", default="hoRhodes")
     ap.add_argument("--json", action="store_true", help="emit the raw grid as JSON")
+    ap.add_argument("--cps", type=float, default=None,
+                    help="override tempo in cycles/sec (the log records sclang's clock, not Tidal's)")
+    ap.add_argument("--trim", type=float, default=0.0,
+                    help="drop notes before this many seconds into the log")
     a = ap.parse_args()
 
     lines = [json.loads(l) for l in pathlib.Path(a.log).read_text().splitlines() if l.strip()]
@@ -56,7 +60,8 @@ def main() -> int:
         print("empty log", file=sys.stderr)
         return 1
     t0 = lines[0].get("t0", 0.0)
-    cps = lines[0].get("cps", 0.45)
+    cps = a.cps if a.cps is not None else lines[0].get("cps", 0.45)
+    t_start = t0 + (a.trim or 0.0)
 
     root_pc = None
     scale = None
@@ -69,7 +74,7 @@ def main() -> int:
     sounding: dict[int, tuple[float, int]] = {}
     notes: list[tuple[float, float, int, int]] = []
     for ev in lines[1:]:
-        t = (ev["t"] - t0) * ev.get("cps", cps)  # -> cycles since start
+        t = (ev["t"] - t_start) * cps  # -> cycles since start
         n = ev["n"]
         if ev.get("on"):
             sounding[n] = (t, ev.get("v", 100))
@@ -83,6 +88,10 @@ def main() -> int:
         print("no notes captured", file=sys.stderr)
         return 1
 
+    notes = [n for n in notes if n[0] >= -0.01]
+    if not notes:
+        print("no notes after trim", file=sys.stderr)
+        return 1
     end = max(st + dur for st, dur, _, _ in notes)
     ncycles = max(1, int(end + 0.999))
     grid: dict[int, set[int]] = {}
