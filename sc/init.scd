@@ -270,7 +270,7 @@ if(~dspEnabled) { stage.("start master chain", {
 stage.("register tape module", {
 	~dirt.addModule(\tape, { |dirtEvent|
 		dirtEvent.sendSynth('dirt_tape' ++ ~dirt.numChannels,
-			[tape: ~tape, tapeHf: ~tapeHf ? 6500, tapeHiss: ~tapeHiss ? 0.015, tapeWow: ~tapeWow ? 0.3,
+			[tape: ~tape, tapeHf: ~tapeHf ? 11000, tapeHiss: ~tapeHiss ? 0.008, tapeWow: ~tapeWow ? 0.2,
 			 out: ~out]);
 	}, { ~tape.notNil });
 });
