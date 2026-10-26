@@ -63,7 +63,7 @@ d10 $ mask "<t t t f t t f t>" $ swingBy 0.1 4 $ s "mars_kits_2600_Kit_2:8(13,16
 
 d11 $ mask "<t f t t f t t f>" $ swingBy 0.08 4 $ s "mars_kits_SDS800_Wonky:1(7,16,2)" # orbit 11 # gain 0.3 # hpf 900 # lpf 8000 # pan (slow 11 $ range 0.25 0.75 sine) # tape 0.6 # dry 0.9
 
--- d12 $ note "<[~ ~ ~ gs5 as5 c6 ~ ~ ~ ~ ~ f6 ~ ~ ~ ~] [~ ~ ~   [DISABLED: MIDI-derived lanes, see notes]
+d12 $ slow 1 $ note "<[[ds4,as4,cs5,f5] ~ ~ ~ ~ ~ ~ ~ ~ [cs5,f5,gs5,c6] ~ ~ ~ ~ ~ ~] [~ [gs4,c5,ds5] ~ ~ ~ ~ ~ [ds4,g4,as4] ~ ~ [cs4,f4,gs4] ~ [c4,ds4,g4] ~ ~ ~] [~ ~ ~ [as3,cs4,f4] ~ ~ [f3,gs3,c4,ds4] ~ ~ ~ ~ [cs4,f4,gs4] ~ ~ ~ [c4,ds4,g4]] [~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~]>" # s "hoRhodes" # orbit 3 # gain 1.25 # hpf 260 # lpf 5500 # attack 0.02 # release 0.45 # sustain 0.4 # room 0.5 # size 0.88 # dry 0.75 # tape 0.4 # delay 0.2 # delaytime (3/16) # delayfeedback 0.25 # lock 1
 
 -- 300 BREAKS as the main groove. chop/ NOT loopAt: loopAt re-times the whole
 -- file into n cycles (a 20s break squeezed into one bar = chipmunk smear).
@@ -88,3 +88,4 @@ d16 $ note "<ab2 ab3 c3 eb3 c3 ab2 ~ ~>" # s "808mt" # n 2 # orbit 7 # gain 1.7 
 -- never blip: blip is a sine with a pitch envelope and at bass frequency it
 -- reads as a loud blip over the whole mix, not as a bass note.
 -- d15 $ swingBy 0.08 4 $ sometimesBy 0.1 (|+ note 12) $ note "  [DISABLED: MIDI-derived lanes, see notes]
+
