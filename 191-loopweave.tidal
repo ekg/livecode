@@ -20,17 +20,23 @@
 setcps (118/240)
 
 -- === DROPOUT SWITCH =========================================================
--- Swap the `let dropouts =` line. Each is a Pattern Bool, mask-gated per slice.
-let dropSoft = (slow 3 "<t t t t t t f f>") :: Pattern Bool   -- half a bar, rare
-let dropMid  = (slow 3 "<t t t f>")          :: Pattern Bool   -- a full bar every 12
-let dropHard = (slow 2 "<t t f f>")          :: Pattern Bool   -- two bars, often
-let dropNone = (pure True)                   :: Pattern Bool   -- wide open
-let dropouts = dropSoft
--- when the first loop steps out, the second steps in (complement of dropouts)
-let weave = inv dropouts
+-- ONE `let` group with aligned continuation lines: ghci compiles the whole block
+-- as a single statement, so `dropouts` and `weave` can see the bindings above
+-- them. Splitting these across separate `let` lines makes them out of scope.
+-- Swap the `dropouts =` binding to change the feel:
+--   dropSoft  half a bar, rare      dropMid   a full bar every 12
+--   dropHard  two bars, often       dropNone  wide open
+let dropSoft = (slow 3 "<t t t t t t f f>") :: Pattern Bool
+    dropMid  = (slow 3 "<t t t f>") :: Pattern Bool
+    dropHard = (slow 2 "<t t f f>") :: Pattern Bool
+    dropNone = (pure True) :: Pattern Bool
+    dropouts = dropSoft
+    weave    = inv dropouts
 
 -- === LAYER 1: the loop ======================================================
+-- l1 = quarter-note slices (chop 16), l2 = eighth slices (chop 32).
 let l1 = chop 16 $ loopAt 4 $ s "lpviz:487"
+    l2 = chop 32 $ loopAt 4 $ s "lpviz:488"
 
 d1 $ sometimesBy 0.15 (scramble 16)
   $ every 5 (stutWith 4 (1/16) (|* gain 0.65))
@@ -48,7 +54,6 @@ d1 $ sometimesBy 0.15 (scramble 16)
 -- A sibling groove from the same family and key (4 bars @ 120), chopped at 8ths so
 -- its detail sits between lane 1's quarter-note slices. Comes in on its OWN coprime
 -- gate (5) so the two lanes never open together by accident.
-let l2 = chop 32 $ loopAt 4 $ s "lpviz:488"
 
 d2 $ sometimesBy 0.1 (scramble 8)
   $ every 6 (stut 3 0.5 (1/16))
