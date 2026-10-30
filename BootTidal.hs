@@ -109,3 +109,73 @@ let mWidth = pF "mWidth"
 
 :set prompt "tidal> "
 :set prompt-cont ""
+
+-- EXTENDED STREAMS. Sound.Tidal.Boot defines d1..d16 only; they are just
+-- `p n . (|< orbit k)` aliases, and `p` is exported, so more are free.
+-- One binding per line: a multi-line let block is silently dropped by -ghci-script.
+-- Streams are NOT orbits: a stream can target any orbit via # orbit N, so
+-- the stream count limits simultaneous patterns, not FX slots.
+let d17 = p 17
+let d18 = p 18
+let d19 = p 19
+let d20 = p 20
+let d21 = p 21
+let d22 = p 22
+let d23 = p 23
+let d24 = p 24
+let d25 = p 25
+let d26 = p 26
+let d27 = p 27
+let d28 = p 28
+let d29 = p 29
+let d30 = p 30
+let d31 = p 31
+let d32 = p 32
+let d33 = p 33
+let d34 = p 34
+let d35 = p 35
+let d36 = p 36
+let d37 = p 37
+let d38 = p 38
+let d39 = p 39
+let d40 = p 40
+let d41 = p 41
+let d42 = p 42
+let d43 = p 43
+let d44 = p 44
+let d45 = p 45
+let d46 = p 46
+let d47 = p 47
+let d48 = p 48
+let _d17 = _p 17
+let _d18 = _p 18
+let _d19 = _p 19
+let _d20 = _p 20
+let _d21 = _p 21
+let _d22 = _p 22
+let _d23 = _p 23
+let _d24 = _p 24
+let _d25 = _p 25
+let _d26 = _p 26
+let _d27 = _p 27
+let _d28 = _p 28
+let _d29 = _p 29
+let _d30 = _p 30
+let _d31 = _p 31
+let _d32 = _p 32
+let _d33 = _p 33
+let _d34 = _p 34
+let _d35 = _p 35
+let _d36 = _p 36
+let _d37 = _p 37
+let _d38 = _p 38
+let _d39 = _p 39
+let _d40 = _p 40
+let _d41 = _p 41
+let _d42 = _p 42
+let _d43 = _p 43
+let _d44 = _p 44
+let _d45 = _p 45
+let _d46 = _p 46
+let _d47 = _p 47
+let _d48 = _p 48
