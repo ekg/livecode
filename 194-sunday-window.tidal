@@ -6,7 +6,7 @@
 --   ~masterBootGain = 5, tape defaults wide open (tape is opt-in per lane)
 --
 -- PALETTE - deliberately different from 193:
---   chords  hoRhodes (synth, so it can follow a progression) + Prophet Chorus
+--   chords  tapestab (project voice) + Prophet Chorus pad samples
 --           SAMPLES as a warm pad on the tonic, at their own pitch
 --   drums   mars_kits_707_Clean (BD A/B, Clap 707, CH/OH) - bright, small, fun
 --           plus 808bd for the sub thump
@@ -17,16 +17,16 @@ setcps (90/240)
 
 -- KICK: 808 sub under a tight 707. Two lanes so the thump and the click are
 -- separate - one sample doing both always sounds like neither.
-d1 $ swingBy 0.11 4 $ struct "t f f f f f t f f f t f f f f f" $ s "808bd" # n 2 # orbit 8 # gain 1.25 # hpf 30 # lpf 1800 # release 0.3 # dry 1
+d1 $ swingBy 0.11 4 $ struct "t f f f f f t f f f t f f f f f" $ s "808bd" # n 1 # orbit 8 # gain 1.1 # hpf 45 # lpf 3000 # dry 1
 
-d2 $ swingBy 0.11 4 $ struct "t f f f f f t f f f t f f f f f" $ s "mars_kits_707_Clean:0" # orbit 8 # gain 0.8 # hpf 120 # lpf 5000 # release 0.1 # dry 1
+d2 $ swingBy 0.11 4 $ struct "t f f f f f t f f f t f f f f f" $ s "mars_kits_707_Clean:0" # orbit 8 # gain 1.05 # hpf 120 # lpf 6000 # release 0.1 # dry 1
 
 -- CLAP: 707 clap on two and four. Bright and small, which is what makes it feel
 -- like a sunny record rather than a dark one.
-d3 $ swingBy 0.13 4 $ sometimesBy 0.15 (|* speed 0.94) $ struct "f f f f t f f f f f f f t f f f" $ s "<mars_kits_707_Clean:3 realclaps>" # orbit 9 # gain 1.3 # hpf 350 # lpf 8000 # room 0.15 # dry 0.92 # release 0.14
+d3 $ swingBy 0.13 4 $ struct "f f f f t f f f f f f f t f f f" $ s "<mars_kits_707_Clean:3 realclaps>" # orbit 9 # gain 1.3 # hpf 350 # lpf 9000 # room 0.15 # dry 0.92 # release 0.14
 
 -- HATS: swung 16ths, 707 closed + open on the offbeat.
-d4 $ degradeBy 0.08 $ swingBy 0.14 4 $ stack [s "mars_kits_707_Clean:2(11,16,2)" # gain 0.5, s "mars_kits_707_Clean:6(4,8,1)" # gain 0.3] # orbit 10 # hpf 5000 # lpf 13000 # pan (slow 17 $ range 0.35 0.65 sine) # dry 0.95 # room 0.1
+d4 $ degradeBy 0.08 $ swingBy 0.14 4 $ stack [s "mars_kits_707_Clean:2(11,16,2)" # gain 0.75, s "mars_kits_707_Clean:6(4,8,1)" # gain 0.45] # orbit 10 # hpf 5000 # lpf 13000 # pan (slow 17 $ range 0.35 0.65 sine) # dry 0.95 # room 0.1
 
 -- PROGRESSION from tunepile: ~/tunepile/chords/progressions.txt
 -- "lo-fi-loop-dm7-g7-cmaj7-am7 - key of ds" = Fm9 / Bb7 / Ebmaj7 / Cm7 (ii-V-I-vi in Eb).
@@ -34,18 +34,19 @@ d4 $ degradeBy 0.08 $ swingBy 0.14 4 $ stack [s "mars_kits_707_Clean:2(11,16,2)"
 -- SAME voicings the chords play - harmony is structural, not hoped for.
 let lp = "<[f3,f4,gs4,c5,ds5,g5] [as3,as4,d5,f5,gs5,c6] [ds3,ds4,g4,as4,d5,f5] [c3,c4,ds4,g4,as4,d5]>"
 
-d5 $ slow 2 $ sometimesBy 0.08 (|+ note 12) $ note lp # s "hoRhodes" # orbit 2 # gain 1.1 # hpf 140 # lpf 6000 # attack 0.25 # release 2.2 # sustain 0.65 # room 0.6 # size 0.9 # dry 0.6
+d5 $ slow 2 $ note lp # s "tapestab" # orbit 2 # gain 0.75 # hpf 220 # lpf 4000 # attack 0.15 # release 1.8 # sustain 0.55 # room 0.5 # size 0.85 # dry 0.7
 
 -- WARM PAD: Prophet Chorus samples at their own pitch - no transposition, so the
 -- chorus and the sample's own colour survive intact.
-d6 $ slow 8 $ n "<0 1>" # s "mars_synths_DrSample_Prophet_Chorus" # orbit 2 # gain 0.85 # hpf 180 # lpf 5200 # attack 0.6 # release 3.5 # sustain 0.8 # room 0.7 # size 0.94 # dry 0.45
+d6 $ slow 8 $ n "<0 1>" # s "mars_synths_DrSample_Prophet_Chorus" # orbit 2 # gain 0.5 # hpf 260 # lpf 3800 # attack 0.6 # release 3.0 # sustain 0.7 # room 0.6 # size 0.9 # dry 0.55
 
 -- BASS: dubsynth, fenv 0. Walks the roots, leaves air after each note.
 d7 $ swingBy 0.09 4 $ sometimesBy 0.12 (|+ note 12) $ note "<eb2 ~ ~ ~ bb1 ~ eb2 ~> <c2 ~ ~ ~ g1 ~ c2 ~> <ab2 ~ ~ ~ eb2 ~ ab2 ~> <bb1 ~ ~ ~ f2 ~ bb2 ~>" # s "dubsynth" # orbit 1 # gain 1.15 # waveMix 0.2 # subMix 0.45 # subTone 0.3 # cutoff 620 # fenv 0.0 # drive 0.0 # pitchEnv 0.0 # legato 1.1 # sustain 0.4 # release 0.2 # hpf 36 # dry 0.95
 
 -- MELODY: DX100 marimba, n per octave so the notes stay near the sample's own
 -- pitch. Phrased with rests - it states and gets out of the way.
-d8 $ swingBy 0.13 4 $ slow 2 $ sometimesBy 0.2 (ply 2) $ sometimesBy 0.12 (off 0.0625 (|* gain 0.5)) $ note (arp "<up down updown>" (slow 2 "<[f4,gs4,c5] [as4,d5,f5] [ds4,g4,as4] [c4,ds4,g4]>")) # s "hoRhodes" # orbit 3 # gain 1.1 # hpf 300 # lpf 7000 # attack 0.01 # release 0.45 # sustain 0.4 # room 0.55 # size 0.9 # dry 0.65 # tape 0.4 # delay 0.25 # delaytime (3/16) # delayfeedback 0.3 # lock 1 # nudge (slow 7 $ range 0 0.014 sine)
+d8 $ swingBy 0.13 4 $ slow 2 $ sometimesBy 0.2 (ply 2) $ note (arp "<up down updown>" (slow 2 "<[f4,gs4,c5] [as4,d5,f5] [ds4,g4,as4] [c4,ds4,g4]>")) # s "mars_synths_DX100_Vibes" # n 4 # orbit 3 # gain 0.6 # hpf 500 # lpf 8000 # room 0.5 # size 0.9 # dry 0.7 # delay 0.2 # delaytime (3/16) # delayfeedback 0.25 # lock 1
 
 -- TEXTURE: a slow dusty loop, way back, for movement under everything.
-d9 $ sometimesBy 0.2 (|* speed (-1)) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ chop 8 $ s "echobeat" # speed 1 # orbit 4 # gain 0.4 # hpf 260 # lpf 6500 # pan 0.6 # room 0.3 # dry 0.85
+-- d9 TEXTURE (echobeat): OFF. Sounded farty under the boom bap.
+-- d9 $ sometimesBy 0.2 (|* speed (-1)) $ every 7 (chunk 4 rev) $ slice 8 "<0 3 5 1 6 2 7 4>" $ chop 8 $ s "echobeat" # speed 1 # orbit 4 # gain 0.4 # hpf 260 # lpf 6500 # pan 0.6 # room 0.3 # dry 0.85
