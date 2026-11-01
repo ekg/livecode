@@ -11,8 +11,14 @@ root = pathlib.Path(__file__).resolve().parents[1]
 commands = [':set -XOverloadedStrings -Wno-type-defaults',
             'import Sound.Tidal.Boot',
             'default (Rational, Integer, Double, Pattern String)']
+# The boot file needs its stream INSTANCE as well as its `let` bindings. Copying
+# only `let` lines (the old behaviour) left `Tidally` unsatisfied, so any binding
+# that calls `p` - the stream function - failed to typecheck here while working
+# fine in the real REPL.
 commands += [line for line in (root / 'BootTidal.hs').read_text().splitlines()
-             if line.startswith('let ')]
+             if line.startswith('let ')
+             or line.startswith('tidalInst <-')
+             or line.startswith('instance Tidally')]
 if len(sys.argv) < 2:
     sys.exit(__doc__)
 for index, name in enumerate(sys.argv[1:]):
