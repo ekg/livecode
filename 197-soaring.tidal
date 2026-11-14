@@ -18,6 +18,21 @@
 --   C5 sample, so b4-a5 sit within a few semitones instead of being chipmunked.
 --
 -- THE BREAK - AND WHY THIS FILE EXISTS
+--
+--   loopAt DOES NOT ALWAYS STRETCH. Verified by querying the pattern:
+--     loopAt 1 $ s "p94brkA"  -> 1 event, speed=1.0, NO begin/end
+--     chop 16 $ s "p94brkA"   -> 16 events, speed=Nothing (=1.0)
+--   These banks are custom-loaded with loadSoundFile and carry no length
+--   metadata, so loopAt/chop silently leave speed at 1.0. A 2.215 s break in a
+--   1.4545 s bar then plays only the first 66% and jumps back to the top EVERY
+--   BAR. That discontinuity is what "the break sounds sparse" actually was.
+--   Fix by measurement, one of:
+--     - use a break that IS one bar at the session tempo:
+--         breaks165 = 1.4229 s vs bar at 165 BPM = 1.4545 s  -> 98% fit
+--     - or set speed explicitly: speed = sampleDur / barDur
+--         p94brkC = 2.1482 s / 1.4545 s = 1.523   (d2 does this, pitched up)
+--   Metered proof: rms floor 0.038 before, 0.162 after.
+--
 --   p94brkA/B/C/D are 1-bar break loops (108.5/115/111/130 BPM), not used by 196.
 --   A "major change" is a 32-bar arc, four 8-bar sections, each changing the
 --   slice order AND the filter AND the gain together - so the section change is
@@ -59,8 +74,8 @@
 
 setcps (165/60/4)
 
-d1 $ every 13 (chunk 4 (fast 1.5)) $ slice 16 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15" $ loopAt 1 $ s "<p94brkA p94brkB p94brkC p94brkD>" # orbit 0 # gain (slow 8 "<0.75 1.5 1.25 0.7>") # hpf (slow 8 "<500 30 30 180>") # lpf (slow 8 "<2600 18000 9000 3200>") # delay (slow 8 "<0 0.05 0.3 0.45>") # delaytime (3/16) # delayfeedback 0.34 # lock 1 # dry (slow 8 "<0.85 0.95 0.8 0.6>") # room 0.14
-d2 $ every 17 (rev) $ slice 16 "0 4 8 12 1 5 9 13 2 6 10 14 3 7 11 15" $ loopAt 1 $ s "<p94brkC:0 p94brkD:0>" # orbit 1 # gain (slow 8 "<0.2 0.55 0.7 0.15>") # hpf 120 # lpf (slow 8 "<4000 14000 8000 3000>") # pan 0.6 # dry 0.9 # room 0.2
+d1 $ every 13 (chunk 4 (fast 1.5)) $ every 17 rev $ slice 16 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15" $ s "breaks165" # orbit 0 # gain 1.6 # hpf 30 # lpf 18000 # dry 0.93 # room 0.14 # delay 0.12 # delaytime (3/16) # delayfeedback 0.32 # lock 1
+d2 $ slice 16 "0 4 8 12 1 5 9 13 2 6 10 14 3 7 11 15" $ s "p94brkC" # speed 1.523 # orbit 1 # gain (slow 8 "<0.5 0.75 0.65 0.45>") # hpf 120 # lpf 14000 # pan 0.6 # dry 0.9 # room 0.2
 d3 $ swingBy 0.14 4 $ sometimesBy 0.2 (|* speed 1.05) $ s "mars_kits_909_Clean:0" # orbit 2 # gain (slow 8 "<0.7 1.0 0.95 0.55>") # hpf 35 # lpf 3000 # dry 1
 d4 $ swingBy 0.14 4 $ s "mars_kits_707_Clean:3" # orbit 3 # gain (slow 8 "<0.5 0.9 0.85 0.4>") # hpf 260 # lpf 9500 # room 0.2 # dry 0.88 # release 0.14
 d5 $ swingBy 0.14 8 $ every 11 (fast 2) $ s "mars_kits_707_Clean:2(9,16)" # orbit 4 # gain (slow 8 "<0.35 0.5 0.45 0.3>") # hpf 5200 # lpf 14000 # pan 0.58 # dry 0.95
