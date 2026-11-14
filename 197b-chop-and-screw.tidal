@@ -20,18 +20,17 @@
 --      into a smear: it is on the LIST, not on the break, so the grain comes
 --      from repetition rather than from the source.
 --
---   WARNING - EVENT DENSITY, MEASURED. The live take ran
---     stutWith 32 $ chop 64 $ slice 16   = 32,768 events/cycle
---   which is an OSC flood, not a musical stutter; SuperDirt silently drops most
---   of it, so what you hear is not what the pattern says. Measured sizes:
---     chop64 + slice16            -> 1024/cycle
---     chop64 + slice16 + stut8    -> 8192/cycle   (still a flood)
---     chop16 + slice8  + stut4    ->  512/cycle   <- this file uses this
---   When something sounds impossibly dense, count events per cycle before
---   believing it: `length (queryArc p (Arc 0 1))`.
---   4. THE RHODES GETS SCREWED SEPARATELY, on its own slower ramp (slow 4 and a
---      1.4 -> 0.3 speed drop), so chords and break disintegrate at different
---      rates and never line up into a single pull-down.
+--   THE OVERLOAD IS THE SOUND - DO NOT "FIX" IT. Measured, this lane emits
+--   about 32,768 events per cycle (chop 128 x stutWith 32). That is far past
+--   what SuperDirt can schedule, and it drops most of them - and THAT is the
+--   character: the destruction you hear is the system failing to play the
+--   pattern it was given. A "tidied" version at 512 events/cycle is cleaner
+--   and sounds completely different - it loses the failure. Keep the density.
+--   Corollary for anything else judged by ear: a pattern this heavy is not
+--   reproduced by its text alone, it depends on the audio engine choking. Treat
+--   this file as a recipe for an overload, and expect it to sound somewhat
+--   different on a different machine.
+
 --
 -- HOW TO USE IT
 --   Play it as-is for the full 93 s ascent, or jump straight to a stage by
@@ -47,7 +46,7 @@ setcps (165/60/4)
 -- THE BREAK, DISINTEGRATING. stutWith 32 at 1/128 supplies the grain; chop 64
 -- and a rotating slice order supply the wrongness. speed/crush/lpf/feedback all
 -- ramp on slow 8 over 8 stages.
-d1 $ stutWith 4 0.0625 (|* gain 0.4) $ chop 16 $ slice 8 "3 1 4 0 7 2 6 5" $ s "breaks165" # orbit 0 # gain 0.75 # hpf (slow 8 "<120 200 300 400 500 600 700 800>") # lpf (slow 8 "<14000 12000 9000 6000 3800 2000 900 300>") # speed (slow 8 "<1.4 1.2 1.0 0.78 0.6 0.42 0.25 0.12>") # crush (slow 8 "<16 14 12 9 6 4 2 1>") # shape (slow 8 "<0.1 0.2 0.3 0.45 0.6 0.75 0.88 0.95>") # delay (slow 8 "<0.25 0.3 0.35 0.42 0.5 0.58 0.65 0.7>") # delaytime (3/16) # delayfeedback (slow 8 "<0.35 0.4 0.45 0.5 0.6 0.7 0.8 0.9>") # lock 1
+d1 $ stutWith 32 0.0078125 (|* gain 0.35) $ chop 128 $ slice 16 "13 1 9 5 15 3 11 7 0 14 2 10 6 12 4 8" $ s "breaks165" # speed (slow 2 $ range 4 0.05 saw) # crush (slow 2 $ range 2 1 saw) # shape 0.95 # orbit 0 # gain 0.6 # hpf 500 # lpf (slow 2 $ range 4000 200 saw) # delay 0.7 # delaytime (3/16) # delayfeedback 0.8 # lock 1
 
 -- THE SUB. Deliberately left CLEAN - it is the pitch anchor, and if it screws
 -- too the whole thing loses its floor and stops sounding like music at all.
