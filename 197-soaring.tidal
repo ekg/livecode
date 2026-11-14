@@ -1,0 +1,69 @@
+-- 197 SOARING
+-- @scene {"title":"Soaring","cps":0.6875,"quantize":1}
+--
+-- A MAJOR, 128 BPM. Deliberately the opposite of 196: 196 is G minor, 165 BPM,
+-- twelve texture layers and a blip melody. This is one break that transforms,
+-- and a piano that sings over it.
+--
+-- THE PIANO
+--   Source: ~/tunepile/tabs-tidal/Europe_-_I__ll_Cry_For_You.gp3-7fede367.tidal
+--   ("I'll Cry For You", Europe, 112 BPM). Its lead has a high sustained phrase
+--   - b4 e5 fs5 gs5 a5 - which is the soaring register this track is built
+--   around. Pitch classes in the whole part are a b e fs g gs: that is E major
+--   with a b7, i.e. A major / E mixolydian, so 197 is in A.
+--   The phrase is 94 tokens; padded to 96 so `slow 24` puts exactly one token on
+--   each quarter note - a quarter-note piano line over a 165 BPM break, which is
+--   what makes it read as "soaring" rather than busy. 24 bars = 45 s per phrase.
+--   Voice: mars_synths_SK1_Piano (C4/C5/C6 samples, unused until now), n 1 = the
+--   C5 sample, so b4-a5 sit within a few semitones instead of being chipmunked.
+--
+-- THE BREAK - AND WHY THIS FILE EXISTS
+--   p94brkA/B/C/D are 1-bar break loops (108.5/115/111/130 BPM), not used by 196.
+--   A "major change" is a 32-bar arc, four 8-bar sections, each changing the
+--   slice order AND the filter AND the gain together - so the section change is
+--   audible in texture, not just in a parameter nudge:
+--     bars 1-8    filtered + half the slices       (intro)
+--     bars 9-16   full range, straight order       (open)
+--     bars 17-24  interleaved order, chopped       (breakdown)
+--     bars 25-32  stripped, quiet, delay-heavy     (drop-out)
+--
+-- A TRAP THAT COST TIME, RECORDED SO IT DOES NOT AGAIN
+--   `chop` BEFORE `slice` silently cancels the reorder - verified by querying
+--   begin values: `slice 4 "1 0 3 2" $ s "x"` gives begins 0.25 0.0 0.75 0.5,
+--   but `slice 4 order $ chop 4 $ s "x"` gives 0.0 0.25 0.5 0.75 (identity).
+--   And `slice n "<o1 o2>"` does NOT work as a section-varying order: a single
+--   `<...>` yields ONE value per cycle, so slice collapses to one event.
+--   So: slice DIRECTLY on s, and get sections from the parameter arc instead.
+--
+-- PHRASING - the thing that took longest to get right.
+--   First attempt gave EVERY note the same articulation (release 2.2, sustain
+--   0.55) which read as "OM OM OM OM": a drone, not a phrase. Phrasing is not in
+--   the notes, it is in the articulation:
+--     legato  slow 4 "<0.4 1.7 0.85 2.3 0.5 1.2>"   - notes last 40% to 230%
+--     sustain slow 3 "<0.2 0.75 0.35 0.9 0.25>"
+--     release slow 5 "<0.3 1.8 0.55 2.6 0.4 1.4>"   - 0.3 s to 2.6 s
+--   plus a gain contour at slow 2, an octave lift/drop, and nudge drift.
+--
+-- GAIN - measure, do not guess. Multiplying two gain patterns silently peaks at
+--   their product: 1.15 * 1.35 = 1.55 was audibly overdriven, and a 0.45 scaler
+--   took it to underdriven (ceiling 0.66). The working setting caps at
+--   1.18 * 1.05 = 1.24, which measured ceiling 0.83. Overdriven = 0.89,
+--   underdriven = 0.66, so 0.83 is the target band.
+--
+-- DANCING TOGETHER: the piano shares the 8-bar section arc of the break (the
+--   same <0.75 1.05 0.9 0.65> shape as d1's gain arc) and the same SWING of
+--   0.14 as the kick and snare, instead of drifting on independent sines. That
+--   is what makes it feel like one band rather than three loops.
+--
+-- MIXING STANDARD  written for ~masterBootGain = 5. No amp: gain only.
+
+setcps (165/60/4)
+
+d1 $ every 13 (chunk 4 (fast 1.5)) $ slice 16 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15" $ loopAt 1 $ s "<p94brkA p94brkB p94brkC p94brkD>" # orbit 0 # gain (slow 8 "<0.75 1.5 1.25 0.7>") # hpf (slow 8 "<500 30 30 180>") # lpf (slow 8 "<2600 18000 9000 3200>") # delay (slow 8 "<0 0.05 0.3 0.45>") # delaytime (3/16) # delayfeedback 0.34 # lock 1 # dry (slow 8 "<0.85 0.95 0.8 0.6>") # room 0.14
+d2 $ every 17 (rev) $ slice 16 "0 4 8 12 1 5 9 13 2 6 10 14 3 7 11 15" $ loopAt 1 $ s "<p94brkC:0 p94brkD:0>" # orbit 1 # gain (slow 8 "<0.2 0.55 0.7 0.15>") # hpf 120 # lpf (slow 8 "<4000 14000 8000 3000>") # pan 0.6 # dry 0.9 # room 0.2
+d3 $ swingBy 0.14 4 $ sometimesBy 0.2 (|* speed 1.05) $ s "mars_kits_909_Clean:0" # orbit 2 # gain (slow 8 "<0.7 1.0 0.95 0.55>") # hpf 35 # lpf 3000 # dry 1
+d4 $ swingBy 0.14 4 $ s "mars_kits_707_Clean:3" # orbit 3 # gain (slow 8 "<0.5 0.9 0.85 0.4>") # hpf 260 # lpf 9500 # room 0.2 # dry 0.88 # release 0.14
+d5 $ swingBy 0.14 8 $ every 11 (fast 2) $ s "mars_kits_707_Clean:2(9,16)" # orbit 4 # gain (slow 8 "<0.35 0.5 0.45 0.3>") # hpf 5200 # lpf 14000 # pan 0.58 # dry 0.95
+d6 $ slow 2 $ note "a1 ~ ~ ~ a1 ~ ~ ~ e2 ~ ~ ~ ~ ~ ~ ~ fs2 ~ ~ ~ fs2 ~ ~ ~ d2 ~ ~ ~ ~ ~ ~ ~" # s "dubsub" # orbit 5 # gain 1.0 # hpf 28 # lpf 400 # waveMix 0 # subMix 1 # fenv 0 # attack 0.006 # release 1.3 # sustain 0.9 # dry 0.95 # room 0.06
+d7 $ swingBy 0.14 2 $ slow 24 $ sometimesBy 0.28 (stutWith 3 0.0625 (|* gain 0.62)) $ sometimesBy 0.18 (ply 2) $ sometimesBy 0.12 (off 0.0625 (|* gain 0.45)) $ sometimesBy 0.1 (|+ note 12) $ sometimesBy 0.1 (|+ note (-12)) $ note "b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ a5 ~ gs5 ~ e5 ~ b4 ~ ~ ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ ~ ~" # s "mars_synths_SK1_Piano" # n 1 # orbit 6 # legato (slow 4 "<0.4 1.7 0.85 2.3 0.5 1.2>") # gain ((range 0.85 1.18 $ slow 37 sine) * (slow 8 "<0.75 1.05 0.9 0.65>")) # sustain (slow 3 "<0.2 0.75 0.35 0.9 0.25>") # release (slow 5 "<0.3 1.8 0.55 2.6 0.4 1.4>") # hpf 120 # lpf (slow 8 "<4200 12000 8500 3400>") # attack 0.008 # room (slow 8 "<0.75 0.55 0.68 0.8>") # size 0.95 # dry 0.55 # delay (slow 8 "<0.4 0.12 0.26 0.5>") # delaytime (3/16) # delayfeedback 0.32 # nudge (slow 7 $ range 0 0.018 sine) # lock 1
+d8 $ every 19 (# lpf (slow 16 $ range 1200 7000 sine)) $ degradeBy (range 0.4 0.8 $ slow 29 sine) $ s "wind:4" # orbit 7 # gain (range 0.05 0.16 $ slow 31 sine) # hpf 500 # lpf 4000 # pan (range 0.25 0.75 $ slow 53 sine) # room 0.65 # size 0.95 # dry 0.45
