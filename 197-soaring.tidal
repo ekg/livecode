@@ -105,12 +105,24 @@ d7 $ swingBy 0.14 2 $ slow 24 $ sometimesBy 0.28 (stutWith 3 0.0625 (|* gain 0.6
 --     n 0, speed 1.5874 = +8          -> Emaj7    (V)
 --     n 0, speed 1.4142 = +6          -> Dmaj7    (IV)
 --     n 1, speed 1.6818 = +9          -> F#m      (vi)
---   So n and speed are both 4-value patterns and must stay aligned - both are
---   <...> at one value per cycle, so they are.
+--   So n and speed are both same-length <...> patterns and MUST stay aligned -
+--   both yield one value per cycle, so they are.
+--
+--   EIGHT CHORDS AND BREATH. `slow 2` holds each chord for two bars, so the
+--   cycle is 16 bars instead of 4 and release 1.1 / room 0.45 lets each chord
+--   bleed into the next. The progression uses all four sample qualities,
+--   because a maj7 sample cannot become a sus or a min7 by transposition:
+--     1 Amaj7 n0 1.0595   5 F#m7  n2 0.7937
+--     2 C#m   n1 1.2599   6 Dmaj7 n0 1.4142
+--     3 Dmaj7 n0 1.4142   7 Bm7   n2 1.0595
+--     4 Esus4 n3 1.2599   8 Amaj7 n0 1.0595
+--   Sample roots assumed: n0 Ab3, n1 A3, n2 Bb3, n3 C4. Speeds are
+--   2 ** ((target - root) / 12). If a chord sounds wrong, check the root
+--   assumption before touching the number.
 
 
 -- PLUCK LAYER, interlaced with the chord stabs: different euclid (5,8,0 vs
 -- 3,8,1), same 0.14 swing. Carries the same I-V-IV-vi movement as the Rhodes
--- (a4 e5 d5 fs5) so the two agree harmonically instead of one being pinned.
+-- (a4 cs5 d5 e5 fs4 d5 b4 a4, same 8-chord progression and same `slow 2`) so the two agree instead of one being pinned.
 -- cp4 is a C4 pluck, so `note` transposes it via speed as usual.
-d10 $ swingBy 0.14 4 $ sometimesBy 0.25 (degradeBy 0.5) $ struct "t(5,8,0)" $ note "<a4 e5 d5 fs5>" # s "cp4" # orbit 9 # gain 0.55 # hpf 600 # lpf 10000 # attack 0.002 # release 0.2 # room 0.3 # size 0.8 # dry 0.85 # delay 0.18 # delaytime (3/16) # delayfeedback 0.3 # lock 1
+d10 $ swingBy 0.14 4 $ slow 2 $ sometimesBy 0.25 (degradeBy 0.5) $ struct "t(5,8,0)" $ note "<a4 cs5 d5 e5 fs4 d5 b4 a4>" # s "cp4" # orbit 9 # gain 0.55 # hpf 600 # lpf 10000 # attack 0.002 # release 0.35 # room 0.35 # size 0.85 # dry 0.82 # delay 0.18 # delaytime (3/16) # delayfeedback 0.3 # lock 1
