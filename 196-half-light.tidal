@@ -69,3 +69,22 @@ d7 $ every 5 (|+ note 12) $ slow 2 $ struct "t ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~" $ 
 -- AIR. Wind, not noise: SuperDirt's `noise` bank has no :0 and fails silently
 -- (boot log showed "reading soundfile as needed: noise:none"). wind:2 is real.
 d8 $ every 11 (# lpf (slow 8 $ range 900 6000 sine)) $ degradeBy 0.55 $ s "wind:2" # orbit 7 # gain 0.16 # hpf 400 # lpf 3000 # pan 0.7 # room 0.6 # size 0.95 # dry 0.4
+
+-- THE MELODY. Real material, not a loop: the lead from "Blizzardman" (Megaman),
+-- G minor, from ~/tunepile/tabs-tidal/Megaman_-_Blizzardman.gp4-1bb07592.tidal
+-- (150 BPM, 33 bars - extracted at 64 bars/256 steps).
+--
+-- WHY THIS TUNE: its bass line states Gm - F - Eb - D - Cm, the same G-minor
+-- aeolian world 196 already lives in, so the melody lands in key without
+-- transposition - the only change is two octaves DOWN, because at g5-c7 it was
+-- a guitar lead and over a breakbeat it needs to sit in the middle.
+--
+-- TIMING: the tab's grid is one step per BEAT over 64 bars. 196's cycle is one
+-- bar, so `slow 64` maps exactly one step per beat - the melody keeps its
+-- original rhythmic proportions and takes 93 seconds to come round again.
+-- That is the fix for "short repeat": the phrase develops (the second half
+-- climbs to c5 and sequences) instead of restarting every two bars.
+--
+-- Voice superchip - chiptune square, bright on purpose. The track was reading
+-- too dark and this is the only element with real top-end.
+d9 $ slow 64 $ sometimesBy 0.06 (degradeBy 0.4) $ note "g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a3 ~ b2 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ f3 ~ ~ ~ g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a4 ~ e3 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ f4 ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ ~ ~ d4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ f4 ~ e4 ~ d4 ~ e4 ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ c5 ~ ~ ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ d4 ~ ~ ~ c4 ~ ~ ~" # s "superchip" # orbit 8 # gain 0.55 # hpf 450 # lpf 7000 # attack 0.004 # release 0.3 # sustain 0.35 # room 0.32 # size 0.85 # dry 0.72 # delay 0.3 # delaytime (3/16) # delayfeedback 0.34 # lock 1
