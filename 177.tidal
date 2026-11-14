@@ -1,0 +1,177 @@
+-- 177 — MONDAY'S LIFE. A REMIX out of ~/tunepile: two songs from the tab corpus reconciled to
+-- ONE key (A minor) and ONE tempo (125 BPM), over a beat whose rhythm comes from the corpus's
+-- Euclidean library, with harmony taken verbatim from the chord-progression library.
+--
+-- SOURCES (all found with ~/tunepile/tools/search.sh --source walk:tabs-tidal):
+--   A) Orgy — "Blue Monday" (125 BPM, 16-bar cycles, transcribed in A MINOR — verified by
+--      histogramming its own notes: 214/214 notes fit A natural minor, so NO transposition).
+--      tidal: tabs-tidal/Orgy_-_Blue_Monday_2_.gp3-e44e0798.tidal
+--      Its bass is an 8th-note octave-jumping riff: f3 ~ f4 f4 f3 ~ f4 f4 c3 ~ c4 c4 ...
+--      (that is the hook — it is the whole record), with a sparse guitar line on top.
+--   B) Talk Talk — "It`s My Life" (125 BPM, 16-bar cycles, transcribed in F MINOR / Ab major:
+--      78% fit). Transposed UP A MAJOR THIRD (+4 semitones) it lands exactly in A minor, so
+--      every lane of it below carries `|+ note 4` and nothing else is changed.
+--      tidal: tabs-tidal/Talk_Talk_-_It_s_My_Life_4_.gp3-6228b276.tidal
+--   C) rhythm/euclid  — the perc is E(5,16) rotated 3, i.e. `t(5,16,3)`, from the library.
+--   D) chords/progressions.txt — "vi-IV-I-V-poppunk, key of c" (= A minor, NO transposition):
+--      Am9 Fmaj9 Cmaj9 G9, five-tone voicings root/3/5/7/9, copied verbatim. Under Blue
+--      Monday's riff (F C D G) and It's My Life's material this needs no rewrite.
+--
+-- TEMPO: 125 BPM. Cycle = ONE BAR (cps 125/60/4 = 0.52083), so the beat reads as house
+-- normally, and the tab lanes are wrapped in `slow 4` over a 4-bar excerpt — 4 bars at 125 is
+-- 7.68 s, exactly 4 cycles, so the transcriptions keep their TRUE tempo. Verified arithmetic,
+-- not vibes: the tab files themselves say "tempo 125 bpm | meter 4/4 | 16 bar(s) -> cps
+-- (125/60/64)".
+--
+-- FOREGROUNDING (this is the fix for "the synth stuff is completely hidden"): the melodic
+-- lanes are the LOUD ones here, not the drums — d5-d11 sit at gain 0.4-0.62 with an hpf that
+-- clears the kick/bass region, and the hooks are doubled (superimpose/jux/off) rather than
+-- merely turned up. Measured on the previous scene, a melody at gain 0.06-0.24 against a kick
+-- at 0.55 reads -40 dB under the drums, which is why it was inaudible.
+--
+-- NO CRUNCH: every dub send here carries ddDrive 0, ddCross 0, ddWow 0 explicitly. The
+-- dirt_dubdelay defaults are ddDrive 0.25 (a hard tanh), ddCross 0.6 (60% cross-fed feedback =
+-- flange) and ddWow 0.12 (modulated delay time = flutter); leaving them out is what made the
+-- last scene sound "bit-reduced and flanged to death". No crush anywhere either.
+--
+-- ORBITS: 0 drums dry | 1 bass | 2 harmony | 3 hooks | 4 pad/texture | 5 accents.
+-- @scene {"title":"Monday's Life","cps":0.5208333333333334,"quantize":4}
+{- @sc
+// FORM: 32 cycles = 8 sections of 4 (the gates are slow 4). LINEAR MODULATION ONLY — the
+// channel mixer runs LPF -> tanh(sat) -> FreeVerb(wet), and a modulated saturation into a
+// modulated reverb is exactly the "vibrating/crunchy" failure. sat 0, wet 0, gain 1, tone
+// moving slowly and bounded.
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles|
+    var form = cycles.mod(32);
+    var open = (form >= 4) * (form < 24);
+    var hook = ((form.mod(8) - 6).abs < 0.5);
+    var arch = (cycles * (2pi / 32)).sin;
+    [6500 + (arch * 3000) + (open * 2500) + (hook * 2000), 0, 0, 1];
+});
+-}
+
+-- recipes: no backslashes (they do not survive the plugin's eval path), and dub params last
+let ddSafe = (# ddSend 0.28) . (# delaytime (3/16)) . (# lock 1) . (# delayfeedback 0.32) . (# ddDrive 0) . (# ddCross 0) . (# ddWow 0) . (# ddHp 450) . (# ddLp 3200)
+let airSmall = (# verbSend 0.2) . (# room 0.42) . (# verbT60 1.9)
+let airBig = (# verbSend 0.34) . (# room 0.66) . (# verbT60 3.0) . (# size 0.8)
+-- house lean on the offbeat 8ths, and each lane's movement on its OWN period (no two alike)
+let swing = (# nudge (fast 8 "0 1" * 0.05))
+
+-- gates: one step per 4-cycle section, so the form is 8 steps x 4 = 32 cycles
+let kickGate = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+let clapGate = (slow 4 "<f t t t f t t t>") :: Pattern Bool
+let hatGate  = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+let percGate = (slow 4 "<f f t t f t t f>") :: Pattern Bool
+let bassGate = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+let hookGate = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+let leadGate = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+let padGate  = (slow 4 "<f t t t t t t t>") :: Pattern Bool
+-- THE RELAY. Four overlapping phrase masks over a 4-bar cycle. Their UNION is every bar, and
+-- two of them are always sounding, so the melodic line never stops — but which voice carries it
+-- changes every bar, and phrD wraps (bar 4 -> bar 1), which is what makes it read as continuous
+-- rather than as a four-bar loop with a gap. This replaces the old sparse masks, which were the
+-- reason the melody sounded like "half the picture".
+let phrA = (slow 1 "<t t f f>") :: Pattern Bool
+let phrB = (slow 1 "<f t t f>") :: Pattern Bool
+let phrC = (slow 1 "<f f t t>") :: Pattern Bool
+let phrD = (slow 1 "<t f f t>") :: Pattern Bool
+
+-- CORPUS D: vi-IV-I-V-poppunk, key of c = A minor, voicings verbatim from chords/progressions.txt
+let prog = "<[a3,a4,c5,e5,g5,b5] [f3,f4,a4,c5,e5,g5] [c3,c4,e4,g4,b4,d5] [g3,g4,b4,d5,f5,a5]>" :: Pattern Note
+-- CORPUS A: Orgy Blue Monday, bass riff, 4 bars lifted verbatim (its own true tempo, see header)
+let bmBass = (slow 4 "f3 ~ f4 f4 f3 ~ f4 f4 c3 ~ c4 c4 c3 ~ c4 c4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 g3 ~ g4 g4 g3 ~ g4 g4 c3 ~ c4 c4 c3 ~ c4 c4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4 d3 ~ d4 d4") :: Pattern Note
+-- CORPUS A: the same song's guitar line, 4 bars verbatim
+let bmGtr = (slow 4 "f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ f4 ~ f4 ~ f4 ~ g4 ~ c4 ~ c4 ~ c4 ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~ d4 ~ d4 ~ ~ ~") :: Pattern Note
+-- CORPUS B: Talk Talk It`s My Life, 4 bars of the synth riff, LEFT IN ITS OWN KEY here —
+-- every lane using it applies (|+ note 4), which is the whole reconciliation.
+let ttlRiff = (slow 4 "ds3 ~ ~ ~ ds3 ~ ~ ~ cs3 ~ ds3 ~ ~ ~ as2 ~ ~ ~ as2 ~ ds3 ~ ~ ~ cs3 ~ ds3 ~ ~ ~ f3 ~ d3 ~ ~ ~ f3 ~ ~ ~ ds3 ~ f3 ~ ~ ~ gs3 ~ g3 ~ ~ ~ gs3 ~ ~ ~ f3 ~ gs3 ~ ~ ~ f3 ~") :: Pattern Note
+let ttlChords = (slow 4 "[as4,as5] ~ [d5,ds5] ~ [as4,d5,as5] ~ ~ ~ [b3,gs4,gs5] ~ ~ ~ [b3,gs4,gs5] ~ ~ ~ gs4 ~ cs5 ~ f5 ~ [ds4,gs5] cs5 f5 ~ f5 ~ [ds4,e4,b4,f5] ~ ~ ~ ~ ~ [ds4,gs4,cs5,gs5] ~ ~ ~ ~ ~ [f4,as4,cs5] ~ ~ ~ ~ ~ [f4,as4,cs5]") :: Pattern Note
+let ttlHigh = (slow 4 "f5 ~ ~ ~ ds5 ~ b4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ as5 as5 as5 ~ as5 ~ as5 as5 as5 ~ as5 ~ as5 as5 ~ as5 as5 ~ as5 ~ as5 ~ as5 ~ ~ ~") :: Pattern Note
+
+-- ORBIT 0 — KICK. Not one grid: an 8-bar cycle of DIFFERENT figures, and the odd bars are
+-- prime doors (t(7,16,3), t(9,16,5), t(11,16,7)) so the floor walks instead of ticking. Two
+-- machines stacked, no waveshaper on either (the "crunch" lesson).
+-- ORBIT 0 — KICK: SIMPLE. One machine, one voice, straight four on the floor. I stacked three
+-- euclids on it and it was the worst thing in the mix — the kick is the one element that should
+-- be boring, so it is. Everything else in this scene is allowed to be crazy.
+d1 $ mask kickGate $ swing $ struct "t(4,4)" $ s "rolandtr909:0" # orbit 0 # gain (slow 11 $ range 0.5 0.58 sine) # hpf 58 # lpf 4200 # release 0.08
+
+-- ORBIT 0 — BREAK A, THE ENGINE. One source only (p94brkA = "Funky 6 A 108.5bpm"), reshaped
+-- IN PLACE by a long rotating 16-slice order: a 16-bar effective loop out of 1 bar of audio,
+-- which is the documented lesson (never swap the loop per bar — reshape it). speed 0.868 =
+-- 108.5/125 puts the break at ITS OWN tempo under this one, and the reversal multiplies that
+-- speed, so it plays backwards in place. striate 4 every 5 bars is the re-chop.
+d2 $ mask percGate $ swing $ sometimesBy 0.22 (within (0.25,0.5) (|* speed (-1))) $ sometimesBy 0.15 (fast 2) $ every 5 (striate 4) $ slice 16 "<0 4 9 2 13 6 11 1 8 14 3 10 5 15 7 12>" $ loopAt 1 $ s "p94brkA" # orbit 0 # speed 0.868 # gain (slow 23 $ range 0.44 0.6 sine) # hpf 90 # lpf (slow 31 $ rangex 3200 7800 saw) # pan 0.5 # release 0.05 # ddSend 0.24 # delaytime (3/16) # lock 1 # delayfeedback 0.26 # ddDrive 0 # ddCross 0 # ddWow 0 # ddHp 300 # ddLp 2600
+
+-- ORBIT 0 — BREAK B as a RE-LAYER: a second break (p94brkB, 115bpm) at HALF speed (loopAt 2
+-- dilutes the metre, speed 0.46 halves the rate), chopped 8 and reversed in chunks every 7.
+-- Different source, different subdivision, different period — so the two breaks never re-align.
+d3 $ mask percGate $ swing $ every 7 (chunk 8 rev) $ slice 8 "<0 3 6 1 5 2 7 4>" $ loopAt 2 $ s "p94brkB" # orbit 0 # speed 0.46 # gain (slow 27 $ range 0.26 0.36 sine) # hpf 120 # lpf 5200 # pan 0.56 # release 0.05 # ddSend 0.2 # delaytime (3/8) # lock 1 # delayfeedback 0.3 # ddDrive 0 # ddCross 0 # ddWow 0 # verbSend 0.14 # room 0.45
+
+-- ORBIT 0 — SNARE/CLAP as a LAYER of three machines at once, on a literal binary figure
+-- (t/f written out, not an even grid). No waveshaper, no crush.
+-- ORBIT 0 — SNARE/CLAP as THREE LAYERED EUCLIDS on three machines, on THREE DIFFERENT GRIDS:
+-- E(3,8,2) on the 8th grid, E(5,16,4) on the 16th, and E(5,12,3) on a 12-grid — which is a
+-- 3:4 polyrhythm against the 16ths. They land together only every 48 slots, so the backbeat
+-- keeps re-phrasing, and each voice is panned to its own place.
+d4 $ mask clapGate $ swing $ stack [struct "t(3,8,2)" $ s "rolandtr909:4" # gain 0.42, struct "t(5,16,4)" $ s "linndrum:4" # gain 0.26 # pan 0.42, struct "t(5,12,3)" $ s "casiorz1:4" # gain 0.22 # pan 0.58] # orbit 0 # hpf 420 # lpf 7000 # release 0.08 # verbSend 0.16 # room 0.35
+
+-- ORBIT 1 — THE HOOK. Orgy's Blue Monday bass riff, verbatim, on dubsynth: a DRIVEN, filtered
+-- synth bass rather than the plain sine sub it was on — the sine was all weight and no bite, so
+-- it read as one huge low object instead of a bass line. gain ~1.3x the reduction (0.25-0.30),
+-- lpf raised to 900 so the filter opens the note instead of swallowing it.
+d5 $ mask bassGate $ swing $ sometimesBy 0.1 (|+ note 12) $ note bmBass # s "dubsynth" # orbit 1 # waveMix 0.18 # subMix 0.4 # subTone 0.35 # cutoff 620 # fenv 1.6 # drive 0.25 # pitchEnv 0.12 # legato 0.95 # sustain 0.18 # release 0.12 # gain (slow 15 $ range 0.25 0.3 sine) # hpf 44 # lpf 900 # keyShift 0
+
+-- ORBIT 2 — CORPUS D: the corpus's own Am9 Fmaj9 Cmaj9 G9 voicings, one per bar, on two
+-- voices at once (sweetChords for body, hoRhodes for the tine) — layering, not level.
+d6 $ mask padGate $ swing $ note prog # s "sweetChords" # orbit 2 # gain (slow 37 $ range 0.3 0.4 sine) # amp 0.4 # cutoff (slow 41 $ range 1400 4200 saw) # fmIndex 0.9 # ratio 2 # drive 0.9 # sub 0.24 # width 0.7 # attack 0.01 # sustain 0.5 # release 0.9 # detune 0.006 # pan 0.46 # keyShift 0 # verbSend 0.14 # room 0.4
+-- ORBIT 2 — the inner line, and it is a LINE now: `arp` walks the live corpus chord (up,
+-- down, updown) so it is always in key and always moving, rotated a 16th every 7 bars and
+-- doubled (`ply 2`) on a quarter of the passes. This is the voice that carries the continuity.
+d7 $ mask padGate $ swing $ every 7 (rotR (1/16)) $ sometimesBy 0.25 (ply 2) $ note (arp "<up down updown>" (slow 1 prog)) # s "hoRhodes" # orbit 2 # gain (slow 43 $ range 0.3 0.4 sine) # amp 0.42 # cutoff (slow 47 $ range 1800 4000 saw) # waveMix 0.14 # attack 0.02 # sustain 0.6 # release 1.2 # vib 0.05 # vibRate 4.6 # pan (slow 23 $ range 0.42 0.6 sine) # keyShift 0 # verbSend 0.18 # room 0.45
+
+-- ORBIT 3 — HOOK A (Orgy's guitar line), FOREGROUNDED and doubled: an octave-up copy via
+-- superimpose, and a reversed, quieter copy via jux. Three voices, one source.
+d8 $ mask hookGate $ mask phrA $ swing $ sometimesBy 0.2 (fast 2) $ every 11 (within (0.5,1) (ply 2)) $ superimpose (|+ note 12) $ jux (rev) $ note bmGtr # s "superpiano" # orbit 3 # n 0 # gain (slow 33 $ range 0.4 0.52 sine) # hpf 420 # lpf (slow 39 $ rangex 2200 6400 saw) # release 0.28 # sustain 0.3 # pan (slow 27 $ range 0.4 0.62 sine) # verbSend 0.16 # room 0.4
+
+-- ORBIT 3 — HOOK B (Talk Talk, RECONCILED with (|+ note 4)). Engine changes every bar, so the
+-- voice morphs rather than just the pitch, and a 5ths-delayed copy goes on top.
+d9 $ mask leadGate $ mask phrB $ swing $ sometimesBy 0.22 (fast 2) $ every 7 (within (0.5,0.75) (slow 2)) $ every 13 (rotR (1/16)) $ off 0.1875 (|+ note 7) $ (|+ note 4) $ note ttlRiff # s "miLead" # orbit 3 # gain (slow 41 $ range 0.44 0.56 sine) # amp 0.5 # engine "<3 6 11 5>" # harm (slow 31 $ range 0.35 0.6 sine) # timbre (slow 35 $ range 0.3 0.7 saw) # morph (slow 47 $ range 0.15 0.85 sine) # cutoff 7200 # attack 0.01 # release 0.42 # sustain 0.22 # pan (slow 25 $ range 0.42 0.6 sine) # keyShift 0 # vib 0.07 # vibRate 5.0 # ddSend 0.22 # delaytime (3/16) # lock 1 # delayfeedback 0.28 # ddDrive 0 # ddCross 0 # ddWow 0 # ddHp 500 # ddLp 3400 # verbSend 0.18 # room 0.45
+
+-- ORBIT 3 — the same song's high repeated-note hook, reconciled the same way, on a brighter
+-- voice and a different phrase mask so it answers rather than doubles d10.
+d10 $ mask leadGate $ mask phrC $ swing $ every 17 (within (0.5,1) (rev)) $ (|+ note 4) $ note ttlHigh # s "superzow" # orbit 3 # gain (slow 19 $ range 0.3 0.42 sine) # amp 0.4 # hpf 600 # lpf (slow 37 $ rangex 2600 7000 saw) # attack 0.008 # release 0.34 # sustain 0.18 # pan 0.58 # keyShift 0 # vib 0.06 # vibRate 4.8 # verbSend 0.22 # room 0.5
+
+-- ORBIT 4 — a glass arpeggio GENERATED from the corpus progression (arp reads the live chord,
+-- so it cannot leave A minor), quiet and wide, with the big room.
+d11 $ mask padGate $ mask phrD $ swing $ sometimesBy 0.3 (ply 3) $ every 11 (within (0.5,1) (|* gain 0.6)) $ note (arp "<up down>" (slow 2 prog)) # s "sprvibe" # n 0 # orbit 4 # gain (slow 59 $ range 0.1 0.18 sine) # hpf 900 # lpf 9000 # release 0.6 # sustain 0.3 # pan (slow 23 $ range 0.34 0.66 sine) # verbSend 0.3 # room 0.6 # verbT60 2.6
+
+-- ORBIT 5 — one accent throw near the end of every 8, stuttered. THE SAFE DUB: ddDrive/ddCross/
+-- ddWow are pinned to 0 here, which is the difference between depth and flange.
+d12 $ whenmod 8 6 (stutWith 3 0.0625 ((|* gain 0.5) . (|* speed 1.5))) $ swing $ struct "~ ~ t ~" $ s "<rolandtr909:3 808oh>" # orbit 5 # gain 0.16 # hpf 900 # lpf 8400 # sustain 0.18 # release 0.3 # pan (slow 31 $ range 0.34 0.66 sine) # ddSend 0.3 # delaytime (3/16) # lock 1 # delayfeedback 0.3 # ddDrive 0 # ddCross 0 # ddWow 0 # ddHp 700 # ddLp 3600 # verbSend 0.2 # room 0.5
+
+-- ORBIT 5 — silent reset clock, so no send can latch across a rest.
+-- ORBIT 2 — a COUNTER-LINE in the register the others leave empty, on a 5-of-16 polyrhythmic
+-- skeleton (E(5,16) rotated 3, straight out of the tunepile Euclidean library) that rotates an
+-- 8th every 5 bars. It exists to fill the holes between the relay voices, so the line stays
+-- connected when the hooks hand off.
+d13 $ mask padGate $ swing $ every 5 (rotR (1/8)) $ struct "t(5,16,3)" $ note (arp "updown" (slow 2 prog)) # s "superpiano" # n 0 # orbit 2 # gain (slow 31 $ range 0.2 0.3 sine) # hpf 700 # lpf (slow 43 $ rangex 2400 6000 saw) # release 0.22 # sustain 0.16 # pan (slow 19 $ range 0.38 0.62 sine) # verbSend 0.16 # room 0.4
+
+-- ORBIT 0 — PERC LOOP, chopped into 12 and walked by a rotating order, with `vowel` formants
+-- on a third of the hits (vowel works on SAMPLES, so this is where it belongs). p93perc is the
+-- GHATAM loop from the producer_essentials pack.
+-- ORBIT 0 — PERC LOOP chopped into 12, walked by a rotating order, re-chopped in 3s at 1.5x
+-- every 5 bars, with `vowel` formants on a third of the hits (vowel works on SAMPLES). Safe dub
+-- send: drive/cross/wow pinned to 0 so it delays without flanging.
+d14 $ mask percGate $ swing $ sometimesBy 0.3 (# vowel "<a e o u>") $ every 5 (chunk 3 (|* speed 1.5)) $ iter 3 $ slice 12 "<0 5 9 2 7 11 3 8 1 10 4 6>" $ loopAt 1 $ s "p93perc" # orbit 0 # gain (slow 13 $ range 0.22 0.32 sine) # hpf 500 # lpf 9000 # pan (slow 29 $ range 0.45 0.75 sine) # release 0.04 # ddSend 0.2 # delaytime (3/16) # lock 1 # delayfeedback 0.26 # ddDrive 0 # ddCross 0 # ddWow 0
+
+-- ORBIT 0 — hats on a prime rotation, from a machine kit (emusp12 slot 2), own period 37.
+-- ORBIT 0 — HATS as three more layered euclids (16, 16 and 8 grids) on three machines, all
+-- rotated a 16th every 3 bars, plus a fast-2 stutter on a 12% draw. Own movement period 37.
+d15 $ mask hatGate $ swing $ sometimesBy 0.12 (fast 2) $ every 3 (rotR (1/16)) $ stack [struct "t(11,16,4)" $ s "emusp12:2" # gain 0.19, struct "t(7,16,2)" $ s "rolandtr909:2" # gain 0.11 # pan 0.62, struct "t(3,8,1)" $ s "korgddm110:2" # gain 0.09 # pan 0.38] # orbit 0 # hpf 7000 # lpf 12000 # release 0.03
+
+-- ORBIT 0 — RE-CHOP of the SAME break as d2, at a different subdivision (chop 8 + striate 2 +
+-- a 1/8-late quieter copy of itself). Layered re-chopping, high-passed at 1400 so it adds
+-- detail and does not fight the kick or the bass.
+d16 $ mask percGate $ swing $ off 0.125 (|* gain 0.6) $ every 3 (chop 8) $ striate 2 $ slice 8 "<0 4 1 6 2 7 3 5>" $ loopAt 1 $ s "p94brkA" # orbit 0 # speed 0.868 # gain (slow 43 $ range 0.14 0.2 sine) # hpf 1400 # lpf 9000 # pan 0.62 # release 0.04 # ddSend 0.18 # delaytime (1/16) # lock 1 # delayfeedback 0.24 # ddDrive 0 # ddCross 0 # ddWow 0

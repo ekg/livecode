@@ -23,3 +23,11 @@ sc/audition/engine.log
 sc/audition/sclang.log
 sc/audition/ready
 session.id
+
+# session log written by the tidal plugin on every eval - runtime, not source
+.tidal-session/
+
+# python caches and local virtualenvs (vidlearn has a 74MB opencv .so)
+__pycache__/
+*.pyc
+tools/vidlearn/.venv/

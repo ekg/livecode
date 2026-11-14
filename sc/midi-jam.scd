@@ -33,12 +33,14 @@
 var capturePath = Platform.userHomeDir ++ "/midi-capture.jsonl";
 
 // ---------------------------------------------------------------- voice
-SynthDef(\midiJam, { |out = 0, freq = 440, amp = 0.35, gate = 1, rel = 0.2, maxTime = 8|
-	var env = EnvGen.kr(Env.asr(0.005, 1, rel), gate, doneAction: 2);
-	var guard = Line.kr(1, 0, maxTime, doneAction: 2);
+// ONE-SHOT, self-freeing. No gate, so no note-off is required and no note can
+// ever stick. This is the whole fix: the gated version rang forever whenever a
+// note-off was missed.
+SynthDef(\midiJam, { |out = 0, freq = 440, amp = 0.35, dur = 1.2|
+	var env = EnvGen.kr(Env.perc(0.004, dur, 1, -4), doneAction: 2);
 	var sig = Mix(Pulse.ar(freq * [1, 1.003], 0.5, 0.22)) + SinOsc.ar(freq, 0, 0.25);
 	sig = LPF.ar(sig, 2800);
-	Out.ar(out, sig * env * guard * amp);
+	Out.ar(out, sig * env * amp);
 }).add;
 
 ~jamOrbit = 3;
@@ -48,30 +50,20 @@ SynthDef(\midiJam, { |out = 0, freq = 440, amp = 0.35, gate = 1, rel = 0.2, maxT
 // ---------------------------------------------------------------- on / off
 ~jamOn = { |note, vel|
 	if(~jamActive) {
-		var key = note.asSymbol;
-		var list = ~jamSynths[key] ?? { ~jamSynths[key] = List.new };
-		list.add(Synth(\midiJam, [
+		Synth(\midiJam, [
 			\out, ~dirt.orbits[~jamOrbit].dryBus,
 			\freq, note.midicps,
-			\amp, (vel / 127 * 0.45),
-			\maxTime, 6
-		], ~dirt.orbits[~jamOrbit].group));   // (1) inside the orbit group
+			\amp, (vel / 127 * 0.5),
+			\dur, 1.1
+		], ~dirt.orbits[~jamOrbit].group);   // inside the orbit group so panic reaches it
 	};
 };
 
-~jamOff = { |note|
-	var key = note.asSymbol;
-	~jamSynths[key] !? { |list|
-		list.do { |n| if(n.isPlaying) { n.set(\gate, 0) } };
-		list.clear;
-	};
-};
+// nothing to release - the voice frees itself
+~jamOff = { |note| };
 
 // release everything without tearing down the handlers
-~jamReleaseAll = {
-	~jamSynths.do { |list| list.do { |n| if(n.isPlaying) { n.set(\gate, 0) } } };
-	~jamSynths.clear;
-};
+~jamReleaseAll = { };  // one-shot voices need no release
 
 // ---------------------------------------------------------------- start / stop
 ~jamStart = { |orbit = 3|
@@ -100,9 +92,13 @@ SynthDef(\midiJam, { |out = 0, freq = 440, amp = 0.35, gate = 1, rel = 0.2, maxT
 		f.write("{\"t0\":" ++ Main.elapsedTime.round(0.00001)
 			++ ",\"cps\":" ++ TempoClock.default.tempo.round(0.000001) ++ "}\n");
 	});
+	// Subtract s.latency: SuperDirt schedules audio ahead by s.latency, so what
+	// you HEAR is that much behind Tidal's cycle grid. Playing in time with the
+	// track and timestamping at receipt makes every note look late by exactly
+	// that amount - which is why the converted loop sat off the beat.
 	~jamLog = { |note, vel, on|
 		File.use(capturePath, "a", { |f|
-			f.write("{\"t\":" ++ Main.elapsedTime.round(0.00001)
+			f.write("{\"t\":" ++ (Main.elapsedTime - s.latency).round(0.00001)
 				++ ",\"n\":" ++ note ++ ",\"v\":" ++ vel
 				++ ",\"on\":" ++ (if(on, 1, 0)) ++ "}\n");
 		});

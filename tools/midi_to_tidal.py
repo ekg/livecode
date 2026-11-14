@@ -51,6 +51,7 @@ def main() -> int:
     ap.add_argument("--json", action="store_true", help="emit the raw grid as JSON")
     ap.add_argument("--cps", type=float, default=None,
                     help="override tempo in cycles/sec (the log records sclang's clock, not Tidal's)")
+    ap.add_argument("--down", type=int, default=0, help="transpose down N semitones")
     ap.add_argument("--trim", type=float, default=0.0,
                     help="drop notes before this many seconds into the log")
     a = ap.parse_args()
@@ -98,6 +99,7 @@ def main() -> int:
     for st, dur, n, vel in notes:
         slot = int(round(st * a.steps))
         pitch = snap(n, root_pc, scale) if (scale is not None and root_pc is not None) else n
+        pitch = pitch - a.down
         grid.setdefault(slot, set()).add(pitch)
 
     if a.json:

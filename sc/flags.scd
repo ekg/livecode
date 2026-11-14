@@ -28,3 +28,17 @@
 // out reverbed and delayed for no reason. It is a diagnostic, not music. Turn it
 // back on (then restart) only when hunting a silent-mix bug.
 ~selftestEnabled = false;
+
+/* -- MIX ENVIRONMENT ------------------------------------------------------
+   ~masterBootGain  master gain applied at boot. Lane gains in the .tidal files
+                    are written to sit at ONE value, so this must match or the
+                    mix comes up quiet/loud for no visible reason.
+                    Every track states it in its header ("MIXING STANDARD").
+   ~tapeHfDefault   tape module low-pass when a lane says `tape` but not `tapeHf`.
+                    CLEAN default = wide open. Lofi colouring is then opt-in
+                    per lane, not applied to the whole mix by accident.
+*/
+~masterBootGain = 5;
+~tapeHfDefault = 16000;
+~tapeHissDefault = 0.0;
+~tapeWowDefault = 0.0;

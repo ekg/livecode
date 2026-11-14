@@ -264,13 +264,19 @@ if(~dspEnabled) { stage.("start master chain", {
 		Error("Ndef dubMaster is not playing").throw
 	};
 	log.("     master chain: group moved after the strips, playing");
+	// apply the boot gain so a restart does not silently come up quiet: lane
+	// gains in every .tidal file are written for this one value.
+	if(~masterBootGain.notNil) {
+		~masterCtlBus.setAt(0, ~masterBootGain);
+		log.("     master boot gain = " ++ ~masterBootGain);
+	};
 }); } { log.("     master chain NOT started (~dspEnabled = false)"); };
 
 // 5 ------------------------------------------------------------------ modules
 stage.("register tape module", {
 	~dirt.addModule(\tape, { |dirtEvent|
 		dirtEvent.sendSynth('dirt_tape' ++ ~dirt.numChannels,
-			[tape: ~tape, tapeHf: ~tapeHf ? 11000, tapeHiss: ~tapeHiss ? 0.008, tapeWow: ~tapeWow ? 0.2,
+			[tape: ~tape, tapeHf: ~tapeHf ? ~tapeHfDefault, tapeHiss: ~tapeHiss ? ~tapeHissDefault, tapeWow: ~tapeWow ? ~tapeWowDefault,
 			 out: ~out]);
 	}, { ~tape.notNil });
 });
