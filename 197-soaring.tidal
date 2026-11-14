@@ -103,4 +103,4 @@ d8 $ every 19 (# lpf (slow 16 $ range 1200 7000 sine)) $ degradeBy (range 0.4 0.
 -- Rhythm is offbeat 16ths (ska upstrokes), not beats 2 and 4 - it fills the
 -- gaps between kick and snare rather than doubling the backbeat. legato 0.22
 -- keeps each strum a short muted chop instead of a ringing 4 s chord.
-d9 $ swingBy 0.14 4 $ sometimesBy 0.22 (degradeBy 0.45) $ sometimesBy 0.18 (|* speed 0.97) $ struct "~ ~ ~ t ~ ~ t ~ ~ ~ ~ t ~ ~ t ~" $ s "gtr" # speed (slow 2 "<0.8409 1.2599 1.1225 0.8409>") # orbit 8 # gain 0.85 # hpf 220 # lpf 6200 # legato 0.22 # release 0.1 # room 0.25 # size 0.8 # dry 0.85 # delay 0.1 # delaytime (3/16) # delayfeedback 0.28 # lock 1
+d9 $ swingBy 0.14 4 $ struct "t ~ t ~ t ~ t ~ t ~ t ~ t ~ t ~" $ note "a4" # s "gtr" # orbit 8 # gain 0.6 # hpf 550 # lpf 8000 # room 0.2 # size 0.7 # dry 0.9
