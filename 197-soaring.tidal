@@ -89,24 +89,28 @@ d4 $ swingBy 0.14 4 $ s "mars_kits_707_Clean:3" # orbit 3 # gain (slow 8 "<0.5 0
 d5 $ swingBy 0.14 8 $ every 11 (fast 2) $ s "mars_kits_707_Clean:2(9,16)" # orbit 4 # gain (slow 8 "<0.35 0.5 0.45 0.3>") # hpf 5200 # lpf 14000 # pan 0.58 # dry 0.95
 d6 $ slow 2 $ note "a1 ~ ~ ~ a1 ~ ~ ~ e2 ~ ~ ~ ~ ~ ~ ~ fs2 ~ ~ ~ fs2 ~ ~ ~ d2 ~ ~ ~ ~ ~ ~ ~" # s "dubsub" # orbit 5 # gain 1.0 # hpf 28 # lpf 400 # waveMix 0 # subMix 1 # fenv 0 # attack 0.006 # release 1.3 # sustain 0.9 # dry 0.95 # room 0.06
 d7 $ swingBy 0.14 2 $ slow 24 $ sometimesBy 0.28 (stutWith 3 0.0625 (|* gain 0.62)) $ sometimesBy 0.18 (ply 2) $ sometimesBy 0.12 (off 0.0625 (|* gain 0.45)) $ sometimesBy 0.1 (|+ note 12) $ sometimesBy 0.1 (|+ note (-12)) $ note "b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ a5 ~ gs5 ~ e5 ~ b4 ~ ~ ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ g4 ~ b4 ~ e5 ~ b4 ~ fs5 ~ e5 ~ b4 ~ e5 ~ ~ ~" # s "mars_synths_SK1_Piano" # n 1 # orbit 6 # legato (slow 4 "<0.4 1.7 0.85 2.3 0.5 1.2>") # gain ((range 0.85 1.18 $ slow 37 sine) * (slow 8 "<0.75 1.05 0.9 0.65>")) # sustain (slow 3 "<0.2 0.75 0.35 0.9 0.25>") # release (slow 5 "<0.3 1.8 0.55 2.6 0.4 1.4>") # hpf 120 # lpf (slow 8 "<4200 12000 8500 3400>") # attack 0.008 # room (slow 8 "<0.75 0.55 0.68 0.8>") # size 0.95 # dry 0.55 # delay (slow 8 "<0.4 0.12 0.26 0.5>") # delaytime (3/16) # delayfeedback 0.32 # nudge (slow 7 $ range 0 0.018 sine) # lock 1
-d8 $ every 19 (# lpf (slow 16 $ range 1200 7000 sine)) $ degradeBy (range 0.4 0.8 $ slow 29 sine) $ s "wind:4" # orbit 7 # gain (range 0.05 0.16 $ slow 31 sine) # hpf 500 # lpf 4000 # pan (range 0.25 0.75 $ slow 53 sine) # room 0.65 # size 0.95 # dry 0.45
+-- d8 AIR (wind): OFF. It never made audible sound in practice (orbit 7
+-- measured 0.000 when it was running) and the established bet was that the
+-- track does not need it. Left here for reference.
+-- d8 $ every 19 (# lpf (slow 16 $ range 1200 7000 sine)) $ degradeBy (range 0.4 0.8 $ slow 29 sine) $ s "wind:4" # orbit 7 # gain (range 0.05 0.16 $ slow 31 sine) # hpf 500 # lpf 4000 # pan (range 0.25 0.75 $ slow 53 sine) # room 0.65 # size 0.95 # dry 0.45
 
--- RHYTHM GUITAR. One sample, three chords: `gtr` is a clean C-major chord, and a
--- major triad transposes to other MAJOR triads, so speed does the chord changes:
---   speed 0.8409 = -3 semitones -> A  (A C# E)
---   speed 1.2599 = +4 semitones -> E  (E G# B)
---   speed 1.1225 = +2 semitones -> D  (D F# A)
--- That is I-V-IV-I in A, and it is in key with the lead for free because A, E
--- and D all contain the lead's pitches (a b e fs g gs). F#m is deliberately not
--- used: transposing a major triad cannot produce a minor one, so the vi would
--- have needed a different sample and would not have matched the others.
--- Rhythm is offbeat 16ths (ska upstrokes), not beats 2 and 4 - it fills the
--- gaps between kick and snare rather than doubling the backbeat. legato 0.22
--- keeps each strum a short muted chop instead of a ringing 4 s chord.
-d9 $ swingBy 0.14 4 $ struct "t(3,8,1)" $ note "a4" # s "gtr" # orbit 8 # gain 0.95 # hpf 550 # lpf 8500 # attack 0.002 # hold 0.05 # sustain 0.45 # release 0.4 # room 0.2 # size 0.7 # dry 0.9
+-- CHORDS THAT ACTUALLY MOVE (replaces the gtr chord sample).
+--   `gtr` is one C-major chord, so it could only ever play one chord; the note
+--   transposition pinned the whole track to A and it sounded rough besides.
+--   mars_synths_DrSample_Rhodes_Chords ships NAMED chords, which is the fix:
+--     index 0 = Abmaj7, 1 = Am, 2 = Bbm7, 3 = Csus4
+--   A major triad cannot transpose to a minor chord, which is why two samples
+--   are needed for a I-V-vi-IV:
+--     n 0, speed 1.0595 = +1 semitone -> Amaj7    (I)
+--     n 0, speed 1.5874 = +8          -> Emaj7    (V)
+--     n 0, speed 1.4142 = +6          -> Dmaj7    (IV)
+--     n 1, speed 1.6818 = +9          -> F#m      (vi)
+--   So n and speed are both 4-value patterns and must stay aligned - both are
+--   <...> at one value per cycle, so they are.
 
--- PLUCK LAYER, interlaced with the guitar rather than doubling it: different
--- euclid (5,8,0 vs 3,8,1), same 0.14 swing. It also carries the chord movement
--- (a4 e5 d5 a4) because the guitar sample is pinned to a single note. cp4 is a
--- C4 pluck, so `note` transposes it via speed as usual.
-d10 $ swingBy 0.14 4 $ sometimesBy 0.25 (degradeBy 0.5) $ struct "t(5,8,0)" $ note "<a4 e5 d5 a4>" # s "cp4" # orbit 9 # gain 0.55 # hpf 600 # lpf 10000 # attack 0.002 # release 0.2 # room 0.3 # size 0.8 # dry 0.85 # delay 0.18 # delaytime (3/16) # delayfeedback 0.3 # lock 1
+
+-- PLUCK LAYER, interlaced with the chord stabs: different euclid (5,8,0 vs
+-- 3,8,1), same 0.14 swing. Carries the same I-V-IV-vi movement as the Rhodes
+-- (a4 e5 d5 fs5) so the two agree harmonically instead of one being pinned.
+-- cp4 is a C4 pluck, so `note` transposes it via speed as usual.
+d10 $ swingBy 0.14 4 $ sometimesBy 0.25 (degradeBy 0.5) $ struct "t(5,8,0)" $ note "<a4 e5 d5 fs5>" # s "cp4" # orbit 9 # gain 0.55 # hpf 600 # lpf 10000 # attack 0.002 # release 0.2 # room 0.3 # size 0.8 # dry 0.85 # delay 0.18 # delaytime (3/16) # delayfeedback 0.3 # lock 1
