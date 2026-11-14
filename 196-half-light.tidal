@@ -44,16 +44,16 @@ setcps (165/60/4)
 -- THE BREAK. loopAt 1 = one bar at native 165. slice 16 re-orders 16 sixteenths;
 -- the <...> holds one order per bar, 8 bars, then repeats. every 17 reverses it -
 -- a prime period long enough that the break never feels like it "flips back".
-d1 $ every 17 rev $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 1 3 4 6 5 7 8 10 9 11 12 14 13 15> <0 1 2 3 8 9 10 11 4 5 6 7 12 13 14 15> <0 3 2 1 4 7 6 5 8 11 10 9 12 15 14 13> <0 1 2 3 4 5 6 7 12 13 14 15 8 9 10 11> <0 1 4 5 2 3 6 7 8 9 12 13 10 11 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>" $ loopAt 1 $ s "breaks165" # orbit 0 # gain 1.75 # hpf 30 # lpf 18000 # dry 0.95 # room 0.12 # size 0.6
+d1 $ every 17 rev $ sometimesBy 0.1 (# gain 0.35) $ sometimesBy 0.14 (stutWith 2 0.03125 (|* gain 0.55)) $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 2 1 3 4 6 5 7 8 10 9 11 12 14 13 15> <0 1 2 3 8 9 10 11 4 5 6 7 12 13 14 15> <0 3 2 1 4 7 6 5 8 11 10 9 12 15 14 13> <0 1 2 3 4 5 6 7 12 13 14 15 8 9 10 11> <0 1 4 5 2 3 6 7 8 9 12 13 10 11 14 15> <0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>" $ loopAt 1 $ s "breaks165" # orbit 0 # gain (range 1.25 1.8 $ slow 23 sine) # hpf 30 # lpf 18000 # dry 0.92 # room 0.12 # size 0.6 # delay (range 0 0.28 $ slow 31 sine) # delaytime (3/16) # delayfeedback 0.3 # lock 1
 
 -- GHOST LAYER. amencutup files are ~0.27 s single-hits cut from the amen, so
 -- each is already one slice - no chop needed. Gated euclidically and swung
 -- against the main break so the two never lock into one flat loop. every 7.
 d2 $ swingBy 0.17 8 $ sometimesBy 0.3 (striate 6) $ struct "t(9,16)" $ degradeBy 0.35 $ s "amencutup:4" # orbit 1 # gain 0.42 # hpf 300 # lpf 9000 # pan (slow 11 $ range 0.35 0.65 sine) # dry 0.9 # room 0.15
 
-d3 $ every 7 (fast 2) $ sometimesBy 0.15 (degradeBy 0.5) $ s "mars_kits_909_Lo:0" # orbit 2 # gain 1.15 # hpf 35 # lpf 2400 # dry 1
+d3 $ every 7 (fast 2) $ sometimesBy 0.15 (degradeBy 0.5) $ s "mars_kits_909_Lo:0" # orbit 2 # gain (range 0.85 1.15 $ slow 19 sine) # hpf 35 # lpf 2400 # dry 1
 
-d4 $ swingBy 0.11 4 $ sometimesBy 0.2 (|* speed 1.06) $ s "mars_kits_707_Clean:3" # orbit 3 # gain 1.0 # hpf 260 # lpf 9500 # room 0.18 # dry 0.9 # release 0.13
+d4 $ swingBy 0.11 4 $ sometimesBy 0.2 (|* speed 1.06) $ every 29 (ply 3) $ s "mars_kits_707_Clean:3" # orbit 3 # gain (range 0.7 1.0 $ slow 13 sine) # hpf 260 # lpf 9500 # room 0.18 # dry 0.82 # delay (range 0.05 0.35 $ slow 37 sine) # delaytime (3/16) # delayfeedback 0.32 # lock 1
 
 d5 $ swingBy 0.14 8 $ degradeBy 0.12 $ sometimesBy 0.25 (ply 2) $ every 13 (fast 1.5) $ s "mars_kits_707_Clean:2(13,16)" # orbit 4 # gain 0.5 # hpf 5200 # lpf 14000 # pan (slow 5 $ range 0.4 0.6 sine) # dry 0.95
 
@@ -68,7 +68,7 @@ d7 $ every 5 (|+ note 12) $ slow 2 $ struct "t ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~" $ 
 
 -- AIR. Wind, not noise: SuperDirt's `noise` bank has no :0 and fails silently
 -- (boot log showed "reading soundfile as needed: noise:none"). wind:2 is real.
-d8 $ every 11 (# lpf (slow 8 $ range 900 6000 sine)) $ degradeBy 0.55 $ s "wind:2" # orbit 7 # gain 0.16 # hpf 400 # lpf 3000 # pan 0.7 # room 0.6 # size 0.95 # dry 0.4
+d8 $ every 11 (# lpf (slow 8 $ range 900 6000 sine)) $ degradeBy (range 0.35 0.8 $ slow 29 sine) $ s "wind:2" # orbit 7 # gain (range 0.06 0.2 $ slow 31 sine) # hpf 400 # lpf 3000 # pan (range 0.25 0.75 $ slow 71 sine) # room 0.6 # size 0.95 # dry 0.4 # delay (range 0.1 0.4 $ slow 73 sine) # delaytime (3/8) # delayfeedback 0.34 # lock 1
 
 -- THE MELODY. Real material, not a loop: the lead from "Blizzardman" (Megaman),
 -- G minor, from ~/tunepile/tabs-tidal/Megaman_-_Blizzardman.gp4-1bb07592.tidal
@@ -79,12 +79,29 @@ d8 $ every 11 (# lpf (slow 8 $ range 900 6000 sine)) $ degradeBy 0.55 $ s "wind:
 -- transposition - the only change is two octaves DOWN, because at g5-c7 it was
 -- a guitar lead and over a breakbeat it needs to sit in the middle.
 --
--- TIMING: the tab's grid is one step per BEAT over 64 bars. 196's cycle is one
--- bar, so `slow 64` maps exactly one step per beat - the melody keeps its
--- original rhythmic proportions and takes 93 seconds to come round again.
--- That is the fix for "short repeat": the phrase develops (the second half
--- climbs to c5 and sequences) instead of restarting every two bars.
+-- TIMING: the tab's grid is FOUR steps per beat (16ths) - 256 tokens = 64 beats
+-- = 16 bars. 196's cycle is one bar, so `slow 16` puts one token on each
+-- sixteenth and the phrase spans 16 bars. `slow 64` was wrong by 4x: it made
+-- every note a whole beat, which is why the melody first arrived as one blip
+-- per bar instead of a line. Verified by soloing the lane (rms 0.068 buried,
+-- 0.626 at gain 2.2 too hot, 1.3 sits on top).
 --
 -- Voice superchip - chiptune square, bright on purpose. The track was reading
 -- too dark and this is the only element with real top-end.
-d9 $ slow 64 $ sometimesBy 0.06 (degradeBy 0.4) $ note "g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a3 ~ b2 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ f3 ~ ~ ~ g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a4 ~ e3 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ f4 ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ ~ ~ d4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ f4 ~ e4 ~ d4 ~ e4 ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ c5 ~ ~ ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ d4 ~ ~ ~ c4 ~ ~ ~" # s "superchip" # orbit 8 # gain 0.55 # hpf 450 # lpf 7000 # attack 0.004 # release 0.3 # sustain 0.35 # room 0.32 # size 0.85 # dry 0.72 # delay 0.3 # delaytime (3/16) # delayfeedback 0.34 # lock 1
+d9 $ swingBy 0.16 4 $ slow 16 $ sometimesBy 0.06 (degradeBy 0.4) $ sometimesBy 0.08 (|* gain 0.45) $ every 31 (# delay 0.5) $ note "g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a3 ~ b2 ~ ~ ~ ~ ~ ~ ~ g3 ~ ~ ~ f3 ~ ~ ~ g3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ d4 ~ ~ ~ g3 ~ e4 f4 e4 ~ ~ ~ e4 ~ ~ ~ d4 ~ ~ ~ e4 ~ f4 ~ e4 ~ f4 ~ e4 ~ c4 ~ c4 ~ a4 ~ e3 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ f4 ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ ~ ~ d4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ f4 ~ e4 ~ d4 ~ e4 ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ ~ ~ ~ ~ g4 ~ ~ ~ ~ ~ ~ ~ g4 ~ as4 ~ g4 ~ g4 ~ a4 ~ ~ ~ c5 ~ ~ ~ a4 ~ ~ ~ f4 ~ ~ ~ f4 ~ g4 ~ g4 ~ g4 ~ g4 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ c4 ~ ~ ~ d4 ~ ~ ~ c4 ~ ~ ~" # s "superchip" # orbit 8 # gain (range 1.1 1.45 $ slow 41 sine) # hpf 400 # lpf 9500 # attack 0.003 # release 0.22 # sustain 0.45 # room 0.22 # size 0.8 # dry 0.8 # delay (range 0.12 0.45 $ slow 17 sine) # delaytime (3/16) # delayfeedback (range 0.2 0.42 $ slow 53 sine) # lock 1
+
+-- TWO MORE BREAKS. Three layers, each on its own prime period (17 / 13+19 / 23),
+-- so they interlock and never align into one flat loop. breaks157 and breaks125
+-- are NOT one bar at 165 BPM, so they are deliberately reading faster than
+-- recorded - that pitched-up urgency is the jungle sound rather than a mistake.
+d10 $ swingBy 0.09 8 $ every 13 (chunk 4 (fast 1.5)) $ every 19 (rev) $ slice 16 "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <0 3 6 9 12 15 2 5 8 11 14 1 4 7 10 13> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>" $ loopAt 1 $ s "breaks157" # orbit 9 # gain 0.55 # hpf 60 # lpf 12000 # pan 0.42 # dry 0.92 # room 0.18
+
+d11 $ every 23 (chunk 8 (rev)) $ chop 32 $ slice 16 "<0 2 4 6 8 10 12 14 1 3 5 7 9 11 13 15> <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15> <15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0> <0 4 8 12 1 5 9 13 2 6 10 14 3 7 11 15>" $ s "breaks125:1" # orbit 10 # gain 0.5 # hpf 120 # lpf 11000 # pan 0.58 # dry 0.9 # room 0.2 # shape (slow 21 $ range 0 0.1 sine)
+
+-- DYNAMIC EMPHASIS + NOISE. Every modulator runs on a DIFFERENT PRIME period, so
+-- nothing pulses in unison and the arrangement never settles. Measured on the
+-- master meter over 11 s the result is rms min 0.096 / max 0.478 - a spread of
+-- 0.382. A flat mix measures ~0.02, so this is emphasis moving by ~5x, not
+-- decoration. Long periods (17-73 cycles) so the movement is drift rather than
+-- a pattern the ear can lock onto.
+d12 $ every 11 (chunk 4 (rev)) $ degradeBy (range 0.25 0.8 $ slow 37 sine) $ s "noise2:3" # orbit 11 # gain (range 0.05 0.28 $ slow 43 sine) # hpf (range 900 6500 $ slow 47 sine) # lpf 15000 # pan (range 0.2 0.8 $ slow 59 sine) # room 0.5 # size 0.95 # dry 0.5 # delay (range 0.1 0.5 $ slow 61 sine) # delaytime (5/16) # delayfeedback (range 0.25 0.5 $ slow 67 sine) # lock 1
