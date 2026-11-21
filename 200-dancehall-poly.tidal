@@ -27,6 +27,12 @@
 -- FORM:  bars 1-16 riddim | 17-32 +skank/perc | 33-48 +violins | 49-64 full
 -- MIXING: gain only, no amp. master ~8-10.
 
+-- IF A LANE DIES WITH "Variable not in scope: gXxx": the plugin auto-evals only the
+-- CHANGED chunks on save, so a saved file can be live in the REPL without its `let`
+-- block ever having been sent (this cost two broken lanes here - bassLn, then
+-- gSkank). Fix: send the whole `let` block as one eval, then re-send the lanes that
+-- use it. The file itself is correct; the REPL state was not.
+
 setcps (92/60/4)
 
 let gFloor = (slow 16 "<t t t t>") :: Pattern Bool
