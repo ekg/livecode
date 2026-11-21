@@ -42,14 +42,14 @@ d5 $ mask gPerc $ swingBy 0.08 4 $ every 5 (rotR (1/16)) $ struct "t(3,8,5)" $ s
 d6 $ mask gPerc $ swingBy 0.08 8 $ struct "t(11,16,2)" $ s "sh808" # orbit 4 # gain (slow 13 $ range 0.2 0.3 sine) # hpf 5200 # lpf 14000 # pan (slow 7 $ range 0.35 0.65 sine) # release 0.03 # dry 0.95
 
 -- the roll: 15 of 16 sixteenths, downbeat empty, no filter overrides
-d7 $ mask gBass $ sometimesBy 0.1 (|+ note 12) $ struct "t(15,16,1)" $ note bsR # s "dubsynth" # orbit 1 # gain 0.6 # sustain 0.14 # release 0.09 # hpf 42 # dry 1
+d7 $ mask gBass $ sometimesBy 0.1 (|+ note 12) $ struct "t(15,16,1)" $ note bsR # s "dubsynth" # orbit 1 # gain 0.78 # sustain 0.14 # release 0.09 # hpf 42 # dry 1
 
 -- THE STRINGS. Long bowed vibrato chords, slow attack, overlapping release: the
 -- chord never stops sounding, it just changes colour underneath the beat.
-d8 $ mask gStr $ slow 2 $ note strC # s "cbow:3" # orbit 2 # gain (slow 32 $ range 0.32 0.5 sine) # attack 0.35 # release 2.4 # sustain 0.9 # legato 1.2 # hpf 180 # lpf 6500 # pan (slow 43 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.45
+d8 $ mask gStr $ slow 2 $ note strC # s "cbow:3" # orbit 2 # gain (slow 32 $ range 0.26 0.42 sine) # attack 0.35 # release 2.4 # sustain 0.9 # legato 1.2 # hpf 180 # lpf 6500 # pan (slow 43 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.45
 
 -- the Rhodes doubles the same voicing on the offbeat: attack, not sustain.
-d9 $ mask gStab $ swingBy 0.08 4 $ off 0.25 ((# gain 0.18) . (# lpf 6000)) $ struct "t(3,8,2)" $ slow 2 $ note rhC # s "hoRhodes" # orbit 3 # gain 0.46 # attack 0.006 # release 0.7 # sustain 0.3 # cutoff 4200 # waveMix 0.15 # hpf 280 # pan 0.46 # room 0.4 # size 0.85 # dry 0.65 # delay 0.3 # delaytime (3/16) # delayfeedback 0.35
+d9 $ mask gStab $ swingBy 0.08 4 $ off 0.25 ((# gain 0.2) . (# lpf 6000)) $ struct "t(3,8,2)" $ slow 2 $ note rhC # s "hoRhodes" # orbit 3 # gain 0.72 # attack 0.006 # release 0.7 # sustain 0.32 # cutoff 4600 # waveMix 0.15 # hpf 280 # pan 0.46 # room 0.4 # size 0.85 # dry 0.65 # delay 0.3 # delaytime (3/16) # delayfeedback 0.35
 
 d10 $ mask gStr $ slow 2 $ note rhC # s "superfm" # orbit 5 # gain (slow 41 $ range 0.1 0.2 sine) # attack 0.8 # release 2.2 # sustain 0.7 # cutoff (slow 32 $ rangex 1000 2600 saw) # hpf 200 # lpf 5500 # pan (slow 53 $ range 0.44 0.6 sine) # room 0.65 # size 0.9 # dry 0.35
 

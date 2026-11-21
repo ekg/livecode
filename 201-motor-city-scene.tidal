@@ -1,0 +1,45 @@
+-- 201 MOTOR CITY (scene deck A) — Detroit-style techno, 132 BPM, A minor.
+-- @scene {"title":"Motor City","cps":0.55,"quantize":4}
+{- @sc
+// LONG PROGRESSIVE MOVES, not per-bar wobble. The channel mixer is a low-pass and
+// a gain; both are driven by very slow coprime periods so the deck never "arrives"
+// anywhere. tone sweeps the WHOLE 128-cycle arc (about four minutes) from dark to
+// open and back; wet rises through the second half only. sat stays 0: 175 measured
+// that a modulated saturation into a modulated reverb reads as "vibrating".
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles|
+    var arc   = (cycles * (2pi / 128)).sin;
+    var open  = (cycles.mod(128) > 64);
+    var drift = (cycles * (2pi / 53)).sin;
+    [5200 + (arc * 3200) + (open * 1500) + (drift * 400),
+     0,
+     0.02 + (open * 0.06) + (drift * 0.01),
+     1];
+});
+-}
+
+d1 $ mask gKick $ struct "t(4,4)" $ s "mars_kits_909_Clean:0" # orbit 0 # gain 0.82 # hpf 50 # lpf 4600 # release 0.1 # dry 1
+
+d2 $ mask gBack $ swingBy 0.08 4 $ s "rolandtr909:4" # orbit 0 # gain (slow 16 $ range 0.62 0.78 sine) # hpf 360 # lpf 7600 # pan 0.5 # release 0.11 # room 0.28 # size 0.65 # dry 0.82
+
+d3 $ mask gHat $ swingBy 0.08 4 $ s "rolandtr909:2(9,16,4)" # orbit 0 # gain "0.62 0.4 0.5 0.7 0.42 0.54 0.42 0.64 0.4" # hpf 6600 # lpf 13500 # pan (slow 8 $ range 0.44 0.6 sine) # release 0.04 # dry 1
+
+d4 $ mask gHat $ swingBy 0.08 4 $ every 3 (fast 2) $ struct "~ ~ t ~ ~ ~ t ~" $ s "rolandtr909:3" # orbit 0 # gain (slow 8 $ range 0.44 0.58 sine) # hpf 900 # lpf 9500 # sustain 0.12 # release 0.24 # pan 0.58 # dry 0.9 # room 0.22 # size 0.6
+
+d5 $ mask gPerc $ swingBy 0.08 4 $ every 5 (rotR (1/16)) $ struct "t(3,8,5)" $ s "rolandtr909:5" # orbit 4 # gain (slow 31 $ range 0.2 0.34 sine) # hpf 700 # lpf 8500 # pan (slow 17 $ range 0.62 0.38 sine) # release 0.06 # room 0.25 # size 0.6 # dry 0.88
+
+d6 $ mask gPerc $ swingBy 0.08 8 $ struct "t(11,16,2)" $ s "sh808" # orbit 4 # gain (slow 13 $ range 0.3 0.42 sine) # hpf 5200 # lpf 14000 # pan (slow 7 $ range 0.35 0.65 sine) # release 0.03 # dry 0.95
+
+-- the roll: 15 of 16 sixteenths, downbeat empty, no filter overrides
+d7 $ mask gBass $ sometimesBy 0.1 (|+ note 12) $ struct "t(15,16,1)" $ note bsR # s "dubsynth" # orbit 1 # gain 0.78 # sustain 0.14 # release 0.09 # hpf 42 # dry 1
+
+-- THE STRINGS. Long bowed vibrato chords, slow attack, overlapping release: the
+-- chord never stops sounding, it just changes colour underneath the beat.
+d8 $ mask gStr $ slow 2 $ note strC # s "cbow:3" # orbit 2 # gain (slow 32 $ range 0.45 0.62 sine) # attack 0.35 # release 2.4 # sustain 0.9 # legato 1.2 # hpf 180 # lpf 6500 # pan (slow 43 $ range 0.4 0.6 sine) # room 0.7 # size 0.95 # dry 0.45
+
+-- the Rhodes doubles the same voicing on the offbeat: attack, not sustain.
+d9 $ mask gStab $ swingBy 0.08 4 $ off 0.25 ((# gain 0.2) . (# lpf 6000)) $ struct "t(3,8,2)" $ slow 2 $ note rhC # s "hoRhodes" # orbit 3 # gain 0.72 # attack 0.006 # release 0.7 # sustain 0.32 # cutoff 4600 # waveMix 0.15 # hpf 280 # pan 0.46 # room 0.4 # size 0.85 # dry 0.65 # delay 0.3 # delaytime (3/16) # delayfeedback 0.35
+
+d10 $ mask gStr $ slow 2 $ note rhC # s "superfm" # orbit 5 # gain (slow 41 $ range 0.16 0.26 sine) # attack 0.8 # release 2.2 # sustain 0.7 # cutoff (slow 32 $ rangex 1000 2600 saw) # hpf 200 # lpf 5500 # pan (slow 53 $ range 0.44 0.6 sine) # room 0.65 # size 0.9 # dry 0.35
+
+d11 $ mask gArp $ struct "t(7,16,3)" $ note (arp "up" (slow 2 rhC)) # s "cp4" # orbit 5 # gain (slow 8 $ range 0.12 0.2 sine) # hpf 800 # lpf (slow 32 $ rangex 2400 6500 saw) # attack 0.002 # release 0.22 # pan (slow 6 $ range 0.4 0.6 sine) # room 0.45 # size 0.85 # dry 0.8 # delay 0.25 # delaytime (3/16) # delayfeedback 0.3

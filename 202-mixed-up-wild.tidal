@@ -1,0 +1,69 @@
+-- 202 MIXED UP AND WILD (scene deck B) — Motor City rhythm, re-placed.
+-- @scene {"title":"Mixed Up and Wild","cps":0.55,"quantize":4}
+{- @sc
+// Slow channel moves only: the wildness of this deck is RHYTHMIC, so the mixer
+// must not add its own wobble on top of it. tone follows the same 128-cycle arc
+// as deck A (so a crossfade sounds like one room), wet lifts in the second half.
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles|
+    var arc  = (cycles * (2pi / 128)).sin;
+    var open = (cycles.mod(128) > 64);
+    [3400 + (arc * 2600) + (open * 1200), 0, 0.03 + (open * 0.05), 1];
+});
+-}
+let gKick = (slow 16 "<t t t t>") :: Pattern Bool
+let gHat  = (slow 16 "<t t t t>") :: Pattern Bool
+let gBack = (slow 16 "<t t t t>") :: Pattern Bool
+let gBass = (slow 16 "<t t t t>") :: Pattern Bool
+let gPerc = (slow 16 "<t t t t>") :: Pattern Bool
+let gStr  = (slow 16 "<f t t t>") :: Pattern Bool
+let gStab = (slow 16 "<t t t t>") :: Pattern Bool
+let gArp  = (slow 16 "<f t t t>") :: Pattern Bool
+let strC  = "<[a4,c5,e5,g5] [g4,b4,d5,f5] [f4,a4,c5,e5] [e4,g4,b4,d5]>" :: Pattern Note
+let rhC   = "<[a4,c5,e5] [g4,b4,d5] [f4,a4,c5] [e4,g4,b4]>" :: Pattern Note
+let bsR   = "<a4 a4 g4 g4 f4 f4 e4 e4>" :: Pattern Note
+-- RHYTHM MATERIAL. These are Euclidean shapes and tuplet rates, not timbres: every
+-- voice below is the SAME sample/synth, note and filter as deck A. Only WHERE the
+-- hits fall changes.
+let clapRh = "<t(2,8,0) t(3,8,2) t(5,16,3) t(7,16,5) t(3,8,1)>" :: Pattern Bool
+let hatRh  = "<t(13,16,5) t(11,16,3) t(15,16,1) t(9,16,2) t(7,16,9)>" :: Pattern Bool
+let bassRh = "<t(15,16,1) t(11,16,3) t(7,16,2) t(13,16,4) t(5,16,1)>" :: Pattern Bool
+let strRh  = "<t(2,8,0) t(3,8,3) t(2,8,5) t(4,8,1) t(3,8,6)>" :: Pattern Bool
+let stabRh = "<t(5,16,7) t(3,8,2) t(7,16,3) t(2,8,5) t(9,16,4)>" :: Pattern Bool
+
+-- d1 the floor stays put: it is the anchor the rest of this deck argues with.
+d1 $ mask gKick $ struct "t(4,4)" $ s "mars_kits_909_Clean:0" # orbit 0 # gain 0.8 # hpf 50 # lpf 4600 # release 0.1 # dry 1
+
+-- d2 clap: a DIFFERENT Euclidean grouping every bar (2-in-8, then 3-in-8 shifted,
+-- then 5-in-16, then 7-in-16, then 3-in-8 again), so the backbeat migrates.
+d2 $ mask gBack $ swingBy 0.08 4 $ struct clapRh $ s "rolandtr909:4" # orbit 0 # gain 0.68 # hpf 360 # lpf 7600 # pan (slow 9 $ range 0.4 0.6 sine) # release 0.11 # room 0.28 # size 0.65 # dry 0.82
+
+-- d3 closed hats: 13-in-16 to 7-in-9 across five bars, rotated by a 16th every 3.
+d3 $ mask gHat $ swingBy 0.08 4 $ every 3 (rotR (1/16)) $ struct hatRh $ s "rolandtr909:2" # orbit 0 # gain "0.6 0.38 0.5 0.68 0.4 0.52 0.4 0.62 0.38 0.5 0.42 0.6 0.38" # hpf 6600 # lpf 13500 # pan (slow 7 $ range 0.35 0.65 sine) # release 0.035 # dry 0.95
+
+-- d4 open hat: pushed onto the 5th and 13th sixteenth, not the offbeat.
+d4 $ mask gHat $ struct "t(3,16,5)" $ s "rolandtr909:3" # orbit 0 # gain (slow 8 $ range 0.42 0.56 sine) # hpf 900 # lpf 9500 # sustain 0.12 # release 0.24 # pan 0.58 # dry 0.88 # room 0.22 # size 0.6
+
+-- d5 rim: 7-in-16, rotated every 5 bars.
+d5 $ mask gPerc $ every 5 (rotR (1/16)) $ struct "t(7,16,5)" $ s "rolandtr909:5" # orbit 4 # gain (slow 31 $ range 0.22 0.36 sine) # hpf 700 # lpf 8500 # pan (slow 17 $ range 0.62 0.38 sine) # release 0.06 # room 0.25 # size 0.6 # dry 0.85
+
+-- d6 shaker: FOUR hits over THREE cycles (3:4), the first polymeter.
+d6 $ mask gPerc $ slow 3 $ s "sh808*4" # orbit 4 # gain (slow 13 $ range 0.28 0.4 sine) # hpf 5000 # lpf 13500 # pan (slow 11 $ range 0.35 0.65 sine) # release 0.03 # dry 0.95
+
+-- d7 conga: five in the space of four, a 16th late (5:4 with nudge).
+d7 $ mask gPerc $ (# nudge (slow 9 $ range 0 0.05 sine)) $ struct "t(5,16,3)" $ s "cn808" # orbit 4 # gain (slow 11 $ range 0.24 0.34 sine) # hpf 320 # lpf 6500 # pan (slow 9 $ range 0.4 0.62 sine) # release 0.09 # room 0.22 # size 0.65 # dry 0.88
+
+-- d8 bass: same roll, but the ROLL SHAPE changes each bar (15-in-16, 11-in-16
+-- shifted, 7-in-16, 13-in-16, 5-in-16). Notes and envelope untouched.
+d8 $ mask gBass $ struct bassRh $ note bsR # s "dubsynth" # orbit 1 # gain 0.7 # sustain 0.14 # release 0.09 # hpf 42 # dry 1
+
+-- d9 strings: the chord is re-ENTERED on a different Euclidean shape each bar, so
+-- the harmony stutters rhythmically. No chop, no reverse, no speed change.
+d9 $ mask gStr $ struct strRh $ slow 2 $ note strC # s "cbow:3" # orbit 2 # gain (slow 19 $ range 0.45 0.66 sine) # attack 0.25 # release 1.8 # sustain 0.85 # hpf 200 # lpf (slow 13 $ rangex 3000 7000 saw) # pan (slow 43 $ range 0.38 0.62 sine) # room 0.6 # size 0.95 # dry 0.5
+
+-- d10 Rhodes: 5-in-16 rotating to 7-in-16 and 9-in-16, plus a delayed double.
+d10 $ mask gStab $ off 0.25 ((# gain 0.2) . (# lpf 6000)) $ struct stabRh $ slow 2 $ note rhC # s "hoRhodes" # orbit 3 # gain 0.62 # attack 0.006 # release 0.8 # sustain 0.3 # cutoff (slow 11 $ rangex 2200 4600 saw) # waveMix 0.15 # hpf 280 # pan (slow 23 $ range 0.35 0.65 sine) # room 0.45 # size 0.9 # dry 0.62 # delay 0.3 # delaytime (3/16) # delayfeedback 0.38
+
+-- d11 the tuplet cluster: the same clean blip voice at FIVE per cycle against the
+-- grid (fast 5), so it drifts a fifth of a cycle every bar.
+d11 $ mask gArp $ fast 5 $ note "<a5 c6 e6 b5 g5 d6 f5 e6>" # s "superzow" # orbit 5 # gain (slow 7 $ range 0.16 0.28 sine) # attack 0.002 # release 0.2 # lpf (slow 17 $ rangex 3000 8000 saw) # pan (slow 29 $ range 0.3 0.7 sine) # room 0.4 # size 0.85 # dry 0.75 # delay 0.35 # delaytime (3/16) # delayfeedback 0.42

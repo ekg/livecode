@@ -1,0 +1,42 @@
+-- 203 AFTER THE BRIDGE — new feel. 108 BPM (cps 0.45), A minor, half-time dub.
+-- @scene {"title":"After the Bridge","cps":0.45,"quantize":4}
+{- @sc
+// Darker room than 201/202 on purpose: the tone starts low and opens over 96
+// cycles, so the deck begins muffled (a breakdown) and clarifies by itself.
+// [toneHz, sat, wet, gain]
+scene[\mod].value({ |cycles|
+    var open = (cycles.mod(96) > 48);
+    var arc  = (cycles * (2pi / 96)).sin;
+    [2200 + (arc * 1800) + (open * 2200), 0, 0.08 + (open * 0.05), 1];
+});
+-}
+let gKick = (slow 16 "<t t t t>") :: Pattern Bool
+let gHard = (slow 16 "<f f t t>") :: Pattern Bool
+let gMid  = (slow 16 "<f t t t>") :: Pattern Bool
+let gSoft = (slow 16 "<t t t t>") :: Pattern Bool
+let rhC   = "<[a4,c5,e5] [g4,b4,d5] [f4,a4,c5] [e4,g4,b4]>" :: Pattern Note
+let subL  = "<a2 ~ ~ ~ ~ ~ ~ ~ g2 ~ ~ ~ ~ ~ ~ ~>" :: Pattern Note
+
+-- HALF-TIME FLOOR: kick on 1 and 3 only, no 4/4. The space between is the point.
+d1 $ mask gKick $ struct "t ~ ~ ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~ ~ ~" $ s "mars_kits_909_Clean:0" # orbit 0 # gain 0.7 # hpf 45 # lpf 3600 # release 0.2 # dry 1
+
+-- cross-stick where a snare would be, deliberately late
+d2 $ mask gMid $ struct "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ t ~ ~ ~ ~" $ s "rolandtr909:5" # orbit 0 # gain 0.4 # hpf 400 # lpf 6000 # pan 0.56 # release 0.08 # room 0.35 # size 0.75 # dry 0.8
+
+-- hats: 8ths, barely there, swung wide so they limp
+d3 $ mask gSoft $ swingBy 0.18 4 $ s "rolandtr909:2*8" # orbit 0 # gain "0.26 0.12 0.18 0.12 0.22 0.12 0.16 0.12" # hpf 7000 # lpf 12000 # pan 0.6 # release 0.03 # dry 1
+
+-- sub: two notes, held, the whole low end of the room
+d4 $ mask gSoft $ slow 2 $ note subL # s "dubsub" # orbit 1 # gain 0.55 # waveMix 0 # subMix 1 # fenv 0 # attack 0.02 # release 2.2 # sustain 0.95 # hpf 26 # lpf 320 # dry 0.9
+
+-- Rhodes: sparse, long, wet - a chord every other beat at most
+d5 $ mask gMid $ sometimesBy 0.3 (degradeBy 0.5) $ struct "t(3,8,2)" $ slow 2 $ note rhC # s "hoRhodes" # orbit 2 # gain 0.5 # attack 0.03 # release 1.8 # sustain 0.5 # cutoff 3000 # waveMix 0.12 # hpf 240 # pan 0.44 # room 0.75 # size 0.95 # dry 0.45 # delay 0.3 # delaytime (3/8) # delayfeedback 0.45
+
+-- the violin carries the tune: long bowed notes, nothing else up here
+d6 $ mask gHard $ sometimesBy 0.2 (|+ note 12) $ slow 2 $ note "<a4 ~ ~ ~ e5 ~ ~ ~ g5 ~ f5 ~ e5 ~ ~ ~ d5 ~ ~ ~ c5 ~ ~ ~ b4 ~ ~ ~ a4 ~ ~ ~>" # s "cbow:3" # orbit 3 # gain 0.62 # attack 0.15 # release 2.0 # sustain 0.9 # legato 1.3 # hpf 220 # lpf 6000 # pan 0.4 # room 0.65 # size 0.95 # dry 0.5
+
+-- a low bowed counter-line, an octave down, entering on its own gate
+d7 $ mask gHard $ slow 4 $ note "<a3 ~ ~ ~ ~ ~ ~ ~ f3 ~ ~ ~ ~ ~ ~ ~>" # s "cbow:2" # orbit 3 # gain 0.4 # attack 0.4 # release 2.4 # sustain 0.9 # hpf 180 # lpf 4000 # pan 0.62 # room 0.7 # size 0.95 # dry 0.45
+
+-- texture: one slice of a loop, heavily filtered, drifting against the bar
+d8 $ mask gMid $ every 7 (chunk 4 (|* speed 0.85)) $ slice 16 "<0 8 4 12 2 10 6 14 1 9 5 13 3 11 7 15>" $ s "lpviz:45" # orbit 4 # gain (slow 37 $ range 0.08 0.14 sine) # speed 0.8 # hpf 300 # lpf (slow 29 $ rangex 900 2600 saw) # sustain 0.3 # pan (slow 19 $ range 0.4 0.7 sine) # dry 0.85 # room 0.4 # size 0.85
