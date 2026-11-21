@@ -1,0 +1,84 @@
+-- 200 DANCEHALL POLYRHYTHM (with violins) — 92 BPM, A minor.
+--
+-- Straight dancehall riddim underneath, three polyrhythms laid over it, and a
+-- bowed-string section on top. Everything shares one 64-bar form in four
+-- 16-bar sections.
+--
+-- THE RIDDIM (16ths, one bar = 16 steps)
+--   kick   t ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~ t ~ ~ ~     (1, and-of-2, 4)
+--   snare  ~ ~ ~ ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~ ~ ~     (beat 3 - the one-drop backbeat)
+--   hats   8ths, open hat on the offbeat
+--   skank  chords on 2 and 4, short, the reggae skank
+--   bass   ~ t ~ t t ~ t ~   dub-style, drives the offbeats, A minor walk
+--
+-- THE POLYRHYTHMS (each coprime with the 16-step grid and with each other)
+--   shaker  4 hits over THREE cycles   (3:4)
+--   conga   t(5,16,3)                   (5 against 4)
+--   rim     t(7,16,5) rotating every 5  (7 against 4)
+--
+-- THE VIOLINS. `cbow` is a bowed-string bank: index 1/2/3 = C3/C4/C5 long
+-- vibrato, 9/10/11 = short hammered. A bowed C5 sample played with `note a5`
+-- gives speed 1.68 = a5 in tune, so the section is written with note names and
+-- never with raw numbers (see docs/tidal-pitch-convention.md: names are SC
+-- convention, c5 = middle C).
+--   d9  lead: long bowed line, vibrato, 2-bar phrase, sits above the riddim
+--   d10 answer: short hammered strokes on the offbeats, panned the other way
+--
+-- FORM:  bars 1-16 riddim | 17-32 +skank/perc | 33-48 +violins | 49-64 full
+-- MIXING: gain only, no amp. master ~8-10.
+
+setcps (92/60/4)
+
+let gFloor = (slow 16 "<t t t t>") :: Pattern Bool
+let gBass  = (slow 16 "<t t t t>") :: Pattern Bool
+let gSkank = (slow 16 "<f t t t>") :: Pattern Bool
+let gPerc  = (slow 16 "<f t t t>") :: Pattern Bool
+let gVln   = (slow 16 "<t t t t>") :: Pattern Bool
+let gVln2  = (slow 16 "<f t t t>") :: Pattern Bool
+let chord  = "<[a3,c4,e4] [f3,a3,c4] [c3,e3,g3] [g3,b3,d4]>" :: Pattern Note
+let bassLn = "<a2 ~ a2 c3 ~ d3 ~ c3> <f2 ~ f2 a2 ~ c3 ~ a2> <c3 ~ c3 e3 ~ g3 ~ e3> <g2 ~ g2 b2 ~ d3 ~ b2>" :: Pattern Note
+
+-- d1 the kick: 1, and-of-2, 4. Not four-on-the-floor - this is a riddim.
+d1 $ mask gFloor $ struct "t ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~ t ~ ~ ~" $ s "mars_kits_909_Clean:0" # orbit 0 # gain 0.8 # hpf 45 # lpf 4000 # release 0.12 # dry 1
+
+-- d2 the one-drop snare on beat 3, with a cross-stick ghost in front of it.
+d2 $ mask gFloor $ sometimesBy 0.3 (off 0.03125 (# gain 0.3)) $ struct "~ ~ ~ ~ ~ ~ ~ ~ t ~ ~ ~ ~ ~ ~ ~" $ s "rolandtr909:1" # orbit 0 # gain 0.6 # hpf 260 # lpf 7000 # room 0.3 # size 0.65 # dry 0.8
+
+-- d3 closed hats on 8ths, open hat on the offbeat. Coprime rotation every 3 bars.
+d3 $ swingBy 0.12 4 $ mask gFloor $ every 3 (fast 2) $ s "rolandtr909:2*8" # orbit 0 # gain "0.34 0.2 0.26 0.2 0.3 0.2 0.24 0.2" # hpf 6500 # lpf 13000 # pan 0.56 # release 0.04 # dry 1
+
+d4 $ swingBy 0.12 4 $ mask gFloor $ s "rolandtr909:3*4" # orbit 0 # gain (slow 8 $ range 0.18 0.3 sine) # hpf 800 # lpf 9000 # sustain 0.12 # release 0.22 # pan 0.6 # dry 0.9 # room 0.25 # size 0.6
+
+-- d5 3:4 shaker — four hits over three cycles, so it walks across the bar line.
+d5 $ mask gPerc $ slow 3 $ s "sh808*4" # orbit 4 # gain (slow 13 $ range 0.16 0.28 sine) # hpf 5000 # lpf 13500 # pan (slow 7 $ range 0.35 0.65 sine) # release 0.03 # dry 0.95
+
+-- d6 5-against-4 conga, and d12 the 7-against-4 rim.
+d6 $ swingBy 0.12 8 $ mask gPerc $ sometimesBy 0.25 (fast 2) $ struct "t(5,16,3)" $ s "cn808" # orbit 4 # gain (slow 11 $ range 0.2 0.32 sine) # hpf 300 # lpf 6500 # pan (slow 9 $ range 0.4 0.62 sine) # release 0.09 # room 0.25 # size 0.65 # dry 0.88
+
+d12 $ swingBy 0.12 4 $ mask gPerc $ every 5 (rotR (1/16)) $ struct "t(7,16,5)" $ s "rolandtr909:5" # orbit 4 # gain (slow 31 $ range 0.1 0.22 sine) # hpf 700 # lpf 8500 # pan (slow 17 $ range 0.62 0.38 sine) # release 0.06 # room 0.25 # size 0.6 # dry 0.88
+
+-- d7 the bass: dub-style, pushed off the beat, no filter overrides (dubsynth's
+-- own envelope IS the sound - overriding cutoff/sustain strangled it to -94 dB).
+d7 $ mask gBass $ sometimesBy 0.12 (|+ note 12) $ struct "~ t ~ t t ~ t ~" $ note bassLn # s "dubsynth" # orbit 1 # gain 0.62 # sustain 0.18 # release 0.1 # hpf 40 # dry 1
+
+-- d8 the skank: short chords on 2 and 4, deadened, into the delay.
+d8 $ mask gSkank $ off 0.25 ((# gain 0.16) . (# lpf 5000)) $ struct "~ ~ ~ ~ t ~ ~ ~ ~ ~ ~ ~ t ~ ~ ~" $ note chord # s "hoRhodes" # orbit 2 # gain 0.5 # attack 0.004 # release 0.35 # sustain 0.18 # cutoff 3800 # waveMix 0.18 # hpf 300 # pan 0.46 # room 0.35 # size 0.8 # dry 0.7 # delay 0.25 # delaytime (3/16) # delayfeedback 0.35
+
+-- d9 THE VIOLIN LEAD. Long bowed vibrato, 2-bar phrase in A minor; it answers
+-- the skank instead of doubling it.
+d9 $ sometimesBy 0.2 (|+ note 12) $ slow 2 $ note "<e5 ~ a5 ~ g5 ~ e5 ~ d5 ~ c5 ~ b4 ~ a4 ~>" # s "cbow:3" # orbit 3 # gain 0.8 # attack 0.05 # release 1.6 # sustain 0.85 # legato 1.4 # hpf 200 # lpf 9000 # pan 0.42 # room 0.45 # size 0.9 # dry 0.65 # delay 0.18 # delaytime (3/16) # delayfeedback 0.25
+
+-- d10 the violin answer: short hammered strokes on the offbeats, an octave down.
+d10 $ swingBy 0.12 4 $ sometimesBy 0.2 (degradeBy 0.3) $ struct "~ ~ t ~ ~ ~ t ~" $ note "<a4 ~ ~ e4 ~ ~ c4 ~>" # s "cbow:2" # orbit 3 # gain 0.5 # attack 0.004 # release 0.6 # sustain 0.3 # hpf 260 # lpf 7000 # pan 0.62 # room 0.4 # size 0.85 # dry 0.7
+
+-- d11 toms for the big moments: a 16th run once every 8 bars.
+d11 $ mask gVln $ whenmod 8 6 (fast 2) $ s "t808H t808M t808Lo" # orbit 4 # gain 0.32 # hpf 200 # lpf 6000 # pan (slow 5 $ range 0.35 0.65 sine) # room 0.3 # size 0.7 # dry 0.85
+
+-- SESSION NOTE (2026-11-20): the violins were INAUDIBLE for two reasons, both fixed:
+--   1. `cbow` had never been played, so SuperDirt had not loaded the bank yet
+--      ("reading soundfile as needed: cbow:3.0" appears on first use) - it is silent
+--      until that load has happened.
+--   2. the lane was behind gVln's back-half gate AND written as a sparse rising
+--      phrase over `slow 2`, so it read as air rather than a melody.
+-- Now: gate always on, gain 0.8, legato 1.4, a two-bar singing line in A minor.
+-- Verified by orbit scan: o03 went from -180 dB (silent) to -31 dB.

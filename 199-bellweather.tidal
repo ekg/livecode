@@ -1,0 +1,31 @@
+-- 199 BELLWEATHER — bell melody over the 198 techno floor. 126 BPM, A minor.
+-- @scene {"title":"Bellweather","cps":0.525,"quantize":4}
+--
+-- Companion to 198 GLIDE: same tempo and key so the two can crossfade on the
+-- A/B pair, but the material is inverted. 198 is all body (kick, roll, stabs);
+-- this is all decay and air - bells, long delays, a pad with a slow swell, and
+-- only a sub pulse for weight. Load it on the free deck and `/tidal scene mix 1 8`
+-- (8 cycles = 4 bars) to bring the bells in over the groove.
+--
+-- PITCH: names are SC convention (c5 = middle C). The bell hook sits in the
+-- c5:c7 sparkle band on purpose - that is where sampled bells stop sounding
+-- muddy against a 909 kick.
+--
+-- MELODY: A natural minor, 8 notes traded against the Rhodes stabs of 198:
+--   a5 c6 e6 g6 e6 c6 a5 g5   - it climbs, turns, and falls back to the fifth,
+--   so it never resolves onto the tonic while the techno is still running.
+-- The harmony layer is the same cells an octave up, half speed, so the bell
+-- "answers" itself instead of doubling.
+--
+-- ORBITS: 0 shimmer bells (delay) | 1 answer bells (reverb) | 2 sub | 3 pad.
+
+d1 $ swingBy 0.09 4 $ struct "t(5,16,3)" $ note "<a5 c6 e6 g6 e6 c6 a5 g5>" # s "superzow" # orbit 0 # gain (slow 8 $ range 0.1 0.3 saw) # attack 0.002 # release 0.9 # sustain 0.2 # lpf (slow 24 $ rangex 3000 8000 saw) # pan (slow 11 $ range 0.4 0.62 sine) # room 0.6 # size 0.9 # dry 0.45 # delay 0.4 # delaytime (3/16) # delayfeedback 0.5
+
+-- the answer: an octave up, half speed, wetter and panned the other way.
+d2 $ slow 2 $ sometimesBy 0.2 (degradeBy 0.4) $ note "<a6 ~ ~ e6 ~ ~ c6 ~>" # s "cp5" # orbit 1 # gain (slow 16 $ range 0.08 0.18 sine) # hpf 900 # release 0.7 # pan (slow 7 $ range 0.62 0.4 sine) # room 0.75 # size 0.95 # dry 0.3 # delay 0.45 # delaytime (3/16) # delayfeedback 0.55
+
+-- the only weight in the track: a sub that lands on the bar, not on the beat.
+d3 $ slow 2 $ struct "~ t ~ ~ ~ ~ t ~" $ note "<a1 a1 f1 f1>" # s "dubsub" # orbit 2 # gain 0.5 # waveMix 0 # subMix 1 # fenv 0 # attack 0.006 # release 1.2 # sustain 0.9 # hpf 28 # lpf 400 # dry 0.95
+
+-- pad, breathing on a 43-cycle swell so it never coincides with the bell phrase.
+d4 $ slow 2 $ note "<[a3,c4,e4,g4] [f3,a3,c4,e4] [c3,e3,g3,b3] [g3,b3,d4,e4]>" # s "superfm" # orbit 3 # gain (slow 43 $ range 0.14 0.26 sine) # attack 0.9 # release 2.6 # sustain 0.7 # cutoff (slow 32 $ rangex 1200 3200 saw) # hpf 200 # lpf 6000 # pan (slow 53 $ range 0.42 0.6 sine) # room 0.8 # size 0.95 # dry 0.3
